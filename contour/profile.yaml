@@ -1,0 +1,15 @@
+apiVersion: weave.works/v1alpha1
+kind: ProfileDefinition
+metadata:
+  name: contour
+spec:
+  description: Profile for deploying Contour
+  maintainer: weaveworks
+  prerequisites:
+    - "kubernetes 1.19"
+  artifacts:
+    - name: contour
+      chart:
+        name: contour
+        url: https://charts.bitnami.com/bitnami
+        version: "1.18.1"
