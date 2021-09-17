@@ -1,0 +1,18 @@
+apiVersion: weave.works/v1alpha1
+kind: ProfileDefinition
+metadata:
+  name: dex
+spec:
+  description: Profile for deploying dex chart
+  maintainer: weaveworks
+  prerequisites:
+    - "kubernetes 1.19"
+  artifacts:
+    - name: dex
+      chart:
+        url: https://charts.dexidp.io
+        name: vault
+        version: "0.6.3"
+        defaultValues: |
+          replica:
+            replicaCount: 0
