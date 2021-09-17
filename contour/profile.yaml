@@ -14,8 +14,6 @@ spec:
         url: https://charts.bitnami.com/bitnami
         version: "5.5.1"
         defaultValues: |
-          configInline
-            disablePermitInsecure: true
           envoy:
             replicaCount: 2
           
