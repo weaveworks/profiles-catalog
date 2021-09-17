@@ -13,8 +13,5 @@ spec:
         name: contour
         url: https://charts.bitnami.com/bitnami
         version: "5.5.1"
-        defaultValues: |
-          envoy:
-            replicaCount: 2
           
 
