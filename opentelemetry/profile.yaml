@@ -1,0 +1,15 @@
+apiVersion: weave.works/v1alpha1
+kind: ProfileDefinition
+metadata:
+  name: opentelemetry
+spec:
+  description: Profile for deploying opentelemetry chart
+  maintainer: weaveworks
+  prerequisites:
+    - "kubernetes 1.19"
+  artifacts:
+    - name: opentelemetry
+      chart:
+        url: https://open-telemetry.github.io/opentelemetry-helm-charts
+        name: opentelemetry-operator
+        version: "opentelemetry-operator-0.3.2"

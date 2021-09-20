@@ -1,0 +1,15 @@
+apiVersion: weave.works/v1alpha1
+kind: ProfileDefinition
+metadata:
+  name: elsticsearch
+spec:
+  description: Profile for deploying elsticsearch chart
+  maintainer: weaveworks
+  prerequisites:
+    - "kubernetes 1.19"
+  artifacts:
+    - name: elsticsearch
+      chart:
+        url: https://helm.elastic.co
+        name: elsticsearch
+        version: "7.14.0"

@@ -1,0 +1,15 @@
+apiVersion: weave.works/v1alpha1
+kind: ProfileDefinition
+metadata:
+  name: activemq
+spec:
+  description: Profile for deploying activemq chart
+  maintainer: weaveworks
+  prerequisites:
+    - "kubernetes 1.19"
+  artifacts:
+    - name: activemq
+      chart:
+        url: https://vromero.github.io/activemq-artemis-helm/
+        name: activemq-artemis
+        version: "0.4.0"

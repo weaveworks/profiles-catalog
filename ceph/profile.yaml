@@ -1,0 +1,20 @@
+apiVersion: weave.works/v1alpha1
+kind: ProfileDefinition
+metadata:
+  name: ceph
+spec:
+  description: Profile for deploying ceph chart
+  maintainer: weaveworks
+  prerequisites:
+    - "kubernetes 1.19"
+  artifacts:
+    - name: ceph
+      chart:
+        url: https://charts.rook.io/release
+        name: rook-ceph-cluster
+        version: "1.7.3"
+        defaultValues: |
+          toolbox:
+            enabled: true
+          monitoring:
+            enabled: false 

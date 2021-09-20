@@ -1,0 +1,18 @@
+apiVersion: weave.works/v1alpha1
+kind: ProfileDefinition
+metadata:
+  name: cconsul
+spec:
+  description: Profile for deploying consul chart
+  maintainer: weaveworks
+  prerequisites:
+    - "kubernetes 1.19"
+  artifacts:
+    - name: cconsul
+      chart:
+        url: https://helm.releases.hashicorp.com
+        name: cconsul
+        version: "0.34.1"
+        defaultValues: |
+          global:
+            name: consul

@@ -1,0 +1,20 @@
+apiVersion: weave.works/v1alpha1
+kind: ProfileDefinition
+metadata:
+  name: nats
+spec:
+  description: Profile for deploying nats chart
+  maintainer: weaveworks
+  prerequisites:
+    - "kubernetes 1.19"
+  artifacts:
+    - name: nats
+      chart:
+        url: https://nats-io.github.io/k8s/helm/charts/
+        name: nats-operator
+        version: "v0.8.9"
+        defaultValues: |
+          tls:
+            enabled: true
+          metrics:
+            enabled: false
