@@ -1,0 +1,22 @@
+apiVersion: weave.works/v1alpha1
+kind: ProfileDefinition
+metadata:
+  name: cert-manager
+spec:
+  description: Profile for deploying metrics-server chart
+  maintainer: weaveworks
+  prerequisites:
+    - "kubernetes 1.19"
+  artifacts:
+    - name: dex
+      chart:
+        url: https://charts.jetstack.io
+        name: metrics-server
+        version: "v1.5.3"
+        defaultValues: |
+          replica:
+            replicaCount: 1
+          prometheus:
+            enabled: false
+          webhook:
+            timeoutSeconds: 4s
