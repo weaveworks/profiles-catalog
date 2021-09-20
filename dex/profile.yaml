@@ -11,7 +11,7 @@ spec:
     - name: dex
       chart:
         url: https://charts.dexidp.io
-        name: vault
+        name: dex
         version: "0.6.3"
         defaultValues: |
           replica:
