@@ -7,7 +7,3 @@ nodes:
       containerPath: /var/run/docker.sock
     - hostPath: ~/.docker/config.json
       containerPath: /var/lib/kubelet/config.json
-#- role: worker
-#  extraMounts:
-#    - hostPath: ~/.docker/config.json
-#      containerPath: /var/lib/kubelet/config.json
