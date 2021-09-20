@@ -1,0 +1,16 @@
+apiVersion: weave.works/v1alpha1
+kind: ProfileDefinition
+metadata:
+  name: grafana
+spec:
+  description: Profile for deploying grafana chart
+  maintainer: weaveworks
+  prerequisites:
+    - "kubernetes 1.19"
+  artifacts:
+    - name: grafana
+      chart:
+        url: https://grafana.github.io/helm-charts
+        name: grafana
+        version: "grafana-6.16.6"
+          
