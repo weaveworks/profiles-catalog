@@ -4,9 +4,7 @@ if [ -n "${DEBUG}" ]; then
     set -x
 fi
 
-set -e
-set -u
-
+set -eu
 set -o pipefail
 
 unset KUBECONFIG
