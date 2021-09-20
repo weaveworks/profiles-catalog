@@ -14,14 +14,5 @@ spec:
         name: traefik
         version: "traefik-10.3.4"
         defaultValues: |
-          traefik:
-            dashboard: true
-            service:
-              type: ClusterIP
-              ports:
-                web:
-                  nodePort: null
-                  port: 80
-                tcp:
-                  nodePort: null
-                  port: web  
+          service:
+            type: ClusterIP
