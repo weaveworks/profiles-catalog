@@ -8,7 +8,7 @@ spec:
   prerequisites:
     - "kubernetes 1.19"
   artifacts:
-    - name: dex
+    - name: cert-manager
       chart:
         url: https://charts.jetstack.io
         name: cert-manager
