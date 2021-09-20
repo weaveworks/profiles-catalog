@@ -8,7 +8,7 @@ spec:
   prerequisites:
     - "kubernetes 1.19"
   artifacts:
-    - name: dex
+    - name: fluentd
       chart:
         url: https://fluent.github.io/helm-charts
         name: fluentd
