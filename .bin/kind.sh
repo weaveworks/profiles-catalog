@@ -13,6 +13,7 @@ WEGO_VERSION="0.2.5"
 PCTL_VERSION="0.8.0"
 K8S_VERSION="1.21.1"
 CILIUM_VERSION="1.9.10"
+CLUSTERCTL_VERSION="0.4.2"
 
 WORKLOAD_CLUSTER=testing
 KIND_CLUSTER=mgmt
@@ -41,8 +42,22 @@ if [[ ! -x $(which pctl) ]]; then
     pctl --version
 fi
 
+#Install clusterctl:
+# - check if installed, if not install from GH release:
+if [[ ! -x $(which clusterctl) ]]; then
+    echo "clusterctl binary not found, installing ..."
+    OS=$(uname | tr '[:upper:]' '[:lower:]')
+    curl -L https://github.com/kubernetes-sigs/cluster-api/releases/download/v${CLUSTERCTL_VERSION}/clusterctl-${OS}-amd64 -o clusterctl
+    chmod +x ./clusterctl
+    sudo mv ./clusterctl /usr/local/bin/clusterctl
+    clusterctl version
+fi
+
 echo "Creating kind management cluster ..."
 kind get clusters | grep ${KIND_CLUSTER} || kind create cluster --config ${BINDIR}/kind-cluster-with-extramounts.yaml --name ${KIND_CLUSTER}
+
+echo "Check if config folder exists ..."
+[[ -d ${CONFDIR} ]] || mkdir ${CONFDIR}
 
 echo "Exporting kind management cluster kubeconfig ..."
 kind get kubeconfig --name ${KIND_CLUSTER} > ${CONFDIR}/${KIND_CLUSTER}.kubeconfig
