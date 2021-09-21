@@ -94,9 +94,9 @@ until [[ $READY == "true" ]]; do
 done
 set -e
 
-clusterctl get kubeconfig ${WORKLOAD_CLUSTER} > ${CONFDIR/${WORKLOAD_CLUSTER}.kubeconfig
+clusterctl get kubeconfig ${WORKLOAD_CLUSTER} > ${CONFDIR}/${WORKLOAD_CLUSTER}.kubeconfig
 
-sed -i -e "s/certificate-authority-data:.*/insecure-skip-tls-verify: true/g" ${CONFDIR/${WORKLOAD_CLUSTER}.kubeconfig
+sed -i -e "s/certificate-authority-data:.*/insecure-skip-tls-verify: true/g" ${CONFDIR}/${WORKLOAD_CLUSTER}.kubeconfig
 sed -i -e "s/server:.*/server: https:\/\/$(docker port ${WORKLOAD_CLUSTER}-lb 6443/tcp | sed "s/0.0.0.0/127.0.0.1/")/g" ${CONFDIR}/${WORKLOAD_CLUSTER}.kubeconfig
 
 #kubectl --kubeconfig=${CONFDIR}/${WORKLOAD_CLUSTER}.kubeconfig apply -f https://docs.projectcalico.org/v3.18/manifests/calico.yaml
