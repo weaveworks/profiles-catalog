@@ -15,6 +15,9 @@ PCTL_VERSION="0.8.0"
 WORKLOAD_CLUSTER=testing
 KIND_CLUSTER=mgmt
 
+CONFDIR="${PWD}/.conf"
+BINDIR="${PWD}/.bin"
+
 #Install WeaveGitops:
 # - check if installed, if not install from GH release:
 if [[ ! -x $(which wego) ]]; then
@@ -37,10 +40,10 @@ if [[ ! -x $(which pctl) ]]; then
 fi
 
 echo "Creating kind management cluster ..."
-kind get clusters | grep ${KIND_CLUSTER} || kind create cluster --config kind-cluster-with-extramounts.yaml --name ${KIND_CLUSTER}
+kind get clusters | grep ${KIND_CLUSTER} || kind create cluster --config ${BINDIR}/kind-cluster-with-extramounts.yaml --name ${KIND_CLUSTER}
 
 echo "Exporting kind management cluster kubeconfig ..."
-kind get kubeconfig --name ${KIND_CLUSTER} > ${KIND_CLUSTER}.kubeconfig
+kind get kubeconfig --name ${KIND_CLUSTER} > ${CONFDIR}/${KIND_CLUSTER}.kubeconfig
 
 echo "Initialising docker provider in kind management cluster ..."
 clusterctl init --infrastructure docker --wait-providers || true
@@ -91,18 +94,18 @@ until [[ $READY == "true" ]]; do
 done
 set -e
 
-clusterctl get kubeconfig ${WORKLOAD_CLUSTER} > ${WORKLOAD_CLUSTER}.kubeconfig
+clusterctl get kubeconfig ${WORKLOAD_CLUSTER} > ${CONFDIR/${WORKLOAD_CLUSTER}.kubeconfig
 
-sed -i -e "s/certificate-authority-data:.*/insecure-skip-tls-verify: true/g" ./${WORKLOAD_CLUSTER}.kubeconfig
-sed -i -e "s/server:.*/server: https:\/\/$(docker port ${WORKLOAD_CLUSTER}-lb 6443/tcp | sed "s/0.0.0.0/127.0.0.1/")/g" ./${WORKLOAD_CLUSTER}.kubeconfig
+sed -i -e "s/certificate-authority-data:.*/insecure-skip-tls-verify: true/g" ${CONFDIR/${WORKLOAD_CLUSTER}.kubeconfig
+sed -i -e "s/server:.*/server: https:\/\/$(docker port ${WORKLOAD_CLUSTER}-lb 6443/tcp | sed "s/0.0.0.0/127.0.0.1/")/g" ${CONFDIR}/${WORKLOAD_CLUSTER}.kubeconfig
 
-#kubectl --kubeconfig=./${WORKLOAD_CLUSTER}.kubeconfig apply -f https://docs.projectcalico.org/v3.18/manifests/calico.yaml
+#kubectl --kubeconfig=${CONFDIR}/${WORKLOAD_CLUSTER}.kubeconfig apply -f https://docs.projectcalico.org/v3.18/manifests/calico.yaml
 
 echo "Installing Cilium CNI, via Helm"
 helm repo add cilium https://helm.cilium.io/
-helm status --kubeconfig=./${WORKLOAD_CLUSTER}.kubeconfig -n kube-system cilium || \
+helm status --kubeconfig=${CONFDIR}/${WORKLOAD_CLUSTER}.kubeconfig -n kube-system cilium || \
     helm install cilium cilium/cilium --version 1.9.10 \
-        --kubeconfig=./${WORKLOAD_CLUSTER}.kubeconfig \
+        --kubeconfig=${CONFDIR}/${WORKLOAD_CLUSTER}.kubeconfig \
         --namespace kube-system \
         --set nodeinit.enabled=true \
         --set kubeProxyReplacement=partial \
@@ -115,7 +118,7 @@ helm status --kubeconfig=./${WORKLOAD_CLUSTER}.kubeconfig -n kube-system cilium 
         --set ipam.mode=kubernetes \
         --wait
 
-export KUBECONFIG=./${WORKLOAD_CLUSTER}.kubeconfig
+export KUBECONFIG=${CONFDIR}/${WORKLOAD_CLUSTER}.kubeconfig
 
 echo "Pulling profiles controller from docker hub"
 docker pull weaveworks/profiles-controller:v0.2.0
