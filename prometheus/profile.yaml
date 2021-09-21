@@ -12,10 +12,9 @@ spec:
       chart:
         url: https://prometheus-community.github.io/helm-charts
         name: prometheus
-        version: "kube-prometheus-stack-18.0.11"
+        version: "14.7.1"
         defaultValues: |
-          replica:
-            replicaCount: 1
+          replicaCount: 1
           alertmanager:
             enabled: false
           
