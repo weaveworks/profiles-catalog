@@ -8,6 +8,11 @@ spec:
   prerequisites:
     - "kubernetes 1.19"
   artifacts:
+    - name: prometheus
+      profile:
+        source:
+          url: https://github.com/weaveworks/profiles-catalog
+          tag: prometheus/v0.0.1
     - name: contour
       dependsOn:
       - name: prometheus
