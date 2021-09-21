@@ -44,6 +44,9 @@ fi
 echo "Creating kind management cluster ..."
 kind get clusters | grep ${KIND_CLUSTER} || kind create cluster --config ${BINDIR}/kind-cluster-with-extramounts.yaml --name ${KIND_CLUSTER}
 
+echo "Creating .conf directory"
+mkdir ${CONFDIR}
+
 echo "Exporting kind management cluster kubeconfig ..."
 kind get kubeconfig --name ${KIND_CLUSTER} > ${CONFDIR}/${KIND_CLUSTER}.kubeconfig
 
