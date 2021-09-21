@@ -11,6 +11,8 @@ unset KUBECONFIG
 
 WEGO_VERSION="0.2.5"
 PCTL_VERSION="0.8.0"
+K8S_VERSION="1.21.1"
+CILIUM_VERSION="1.9.10"
 
 WORKLOAD_CLUSTER=testing
 KIND_CLUSTER=mgmt
@@ -51,7 +53,7 @@ clusterctl init --infrastructure docker --wait-providers || true
 echo "Generating manifests for workload cluster, and applying them ..."
 clusterctl generate cluster ${WORKLOAD_CLUSTER} \
   --flavor development \
-  --kubernetes-version v1.21.1 \
+  --kubernetes-version v${K8S_VERSION} \
   --control-plane-machine-count=3 \
   --worker-machine-count=3 \
   | kubectl apply -f -
@@ -104,7 +106,7 @@ sed -i -e "s/server:.*/server: https:\/\/$(docker port ${WORKLOAD_CLUSTER}-lb 64
 echo "Installing Cilium CNI, via Helm"
 helm repo add cilium https://helm.cilium.io/
 helm status --kubeconfig=${CONFDIR}/${WORKLOAD_CLUSTER}.kubeconfig -n kube-system cilium || \
-    helm install cilium cilium/cilium --version 1.9.10 \
+    helm install cilium cilium/cilium --version ${CILIUM_VERSION} \
         --kubeconfig=${CONFDIR}/${WORKLOAD_CLUSTER}.kubeconfig \
         --namespace kube-system \
         --set nodeinit.enabled=true \
