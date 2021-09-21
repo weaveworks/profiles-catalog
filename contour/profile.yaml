@@ -9,12 +9,12 @@ spec:
     - "kubernetes 1.19"
   artifacts:
     - name: contour
+      dependsOn:
+      - name: prometheus
       chart:
         name: contour
         url: https://charts.bitnami.com/bitnami
         version: "5.5.1"
-        dependsOn:
-        - name: prometheus
         defaultValues: |
           prometheus:
             serviceMonitor:
