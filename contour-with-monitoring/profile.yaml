@@ -1,7 +1,7 @@
 apiVersion: weave.works/v1alpha1
 kind: ProfileDefinition
 metadata:
-  name: contour
+  name: contour-with-monitoring
 spec:
   description: Profile for deploying Contour
   maintainer: weaveworks
