@@ -15,7 +15,7 @@ spec:
           tag: kube-prometheus-stack/v0.0.1
     - name: contour
       dependsOn:
-      - name: prometheus
+      - name: kube-prometheus-stack
       chart:
         name: contour
         url: https://charts.bitnami.com/bitnami
