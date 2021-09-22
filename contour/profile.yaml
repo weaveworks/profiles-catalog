@@ -8,7 +8,7 @@ spec:
   prerequisites:
     - "kubernetes 1.19"
   artifacts:
-    - name: prometheus
+    - name: kube-prometheus-stack
       profile:
         source:
           url: https://github.com/weaveworks/profiles-catalog
