@@ -12,7 +12,7 @@ spec:
       profile:
         source:
           url: https://github.com/weaveworks/profiles-catalog
-          tag: kube-prometheus-stack
+          tag: kube-prometheus-stack/v0.0.1
     - name: contour
       dependsOn:
       - name: prometheus
