@@ -40,7 +40,7 @@ if [[ ! -x $(which pctl) ]]; then
 fi
 
 echo "Creating kind cluster ..."
-kind create cluster--name ${KIND_CLUSTER}
+kind create cluster --name ${KIND_CLUSTER}
 
 echo "Check if config folder exists ..."
 [[ -d ${CONFDIR} ]] || mkdir ${CONFDIR}
@@ -54,7 +54,7 @@ echo "Pulling profiles controller from docker hub"
 docker pull weaveworks/profiles-controller:v0.2.0
 
 echo "Loading profile controller images into workload cluster nodes"
-kind load docker-image --name ${WORKLOAD_CLUSTER} weaveworks/profiles-controller:v0.2.0
+kind load docker-image --name ${KIND_CLUSTER} weaveworks/profiles-controller:v0.2.0
 
 echo "Installing WeaveGitops"
 wego gitops install
