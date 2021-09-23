@@ -58,6 +58,11 @@ git clone https://github.com/$TEST_REPO_USER/$TEST_REPO $REPODIR
 
 cd $REPODIR
 
+echo "Check if repo folder exists ..."
+if [ -d $PROFILE ]; then 
+    rm -rf ${PROFILE}
+fi
+
 echo "Creating Kustomization"
 wego flux create kustomization $PROFILE --export \
     --path ./$PROFILE \
@@ -65,6 +70,9 @@ wego flux create kustomization $PROFILE --export \
     --source=GitRepository/wego-system \
     -n wego-system \
     --prune=true > clusters/my-cluster/$PROFILE.yaml
+
+echo "Removing profile is it already exists"
+echo "**Currently ptcl does not delete files to align profiles**"
 
 echo "Adding Profile to repo"
 pctl add --name $PROFILE \
@@ -90,6 +98,5 @@ echo "sleeping (TODO:FIX (Hack) Fux/wego does NOT create the kustomization right
 sleep 60
 
 echo "TODO:Checking if profile has been installed sucesfully"
-kubectl wait --for=condition=ready --timeout=2m pod -l app.kubernetes.io/name=$PROFILE 
 
 echo "TODO:Remove $PROFILE from repo"
