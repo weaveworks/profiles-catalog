@@ -25,9 +25,19 @@ spec:
           metricsServer: http://prometheus:9090
           crd:
             create: false 
-    - name: istio
+    - name: istio-operator
       dependsOn:
       - name: monitoring
-      - name: flagger
+      - name: flagger    
       kustomize:
-        path: istio/istio.yaml
+        path: istio/operator
+    - name: istio-system
+      dependsOn:
+      - name: istio-operator
+      kustomize:
+        path: istio/istio-system
+    - name: istio-gateway
+      dependsOn:
+      - name: istio-system
+      kustomize:
+        path: istio/istio-gateway
