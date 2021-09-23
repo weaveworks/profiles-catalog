@@ -14,8 +14,6 @@ spec:
           url: https://github.com/weaveworks/profiles-catalog
           tag: kube-prometheus-stack/v0.0.1
     - name: flagger
-      dependsOn:
-      - name: istio
       chart:
         url: https://flagger.app
         name: flagger
