@@ -38,6 +38,10 @@ fi
 echo "Installing testing cluster"
 bash $BINDIR/kind.sh
 
+echo "Check if repo folder exists ..."
+if [ -d $REPODIR ]; then 
+    rm -rf ${REPODIR}
+fi
 
 echo "Boostrapping flux"
 wego flux bootstrap github \
