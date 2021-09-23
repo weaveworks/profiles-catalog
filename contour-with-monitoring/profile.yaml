@@ -1,0 +1,26 @@
+apiVersion: weave.works/v1alpha1
+kind: ProfileDefinition
+metadata:
+  name: contour-with-monitoring
+spec:
+  description: Profile for deploying Contour
+  maintainer: weaveworks
+  prerequisites:
+    - "kubernetes 1.19"
+  artifacts:
+    - name: kube-prometheus-stack
+      profile:
+        source:
+          url: https://github.com/weaveworks/profiles-catalog
+          tag: kube-prometheus-stack/v0.0.1
+    - name: contour
+      dependsOn:
+      - name: kube-prometheus-stack
+      chart:
+        name: contour
+        url: https://charts.bitnami.com/bitnami
+        version: "5.5.1"
+        defaultValues: |
+          prometheus:
+            serviceMonitor:
+              enabled: true
