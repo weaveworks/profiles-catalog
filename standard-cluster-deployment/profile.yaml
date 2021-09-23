@@ -30,4 +30,4 @@ spec:
       - name: monitoring
       - name: flagger
       kustomize:
-        path: istio
+        path: istio/istio.yaml
