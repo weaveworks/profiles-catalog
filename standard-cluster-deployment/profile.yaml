@@ -8,11 +8,6 @@ spec:
   prerequisites:
     - "kubernetes 1.19"
   artifacts:
-    - name: monitoring
-      profile:
-        source:
-          url: https://github.com/weaveworks/profiles-catalog
-          tag: monitoring/v0.0.1
     - name: istio
       dependsOn:
       - name: monitoring
@@ -31,3 +26,8 @@ spec:
           metricsServer: http://prometheus.istio-system:9090
           crd:
             create: true 
+    - name: monitoring
+      profile:
+        source:
+          url: https://github.com/weaveworks/profiles-catalog
+          tag: monitoring/v0.0.1

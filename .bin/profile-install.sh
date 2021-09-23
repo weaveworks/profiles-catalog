@@ -76,7 +76,7 @@ echo "Adding Profile to repo"
 pctl add --name $PROFILE \
 --profile-repo-url $CATALOG_REPO_URL \
 --git-repository wego-system/wego-system \
---profile-branch sstandard-cluster-deployment \
+--profile-branch standard-cluster-deployment \
 --profile-path ./$PROFILE 
 
 echo "Commiting profile to repo"
