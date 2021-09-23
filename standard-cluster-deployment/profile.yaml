@@ -13,9 +13,6 @@ spec:
         source:
           url: https://github.com/weaveworks/profiles-catalog
           tag: monitoring/v0.0.1
-    - name: wego
-      kustomize:
-        path: wego
     - name: istio
       dependsOn:
       - name: wego

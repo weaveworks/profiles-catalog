@@ -36,7 +36,7 @@ if [ ! -d $PROFILE_DIR ]; then
     exit 10
 fi
 echo "Installing testing cluster"
-bash $BINDIR/kind.sh
+bash $BINDIR/kind-slim.sh
 
 echo "Check if repo folder exists ..."
 if [ ! -d $PROFILE_DIR ]; then 
@@ -76,6 +76,7 @@ echo "Adding Profile to repo"
 pctl add --name $PROFILE \
 --profile-repo-url $CATALOG_REPO_URL \
 --git-repository wego-system/wego-system \
+--profile-branch sstandard-cluster-deployment \
 --profile-path ./$PROFILE 
 
 echo "Commiting profile to repo"
