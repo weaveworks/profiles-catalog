@@ -12,7 +12,7 @@ FLUX_NAMESPACE=wego-system
 CATALOG_REPO_URL=ssh://git@github.com/weaveworks/profiles-catalog.git 
 
 if ! kubectl get secret flux-system -n ${FLUX_NAMESPACE} 2>&1 >/dev/null; then
-    echo "Cluster not bootraped"
+    echo "Cluster not bootstraped"
     exit 1
 fi
 
