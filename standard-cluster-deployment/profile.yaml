@@ -19,7 +19,7 @@ spec:
       chart:
         url: https://flagger.app
         name: flagger
-        version: "1.14.0"
+        version: "1.13.0"
         defaultValues: |
           meshProvider: istio
           metricsServer: http://prometheus:9090
