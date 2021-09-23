@@ -15,7 +15,6 @@ spec:
         path: istio
     - name: flagger
       dependsOn:
-      - name: monitoring
       - name: istio
       chart:
         url: https://flagger.app
