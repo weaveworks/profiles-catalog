@@ -58,11 +58,6 @@ git clone https://github.com/$TEST_REPO_USER/$TEST_REPO $REPODIR
 
 cd $REPODIR
 
-echo "Check if repo folder exists ..."
-if [ -d $PROFILE ]; then 
-    rm -rf ${PROFILE}
-fi
-
 echo "Creating Kustomization"
 wego flux create kustomization $PROFILE --export \
     --path ./$PROFILE \
@@ -73,6 +68,10 @@ wego flux create kustomization $PROFILE --export \
 
 echo "Removing profile is it already exists"
 echo "**Currently ptcl does not delete files to align profiles**"
+echo "Check if profile folder exists ..."
+if [ -d $PROFILE ]; then 
+    rm -rf ${PROFILE}
+fi
 
 echo "Adding Profile to repo"
 pctl add --name $PROFILE \

@@ -256,7 +256,7 @@ spec:
               memory: 128Mi
           env:
             - name: WATCH_NAMESPACE
-              value: "istio-system"
+              value: "default"
             - name: LEADER_ELECTION_NAMESPACE
               value: "istio-operator"
             - name: POD_NAME
