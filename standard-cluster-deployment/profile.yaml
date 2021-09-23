@@ -25,9 +25,9 @@ spec:
           metricsServer: http://prometheus:9090
           crd:
             create: true 
-    - name: istio
-      dependsOn:
-      - name: monitoring
-      - name: flagger
-      kustomize:
-        path: istio
+    # - name: istio
+    #   dependsOn:
+    #   - name: monitoring
+    #   - name: flagger
+    #   kustomize:
+    #     path: istio

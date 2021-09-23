@@ -39,19 +39,9 @@ echo "Installing testing cluster"
 bash $BINDIR/kind-slim.sh
 
 echo "Check if repo folder exists ..."
-if [ ! -d $PROFILE_DIR ]; then 
-    mkdir ${REPODIR}
-else
+if [ -d $REPODIR ]; then 
     rm -rf ${REPODIR}
-    mkdir ${REPODIR}
 fi
-echo "Clone test repo"
-git clone https://github.com/$TEST_REPO_USER/$TEST_REPO $REPODIR
-
-cd $REPODIR
-
-echo "Creating cluster folder"
-mkdir -p clusters/my-cluster
 
 echo "Boostrapping flux"
 wego flux bootstrap github \
@@ -59,10 +49,14 @@ wego flux bootstrap github \
     --repository=$TEST_REPO \
     --branch=main \
     --namespace wego-system \
-    --path=clusters/my-cluster
+    --path=clusters/my-cluster \
+    --personal \
+    --read-write-key
 
-echo "puling main branch"
-git pull
+echo "Clone test repo"
+git clone https://github.com/$TEST_REPO_USER/$TEST_REPO $REPODIR
+
+cd $REPODIR
 
 echo "Creating Kustomization"
 wego flux create kustomization $PROFILE --export \
@@ -76,8 +70,8 @@ echo "Adding Profile to repo"
 pctl add --name $PROFILE \
 --profile-repo-url $CATALOG_REPO_URL \
 --git-repository wego-system/wego-system \
---profile-branch standard-cluster-deployment \
---profile-path ./$PROFILE 
+--profile-path ./$PROFILE \
+--profile-branch standard-cluster-deployment
 
 echo "Commiting profile to repo"
 git add . && git commit -m "adding profile" && git push
