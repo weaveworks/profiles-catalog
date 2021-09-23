@@ -35,9 +35,9 @@ spec:
       dependsOn:
       - name: istio-operator
       kustomize:
-        path: istio/istio-system
+        path: istio/system
     - name: istio-gateway
       dependsOn:
       - name: istio-system
       kustomize:
-        path: istio/istio-gateway
+        path: istio/gateway
