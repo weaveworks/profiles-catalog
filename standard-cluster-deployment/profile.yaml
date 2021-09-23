@@ -24,7 +24,7 @@ spec:
           meshProvider: istio
           metricsServer: http://prometheus:9090
           crd:
-            create: true 
+            create: false 
     # - name: istio
     #   dependsOn:
     #   - name: monitoring
