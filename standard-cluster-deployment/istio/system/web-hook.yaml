@@ -1,0 +1,37 @@
+apiVersion: v1
+data:
+    address: ENC[AES256_GCM,data:Ka9pkGaBF3bocd5IVoGzrUPT7lVadycnwAi3E84uzYSv8lBA0OeRVRgnf2Qg4dc2/J87ktZbNkzmH+PzNucCyH00h1Qe+zHuO9xlf6sT44mzAfTD1k09RPxRJCTFEz+w0VOdDm/oRTT+bp3o,iv:vKztfaiUkL/JMbHUOnDNNbyYHDtaaNYwh6JUkq96a2k=,tag:Gas+b9fysqf/bvw6NAfMgw==,type:str]
+kind: Secret
+metadata:
+    creationTimestamp: null
+    name: slack-url
+    namespace: istio-system
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age: []
+    lastmodified: "2021-09-13T17:35:40Z"
+    mac: ENC[AES256_GCM,data:TyFpHB95l3FP4o8CMTxLUwdA1oIpYih/V3XkXQ8To/BXQQDctKpXKi3/RQ4XSYBERILRWyf9k9VUhNR3N5ghMfGIRRA7K4S94xeFD2r2UwGtQ95PLJESXw8k/W/pedHA63Vd6owFMgv/WhKLgRiRwYn6/+lNLMPjD6GXKXTuPrU=,iv:yGZghxpH4k1u5mp644hdKuK+hat1BcWzrqRKnndq/ZY=,tag:EuHioedm4pvpvI16ozCgxA==,type:str]
+    pgp:
+        - created_at: "2021-09-13T17:35:40Z"
+          enc: |
+            -----BEGIN PGP MESSAGE-----
+
+            hQGMA5NW0EHb8FesAQwAxumcS+KAbzPsLnBm2RD8C1WmoxMuQWwUa7j8ch19HTS8
+            Bz2NBB+2nVT9eDHjXKefejjkS2NWaNNgpNDBMYSsRENYYnpgJIndgj9/RF0hVM7K
+            odjFEo5y/Ktp3+BUtOtc9jJ4LqtG1rJMm3gOaqHsgXZf779RLDts6IZO9mhNzHbp
+            eSrwJhl7P9xY7KsxeBk1w/XSXLMASx3cFuciSNppknnOAG9184KMasCo+q0WJFSS
+            K20koL4GEwGLlo88wKQFaNrmlIHLui5a7dhkPy41uJQX/KkASRBSrMZ3Z5bmrypc
+            Y0S+dJ6k9g+flC4TkcKXCcHHPTV/K80X8zzcnxLep44hkspWWT5XTAfYqtwEA6jY
+            vAZ64vGyOKpkOANApyPh+QPN9o4JfwjaTHX7bAaG9esIOpssQdDXMhandeeIIqP5
+            GlOr/WuxWE6WRNhSFf3TPBXUnU3Xl9YNG6I7+/wCWt8QK2iQKmbd5pdJvo7D70kC
+            z9lKmfcgA8++gD7fcfUx1GgBCQIVJ2gM2iSNq9XOSQQ054Q/xBk3TLVJVf9vwoOK
+            Jrb+l3/8gUa1MPTenBp1t0Wj9CPhaA7IGJFoEVdGn5zYtmh8fCdhCRYOhZ4TTF3W
+            nABUemyOLY3Bq8kN3jY5Sn+NFKsCs3dPlQ==
+            =Hj4a
+            -----END PGP MESSAGE-----
+          fp: 42C4692D51C3C57A9E5ED257D6053062B828D132
+    encrypted_regex: ^(data|stringData)$
+    version: 3.7.1

@@ -1,0 +1,12 @@
+# apiVersion: flagger.app/v1beta1
+# kind: AlertProvider
+# metadata:
+#   name: on-call
+#   namespace: istio-system
+# spec:
+#   type: slack
+#   channel: general
+#   username: flagger
+#   # secret containing the webhook address (optional)
+#   secretRef:
+#     name: slack-url
