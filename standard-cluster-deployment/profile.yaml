@@ -13,11 +13,6 @@ spec:
         source:
           url: https://github.com/weaveworks/profiles-catalog
           tag: kube-prometheus-stack/v0.0.1
-    - name: istio
-      dependsOn:
-      - name: monitoring
-      kustomize:
-        path: istio
     - name: flagger
       dependsOn:
       - name: istio
@@ -27,6 +22,12 @@ spec:
         version: "1.14.0"
         defaultValues: |
           meshProvider: istio
-          metricsServer: http://prometheus.istio-system:9090
+          metricsServer: http://prometheus:9090
           crd:
             create: true 
+    - name: istio
+      dependsOn:
+      - name: monitoring
+      - name: flagger
+      kustomize:
+        path: istio
