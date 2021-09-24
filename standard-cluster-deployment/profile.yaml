@@ -22,7 +22,7 @@ spec:
         version: "1.13.0"
         defaultValues: |
           meshProvider: istio
-          metricsServer: http://prometheus:9090
+          metricsServer: http://kube-prometheus-stack-prometheus:9090
           crd:
             create: false 
     - name: istio-operator
