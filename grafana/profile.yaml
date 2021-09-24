@@ -12,5 +12,5 @@ spec:
       chart:
         url: https://grafana.github.io/helm-charts
         name: grafana
-        version: "grafana-6.16.6"
+        version: "6.16.9"
           
