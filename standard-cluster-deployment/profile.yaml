@@ -25,19 +25,26 @@ spec:
           metricsServer: http://kube-prometheus-stack-prometheus:9090
           crd:
             create: false 
-    - name: istio-operator
+    - name: istio
       dependsOn:
       - name: monitoring
-      - name: flagger    
-      kustomize:
-        path: istio/operator
-    - name: istio-system
-      dependsOn:
-      - name: istio-operator
-      kustomize:
-        path: istio/system
-    - name: istio-gateway
-      dependsOn:
-      - name: istio-system
-      kustomize:
-        path: istio/gateway
+      chart:
+        url: https://storage.googleapis.com/istio-release/releases/1.1.4/charts
+        name: istio
+        version: "1.1.4"
+        defaultValues: |
+          Pilot:
+            enabled: true
+          Gateways:
+            enabled: true
+            Istio-ingressgateway:
+              type: LoadBalancer
+          sidecarInjectorWebhook:
+            enabled: true
+          Mixer:
+            Policy:
+              enabled: false
+            Telemetry:
+              enabled: true
+          Prometheus:
+            enabled: false
