@@ -56,6 +56,15 @@ wego flux bootstrap github \
 echo "Clone test repo"
 git clone https://github.com/$TEST_REPO_USER/$TEST_REPO $REPODIR
 
+
+if [ ! -n "$PIPLINE"  ]; then
+
+
+else
+
+fi
+
+
 cd $REPODIR
 
 echo "Creating Kustomization"
