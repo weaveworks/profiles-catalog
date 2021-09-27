@@ -32,9 +32,7 @@ jobs:
           chmod 600 /tmp/git-keys/weaveworks-profiles-examples-private
           echo "${{ secrets.PCTL_BOT_PCTL_TEST_REPO_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-pctl-test-repo
           chmod 600 /tmp/git-keys/weaveworks-pctl-test-repo
-          ls -l ${{ github.workspace }}
-          cp ${{ github.workspace }}/scripts/ssh_command.sh /tmp/ssh_command
+          cp ${{ github.workspace }}/.bin/ssh_command.sh /tmp/ssh_command
           ls -l /tmp/
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
-          PATH=$PATH:$(go env GOPATH)/bin make test
