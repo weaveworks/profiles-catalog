@@ -1,0 +1,18 @@
+apiVersion: weave.works/v1alpha1
+kind: ProfileDefinition
+metadata:
+  name: traefik
+spec:
+  description: Profile for deploying traefik chart
+  maintainer: weaveworks
+  prerequisites:
+    - "kubernetes 1.19"
+  artifacts:
+    - name: traefik
+      chart:
+        url: https://helm.traefik.io/traefik
+        name: traefik
+        version: "10.3.4"
+        defaultValues: |
+          service:
+            type: ClusterIP
