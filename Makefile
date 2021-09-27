@@ -4,6 +4,7 @@ SHELL: /bin/bash
 
 .DEFAULT_GOAL := local-env
 
+
 local-env:
 	.bin/kind.sh
 
