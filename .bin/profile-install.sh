@@ -36,7 +36,7 @@ if [ ! -d $PROFILE_DIR ]; then
     exit 10
 fi
 echo "Installing testing cluster"
-bash $BINDIR/kind.sh
+bash $BINDIR/kind-slim.sh
 
 echo "Check if repo folder exists ..."
 if [ -d $REPODIR ]; then 
@@ -66,6 +66,13 @@ wego flux create kustomization $PROFILE --export \
     -n wego-system \
     --prune=true > clusters/my-cluster/$PROFILE.yaml
 
+echo "Removing profile is it already exists"
+echo "**Currently ptcl does not delete files to align profiles**"
+echo "Check if profile folder exists ..."
+if [ -d $PROFILE ]; then 
+    rm -rf ${PROFILE}
+fi
+
 echo "Adding Profile to repo"
 pctl add --name $PROFILE \
 --profile-repo-url $CATALOG_REPO_URL \
@@ -89,6 +96,5 @@ echo "sleeping (TODO:FIX (Hack) Fux/wego does NOT create the kustomization right
 sleep 60
 
 echo "TODO:Checking if profile has been installed sucesfully"
-kubectl wait --for=condition=ready --timeout=2m pod -l app.kubernetes.io/name=$PROFILE 
 
 echo "TODO:Remove $PROFILE from repo"

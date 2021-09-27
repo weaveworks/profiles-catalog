@@ -40,7 +40,8 @@ if [[ ! -x $(which pctl) ]]; then
 fi
 
 echo "Creating kind cluster ..."
-kind create cluster --name ${KIND_CLUSTER}
+echo "Creating kind management cluster ..."
+kind get clusters | grep ${KIND_CLUSTER} || kind create cluster --name ${KIND_CLUSTER}
 
 echo "Check if config folder exists ..."
 [[ -d ${CONFDIR} ]] || mkdir ${CONFDIR}
