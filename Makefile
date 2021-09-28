@@ -22,16 +22,32 @@ KIND_CLUSTER=banan
 check-requirements: check-gitops check-clusterctl check-pctl check-kind
 
 check-gitops:
-	@which gitops >/dev/null 2>&1 || (echo "gitops binary not found, installing ..." && curl -s -L "https://github.com/weaveworks/weave-gitops/releases/download/v${GITOPS_VERSION}/gitops-$(shell uname)-$(shell uname -m)" -o gitops && chmod +x gitops && sudo mv ./gitops /usr/local/bin/gitops && gitops version)
+	@which gitops >/dev/null 2>&1 || (echo "gitops binary not found, installing ..." && \
+	curl -s -L "https://github.com/weaveworks/weave-gitops/releases/download/v${GITOPS_VERSION}/gitops-$(shell uname)-$(shell uname -m)" -o gitops && \
+	chmod +x gitops && \
+	sudo mv ./gitops /usr/local/bin/gitops && \
+	gitops version)
 
 check-clusterctl:
-	@which clusterctl >/dev/null 2>&1 || (echo "clusterctl binary not found, installing ..." && curl -s -L "https://github.com/kubernetes-sigs/cluster-api/releases/download/v${CLUSTERCTL_VERSION}/clusterctl-${OS}-amd64" -o clusterctl && chmod +x clusterctl && sudo mv ./clusterctl /usr/local/bin/clusterctl && clusterctl version)
+	@which clusterctl >/dev/null 2>&1 || (echo "clusterctl binary not found, installing ..." && \
+	curl -s -L "https://github.com/kubernetes-sigs/cluster-api/releases/download/v${CLUSTERCTL_VERSION}/clusterctl-${OS}-amd64" -o clusterctl && \
+	chmod +x clusterctl && \
+	sudo mv ./clusterctl /usr/local/bin/clusterctl && \
+	clusterctl version)
 
 check-pctl:
-	@which pctl >/dev/null 2>&1 || (echo "pctl binary not found, installing ..." && wget "https://github.com/weaveworks/pctl/releases/download/v${PCTL_VERSION}/pctl_${OS}_amd64.tar.gz"; tar xvfz pctl_${OS}_amd64.tar.gz; sudo mv ./pctl /usr/local/bin/pctl; pctl --version )
+	@which pctl >/dev/null 2>&1 || (echo "pctl binary not found, installing ..." && \
+	wget "https://github.com/weaveworks/pctl/releases/download/v${PCTL_VERSION}/pctl_${OS}_amd64.tar.gz" && \
+	tar xvfz pctl_${OS}_amd64.tar.gz && \
+	sudo mv ./pctl /usr/local/bin/pctl && \
+	pctl --version )
 
 check-kind:
-	@which kind  >/dev/null 2>&1 || (echo "kind binary not found, installing ..." && curl -s -Lo ./kind https://kind.sigs.k8s.io/dl/v${KIND_VERSION}/kind-${OS}-amd64; chmod +x ./kind; mv ./kind /usr/local/bin/kind; kind version)
+	@which kind  >/dev/null 2>&1 || (echo "kind binary not found, installing ..." && \
+	curl -s -Lo ./kind https://kind.sigs.k8s.io/dl/v${KIND_VERSION}/kind-${OS}-amd64 && \
+	chmod +x ./kind && \
+	mv ./kind /usr/local/bin/kind && \
+	kind version)
 
 check-config-dir:
 	@echo "Check if config folder exists ...";
