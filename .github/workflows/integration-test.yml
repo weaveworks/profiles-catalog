@@ -14,15 +14,6 @@ jobs:
       SSH_DIR: "~/.ssh"
     steps:
       - uses: actions/checkout@v2
-        with:
-          repository: weaveworks/profiles-catalog
-          path: ./profiles-catalog
-      - uses: actions/checkout@v2
-        with:
-          repository: ww-customer-test/profile-test-repo
-          path: ./profile-test-repo 
-          ref: main
-          token: ${{secrets.GIT_TOKEN}}
       - name: Setup SSH known hosts
         shell: bash
         run: |
@@ -44,10 +35,9 @@ jobs:
           chmod 600 /tmp/git-keys/weaveworks-profiles-examples-private
           echo "${{ secrets.PROFILES_EXAMPLES_PRIVATE_WEAVEWORKS_PCTL_BOT_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-pctl-test-repo
           chmod 600 /tmp/git-keys/weaveworks-pctl-test-repo
-          cp ./profiles-catalog/scripts/ssh_command.sh /tmp/ssh_command
+          cp ${{ github.workspace }}/scripts/ssh_command.sh /tmp/ssh_command
           chmod +x /tmp/ssh_command
           ls -l /tmp/
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
-          cd ./profiles-catalog/
           make test
