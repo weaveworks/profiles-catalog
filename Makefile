@@ -14,9 +14,12 @@ PCTL_VERSION=0.10.0
 OS := $(shell uname | tr '[:upper:]' '[:lower:]')
 CONFDIR="${PWD}/.conf"
 BINDIR="${PWD}/.bin"
-KIND_CLUSTER=banan
+KIND_CLUSTER=testing
 
+##@ Flows
+##@ with-clusterctl: check-requirements create-cluster save-kind-cluster-config initialise-docker-provider generate-manifests-clusterctl
 
+slim: check-requirements create-cluster save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster install-gitops-on-cluster install-profiles-on-cluster
 
 ##@ Requirements
 check-requirements: check-gitops check-clusterctl check-pctl check-kind
@@ -57,7 +60,48 @@ check-config-dir:
 create-cluster:
 	@echo "Creating kind management cluster ...";
 	kind get clusters | grep ${KIND_CLUSTER} || kind create cluster --config ${BINDIR}/kind-cluster-with-extramounts.yaml --name ${KIND_CLUSTER}
-	
+
+save-kind-cluster-config:
+	@echo "Exporting kind management cluster kubeconfig ..."
+	kind get kubeconfig --name ${KIND_CLUSTER} > ${CONFDIR}/${KIND_CLUSTER}.kubeconfig
+
+initialise-docker-provider:
+	@echo "Initialising docker provider in kind management cluster ..."
+	clusterctl init --infrastructure docker --wait-providers || true
+
+generate-manifests-clusterctl:
+	@echo "Generating manifests for workload cluster, and applying them ..."
+	clusterctl generate cluster ${WORKLOAD_CLUSTER} \
+	--flavor development \
+	--kubernetes-version v${K8S_VERSION} \
+	--control-plane-machine-count=3 \
+	--worker-machine-count=3 \
+	| kubectl apply -f -
+
+change-kubeconfig:
+	@export KUBECONFIG=${CONFDIR}/${KIND_CLUSTER}.kubeconfig
+
+##@ kubernetes
+
+upload-profiles-image-to-cluster:
+	@echo "Pulling profiles controller from docker hub"
+	docker pull weaveworks/profiles-controller:v0.2.0
+	@echo "Loading profile controller images into workload cluster nodes"
+	kind load docker-image --name ${KIND_CLUSTER} weaveworks/profiles-controller:v0.2.0
+
+install-gitops-on-cluster:
+	@echo "Installing WeaveGitops"
+	gitops install
+
+install-profiles-on-cluster:
+	@echo "Installing profile-controller"
+	pctl install --flux-namespace wego-system
+
+##@ catalog
+
+
+
+##@ profiles
 
 local-env:
 	.bin/kind.sh
