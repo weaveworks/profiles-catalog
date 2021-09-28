@@ -31,10 +31,10 @@ jobs:
           PIPLINE: "true"
         run: |
           mkdir -p /tmp/git-keys
-          echo "${{ secrets.PROFILES_EXAMPLES_PRIVATE_WEAVEWORKS_PCTL_BOT_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-examples-private
-          chmod 600 /tmp/git-keys/weaveworks-profiles-examples-private
-          echo "${{ secrets.PROFILES_EXAMPLES_PRIVATE_WEAVEWORKS_PCTL_BOT_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-pctl-test-repo
-          chmod 600 /tmp/git-keys/weaveworks-pctl-test-repo
+          echo "${{ secrets.PROFILES_EXAMPLES_PRIVATE_WEAVEWORKS_PCTL_BOT_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
+          chmod 600 /tmp/git-keys/weaveworks-profiles-catalog 
+          echo "${{ secrets.PROFILES_EXAMPLES_PRIVATE_WEAVEWORKS_PCTL_BOT_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog-test
+          chmod 600 /tmp/git-keys/weaveworks-profiles-catalog-test 
           cp ${{ github.workspace }}/scripts/ssh_command.sh /tmp/ssh_command
           chmod +x /tmp/ssh_command
           ls -l /tmp/
