@@ -13,8 +13,8 @@ BINDIR="${PWD}/.bin"
 REPODIR="${PWD}/.repo"
 PROFILE=""
 PROFILE_DIR=""
-TEST_REPO_USER=ww-customer-test
-TEST_REPO=profile-test-repo 
+TEST_REPO_USER=weaveworks
+TEST_REPO=profiles-catalog-test
 CATALOG_REPO_URL=git@github.com:weaveworks/profiles-catalog.git
 
 if [ ! -n "$1"  ]; then
