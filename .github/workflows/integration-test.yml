@@ -15,12 +15,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          repository: steve-fraser/profiles-catalog
+          repository: weaveworks/profiles-catalog
           path: ./profiles-catalog
       - uses: actions/checkout@v2
         with:
-          repository: steve-fraser/weaveworks-testing-playground 
-          path: ./weaveworks-testing-playground 
+          repository: ww-customer-test/profile-test-repo
+          path: ./profile-test-repo 
           ref: main
           token: ${{secrets.GIT_TOKEN}}
       - name: Setup SSH known hosts
@@ -32,7 +32,7 @@ jobs:
         shell: bash
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-          EXAMPLES_KEY: ${{ secrets.PROFILES_EXAMPLES_PRIVATE_WEAVEWORKS_PCTL_BOT_DEPLOY_KEY }}
+          EXAMPLES_KEY: ${{ secrets.PROFILES_CATALOG_PRIVATE_WEAVEWORKS_BOT_DEPLOY_KEY }}
           GIT_TOKEN: ${{secrets.GIT_TOKEN}}
           GITHUB_TOKEN: ${{secrets.GIT_TOKEN}}
           GIT_SSH_COMMAND: /tmp/ssh_command
@@ -40,7 +40,7 @@ jobs:
           PIPLINE: "true"
         run: |
           mkdir -p /tmp/git-keys
-          echo "${{ secrets.PROFILES_EXAMPLES_PRIVATE_WEAVEWORKS_PCTL_BOT_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-examples-private
+          echo "${{ secrets.PROFILES_CATALOG_PRIVATE_WEAVEWORKS_BOT_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-examples-private
           chmod 600 /tmp/git-keys/weaveworks-profiles-examples-private
           echo "${{ secrets.PCTL_BOT_PCTL_TEST_REPO_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-pctl-test-repo
           chmod 600 /tmp/git-keys/weaveworks-pctl-test-repo
