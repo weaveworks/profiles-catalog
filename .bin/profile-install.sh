@@ -54,14 +54,10 @@ wego flux bootstrap github \
     --read-write-key
 
 echo "Clone test repo"
-git clone https://github.com/$TEST_REPO_USER/$TEST_REPO $REPODIR
-
-
 if [ ! -n "$PIPLINE"  ]; then
-
-
+    git clone https://github.com/$TEST_REPO_USER/$TEST_REPO $REPODIR
 else
-
+    REPODIR=./$TEST_REPO
 fi
 
 
