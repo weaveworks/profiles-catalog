@@ -28,7 +28,6 @@ jobs:
           GITHUB_TOKEN: ${{secrets.GIT_TOKEN}}
           GIT_SSH_COMMAND: /tmp/ssh_command
           GIT_SSH_COMMAND_DEBUGLOG: "1"
-          PIPLINE: "true"
         run: |
           mkdir -p /tmp/git-keys
           echo "${{ secrets.PROFILES_EXAMPLES_PRIVATE_WEAVEWORKS_PCTL_BOT_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
