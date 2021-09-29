@@ -13,9 +13,9 @@ BINDIR="${PWD}/.bin"
 REPODIR="${PWD}/.repo"
 PROFILE=""
 PROFILE_DIR=""
-TEST_REPO_USER=ww-customer-test
-TEST_REPO=profile-test-repo 
-CATALOG_REPO_URL=https://github.com/weaveworks/profiles-catalog.git 
+TEST_REPO_USER=weaveworks
+TEST_REPO=profiles-catalog-test
+CATALOG_REPO_URL=git@github.com:weaveworks/profiles-catalog.git
 
 if [ ! -n "$1"  ]; then
     echo "Please supply profile name"
@@ -54,7 +54,8 @@ wego flux bootstrap github \
     --read-write-key
 
 echo "Clone test repo"
-git clone https://github.com/$TEST_REPO_USER/$TEST_REPO $REPODIR
+git clone git@github.com:$TEST_REPO_USER/$TEST_REPO.git $REPODIR
+
 
 cd $REPODIR
 
