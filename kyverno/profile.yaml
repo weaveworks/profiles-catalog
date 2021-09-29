@@ -22,4 +22,4 @@ spec:
         version: "v2.0.3"
         defaultValues: |
           networkPolicy:
-            enabled: true
+            enabled: false
