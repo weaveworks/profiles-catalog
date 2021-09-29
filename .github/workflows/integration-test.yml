@@ -2,9 +2,9 @@ name: Profile CI
 
 on:
   push:
-    branches: [ ci-workflow ]
+    branches: [ main ]
   pull_request:
-    branches: [ ci-workflow ]
+    branches: [ main ]
 
 jobs:
   test:
