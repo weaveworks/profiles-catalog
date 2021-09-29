@@ -23,7 +23,6 @@ jobs:
         shell: bash
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-          EXAMPLES_KEY: ${{ secrets.PROFILES_CATALOG_PRIVATE_WEAVEWORKS_BOT_DEPLOY_KEY }}
           GIT_TOKEN: ${{secrets.GIT_TOKEN}}
           GITHUB_TOKEN: ${{secrets.GIT_TOKEN}}
           GIT_SSH_COMMAND: /tmp/ssh_command
