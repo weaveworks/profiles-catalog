@@ -35,7 +35,7 @@ jobs:
           chmod 600 /tmp/git-keys/weaveworks-profiles-catalog 
           echo "${{ secrets.PROFILES_EXAMPLES_PRIVATE_WEAVEWORKS_PCTL_BOT_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog-test
           chmod 600 /tmp/git-keys/weaveworks-profiles-catalog-test 
-          cp ${{ github.workspace }}/scripts/ssh_command.sh /tmp/ssh_command
+          cp ${{ github.workspace }}/.bin/ssh_command.sh /tmp/ssh_command
           chmod +x /tmp/ssh_command
           ls -l /tmp/
           git config --global user.email "action@github.com"
