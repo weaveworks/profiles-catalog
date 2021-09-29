@@ -35,7 +35,6 @@ jobs:
           chmod 600 /tmp/git-keys/weaveworks-profiles-catalog-test 
           cp ${{ github.workspace }}/.bin/ssh_command.sh /tmp/ssh_command
           chmod +x /tmp/ssh_command
-          ls -l /tmp/
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
           make test
