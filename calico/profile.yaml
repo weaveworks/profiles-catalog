@@ -11,7 +11,7 @@ spec:
     - name: calico
       chart:
         url: https://docs.projectcalico.org/charts
-        name: projectcalico/tigera-operator
+        name: tigera-operator
         version: "v3.20.1"
         defaultValues: |
           installation:
