@@ -14,6 +14,8 @@ spec:
         name: kube-prometheus-stack
         version: "18.0.12"
         defaultValues: |
-          global:
+          grafana:
             ingress:
               enabled: true
+              annotations:
+                kubernetes.io/ingress.class: istio
