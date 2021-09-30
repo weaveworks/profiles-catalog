@@ -9,7 +9,7 @@ set -o pipefail
 
 unset KUBECONFIG
 
-GITOPS_VERSION="0.2.5"
+GITOPS_VERSION="0.3.0"
 PCTL_VERSION="0.8.0"
 K8S_VERSION="1.21.1"
 
