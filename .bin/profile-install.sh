@@ -59,9 +59,6 @@ git clone git@github.com:$TEST_REPO_USER/$TEST_REPO.git $REPODIR
 
 cd $REPODIR
 
-echo "Check if config folder exists ..."
-[[ -d ${REPODIR}/clusters/my-cluster ]] || mkdir -p ${REPODIR}/clusters/my-cluster
-
 echo "Creating Kustomization"
 gitops flux create kustomization $PROFILE --export \
     --path ./$PROFILE \
