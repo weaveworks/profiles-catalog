@@ -1,0 +1,17 @@
+apiVersion: weave.works/v1alpha1
+kind: ProfileDefinition
+metadata:
+  name: snyk
+spec:
+  description: Profile for deploying snyk-monitor chart
+  maintainer: weaveworks
+  prerequisites:
+    - "kubernetes 1.19"
+  artifacts:
+    - name: snyk-monitor
+      chart:
+        url: https://snyk.github.io/snyk/
+        name: snyk-monitor
+        version: "1.66.20"
+        defaultValues: |
+          clusterName: "demo-cluster"
