@@ -44,7 +44,7 @@ if [ -d $REPODIR ]; then
 fi
 
 echo "Boostrapping flux"
-wego flux bootstrap github \
+gitops flux bootstrap github \
     --owner=$TEST_REPO_USER \
     --repository=$TEST_REPO \
     --branch=main \
@@ -60,7 +60,7 @@ git clone git@github.com:$TEST_REPO_USER/$TEST_REPO.git $REPODIR
 cd $REPODIR
 
 echo "Creating Kustomization"
-wego flux create kustomization $PROFILE --export \
+gitops flux create kustomization $PROFILE --export \
     --path ./$PROFILE \
     --interval=1m \
     --source=GitRepository/wego-system \
@@ -85,15 +85,15 @@ git add . && git commit -m "adding profile" && git push
 
 echo "Reconciling Repos"
 echo "Reconciling wego-system"
-wego flux reconcile kustomization --namespace wego-system wego-system
+gitops flux reconcile kustomization --namespace wego-system wego-system
 
-echo "sleeping (TODO:FIX (Hack) Fux/wego does NOT create the kustomization right away)"
+echo "sleeping (TODO:FIX (Hack) Fux/gitops does NOT create the kustomization right away)"
 sleep 60
 
 echo "Reconciling $PROFILE"
-wego flux reconcile kustomization --namespace wego-system $PROFILE 
+gitops flux reconcile kustomization --namespace wego-system $PROFILE 
 
-echo "sleeping (TODO:FIX (Hack) Fux/wego does NOT create the kustomization right away)"
+echo "sleeping (TODO:FIX (Hack) Fux/gitops does NOT create the kustomization right away)"
 sleep 60
 
 echo "TODO:Checking if profile has been installed sucesfully"

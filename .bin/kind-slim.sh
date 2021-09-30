@@ -9,7 +9,7 @@ set -o pipefail
 
 unset KUBECONFIG
 
-WEGO_VERSION="0.2.5"
+GITOPS_VERSION="0.2.5"
 PCTL_VERSION="0.8.0"
 K8S_VERSION="1.21.1"
 
@@ -20,12 +20,12 @@ BINDIR="${PWD}/.bin"
 
 #Install WeaveGitops:
 # - check if installed, if not install from GH release:
-if [[ ! -x $(which wego) ]]; then
-    echo "wego binary not found, installing ..."
-    curl -L "https://github.com/weaveworks/weave-gitops/releases/download/v${WEGO_VERSION}/wego-$(uname)-$(uname -m)" -o wego
-    chmod +x wego
-    sudo mv ./wego /usr/local/bin/wego
-    wego version
+if [[ ! -x $(which gitops) ]]; then
+    echo "gitops binary not found, installing ..."
+    curl -L "https://github.com/weaveworks/weave-gitops/releases/download/v${GITOPS_VERSION}/gitops-$(uname)-$(uname -m)" -o gitops
+    chmod +x gitops
+    sudo mv ./gitops /usr/local/bin/gitops
+    gitops version
 fi
 
 #Install ProfileCTL:
@@ -58,7 +58,7 @@ echo "Loading profile controller images into workload cluster nodes"
 kind load docker-image --name ${KIND_CLUSTER} weaveworks/profiles-controller:v0.2.0
 
 echo "Installing WeaveGitops"
-wego gitops install
+gitops install
 
 echo "Installing profile-controller"
 pctl install --flux-namespace wego-system
