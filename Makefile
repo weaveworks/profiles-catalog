@@ -16,6 +16,13 @@ CONFDIR="${PWD}/.conf"
 BINDIR="${PWD}/.bin"
 KIND_CLUSTER=testing
 
+EKS_CLUSTER_NAME="profiles-cluster"
+AWS_REGION="us-west-1"
+NODEGROUP_NAME="ng-1"
+NODE_INSTANCE_TYPE="m5.large"
+NUM_OF_NODES="2"
+EKS_K8S_VERSION="1.21"
+
 ##@ Flows
 ##@ with-clusterctl: check-requirements create-cluster save-kind-cluster-config initialise-docker-provider generate-manifests-clusterctl
 
@@ -80,6 +87,20 @@ generate-manifests-clusterctl:
 
 change-kubeconfig:
 	@export KUBECONFIG=${CONFDIR}/${KIND_CLUSTER}.kubeconfig
+
+create-eks-cluster:
+	@echo "Creating eks cluster ..."
+	eksctl create cluster --name ${EKS_CLUSTER_NAME} \
+		--region ${AWS_REGION} \
+		--version ${EKS_K8S_VERSION} \
+		--nodegroup-name ${NODEGROUP_NAME} \
+		--node-type ${NODE_INSTANCE_TYPE} \
+		--nodes ${NUM_OF_NODES} \
+		--kubeconfig ${CONFDIR}/${EKS_CLUSTER_NAME}.kubeconfig
+
+get-eks-kubeconfig:
+	@echo "Creating kubeconfig for EKS cluster ..."
+	eksctl utils write-kubeconfig --region ${AWS_REGION} --cluster ${EKS_CLUSTER_NAME} --kubeconfig ${CONFDIR}/${EKS_CLUSTER_NAME}.kubeconfig
 
 ##@ kubernetes
 
