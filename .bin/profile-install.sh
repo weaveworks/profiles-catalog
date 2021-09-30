@@ -13,9 +13,9 @@ BINDIR="${PWD}/.bin"
 REPODIR="${PWD}/.repo"
 PROFILE=""
 PROFILE_DIR=""
-TEST_REPO_USER=ww-customer-test
-TEST_REPO=profile-test-repo 
-CATALOG_REPO_URL=https://github.com/weaveworks/profiles-catalog.git 
+TEST_REPO_USER=weaveworks
+TEST_REPO=profiles-catalog-test
+CATALOG_REPO_URL=git@github.com:weaveworks/profiles-catalog.git
 
 if [ ! -n "$1"  ]; then
     echo "Please supply profile name"
@@ -36,7 +36,7 @@ if [ ! -d $PROFILE_DIR ]; then
     exit 10
 fi
 echo "Installing testing cluster"
-bash $BINDIR/kind.sh
+bash $BINDIR/kind-slim.sh
 
 echo "Check if repo folder exists ..."
 if [ -d $REPODIR ]; then 
@@ -44,7 +44,7 @@ if [ -d $REPODIR ]; then
 fi
 
 echo "Boostrapping flux"
-wego flux bootstrap github \
+gitops flux bootstrap github \
     --owner=$TEST_REPO_USER \
     --repository=$TEST_REPO \
     --branch=main \
@@ -54,17 +54,25 @@ wego flux bootstrap github \
     --read-write-key
 
 echo "Clone test repo"
-git clone https://github.com/$TEST_REPO_USER/$TEST_REPO $REPODIR
+git clone git@github.com:$TEST_REPO_USER/$TEST_REPO.git $REPODIR
+
 
 cd $REPODIR
 
 echo "Creating Kustomization"
-wego flux create kustomization $PROFILE --export \
+gitops flux create kustomization $PROFILE --export \
     --path ./$PROFILE \
     --interval=1m \
     --source=GitRepository/wego-system \
     -n wego-system \
     --prune=true > clusters/my-cluster/$PROFILE.yaml
+
+echo "Removing profile is it already exists"
+echo "**Currently ptcl does not delete files to align profiles**"
+echo "Check if profile folder exists ..."
+if [ -d $PROFILE ]; then 
+    rm -rf ${PROFILE}
+fi
 
 echo "Adding Profile to repo"
 pctl add --name $PROFILE \
@@ -77,18 +85,17 @@ git add . && git commit -m "adding profile" && git push
 
 echo "Reconciling Repos"
 echo "Reconciling wego-system"
-wego flux reconcile kustomization --namespace wego-system wego-system
+gitops flux reconcile kustomization --namespace wego-system wego-system
 
-echo "sleeping (TODO:FIX (Hack) Fux/wego does NOT create the kustomization right away)"
+echo "sleeping (TODO:FIX (Hack) Fux/gitops does NOT create the kustomization right away)"
 sleep 60
 
 echo "Reconciling $PROFILE"
-wego flux reconcile kustomization --namespace wego-system $PROFILE 
+gitops flux reconcile kustomization --namespace wego-system $PROFILE 
 
-echo "sleeping (TODO:FIX (Hack) Fux/wego does NOT create the kustomization right away)"
+echo "sleeping (TODO:FIX (Hack) Fux/gitops does NOT create the kustomization right away)"
 sleep 60
 
 echo "TODO:Checking if profile has been installed sucesfully"
-kubectl wait --for=condition=ready --timeout=2m pod -l app.kubernetes.io/name=$PROFILE 
 
 echo "TODO:Remove $PROFILE from repo"

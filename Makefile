@@ -102,6 +102,8 @@ install-profiles-on-cluster:
 
 
 ##@ profiles
+test:
+	.bin/profile-install.sh standard-cluster-deployment
 
 local-env:
 	.bin/kind.sh

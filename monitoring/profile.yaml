@@ -1,0 +1,15 @@
+apiVersion: weave.works/v1alpha1
+kind: ProfileDefinition
+metadata:
+  name: monitoring
+spec:
+  description: Profile for deploying prometheus chart
+  maintainer: weaveworks
+  prerequisites:
+    - "kubernetes 1.19"
+  artifacts:
+    - name: kube-prometheus-stack
+      profile:
+        source:
+          url: https://github.com/weaveworks/profiles-catalog
+          tag: kube-prometheus-stack/v0.0.1

@@ -1,0 +1,43 @@
+apiVersion: weave.works/v1alpha1
+kind: ProfileDefinition
+metadata:
+  name: standard-cluster-deployment
+spec:
+  description: Profile for deploying clusters chart
+  maintainer: weaveworks
+  prerequisites:
+    - "kubernetes 1.19"
+  artifacts:
+    - name: monitoring
+      profile:
+        source:
+          url: git@github.com:weaveworks/profiles-catalog.git
+          tag: kube-prometheus-stack/v0.0.1
+    - name: flagger
+      dependsOn:
+      - name: monitoring
+      chart:
+        url: https://flagger.app
+        name: flagger
+        version: "1.13.0"
+        defaultValues: |
+          meshProvider: istio
+          metricsServer: http://kube-prometheus-stack-prometheus:9090
+          crd:
+            create: false 
+    - name: istio-operator
+      dependsOn:
+      - name: monitoring
+      - name: flagger    
+      kustomize:
+        path: istio/operator
+    - name: istio-system
+      dependsOn:
+      - name: istio-operator
+      kustomize:
+        path: istio/system
+    - name: istio-gateway
+      dependsOn:
+      - name: istio-system
+      kustomize:
+        path: istio/gateway
