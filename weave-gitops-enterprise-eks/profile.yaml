@@ -52,4 +52,4 @@ spec:
         source:
           url: git@github.com:weaveworks/profiles-catalog.git
           tag: demo-profile
-          path: ./weave-scope
+          path: ./weave-scope/profile.yaml
