@@ -8,9 +8,14 @@ spec:
   prerequisites:
     - "kubernetes 1.19"
   artifacts:
+    - name: snyk-monitor-secret
+      kustomize:
+        path: "artifacts/"
     - name: snyk-monitor
+      dependsOn:
+        - snyk-monitor-secret
       chart:
-        url: https://snyk.github.io/snyk/
+        url: https://snyk.github.io/kubernetes-monitor/
         name: snyk-monitor
         version: "1.66.20"
         defaultValues: |
