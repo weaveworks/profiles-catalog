@@ -14,6 +14,8 @@ PCTL_VERSION=0.10.0
 OS := $(shell uname | tr '[:upper:]' '[:lower:]')
 CONFDIR="${PWD}/.conf"
 BINDIR="${PWD}/.bin"
+REPODIR="${PWD}/.repo"
+
 KIND_CLUSTER=testing
 
 EKS_CLUSTER_NAME="profiles-cluster"
@@ -23,10 +25,23 @@ NODE_INSTANCE_TYPE="m5.large"
 NUM_OF_NODES="2"
 EKS_K8S_VERSION="1.21"
 
+PROFILE=weave-gitops-enterprise-eks
+TEST_REPO_USER=ww-customer-test
+TEST_REPO=profile-test-repo
+CATALOG_REPO_URL=git@github.com:weaveworks/profiles-catalog.git
+
+
+
+
+
 ##@ Flows
 ##@ with-clusterctl: check-requirements create-cluster save-kind-cluster-config initialise-docker-provider generate-manifests-clusterctl
 
 slim: check-requirements create-cluster save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster install-gitops-on-cluster install-profiles-on-cluster
+
+install-profile-and-sync: install-gitops-on-cluster install-profiles-on-cluster bootstrap-cluster clone-test-repo create-profile-kustomization add-profile
+
+
 
 ##@ Requirements
 check-requirements: check-gitops check-clusterctl check-pctl check-kind
@@ -117,12 +132,43 @@ install-gitops-on-cluster:
 install-profiles-on-cluster:
 	@echo "Installing profile-controller"
 	pctl install --flux-namespace wego-system
-
 ##@ catalog
 
 
+bootstrap-cluster:
+	@echo "Adding Profile to repo"
+	gitops flux bootstrap github \
+	    --owner=${TEST_REPO_USER} \
+	    --repository=${TEST_REPO} \
+	    --branch=main \
+	    --namespace wego-system \
+	    --path=clusters/my-cluster \
+	    --personal \
+	    --read-write-key 
 
-##@ profiles
+clone-test-repo:
+	@echo "Clone test repo"
+	git clone git@github.com:${TEST_REPO_USER}/${TEST_REPO}.git ${REPODIR}
+
+create-profile-kustomization:
+	@echo "Creating Kustomization"
+	gitops flux create kustomization ${PROFILE} --export \
+	    --path ./${PROFILE} \
+	    --interval=1m \
+	    --source=GitRepository/wego-system \
+	    -n wego-system \
+	    --prune=true > ${REPODIR}/clusters/my-cluster/${PROFILE}.yaml
+
+add-profile:
+	@echo "Adding Profile to repo"
+	cd ${REPODIR} && pctl add --name ${PROFILE} \
+	--profile-repo-url ${CATALOG_REPO_URL} \
+	--git-repository wego-system/wego-system \
+	--profile-path ./${PROFILE} \
+	--profile-branch demo-profile
+
+
+
 test:
 	.bin/profile-install.sh kube-prometheus-stack
 
