@@ -51,5 +51,4 @@ spec:
       profile:
         source:
           url: git@github.com:weaveworks/profiles-catalog.git
-          tag: demo-profile
-          path: ./weave-scope/
+          tag: weave-scope/v0.0.1
