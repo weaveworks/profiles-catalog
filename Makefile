@@ -124,7 +124,7 @@ install-profiles-on-cluster:
 
 ##@ profiles
 test:
-	.bin/profile-install.sh weave-gitops-enterprise-eks
+	.bin/profile-install.sh kube-prometheus-stack
 
 local-env:
 	.bin/kind.sh

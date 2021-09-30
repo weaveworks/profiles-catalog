@@ -16,5 +16,5 @@ spec:
         defaultValues: |
           global:
             ingress:
-              ingressClassName: istio 
+              ingressClassName: istio
               enabled: true 
