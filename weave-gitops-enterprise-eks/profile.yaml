@@ -45,4 +45,5 @@ spec:
       profile:
         source:
           url: git@github.com:weaveworks/weave-gitops-enterprise-profiles.git
-          tag: weave-gitops-enterprise-profiles
+          tag: main
+          

@@ -103,7 +103,7 @@ install-profiles-on-cluster:
 
 ##@ profiles
 test:
-	.bin/profile-install.sh standard-cluster-deployment
+	.bin/profile-install.sh weave-gitops-enterprise-eks
 
 local-env:
 	.bin/kind.sh
