@@ -59,6 +59,9 @@ git clone git@github.com:$TEST_REPO_USER/$TEST_REPO.git $REPODIR
 
 cd $REPODIR
 
+echo "Check if config folder exists ..."
+[[ -d ${REPODIR}/clusters/my-cluster ]] || mkdir -p ${REPODIR}/clusters/my-cluster
+
 echo "Creating Kustomization"
 gitops flux create kustomization $PROFILE --export \
     --path ./$PROFILE \
@@ -78,7 +81,8 @@ echo "Adding Profile to repo"
 pctl add --name $PROFILE \
 --profile-repo-url $CATALOG_REPO_URL \
 --git-repository wego-system/wego-system \
---profile-path ./$PROFILE 
+--profile-path ./$PROFILE \
+--profile-branch demo-profile
 
 echo "Commiting profile to repo"
 git add . && git commit -m "adding profile" && git push

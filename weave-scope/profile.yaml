@@ -1,0 +1,20 @@
+apiVersion: weave.works/v1alpha1
+kind: ProfileDefinition
+metadata:
+  name: weave-scope
+spec:
+  description: Profile for deploying scope chart
+  maintainer: weaveworks
+  prerequisites:
+    - "kubernetes 1.19"
+  artifacts:
+    - name: weave-scope
+      chart:
+        url: https://charts.helm.sh/stable 
+        name: weave-scope
+        version: "1.1.12"
+        defaultValues: |
+          global: 
+            image:
+              tag: 1.13.2
+ 
