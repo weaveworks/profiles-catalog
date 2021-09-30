@@ -1,9 +1,107 @@
 SHELL: /bin/bash
-
 .ONESHELL:
 
 .DEFAULT_GOAL := local-env
 
+##@ Versions
+CILIUM_VERSION=1.9.10
+CLUSTERCTL_VERSION=0.4.2
+GITOPS_VERSION=0.3.0
+KIND_VERSION=0.11.1
+K8S_VERSION=1.21.1
+PCTL_VERSION=0.10.0
+
+OS := $(shell uname | tr '[:upper:]' '[:lower:]')
+CONFDIR="${PWD}/.conf"
+BINDIR="${PWD}/.bin"
+KIND_CLUSTER=testing
+
+##@ Flows
+##@ with-clusterctl: check-requirements create-cluster save-kind-cluster-config initialise-docker-provider generate-manifests-clusterctl
+
+slim: check-requirements create-cluster save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster install-gitops-on-cluster install-profiles-on-cluster
+
+##@ Requirements
+check-requirements: check-gitops check-clusterctl check-pctl check-kind
+
+check-gitops:
+	@which gitops >/dev/null 2>&1 || (echo "gitops binary not found, installing ..." && \
+	curl -s -L "https://github.com/weaveworks/weave-gitops/releases/download/v${GITOPS_VERSION}/gitops-$(shell uname)-$(shell uname -m)" -o gitops && \
+	chmod +x gitops && \
+	sudo mv ./gitops /usr/local/bin/gitops && \
+	gitops version)
+
+check-clusterctl:
+	@which clusterctl >/dev/null 2>&1 || (echo "clusterctl binary not found, installing ..." && \
+	curl -s -L "https://github.com/kubernetes-sigs/cluster-api/releases/download/v${CLUSTERCTL_VERSION}/clusterctl-${OS}-amd64" -o clusterctl && \
+	chmod +x clusterctl && \
+	sudo mv ./clusterctl /usr/local/bin/clusterctl && \
+	clusterctl version)
+
+check-pctl:
+	@which pctl >/dev/null 2>&1 || (echo "pctl binary not found, installing ..." && \
+	wget "https://github.com/weaveworks/pctl/releases/download/v${PCTL_VERSION}/pctl_${OS}_amd64.tar.gz" && \
+	tar xvfz pctl_${OS}_amd64.tar.gz && \
+	sudo mv ./pctl /usr/local/bin/pctl && \
+	pctl --version )
+
+check-kind:
+	@which kind  >/dev/null 2>&1 || (echo "kind binary not found, installing ..." && \
+	curl -s -Lo ./kind https://kind.sigs.k8s.io/dl/v${KIND_VERSION}/kind-${OS}-amd64 && \
+	chmod +x ./kind && \
+	mv ./kind /usr/local/bin/kind && \
+	kind version)
+
+check-config-dir:
+	@echo "Check if config folder exists ...";
+	[ -d ${CONFDIR} ] || mkdir ${CONFDIR}
+
+##@ Cluster
+create-cluster:
+	@echo "Creating kind management cluster ...";
+	kind get clusters | grep ${KIND_CLUSTER} || kind create cluster --config ${BINDIR}/kind-cluster-with-extramounts.yaml --name ${KIND_CLUSTER}
+
+save-kind-cluster-config:
+	@echo "Exporting kind management cluster kubeconfig ..."
+	kind get kubeconfig --name ${KIND_CLUSTER} > ${CONFDIR}/${KIND_CLUSTER}.kubeconfig
+
+initialise-docker-provider:
+	@echo "Initialising docker provider in kind management cluster ..."
+	clusterctl init --infrastructure docker --wait-providers || true
+
+generate-manifests-clusterctl:
+	@echo "Generating manifests for workload cluster, and applying them ..."
+	clusterctl generate cluster ${WORKLOAD_CLUSTER} \
+	--flavor development \
+	--kubernetes-version v${K8S_VERSION} \
+	--control-plane-machine-count=3 \
+	--worker-machine-count=3 \
+	| kubectl apply -f -
+
+change-kubeconfig:
+	@export KUBECONFIG=${CONFDIR}/${KIND_CLUSTER}.kubeconfig
+
+##@ kubernetes
+
+upload-profiles-image-to-cluster:
+	@echo "Pulling profiles controller from docker hub"
+	docker pull weaveworks/profiles-controller:v0.2.0
+	@echo "Loading profile controller images into workload cluster nodes"
+	kind load docker-image --name ${KIND_CLUSTER} weaveworks/profiles-controller:v0.2.0
+
+install-gitops-on-cluster:
+	@echo "Installing WeaveGitops"
+	gitops install
+
+install-profiles-on-cluster:
+	@echo "Installing profile-controller"
+	pctl install --flux-namespace wego-system
+
+##@ catalog
+
+
+
+##@ profiles
 test:
 	.bin/profile-install.sh standard-cluster-deployment
 
