@@ -1,7 +1,7 @@
 apiVersion: weave.works/v1alpha1
 kind: ProfileDefinition
 metadata:
-  name: standard-cluster-deployment
+  name: weave-gitops-enterprise-eks
 spec:
   description: Profile for deploying clusters chart
   maintainer: weaveworks
