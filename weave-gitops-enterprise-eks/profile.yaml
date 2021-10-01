@@ -76,4 +76,4 @@ spec:
         source:
           url: git@github.com:weaveworks/profiles-catalog.git
           branch: main
-          path: /weave-scope
+          path: ./weave-scope
