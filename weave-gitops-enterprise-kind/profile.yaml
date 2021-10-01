@@ -13,6 +13,7 @@ spec:
         source:
           url: git@github.com:weaveworks/profiles-catalog.git
           branch: demo-profile
+          path: ./kube-prometheus-stack
     - name: flagger
       dependsOn:
       - name: kube-prometheus-stack
