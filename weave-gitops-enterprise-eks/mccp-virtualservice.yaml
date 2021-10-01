@@ -11,8 +11,8 @@ spec:
   - match:
     - uri:
         prefix: /wkp
-    # rewrite:
-    #   uri: "/"
+    rewrite:
+      uri: "/v1/"
     route:
     - destination:
         port:
