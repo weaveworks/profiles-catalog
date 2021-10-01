@@ -23,3 +23,5 @@ spec:
                 nginx.ingress.kubernetes.io/rewrite-target: /$1
                 nginx.ingress.kubernetes.io/use-regex: "true"
                 nginx.ingress.kubernetes.io/app-root: /scope/
+              hosts:
+                - ""
