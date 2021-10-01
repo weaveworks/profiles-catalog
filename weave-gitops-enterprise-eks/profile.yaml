@@ -46,7 +46,7 @@ spec:
         source:
           url: git@github.com:weaveworks/weave-gitops-enterprise-profiles.git
           path: ./weave-gitops-enterprise
-          tag: main
+          branch: main
     - name: weave-scope
       profile:
         source:
