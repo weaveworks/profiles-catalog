@@ -45,7 +45,7 @@ spec:
       chart:
         url: https://s3.us-east-1.amazonaws.com/weaveworks-wkp/releases/charts-v3/
         name: mccp
-        version: "0.0.10"
+        version: "0.1.0"
         defaultValues: |
           imagePullSecrets:
             - name: docker-io-pull-secret
