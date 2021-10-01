@@ -1,0 +1,28 @@
+apiVersion: weave.works/v1alpha1
+kind: ProfileDefinition
+metadata:
+  name: security
+spec:
+  description: Profile for deploying calico, kyverno, and snyk profiles
+  maintainer: weaveworks
+  prerequisites:
+    - "kubernetes 1.19"
+  artifacts:
+    - name: calico
+      profile:
+        source:
+          url: https://github.com/weaveworks/profiles-catalog.git
+          branch: main
+          path: calico
+    - name: kyverno
+      profile:
+        source:
+          url: https://github.com/weaveworks/profiles-catalog.git
+          branch: main
+          path: kyverno
+    - name: snyk
+      profile:
+        source:
+          url: https://github.com/weaveworks/profiles-catalog.git
+          branch: main
+          path: snyk
