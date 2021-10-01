@@ -16,6 +16,7 @@ spec:
         defaultValues: |
           grafana:
             ingress:
+              path: /grafana/
               enabled: true
               annotations:
                 kubernetes.io/ingress.class: istio

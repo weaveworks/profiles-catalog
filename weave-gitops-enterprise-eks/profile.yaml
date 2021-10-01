@@ -13,6 +13,7 @@ spec:
         source:
           url: git@github.com:weaveworks/profiles-catalog.git
           tag: kube-prometheus-stack/v0.0.1
+           
     - name: flagger
       dependsOn:
       - name: monitoring
