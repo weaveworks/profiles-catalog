@@ -35,13 +35,19 @@ CATALOG_REPO_URL=git@github.com:weaveworks/profiles-catalog.git
 
 
 ##@ Flows
+
+
 ##@ with-clusterctl: check-requirements create-cluster save-kind-cluster-config initialise-docker-provider generate-manifests-clusterctl
 
-slim: check-requirements create-cluster save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster install-gitops-on-cluster install-profiles-on-cluster
+kind-slim: check-requirements create-cluster save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster install-profile-and-sync
 
+##@ Post Kubernetes creation with valid KUBECONFIG set it installs gitops and profiles, boostraps cluster, installs profile, and syncs
+##@ TODO: Check if Repo exists and deletes if it's there (before clone)
+##@ TODO: Clear current profile is it's there
+##@ TODO: Git ADD and PUSH
 install-profile-and-sync: install-gitops-on-cluster install-profiles-on-cluster bootstrap-cluster clone-test-repo create-profile-kustomization add-profile
 
-
+##@ validate-configuration
 
 ##@ Requirements
 check-requirements: check-gitops check-clusterctl check-pctl check-kind
