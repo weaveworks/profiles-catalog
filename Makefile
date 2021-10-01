@@ -45,7 +45,7 @@ kind-slim: check-requirements create-cluster save-kind-cluster-config change-kub
 ##@ TODO: Check if Repo exists and deletes if it's there (before clone)
 ##@ TODO: Clear current profile is it's there
 ##@ TODO: Git ADD and PUSH
-install-profile-and-sync: install-gitops-on-cluster install-profiles-on-cluster bootstrap-cluster check-repo-dir clone-test-repo create-profile-kustomization add-profile commit-test-repo
+install-profile-and-sync: install-gitops-on-cluster install-profiles-on-cluster bootstrap-cluster check-repo-dir clone-test-repo check-repo-profile-dir commit-test-repo  create-profile-kustomization add-profile commit-test-repo
 
 
 ##@ validate-configuration
@@ -88,6 +88,11 @@ check-config-dir:
 check-repo-dir:
 	@echo "Check if config folder exists ...";
 	[ ! -d ${REPODIR} ] || rm -rf ${REPODIR}
+
+check-repo-profile-dir:
+	@echo "Check if config folder exists ...";
+	[ ! -d ${REPODIR}/${PROFILE} ] || rm -rf ${REPODIR}/${PROFILE}
+
 ##@ Cluster
 create-cluster:
 	@echo "Creating kind management cluster ...";
