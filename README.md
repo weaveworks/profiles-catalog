@@ -3,6 +3,6 @@
 ## weave-gitops-enterprise-eks
 
 ```
-kubectl create secret -n wego-system docker-registry docker-io-pull-secret --docker-username=stevenfraser --docker-password=
-	kubectl label nodes prod-worker wkp-database-volume-node=true
+kubectl create secret docker-registry docker-io-pull-secret --docker-username=stevenfraser --docker-password=
+kubectl label nodes ip-192-168-38-251.us-west-1.compute.internal wkp-database-volume-node=true
 ```
