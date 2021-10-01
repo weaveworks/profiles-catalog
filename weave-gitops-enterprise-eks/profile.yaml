@@ -8,15 +8,15 @@ spec:
   prerequisites:
     - "kubernetes 1.19"
   artifacts:
-    - name: monitoring
+    - name: kube-prometheus-stack
       profile:
         source:
           url: git@github.com:weaveworks/profiles-catalog.git
-          tag: kube-prometheus-stack/v0.0.1
-           
+          branch: demo-profile
+          path: ./kube-prometheus-stack          
     - name: flagger
       dependsOn:
-      - name: monitoring
+      - name: kube-prometheus-stack
       chart:
         url: https://flagger.app
         name: flagger
@@ -28,7 +28,7 @@ spec:
             create: false 
     - name: istio-operator
       dependsOn:
-      - name: monitoring
+      - name: kube-prometheus-stack
       - name: flagger    
       kustomize:
         path: istio/operator

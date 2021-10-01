@@ -20,3 +20,4 @@ spec:
               enabled: true
               annotations:
                 kubernetes.io/ingress.class: istio
+                ingress.kubernetes.io/rewrite-target: /
