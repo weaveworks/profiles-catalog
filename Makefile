@@ -127,6 +127,9 @@ get-eks-kubeconfig:
 	@echo "Creating kubeconfig for EKS cluster ..."
 	eksctl utils write-kubeconfig --region ${AWS_REGION} --cluster ${EKS_CLUSTER_NAME} --kubeconfig ${CONFDIR}/${EKS_CLUSTER_NAME}.kubeconfig
 
+delete-eks-cluster:
+	@echo "Deleting eks cluster ..."
+	eksctl delete cluster --region ${AWS_REGION} --name ${EKS_CLUSTER_NAME} --wait
 ##@ kubernetes
 
 upload-profiles-image-to-cluster:
