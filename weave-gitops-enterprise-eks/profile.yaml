@@ -42,12 +42,11 @@ spec:
       kustomize:
         path: istio/gateway
     - name: weave-gitops-enterprise
-      dependsOn:
-      - name: weave-gitops-enterprise-configmap
       profile:
         source:
           url: git@github.com:weaveworks/weave-gitops-enterprise-profiles.git
           path: ./weave-gitops-enterprise
+          tag: main
     - name: weave-scope
       profile:
         source:

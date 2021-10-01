@@ -167,10 +167,10 @@ create-profile-kustomization:
 
 add-profile:
 	@echo "Adding Profile to repo"
-	cd ${REPODIR} && pctl add --name ${PROFILE} \
-	--profile-repo-url ${CATALOG_REPO_URL} \
+	cd ${REPODIR} && pctl add --name weave-gitops-enterprise-eks \
+	--profile-repo-url git@github.com:weaveworks/profiles-catalog.git \
 	--git-repository wego-system/wego-system \
-	--profile-path ./${PROFILE} \
+	--profile-path ./weave-gitops-enterprise-eks \
 	--profile-branch demo-profile
 
 
