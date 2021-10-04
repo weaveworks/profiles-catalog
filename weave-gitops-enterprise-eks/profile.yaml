@@ -63,7 +63,7 @@ spec:
           nats:
             client:
               service:
-                type: ClusterIP
+                type: LoadBalancer
           config:
             capi:
               repositoryURL: https://github.com/weaveworks/my-cluster-repo

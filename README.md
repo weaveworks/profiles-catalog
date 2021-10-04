@@ -2,6 +2,8 @@
 
 ## weave-gitops-enterprise-eks
 
+
+### Install weave-gitops-enterprise-eks Profile
 Add Docker Secret for private images
 ```
 kubectl create secret docker-registry docker-io-pull-secret --docker-username=stevenfraser --docker-password=
@@ -14,7 +16,7 @@ kubectl create secret generic git-provider-credentials -n wego-system  --from-li
 
 Label database for SQL file
 ```
-kubectl label nodes ip-192-168-38-251.us-west-1.compute.internal wkp-database-volume-node=true
+NODE=$(kubectl get nodes -o json | jq --raw-output '.items[0].status.addresses[] | select(.type=="InternalDNS") | .address') && kubectl label nodes $NODE wkp-database-volume-node=true
 ```
 
 Install profile
@@ -26,8 +28,24 @@ pctl add --name weave-gitops-enterprise-eks \
 	--profile-branch main
 ```
 
-Get hostname to set agent configuration
-```
-kubectl -n istio-system get svc istio-ingressgateway -o json | jq -r '.status.loadBalancer.ingress | to_entries[].value.hostname'
+### Set specific variables for the demo/customer (After installed)
 
+Set Hostname to set agent configuration to report into mgmt-cluster
 ```
+export INGRESS=$(kubectl -n istio-system get svc istio-ingressgateway -o json | jq --raw-output -r '.status.loadBalancer.ingress | to_entries[].value.hostname') 
+
+export CONFIG_MAP_FILE="${PWD}/weave-gitops-enterprise-eks/artifacts/mccp-chart/helm-chart/ConfigMap.yaml"
+
+sed -i '' "s/mccp-chart-nats-client/$INGRESS/g" $CONFIG_MAP_FILE
+
+Set CAPI repo location
+```
+export CAPI_REPO=https://github.com/ww-customer-test/profile-test-repo
+
+export CONFIG_MAP_FILE="${PWD}/weave-gitops-enterprise-eks/artifacts/mccp-chart/helm-chart/ConfigMap.yaml"
+
+sed -i '' "s#https://github.com/weaveworks/my-cluster-repo#$CAPI_REPO#g" $CONFIG_MAP_FILE
+```
+
+
+
