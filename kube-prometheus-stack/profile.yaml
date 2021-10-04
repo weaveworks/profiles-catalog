@@ -26,7 +26,7 @@ spec:
                 serve_from_sub_path: true
           alertmanager:
             ingress:
-              path: /alert-manager/?(.*)
+              paths: [ "/alertmanager/?(.*)" ]
               enabled: true
               annotations:
                 kubernetes.io/ingress.class: mccp-nginx
