@@ -9,10 +9,12 @@ spec:
       description: This is used for the cluster naming.
     - name: AWS_REGION
       description: This is used for the cluster AWS region.
+      options: ['us-west-1', 'us-west-2', 'us-east-1']
     - name: AWS_SSH_KEY_NAME
       description: This is used for the cluster node SSH key name.
     - name: KUBERNETES_VERSION
       description: This is used for the cluster Kubernetes version.
+      options: ['v1.21', 'v1.20', 'v1.19']
     - name: WORKER_MACHINE_COUNT
       description: This is used for the cluster worker node count.
   resourcetemplates:
