@@ -10,14 +10,6 @@ spec:
   http:
   - match:
     - uri:
-        prefix: /grafana
-    route:
-    - destination:
-        port:
-          number: 80
-        host: kube-prometheus-stack-grafana
-  - match:
-    - uri:
         prefix: "/"
     - uri:
         prefix: "/"
