@@ -40,7 +40,7 @@ kubectl create secret docker-registry docker-io-pull-secret --docker-username=st
 
 **Optional: Add git provider credentials for github for cluster provising**
 ```
-kubectl create secret generic git-provider-credentials -n wego-system  --from-literal="GIT_PROVIDER_TOKEN=$GITHUB_TOKEN"
+kubectl create secret generic git-provider-credentials --from-literal="GIT_PROVIDER_TOKEN=$GITHUB_TOKEN"
 ```
 
 **Label database for SQL file**
@@ -102,6 +102,7 @@ kubectl get service istio-ingressgateway -n istio-system -o=jsonpath='{.status.l
 Weave GitOps Enterprise Console: `<load-balancer-url>`  
 Grafana Console: `<load-balancer-url>/grafana/login`  
 Weave Scope Console: `<load-balancer-url>/scope/`  
+Alert Manager: `<load-balancer-url>/alertmanager/`  
 
 ### EKS CAPI Provider Set Up
 ```
