@@ -4,6 +4,9 @@
 
 ```
 kubectl create secret docker-registry docker-io-pull-secret --docker-username=stevenfraser --docker-password=
+
+kubectl create secret generic git-provider-credentials -n wego-system  --from-literal="GIT_PROVIDER_TOKEN=$GITHUB_TOKEN"
+
 kubectl label nodes ip-192-168-38-251.us-west-1.compute.internal wkp-database-volume-node=true
 
 

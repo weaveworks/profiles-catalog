@@ -71,6 +71,11 @@ spec:
           nginx-ingress-controller:
             service:
               type: ClusterIP
+    - name: mccp-patch
+      dependsOn:
+      - name: mccp-chart
+      kustomize:
+        path: mccp-chart
     - name: weave-scope
       profile:
         source:
