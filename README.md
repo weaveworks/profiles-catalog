@@ -28,11 +28,16 @@ pctl add --name weave-gitops-enterprise-eks \
 	--profile-branch main
 ```
 
+Commit profile to repo
+```
+git add . && git commit -m "adding profile" && git push
+```
+
 ### Set specific variables for the demo/customer (After installed)
 
 Set Hostname to set agent configuration to report into mgmt-cluster
 ```
-export INGRESS=$(kubectl -n istio-system get svc istio-ingressgateway -o json | jq --raw-output -r '.status.loadBalancer.ingress | to_entries[].value.hostname') 
+export INGRESS=$(kubectl get svc -o json --field-selector=metadata.name=mccp-chart-nats-client -A | jq --raw-output -r '.items[].status.loadBalancer.ingress | to_entries[].value.hostname') 
 
 export CONFIG_MAP_FILE="${PWD}/weave-gitops-enterprise-eks/artifacts/mccp-chart/helm-chart/ConfigMap.yaml"
 
@@ -47,5 +52,13 @@ export CONFIG_MAP_FILE="${PWD}/weave-gitops-enterprise-eks/artifacts/mccp-chart/
 sed -i '' "s#https://github.com/weaveworks/my-cluster-repo#$CAPI_REPO#g" $CONFIG_MAP_FILE
 ```
 
+```
+git add . && git commit -m "configuring ingress for agents and capi repo" && git push
+```
+
+Reconcile HelmRelease
+```
+flux reconcile helmrelease weave-gitops-enterprise-eks-mccp-chart -n default
+```
 
 
