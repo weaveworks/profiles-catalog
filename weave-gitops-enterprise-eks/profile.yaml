@@ -75,7 +75,7 @@ spec:
       dependsOn:
       - name: mccp-chart
       kustomize:
-        path: mccp-chart
+        path: mccp-patch
     - name: weave-scope
       profile:
         source:
