@@ -5,9 +5,9 @@
 Add Docker Secret for private images
 ```
 kubectl create secret docker-registry docker-io-pull-secret --docker-username=stevenfraser --docker-password=
+```
 
 `Optional` Add git provider credentials for github for cluster provising
-
 ```
 kubectl create secret generic git-provider-credentials -n wego-system  --from-literal="GIT_PROVIDER_TOKEN=$GITHUB_TOKEN"
 ```
