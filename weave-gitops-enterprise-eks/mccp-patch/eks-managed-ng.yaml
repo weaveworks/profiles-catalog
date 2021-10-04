@@ -1,7 +1,7 @@
 apiVersion: capi.weave.works/v1alpha1
 kind: CAPITemplate
 metadata:
-  name: eks-managed-ng-template
+  name: eks-with-managed-nodegroup-template
 spec:
   description: This is the eks managed node group CAPA template.
   params:
