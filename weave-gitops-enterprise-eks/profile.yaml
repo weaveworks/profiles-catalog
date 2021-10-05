@@ -59,6 +59,11 @@ spec:
         defaultValues: |
           global:
             istioNamespace: default
+    - name: istio-gateway
+      dependsOn:
+      - name: istio-ingress
+      kustomize:
+        path: istio/gateway
     - name: mccp-chart
       chart:
         url: https://s3.us-east-1.amazonaws.com/weaveworks-wkp/releases/charts-v3/
