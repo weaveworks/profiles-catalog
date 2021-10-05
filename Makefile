@@ -25,7 +25,7 @@ NODE_INSTANCE_TYPE="m5.large"
 NUM_OF_NODES="2"
 EKS_K8S_VERSION="1.21"
 
-PROFILE=gitops-enterprise-mgmt-eks
+PROFILE=weave-gitops-enterprise-eks
 
 TEST_REPO_USER=steve-fraser
 TEST_REPO=weaveworks-testing-playground
@@ -41,7 +41,7 @@ PLATFORM=kind
 
 ##@ with-clusterctl: check-requirements create-cluster save-kind-cluster-config initialise-docker-provider generate-manifests-clusterctl
 
-eks: check-requirements check-eksctl get-eks-kubeconfig change-eks-kubeconfig test-config
+eks: check-requirements check-eksctl get-eks-kubeconfig change-eks-kubeconfig install-profile-and-sync
 
 kind: check-requirements check-kind create-cluster check-config-dir save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster install-profile-and-sync
 
@@ -49,9 +49,6 @@ kind: check-requirements check-kind create-cluster check-config-dir save-kind-cl
 ##@ TODO: Clear current profile is it's there
 install-profile-and-sync: install-gitops-on-cluster install-profiles-on-cluster bootstrap-cluster check-repo-dir clone-test-repo create-profile-kustomization add-profile commit-test-repo
 
-test-config:
-	@echo "testing getting resources";
-	kubectl get pods
 
 ##@ validate-configuration
 
