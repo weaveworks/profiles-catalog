@@ -13,8 +13,8 @@ BINDIR="${PWD}/.bin"
 REPODIR="${PWD}/.repo"
 PROFILE=""
 PROFILE_DIR=""
-TEST_REPO_USER=weaveworks
-TEST_REPO=profiles-catalog-test
+TEST_REPO_USER=ww-customer-test
+TEST_REPO=profile-test-repo
 CATALOG_REPO_URL=git@github.com:weaveworks/profiles-catalog.git
 
 if [ ! -n "$1"  ]; then
@@ -78,7 +78,8 @@ echo "Adding Profile to repo"
 pctl add --name $PROFILE \
 --profile-repo-url $CATALOG_REPO_URL \
 --git-repository wego-system/wego-system \
---profile-path ./$PROFILE 
+--profile-path ./$PROFILE \
+--profile-branch demo-profile
 
 echo "Commiting profile to repo"
 git add . && git commit -m "adding profile" && git push

@@ -1,0 +1,26 @@
+apiVersion: weave.works/v1alpha1
+kind: ProfileDefinition
+metadata:
+  name: weave-scope
+spec:
+  description: Profile for deploying scope chart
+  maintainer: weaveworks
+  prerequisites:
+    - "kubernetes 1.19"
+  artifacts:
+    - name: weave-scope
+      chart:
+        url: https://charts.helm.sh/stable 
+        name: weave-scope
+        version: "1.1.12"
+        defaultValues: |
+          weave-scope-frontend:
+            ingress:
+              paths: ["/scope/?(.*)","/scope"]
+              enabled: true
+              annotations:
+                kubernetes.io/ingress.class: mccp-nginx
+                nginx.ingress.kubernetes.io/rewrite-target: /$1
+                nginx.ingress.kubernetes.io/use-regex: "true"
+              hosts:
+                - ""
