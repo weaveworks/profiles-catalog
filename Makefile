@@ -185,7 +185,7 @@ add-profile:
 	--profile-repo-url git@github.com:weaveworks/profiles-catalog.git \
 	--git-repository wego-system/wego-system \
 	--profile-path ./weave-gitops-enterprise-eks \
-	--profile-branch demo-profile
+	--profile-branch main
 
 
 

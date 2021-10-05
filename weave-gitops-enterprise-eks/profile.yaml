@@ -12,7 +12,7 @@ spec:
       profile:
         source:
           url: git@github.com:weaveworks/profiles-catalog.git
-          branch: demo-profile
+          branch: main
           path: ./kube-prometheus-stack          
     - name: flagger
       dependsOn:
@@ -26,20 +26,42 @@ spec:
           metricsServer: http://kube-prometheus-stack-prometheus:9090
           crd:
             create: false 
-    - name: istio-operator
+    - name: istio-base
       dependsOn:
       - name: kube-prometheus-stack
       - name: flagger    
-      kustomize:
-        path: istio/operator
-    - name: istio-system
+      chart:
+        path: istio/base
+        defaultValues: |
+          global:
+            istioNamespace: default
+    - name: istio-discovery
       dependsOn:
-      - name: istio-operator
-      kustomize:
-        path: istio/system
+      - name: istio-base
+      chart:
+        path: istio/istio-discovery
+        defaultValues: |
+          global:
+            istioNamespace: default
+    - name: istio-ingress
+      dependsOn:
+      - name: istio-discovery
+      chart:
+        path: istio/istio-ingress
+        defaultValues: |
+          global:
+            istioNamespace: default
+    - name: istio-egress
+      dependsOn:
+      - name: istio-discovery
+      chart:
+        path: istio/istio-egress
+        defaultValues: |
+          global:
+            istioNamespace: default
     - name: istio-gateway
       dependsOn:
-      - name: istio-system
+      - name: istio-ingress
       kustomize:
         path: istio/gateway
     - name: mccp-chart
@@ -80,5 +102,5 @@ spec:
       profile:
         source:
           url: git@github.com:weaveworks/profiles-catalog.git
-          branch: demo-profile
+          branch: main
           path: ./weave-scope
