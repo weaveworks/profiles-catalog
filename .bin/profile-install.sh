@@ -13,8 +13,8 @@ BINDIR="${PWD}/.bin"
 REPODIR="${PWD}/.repo"
 PROFILE=""
 PROFILE_DIR=""
-TEST_REPO_USER=ww-customer-test
-TEST_REPO=profile-test-repo
+TEST_REPO_USER=steve-fraser
+TEST_REPO=weaveworks-testing-playground
 CATALOG_REPO_URL=git@github.com:weaveworks/profiles-catalog.git
 
 if [ ! -n "$1"  ]; then
@@ -44,14 +44,13 @@ if [ -d $REPODIR ]; then
 fi
 
 echo "Boostrapping flux"
-gitops flux bootstrap github \
+gitops flux bootstrap git \
     --owner=$TEST_REPO_USER \
     --repository=$TEST_REPO \
     --branch=main \
     --namespace wego-system \
     --path=clusters/my-cluster \
-    --personal \
-    --read-write-key
+    --private-key-file /tmp/git-keys/steve-fraser-weaveworks-testing-playground
 
 echo "Clone test repo"
 git clone git@github.com:$TEST_REPO_USER/$TEST_REPO.git $REPODIR
