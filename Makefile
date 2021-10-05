@@ -194,7 +194,7 @@ add-profile:
 
 
 test:
-	[ "${PIPLINE_PLATFORM}" == "kind" ] | kind-slim || [ "${PIPLINE_PLATFORM}" == "eks" ] | eks
+	[ "${PLATFORM}" == "kind" ] | kind-slim || [ "${PLATFORM}" == "eks" ] | eks
 
 test-pipline:
 	[[ ! -z "${PIPLINE_PLATFORM}" ]] || PLATFORM=${PIPLINE_PLATFORM} && test
