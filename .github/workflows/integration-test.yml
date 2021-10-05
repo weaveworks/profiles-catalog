@@ -31,8 +31,8 @@ jobs:
           mkdir -p /tmp/git-keys
           echo "${{ secrets.PROFILES_CATALOG_PRIVATE_WEAVEWORKS_BOT_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
           chmod 600 /tmp/git-keys/weaveworks-profiles-catalog 
-          echo "${{ secrets.TESTING_CATALOG_PRIVATE_WEAVEWORKS_BOT_DEPLOY_KEY }}" > /tmp/git-keys/steve-fraser-weaveworks-testing-playground 
-          chmod 600 /tmp/git-keys/steve-fraser-weaveworks-testing-playground 
+          echo "${{ secrets.TESTING_CATALOG_PRIVATE_WEAVEWORKS_BOT_DEPLOY_KEY }}" > /tmp/git-keys/ww-customer-test-profile-test-repo 
+          chmod 600 /tmp/git-keys/ww-customer-test-profile-test-repo
           cp ${{ github.workspace }}/.bin/ssh_command.sh /tmp/ssh_command
           chmod +x /tmp/ssh_command
           git config --global user.email "action@github.com"
@@ -70,7 +70,7 @@ jobs:
           echo "${{ secrets.PROFILES_CATALOG_PRIVATE_WEAVEWORKS_BOT_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
           chmod 600 /tmp/git-keys/weaveworks-profiles-catalog 
           echo "${{ secrets.TESTING_CATALOG_PRIVATE_WEAVEWORKS_BOT_DEPLOY_KEY }}" > /tmp/git-keys/ww-customer-test-profile-test-repo
-          chmod 600 /tmp/git-keys/steve-fraser-weaveworks-testing-playground 
+          chmod 600 /tmp/git-keys/ww-customer-test-profile-test-repo 
           cp ${{ github.workspace }}/.bin/ssh_command.sh /tmp/ssh_command
           chmod +x /tmp/ssh_command
           git config --global user.email "action@github.com"
