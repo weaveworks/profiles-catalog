@@ -16,7 +16,7 @@ spec:
       - name: calico-crds
       chart:
         url: https://aws.github.io/eks-charts
-        name: calico
+        name: aws-calico
         version: "0.3.9"
     - name: kyverno-crds
       chart:
