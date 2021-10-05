@@ -26,22 +26,27 @@ spec:
           metricsServer: http://kube-prometheus-stack-prometheus:9090
           crd:
             create: false 
-    - name: istio-operator
+    - name: istio-base
       dependsOn:
       - name: kube-prometheus-stack
       - name: flagger    
-      kustomize:
-        path: istio/operator
-    - name: istio-system
+      chart:
+        path: istio/base
+    - name: istio-discovery
       dependsOn:
-      - name: istio-operator
-      kustomize:
-        path: istio/system
-    - name: istio-gateway
+      - name: istio-base
+      chart:
+        path: istio/istio-discovery
+    - name: istio-ingress
       dependsOn:
-      - name: istio-system
-      kustomize:
-        path: istio/gateway
+      - name: istio-discovery
+      chart:
+        path: istio/istio-ingress
+    - name: istio-egress
+      dependsOn:
+      - name: istio-discovery
+      chart:
+        path: istio/istio-egress
     - name: mccp-chart
       chart:
         url: https://s3.us-east-1.amazonaws.com/weaveworks-wkp/releases/charts-v3/
