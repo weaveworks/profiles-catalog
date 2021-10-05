@@ -55,40 +55,6 @@ spec:
       - name: istio-ingress
       kustomize:
         path: istio/gateway
-    - name: mccp-chart
-      chart:
-        url: https://s3.us-east-1.amazonaws.com/weaveworks-wkp/releases/charts-v3/
-        name: mccp
-        version: "0.0.10"
-        defaultValues: |
-          imagePullSecrets:
-            - name: docker-io-pull-secret
-          wkp-ui:
-            image:
-              pullSecrets:
-                - docker-io-pull-secret
-          dbConfig:
-            databaseType: sqlite
-          sqliteConfig:
-            persistentVolumeClaim: true
-          agentTemplate:
-            natsURL: mccp-chart-nats-client:4222
-          nats:
-            client:
-              service:
-                type: LoadBalancer
-          config:
-            capi:
-              repositoryURL: https://github.com/weaveworks/my-cluster-repo
-              baseBranch: main
-          nginx-ingress-controller:
-            service:
-              type: ClusterIP
-    - name: mccp-patch
-      dependsOn:
-      - name: mccp-chart
-      kustomize:
-        path: mccp-patch
     - name: weave-scope
       chart:
         url: https://charts.helm.sh/stable 
