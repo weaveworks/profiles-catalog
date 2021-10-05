@@ -68,7 +68,7 @@ git add . && git commit -m "adding profile" && git push
 ```
 export INGRESS=$(kubectl get service istio-ingressgateway -n istio-system -o=jsonpath='{.status.loadBalancer.ingress[0].hostname}') 
 
-export CONFIG_MAP_FILE="${PWD}/gitops-enterprise-mgmt-eks/artifacts/mccp-chart/helm-chart/ConfigMap.yaml"
+export CONFIG_MAP_FILE="${PWD}/gitops-enterprise-mgmt-base/artifacts/mccp-chart/helm-chart/ConfigMap.yaml"
 
 sed -i '' "s/mccp-chart-nats-client/$INGRESS/g" $CONFIG_MAP_FILE
 ```
@@ -77,7 +77,7 @@ sed -i '' "s/mccp-chart-nats-client/$INGRESS/g" $CONFIG_MAP_FILE
 ```
 export CAPI_REPO=https://github.com/ww-customer-test/profile-test-repo
 
-export CONFIG_MAP_FILE="${PWD}/gitops-enterprise-mgmt-eks/artifacts/mccp-chart/helm-chart/ConfigMap.yaml"
+export CONFIG_MAP_FILE="${PWD}/gitops-enterprise-mgmt-base/artifacts/mccp-chart/helm-chart/ConfigMap.yaml"
 
 sed -i '' "s#https://github.com/weaveworks/my-cluster-repo#$CAPI_REPO#g" $CONFIG_MAP_FILE
 ```
