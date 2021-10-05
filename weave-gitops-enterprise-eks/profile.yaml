@@ -32,21 +32,33 @@ spec:
       - name: flagger    
       chart:
         path: istio/base
+        defaultValues: |
+          global:
+            istioNamespace: default
     - name: istio-discovery
       dependsOn:
       - name: istio-base
       chart:
         path: istio/istio-discovery
+        defaultValues: |
+          global:
+            istioNamespace: default
     - name: istio-ingress
       dependsOn:
       - name: istio-discovery
       chart:
         path: istio/istio-ingress
+        defaultValues: |
+          global:
+            istioNamespace: default
     - name: istio-egress
       dependsOn:
       - name: istio-discovery
       chart:
         path: istio/istio-egress
+        defaultValues: |
+          global:
+            istioNamespace: default
     - name: mccp-chart
       chart:
         url: https://s3.us-east-1.amazonaws.com/weaveworks-wkp/releases/charts-v3/
