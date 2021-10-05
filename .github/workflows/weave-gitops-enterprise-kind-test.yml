@@ -1,4 +1,4 @@
-name: weave-gitops-enterprise-kind Profile CI
+name: weave-gitops-enterprise-eks Profile CI
 
 on:
   push:
