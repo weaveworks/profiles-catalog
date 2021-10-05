@@ -41,7 +41,7 @@ PLATFORM=kind
 
 ##@ with-clusterctl: check-requirements create-cluster save-kind-cluster-config initialise-docker-provider generate-manifests-clusterctl
 
-eks: check-requirements check-eksctl get-eks-kubeconfig change-kubeconfig install-profile-and-sync
+eks: check-requirements check-eksctl get-eks-kubeconfig change-kubeconfig test-config
 
 kind: check-requirements check-kind create-cluster check-config-dir save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster install-profile-and-sync
 
@@ -49,6 +49,9 @@ kind: check-requirements check-kind create-cluster check-config-dir save-kind-cl
 ##@ TODO: Clear current profile is it's there
 install-profile-and-sync: install-gitops-on-cluster install-profiles-on-cluster bootstrap-cluster check-repo-dir clone-test-repo create-profile-kustomization add-profile commit-test-repo
 
+test-config:
+	@echo "testing config.....";
+	kubectl get pods -A
 
 ##@ validate-configuration
 
