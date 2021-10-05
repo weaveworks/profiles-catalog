@@ -41,7 +41,7 @@ PLATFORM=kind
 
 ##@ with-clusterctl: check-requirements create-cluster save-kind-cluster-config initialise-docker-provider generate-manifests-clusterctl
 
-eks: check-requirements check-eksctl get-eks-kubeconfig change-kubeconfig test-config
+eks: check-requirements check-eksctl get-eks-kubeconfig change-eks-kubeconfig test-config
 
 kind: check-requirements check-kind create-cluster check-config-dir save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster install-profile-and-sync
 
@@ -51,7 +51,7 @@ install-profile-and-sync: install-gitops-on-cluster install-profiles-on-cluster 
 
 test-config:
 	@echo "testing config.....";
-	kubectl --kubeconfig /home/runner/work/profiles-catalog/profiles-catalog/.conf/testing.kubeconfig get pods
+	kubectl get pods
 
 ##@ validate-configuration
 
@@ -155,7 +155,7 @@ create-eks-cluster:
 
 get-eks-kubeconfig:
 	@echo "Creating kubeconfig for EKS cluster ..."
-	eksctl utils write-kubeconfig --region ${AWS_REGION} --cluster ${EKS_CLUSTER_NAME} --kubeconfig ${CONFDIR}/${KIND_CLUSTER}.kubeconfig
+	eksctl utils write-kubeconfig --region ${AWS_REGION} --cluster ${EKS_CLUSTER_NAME} --kubeconfig ${CONFDIR}/${EKS_CLUSTER_NAME}.kubeconfig
 
 delete-eks-cluster:
 	@echo "Deleting eks cluster ..."
