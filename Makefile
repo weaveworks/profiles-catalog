@@ -41,7 +41,7 @@ PLATFORM=kind
 
 ##@ with-clusterctl: check-requirements create-cluster save-kind-cluster-config initialise-docker-provider generate-manifests-clusterctl
 
-eks: check-requirements check-eksctl test-eksctl-cli
+eks: check-requirements check-eksctl get-eks-kubeconfig change-kubeconfig install-profile-and-sync
 
 kind: check-requirements check-kind create-cluster check-config-dir save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster install-profile-and-sync
 
@@ -137,6 +137,9 @@ generate-manifests-clusterctl:
 change-kubeconfig:
 	@export KUBECONFIG=${CONFDIR}/${KIND_CLUSTER}.kubeconfig
 
+change-eks-kubeconfig:
+	@export KUBECONFIG=${CONFDIR}/${EKS_CLUSTER_NAME}.kubeconfig
+
 create-eks-cluster:
 	@echo "Creating eks cluster ..."
 	eksctl create cluster --name ${EKS_CLUSTER_NAME} \
@@ -149,7 +152,7 @@ create-eks-cluster:
 
 get-eks-kubeconfig:
 	@echo "Creating kubeconfig for EKS cluster ..."
-	eksctl utils write-kubeconfig --region ${AWS_REGION} --cluster ${EKS_CLUSTER_NAME} --kubeconfig ${CONFDIR}/${EKS_CLUSTER_NAME}.kubeconfig
+	eksctl utils write-kubeconfig --region ${AWS_REGION} --cluster ${EKS_CLUSTER_NAME} --kubeconfig ${CONFDIR}/${KIND_CLUSTER}.kubeconfig
 
 delete-eks-cluster:
 	@echo "Deleting eks cluster ..."
