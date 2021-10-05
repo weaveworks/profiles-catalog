@@ -9,7 +9,7 @@ CLUSTERCTL_VERSION=0.4.2
 GITOPS_VERSION=0.3.0
 KIND_VERSION=0.11.1
 K8S_VERSION=1.21.1
-PCTL_VERSION=0.10.0
+PCTL_VERSION=0.11.0
 
 OS := $(shell uname | tr '[:upper:]' '[:lower:]')
 CONFDIR="${PWD}/.conf"
