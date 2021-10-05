@@ -25,11 +25,13 @@ NODE_INSTANCE_TYPE="m5.large"
 NUM_OF_NODES="2"
 EKS_K8S_VERSION="1.21"
 
-PROFILE=weave-gitops-enterprise-eks
-TEST_REPO_USER=ww-customer-test
-TEST_REPO=profile-test-repo
+PROFILE=weave-gitops-enterprise-kind
+
+TEST_REPO_USER=steve-fraser
+TEST_REPO=weaveworks-testing-playground
 CATALOG_REPO_URL=git@github.com:weaveworks/profiles-catalog.git
 
+PLATFORM=KIND
 
 
 
@@ -38,6 +40,8 @@ CATALOG_REPO_URL=git@github.com:weaveworks/profiles-catalog.git
 
 
 ##@ with-clusterctl: check-requirements create-cluster save-kind-cluster-config initialise-docker-provider generate-manifests-clusterctl
+eks: 
+	@echo "eks flow";
 
 kind-slim: check-requirements create-cluster save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster install-profile-and-sync
 
@@ -181,16 +185,20 @@ create-profile-kustomization:
 
 add-profile:
 	@echo "Adding Profile to repo"
-	cd ${REPODIR} && pctl add --name weave-gitops-enterprise-eks \
+	cd ${REPODIR} && pctl add --name ${PROFILE} \
 	--profile-repo-url git@github.com:weaveworks/profiles-catalog.git \
 	--git-repository wego-system/wego-system \
-	--profile-path ./weave-gitops-enterprise-eks \
+	--profile-path ./${PROFILE} \
 	--profile-branch demo-profile
 
 
 
 test:
-	.bin/profile-install.sh kube-prometheus-stack
+	[ "${PIPLINE_PLATFORM}" == "kind" ] | kind-slim || [ "${PIPLINE_PLATFORM}" == "eks" ] | eks
+
+test-pipline:
+	[[ ! -z "${PIPLINE_PLATFORM}" ]] || PLATFORM=${PIPLINE_PLATFORM} && test
+
 
 local-env:
 	.bin/kind.sh

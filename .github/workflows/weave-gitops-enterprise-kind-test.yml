@@ -1,4 +1,4 @@
-name: Profile CI
+name: weave-gitops-enterprise-kind Profile CI
 
 on:
   push:
@@ -36,4 +36,4 @@ jobs:
           chmod +x /tmp/ssh_command
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
-          make test
+          make test-kind
