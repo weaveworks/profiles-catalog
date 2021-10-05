@@ -25,7 +25,7 @@ NODE_INSTANCE_TYPE="m5.large"
 NUM_OF_NODES="2"
 EKS_K8S_VERSION="1.21"
 
-PROFILE=weave-gitops-enterprise-kind
+PROFILE=gitops-enterprise-mgmt-eks
 
 TEST_REPO_USER=steve-fraser
 TEST_REPO=weaveworks-testing-playground
@@ -50,7 +50,8 @@ kind: check-requirements check-kind create-cluster check-config-dir save-kind-cl
 install-profile-and-sync: install-gitops-on-cluster install-profiles-on-cluster bootstrap-cluster check-repo-dir clone-test-repo create-profile-kustomization add-profile commit-test-repo
 
 test-config:
-	kubectl get pods && kubectl config view
+	@echo "testing getting resources";
+	kubectl get pods
 
 ##@ validate-configuration
 
@@ -212,7 +213,7 @@ add-profile:
 	--profile-repo-url git@github.com:weaveworks/profiles-catalog.git \
 	--git-repository wego-system/wego-system \
 	--profile-path ./${PROFILE} \
-	--profile-branch demo-profile
+	--profile-branch main
 
 
 local-env:
