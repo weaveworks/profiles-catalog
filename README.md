@@ -4,7 +4,7 @@
 
 ### Repositories
 
-Profiles Catalog: https://github.com/weaveworks/profiles-catalog/tree/demo-profile  
+Profiles Catalog: https://github.com/weaveworks/profiles-catalog/
 Profiles Test Repo: https://github.com/ww-customer-test/profile-test-repo
 
 ### Prerequisites
