@@ -43,7 +43,7 @@ PLATFORM=kind
 eks: 
 	@echo "eks flow";
 
-kind-slim: check-requirements create-cluster save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster install-profile-and-sync
+kind: check-requirements create-cluster check-config-dir save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster install-profile-and-sync
 
 ##@ Post Kubernetes creation with valid KUBECONFIG set it installs gitops and profiles, boostraps cluster, installs profile, and syncs
 ##@ TODO: Clear current profile is it's there
@@ -94,6 +94,11 @@ check-repo-dir:
 check-repo-profile-dir:
 	@echo "Check if config folder exists ...";
 	[ ! -d ${REPODIR}/${PROFILE} ] || rm -rf ${REPODIR}/${PROFILE}
+
+check-platform:
+	@echo "Check if PIPLINE_PLATFORM exists ...";
+	[ -z "${PIPLINE_PLATFORM}" ] || PLATFORM="${PIPLINE_PLATFORM}"
+
 
 ##@ Cluster
 create-cluster:
@@ -190,14 +195,6 @@ add-profile:
 	--git-repository wego-system/wego-system \
 	--profile-path ./${PROFILE} \
 	--profile-branch demo-profile
-
-
-
-test:
-	[ "${PLATFORM}" == "kind" ] | kind-slim || [ "${PLATFORM}" == "eks" ] | eks
-
-test-pipline:
-	PLATFORM="${PIPLINE_PLATFORM:-kind}" && test
 
 
 local-env:
