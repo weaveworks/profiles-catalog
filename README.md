@@ -1,6 +1,6 @@
 # Profiles for Weave GitOps Enterprise
 
-## weave-gitops-enterprise-eks
+## gitops-enterprise-mgmt-eks
 
 ### Repositories
 
@@ -32,7 +32,7 @@ gitops flux bootstrap github \
     --path=clusters/my-cluster
 ```
 
-### Install weave-gitops-enterprise-eks Profile
+### Install gitops-enterprise-mgmt-eks Profile
 **Add Docker Secret for private images**
 ```
 kubectl create secret docker-registry docker-io-pull-secret --docker-username=stevenfraser --docker-password=
@@ -50,10 +50,10 @@ NODE=$(kubectl get nodes -o json | jq --raw-output '.items[0].status.addresses[]
 
 **Install profile**
 ```
-pctl add --name weave-gitops-enterprise-eks \
+pctl add --name gitops-enterprise-mgmt-eks \
 	--profile-repo-url git@github.com:weaveworks/profiles-catalog.git \
 	--git-repository wego-system/wego-system \
-	--profile-path ./weave-gitops-enterprise-eks \
+	--profile-path ./gitops-enterprise-mgmt-eks \
 	--profile-branch main
 ```
 
@@ -68,7 +68,7 @@ git add . && git commit -m "adding profile" && git push
 ```
 export INGRESS=$(kubectl get service istio-ingressgateway -n istio-system -o=jsonpath='{.status.loadBalancer.ingress[0].hostname}') 
 
-export CONFIG_MAP_FILE="${PWD}/weave-gitops-enterprise-eks/artifacts/mccp-chart/helm-chart/ConfigMap.yaml"
+export CONFIG_MAP_FILE="${PWD}/gitops-enterprise-mgmt-eks/artifacts/mccp-chart/helm-chart/ConfigMap.yaml"
 
 sed -i '' "s/mccp-chart-nats-client/$INGRESS/g" $CONFIG_MAP_FILE
 ```
@@ -77,7 +77,7 @@ sed -i '' "s/mccp-chart-nats-client/$INGRESS/g" $CONFIG_MAP_FILE
 ```
 export CAPI_REPO=https://github.com/ww-customer-test/profile-test-repo
 
-export CONFIG_MAP_FILE="${PWD}/weave-gitops-enterprise-eks/artifacts/mccp-chart/helm-chart/ConfigMap.yaml"
+export CONFIG_MAP_FILE="${PWD}/gitops-enterprise-mgmt-eks/artifacts/mccp-chart/helm-chart/ConfigMap.yaml"
 
 sed -i '' "s#https://github.com/weaveworks/my-cluster-repo#$CAPI_REPO#g" $CONFIG_MAP_FILE
 ```
@@ -88,7 +88,7 @@ git add . && git commit -m "configuring ingress for agents and capi repo" && git
 
 **Reconcile HelmRelease**
 ```
-flux reconcile helmrelease weave-gitops-enterprise-eks-mccp-chart -n default
+flux reconcile helmrelease gitops-enterprise-mgmt-eks-mccp-chart -n default
 ```
 
 **Get Load Balancer URL**  
