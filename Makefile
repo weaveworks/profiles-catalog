@@ -25,10 +25,10 @@ NODE_INSTANCE_TYPE="m5.large"
 NUM_OF_NODES="2"
 EKS_K8S_VERSION="1.21"
 
-PROFILE=weave-gitops-enterprise-eks
+PROFILE=gitops-enterprise-mgmt-eks
 
-TEST_REPO_USER=steve-fraser
-TEST_REPO=weaveworks-testing-playground
+TEST_REPO_USER=ww-customer-test
+TEST_REPO=profile-test-repo
 CATALOG_REPO_URL=git@github.com:weaveworks/profiles-catalog.git
 
 PLATFORM=kind
@@ -210,7 +210,7 @@ add-profile:
 	--profile-repo-url git@github.com:weaveworks/profiles-catalog.git \
 	--git-repository wego-system/wego-system \
 	--profile-path ./${PROFILE} \
-	--profile-branch main
+	--profile-branch profile-architecture-redesign
 
 
 local-env:
