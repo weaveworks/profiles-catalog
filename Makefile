@@ -12,13 +12,13 @@ K8S_VERSION=1.21.1
 PCTL_VERSION=0.10.0
 
 OS := $(shell uname | tr '[:upper:]' '[:lower:]')
-CONFDIR="${PWD}/.conf"
+CONFDIR=${PWD}/.conf
 BINDIR="${PWD}/.bin"
 REPODIR="${PWD}/.repo"
 
 KIND_CLUSTER=testing
 
-EKS_CLUSTER_NAME="profiles-cluster"
+EKS_CLUSTER_NAME=profiles-cluster
 AWS_REGION="us-west-1"
 NODEGROUP_NAME="ng-1"
 NODE_INSTANCE_TYPE="m5.large"
@@ -50,8 +50,7 @@ kind: check-requirements check-kind create-cluster check-config-dir save-kind-cl
 install-profile-and-sync: install-gitops-on-cluster install-profiles-on-cluster bootstrap-cluster check-repo-dir clone-test-repo create-profile-kustomization add-profile commit-test-repo
 
 test-config:
-	@echo "testing config.....";
-	kubectl get pods
+	kubectl get pods 
 
 ##@ validate-configuration
 
@@ -141,7 +140,8 @@ change-kubeconfig:
 	@export KUBECONFIG=${CONFDIR}/${KIND_CLUSTER}.kubeconfig
 
 change-eks-kubeconfig:
-	@export KUBECONFIG=${CONFDIR}/${EKS_CLUSTER_NAME}.kubeconfig
+	@echo "changing kubeconfig";
+	export KUBECONFIG=${CONFDIR}/${EKS_CLUSTER_NAME}.kubeconfig
 
 create-eks-cluster:
 	@echo "Creating eks cluster ..."
