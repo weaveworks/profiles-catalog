@@ -40,10 +40,10 @@ PLATFORM=kind
 
 
 ##@ with-clusterctl: check-requirements create-cluster save-kind-cluster-config initialise-docker-provider generate-manifests-clusterctl
-eks: 
-	@echo "eks flow";
 
-kind: check-requirements create-cluster check-config-dir save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster install-profile-and-sync
+eks: check-requirements check-eksctl test-eksctl-cli
+
+kind: check-requirements check-kind create-cluster check-config-dir save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster install-profile-and-sync
 
 ##@ Post Kubernetes creation with valid KUBECONFIG set it installs gitops and profiles, boostraps cluster, installs profile, and syncs
 ##@ TODO: Clear current profile is it's there
@@ -52,8 +52,13 @@ install-profile-and-sync: install-gitops-on-cluster install-profiles-on-cluster 
 
 ##@ validate-configuration
 
+test-eksctl-cli:
+	@echo "testing eksctl.....";
+	eksctl get clusters -r us-west-1
+
 ##@ Requirements
-check-requirements: check-gitops check-clusterctl check-pctl check-kind
+check-requirements: check-gitops check-clusterctl check-pctl
+
 
 check-gitops:
 	@which gitops >/dev/null 2>&1 || (echo "gitops binary not found, installing ..." && \
@@ -82,6 +87,13 @@ check-kind:
 	chmod +x ./kind && \
 	mv ./kind /usr/local/bin/kind && \
 	kind version)
+
+check-eksctl:
+	@which eksctl  >/dev/null 2>&1 || (echo "eksctl binary not found, installing ..." && \
+	curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp && \
+	chmod +x /tmp/eksctl && \
+	sudo mv /tmp/eksctl /usr/local/bin && \
+	eksctl version)
 
 check-config-dir:
 	@echo "Check if config folder exists ...";
