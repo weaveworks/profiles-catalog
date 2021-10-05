@@ -44,14 +44,13 @@ if [ -d $REPODIR ]; then
 fi
 
 echo "Boostrapping flux"
-gitops flux bootstrap github \
+gitops flux bootstrap git \
     --owner=$TEST_REPO_USER \
     --repository=$TEST_REPO \
     --branch=main \
     --namespace wego-system \
     --path=clusters/my-cluster \
-    --personal \
-    --read-write-key
+    --private-key-file /tmp/git-keys/steve-fraser-weaveworks-testing-playground
 
 echo "Clone test repo"
 git clone git@github.com:$TEST_REPO_USER/$TEST_REPO.git $REPODIR
