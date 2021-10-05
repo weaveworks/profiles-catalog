@@ -139,9 +139,7 @@ generate-manifests-clusterctl:
 change-kubeconfig:
 	@export KUBECONFIG=${CONFDIR}/${KIND_CLUSTER}.kubeconfig
 
-change-eks-kubeconfig:
-	@echo "changing kubeconfig";
-	export KUBECONFIG=${CONFDIR}/${EKS_CLUSTER_NAME}.kubeconfig
+change-eks-kubeconfig: export KUBECONFIG=${CONFDIR}/${EKS_CLUSTER_NAME}.kubeconfig
 
 create-eks-cluster:
 	@echo "Creating eks cluster ..."
