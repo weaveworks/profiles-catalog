@@ -197,7 +197,7 @@ test:
 	[ "${PLATFORM}" == "kind" ] | kind-slim || [ "${PLATFORM}" == "eks" ] | eks
 
 test-pipline:
-	[[ ! -z "${PIPLINE_PLATFORM}" ]] || PLATFORM=${PIPLINE_PLATFORM} && test
+	[ ! -z "${PIPLINE_PLATFORM}" ] || PLATFORM=${PIPLINE_PLATFORM} && test
 
 
 local-env:
