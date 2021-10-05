@@ -51,7 +51,7 @@ install-profile-and-sync: install-gitops-on-cluster install-profiles-on-cluster 
 
 test-config:
 	@echo "testing config.....";
-	kubectl get pods -A
+	cat /home/runner/work/profiles-catalog/profiles-catalog/.conf/testing.kubeconfig
 
 ##@ validate-configuration
 
