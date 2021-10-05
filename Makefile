@@ -25,7 +25,7 @@ NODE_INSTANCE_TYPE="m5.large"
 NUM_OF_NODES="2"
 EKS_K8S_VERSION="1.21"
 
-PROFILE=weave-gitops-enterprise-eks
+EKS_MGMT_PROFILE=gitops-enterprise-mgmt-eks
 TEST_REPO_USER=ww-customer-test
 TEST_REPO=profile-test-repo
 CATALOG_REPO_URL=git@github.com:weaveworks/profiles-catalog.git
@@ -43,7 +43,7 @@ kind-slim: check-requirements create-cluster save-kind-cluster-config change-kub
 
 ##@ Post Kubernetes creation with valid KUBECONFIG set it installs gitops and profiles, boostraps cluster, installs profile, and syncs
 ##@ TODO: Clear current profile is it's there
-install-profile-and-sync: install-gitops-on-cluster install-profiles-on-cluster bootstrap-cluster check-repo-dir clone-test-repo create-profile-kustomization add-profile commit-test-repo
+install-profile-and-sync: install-gitops-on-cluster install-profiles-on-cluster bootstrap-cluster check-repo-dir clone-test-repo create-profile-kustomization add-mgmt-eks-profile commit-test-repo
 
 
 ##@ validate-configuration
@@ -172,19 +172,19 @@ commit-test-repo:
 
 create-profile-kustomization:
 	@echo "Creating Kustomization"
-	gitops flux create kustomization ${PROFILE} --export \
-	    --path ./${PROFILE} \
+	gitops flux create kustomization ${EKS_MGMT_PROFILE} --export \
+	    --path ./${EKS_MGMT_PROFILE} \
 	    --interval=1m \
 	    --source=GitRepository/wego-system \
 	    -n wego-system \
-	    --prune=true > ${REPODIR}/clusters/my-cluster/${PROFILE}.yaml
+	    --prune=true > ${REPODIR}/clusters/my-cluster/${EKS_MGMT_PROFILE}.yaml
 
-add-profile:
+add-mgmt-eks-profile:
 	@echo "Adding Profile to repo"
-	cd ${REPODIR} && pctl add --name weave-gitops-enterprise-eks \
+	cd ${REPODIR} && pctl add --name ${EKS_MGMT_PROFILE} \
 	--profile-repo-url git@github.com:weaveworks/profiles-catalog.git \
 	--git-repository wego-system/wego-system \
-	--profile-path ./weave-gitops-enterprise-eks \
+	--profile-path ./${EKS_MGMT_PROFILE} \
 	--profile-branch main
 
 
