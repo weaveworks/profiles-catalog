@@ -8,16 +8,14 @@ spec:
   prerequisites:
     - "kubernetes 1.19"
   artifacts:
-    - name: calico-crds
-      kustomize:
-        path: "calico-artifacts/"
     - name: calico
-      dependsOn:
-      - name: calico-crds
       chart:
-        url: https://aws.github.io/eks-charts
-        name: aws-calico
-        version: "0.3.8"
+        url: https://docs.projectcalico.org/charts
+        name: tigera-operator
+        version: "v3.20.2"
+        defaultValues: |
+          installation:
+            kubernetesProvider: "EKS"
     - name: kyverno-crds
       chart:
         url: https://kyverno.github.io/kyverno/
