@@ -26,5 +26,5 @@ spec:
       profile:
         source:
           url: git@github.com:weaveworks/profiles-catalog.git
-          branch: gke-profiles
+          branch: main
           path: ./security-gke
