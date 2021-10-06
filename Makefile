@@ -203,7 +203,7 @@ commit-profile: commit-profile-repo push-to-test-repo
 
 commit-clean-test-repo:
 	@echo "commiting Profile to repo ${REPODIR}"
-	-cd ${REPODIR} && git add . && git commit -m "cleaning profile"
+	cd ${REPODIR} && git add . && git commit -m "cleaning profile" || true
 
 commit-profile-repo:
 	@echo "commiting Profile to repo ${REPODIR}"
@@ -211,7 +211,7 @@ commit-profile-repo:
 
 push-to-test-repo:
 	@echo "Pushing to repo"
-	-git push || true
+	git push || true
 
 create-profile-kustomization:
 	@echo "Creating Kustomization"
