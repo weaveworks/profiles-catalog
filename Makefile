@@ -197,21 +197,12 @@ clone-test-repo:
 	git clone git@github.com:${TEST_REPO_USER}/${TEST_REPO}.git ${REPODIR}
 
 
-commit-clean: commit-clean-test-repo push-to-test-repo
-
-commit-profile: commit-profile-repo push-to-test-repo
-
-commit-clean-test-repo:
-	@echo "commiting Profile to repo ${REPODIR}"
-	cd ${REPODIR} && git add . && git commit -m "cleaning profile" || true
-
-commit-profile-repo:
-	@echo "commiting Profile to repo ${REPODIR}"
-	cd ${REPODIR} && git add . && git commit -m "adding profile"
-
-push-to-test-repo:
-	@echo "Pushing to repo"
-	git push || true
+commit-clean:
+	@echo "commiting cleaning to repo"
+	cd ${REPODIR} && git add . && ( git commit -m "cleaning profile" | git push  || true )
+commit-profile:
+	@echo "committing profile to repo"
+	cd ${REPODIR} && git add . && git commit -m "adding profile" && git push 
 
 create-profile-kustomization:
 	@echo "Creating Kustomization"
