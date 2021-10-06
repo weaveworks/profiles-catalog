@@ -204,7 +204,7 @@ add-profile:
 	--profile-repo-url git@github.com:weaveworks/profiles-catalog.git \
 	--git-repository wego-system/wego-system \
 	--profile-path ./${PROFILE} \
-	--profile-branch profile-architecture-redesign
+	--profile-branch main
 
 
 local-env:
