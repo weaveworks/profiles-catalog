@@ -19,7 +19,7 @@ jobs:
         run: |
           mkdir -p ${SSH_DIR} && chmod 700 ${SSH_DIR}
           ssh-keyscan github.com >> ${SSH_DIR}/known_hosts
-      - name: Run integration tests
+      - name: Run mgmt integration tests
         shell: bash
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
@@ -27,6 +27,29 @@ jobs:
           GITHUB_TOKEN: ${{secrets.GIT_TOKEN}}
           GIT_SSH_COMMAND: /tmp/ssh_command
           GIT_SSH_COMMAND_DEBUGLOG: "1"
+          PROFILE: gitops-enterprise-mgmt-kind
+          TEST_REPO: profile-test-repo-kind   
+        run: |
+          mkdir -p /tmp/git-keys
+          echo "${{ secrets.PROFILES_CATALOG_PRIVATE_WEAVEWORKS_BOT_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
+          chmod 600 /tmp/git-keys/weaveworks-profiles-catalog 
+          echo "${{ secrets.TESTING_CATALOG_PRIVATE_KIND_WEAVEWORKS_BOT_DEPLOY_KEY }}" > /tmp/git-keys/ww-customer-test-profile-test-repo-kind 
+          chmod 600 /tmp/git-keys/ww-customer-test-profile-test-repo-kind
+          cp ${{ github.workspace }}/.bin/ssh_command.sh /tmp/ssh_command
+          chmod +x /tmp/ssh_command
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+          make kind-e2e
+      - name: Run leaf integration tests
+        shell: bash
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+          GIT_TOKEN: ${{secrets.GIT_TOKEN}}
+          GITHUB_TOKEN: ${{secrets.GIT_TOKEN}}
+          GIT_SSH_COMMAND: /tmp/ssh_command
+          GIT_SSH_COMMAND_DEBUGLOG: "1"
+          PROFILE: gitops-enterprise-leaf-kind
+          TEST_REPO: profile-test-repo-kind   
         run: |
           mkdir -p /tmp/git-keys
           echo "${{ secrets.PROFILES_CATALOG_PRIVATE_WEAVEWORKS_BOT_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog

@@ -38,6 +38,8 @@ CATALOG_REPO_URL=git@github.com:weaveworks/profiles-catalog.git
 
 eks-e2e: eks clean-repo
 
+kind-e2e: deploy-profile-kind clean-repo
+
 deploy-profile-eks: check-requirements check-eksctl get-eks-kubeconfig change-eks-kubeconfig install-profile-and-sync
 
 base: check-requirements check-kind create-cluster check-config-dir save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster install-profile-and-sync
