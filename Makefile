@@ -25,6 +25,10 @@ NODE_INSTANCE_TYPE="m5.large"
 NUM_OF_NODES="2"
 EKS_K8S_VERSION="1.21"
 
+GKE_CLUSTER_NAME="weave-profiles-test-cluster"
+GCP_REGION="us-west1"
+GCP_PROJECT_NAME="weave-profiles"
+
 PROFILE?=gitops-enterprise-mgmt-eks
 
 TEST_REPO_USER?=ww-customer-test
@@ -158,6 +162,10 @@ get-eks-kubeconfig:
 delete-eks-cluster:
 	@echo "Deleting eks cluster ..."
 	eksctl delete cluster --region ${AWS_REGION} --name ${EKS_CLUSTER_NAME} --wait
+
+get-gke-kubeconfig:
+	@echo "Creating kubeconfig for GKE cluster ..."
+	gcloud container clusters get-credentials ${GKE_CLUSTER_NAME} --region ${GCP_REGION} --project ${GCP_PROJECT_NAME}
 ##@ kubernetes
 
 upload-profiles-image-to-cluster:
