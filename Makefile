@@ -10,6 +10,7 @@ GITOPS_VERSION=0.3.0
 KIND_VERSION=0.11.1
 K8S_VERSION=1.21.1
 PCTL_VERSION=0.11.0
+GCLOUD_VERSION=360.0.0
 
 OS := $(shell uname | tr '[:upper:]' '[:lower:]')
 CONFDIR="${PWD}/.conf"
@@ -47,6 +48,8 @@ kind-e2e: deploy-profile-kind clean-repo
 deploy-profile-eks: check-requirements check-eksctl get-eks-kubeconfig change-eks-kubeconfig install-profile-and-sync
 
 deploy-profile-kind: check-requirements check-kind create-cluster check-config-dir save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster install-profile-and-sync
+
+deploy-profile-gke: check-requirements check-gcloud get-eks-kubeconfig install-profile-and-sync
 
 clean-repo: check-repo-dir clone-test-repo check-repo-profile-dir remove-profile-kustomization commit-test-repo reconcile-wego-system
 
@@ -96,6 +99,12 @@ check-eksctl:
 	chmod +x /tmp/eksctl && \
 	sudo mv /tmp/eksctl /usr/local/bin && \
 	eksctl version)
+
+check-gcloud:
+	@which kind  >/dev/null 2>&1 || (echo "gcloud binary not found, installing ..." && \	
+	curl --silent --location "https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${GCLOUD_VERSION}-${OS}-x86_64.tar.gz" | tar xz -C /tmp && \
+	./tmp/google-cloud-sdk/install.sh -q && \
+	gcloud version)
 
 check-config-dir:
 	@echo "Check if config folder exists ...";
