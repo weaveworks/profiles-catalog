@@ -199,12 +199,7 @@ clone-test-repo:
 commit-test-repo:
 	@echo "commiting Profile to repo"
 	cd ${REPODIR} && git add . && git commit -m "adding profile" && git push || true
-
-
-remove-profile-kustomization:
-	@echo "remove Kustomization"
-	rm ${REPODIR}/clusters/my-cluster/${PROFILE}.yaml
-
+	
 create-profile-kustomization:
 	@echo "Creating Kustomization"
 	gitops flux create kustomization ${PROFILE} --export \
