@@ -37,7 +37,7 @@ jobs:
           chmod +x /tmp/ssh_command
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
-          make kind
+          make kind-e2e
   eks-e2e-profile-test:
     name: EKS e2e profile test
     runs-on: ubuntu-latest
@@ -77,7 +77,7 @@ jobs:
           chmod +x /tmp/ssh_command
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
-          make eks
+          make eks-e2e
       - name: Run leaf integration tests
         shell: bash
         env:
@@ -99,4 +99,4 @@ jobs:
           chmod +x /tmp/ssh_command
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
-          make eks
+          make eks-e2e
