@@ -36,7 +36,7 @@ CATALOG_REPO_URL=git@github.com:weaveworks/profiles-catalog.git
 
 ##@ with-clusterctl: check-requirements create-cluster save-kind-cluster-config initialise-docker-provider generate-manifests-clusterctl
 
-eks: check-requirements set-eks-variables check-eksctl get-eks-kubeconfig change-eks-kubeconfig install-profile-and-sync
+eks: check-requirements check-eksctl get-eks-kubeconfig change-eks-kubeconfig install-profile-and-sync
 
 base: check-requirements check-kind create-cluster check-config-dir save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster install-profile-and-sync
 
