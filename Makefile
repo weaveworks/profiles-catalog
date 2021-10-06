@@ -36,13 +36,13 @@ CATALOG_REPO_URL=git@github.com:weaveworks/profiles-catalog.git
 
 ##@ with-clusterctl: check-requirements create-cluster save-kind-cluster-config initialise-docker-provider generate-manifests-clusterctl
 
-eks-e2e: clean-repo deploy-profile-eks clean-repo
+eks-e2e: deploy-profile-eks clean-repo
 
-kind-e2e: clean-repo deploy-profile-kind clean-repo
+kind-e2e: deploy-profile-kind clean-repo
 
-deploy-profile-eks: check-requirements check-eksctl get-eks-kubeconfig change-eks-kubeconfig install-profile-and-sync
+deploy-profile-eks: check-requirements check-eksctl get-eks-kubeconfig change-eks-kubeconfig clean-repo install-profile-and-sync
 
-deploy-profile-kind: check-requirements check-kind create-cluster check-config-dir save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster install-profile-and-sync
+deploy-profile-kind: check-requirements check-kind create-cluster check-config-dir save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster clean-repo install-profile-and-sync
 
 clean-repo: check-repo-dir clone-test-repo remove-all-installed-kustomization remove-all-installed-profiles commit-test-repo reconcile-wego-system
 
