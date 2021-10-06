@@ -12,7 +12,7 @@ spec:
       profile:
         source:
           url: git@github.com:weaveworks/profiles-catalog.git
-          branch: profile-architecture-redesign
+          branch: main
           path: ./observability           
     - name: gitops-enterprise-mgmt-base
       dependsOn:
@@ -20,11 +20,11 @@ spec:
       profile:
         source:
           url: git@github.com:weaveworks/profiles-catalog.git
-          branch: profile-architecture-redesign
+          branch: main
           path: ./gitops-enterprise-mgmt-base     
     - name: security
       profile:
         source:
           url: git@github.com:weaveworks/profiles-catalog.git
-          branch: profile-architecture-redesign
+          branch: main
           path: ./security-eks           
