@@ -7,13 +7,7 @@ spec:
   maintainer: weaveworks
   prerequisites:
     - "kubernetes 1.19"
-  artifacts:
-    - name: observability
-      profile:
-        source:
-          url: git@github.com:weaveworks/profiles-catalog.git
-          branch: main
-          path: ./observability           
+  artifacts:  
     - name: flagger
       chart:
         url: https://flagger.app
