@@ -36,20 +36,25 @@ CATALOG_REPO_URL=git@github.com:weaveworks/profiles-catalog.git
 
 ##@ with-clusterctl: check-requirements create-cluster save-kind-cluster-config initialise-docker-provider generate-manifests-clusterctl
 
-eks-e2e: deploy-profile-eks clean-repo
+eks-e2e: clean-repo deploy-profile-eks clean-repo
 
-kind-e2e: deploy-profile-kind clean-repo
+kind-e2e: clean-repo deploy-profile-kind clean-repo
 
 deploy-profile-eks: check-requirements check-eksctl get-eks-kubeconfig change-eks-kubeconfig install-profile-and-sync
 
 deploy-profile-kind: check-requirements check-kind create-cluster check-config-dir save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster install-profile-and-sync
 
-clean-repo: check-repo-dir clone-test-repo check-repo-profile-dir remove-profile-kustomization commit-test-repo reconcile-wego-system
+clean-repo: check-repo-dir clone-test-repo remove-all-installed-kustomization remove-all-installed-profiles commit-test-repo reconcile-wego-system
 
 ##@ Post Kubernetes creation with valid KUBECONFIG set it installs gitops and profiles, boostraps cluster, installs profile, and syncs
 ##@ TODO: Clear current profile is it's there
 install-profile-and-sync: install-gitops-on-cluster install-profiles-on-cluster bootstrap-cluster check-repo-dir clone-test-repo check-repo-profile-dir create-profile-kustomization add-profile commit-test-repo
 
+remove-all-installed-kustomization:
+	@for f in $(shell ls ${PWD}); do [ ! -f ${REPODIR}/clusters/my-cluster/$${f}.yaml ] || rm ${REPODIR}/clusters/my-cluster/$${f}.yaml; done
+
+remove-all-installed-profiles:
+	@for f in $(shell ls ${PWD}); do [ ! -d ${REPODIR}/$${f} ] || rm -rf ${REPODIR}/$${f}; done
 
 ##@ validate-configuration
 
