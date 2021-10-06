@@ -31,7 +31,6 @@ TEST_REPO_USER=ww-customer-test
 TEST_REPO=profile-test-repo
 CATALOG_REPO_URL=git@github.com:weaveworks/profiles-catalog.git
 
-PLATFORM=kind
 
 
 
@@ -41,7 +40,7 @@ PLATFORM=kind
 
 ##@ with-clusterctl: check-requirements create-cluster save-kind-cluster-config initialise-docker-provider generate-manifests-clusterctl
 
-eks: check-requirements check-eksctl get-eks-kubeconfig change-eks-kubeconfig install-profile-and-sync
+eks: check-requirements set-eks-variables check-eksctl get-eks-kubeconfig change-eks-kubeconfig install-profile-and-sync
 
 kind: check-requirements check-kind create-cluster check-config-dir save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster install-profile-and-sync
 
@@ -52,9 +51,9 @@ install-profile-and-sync: install-gitops-on-cluster install-profiles-on-cluster 
 
 ##@ validate-configuration
 
-test-eksctl-cli:
-	@echo "testing eksctl.....";
-	eksctl get clusters -r us-west-1
+set-eks-variables :
+	@echo "setting eks variables";
+	TEST_REPO=profile-test-repo-eks
 
 ##@ Requirements
 check-requirements: check-gitops check-clusterctl check-pctl

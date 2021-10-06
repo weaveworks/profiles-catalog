@@ -69,8 +69,8 @@ jobs:
           mkdir -p /tmp/git-keys
           echo "${{ secrets.PROFILES_CATALOG_PRIVATE_WEAVEWORKS_BOT_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
           chmod 600 /tmp/git-keys/weaveworks-profiles-catalog 
-          echo "${{ secrets.TESTING_CATALOG_PRIVATE_WEAVEWORKS_BOT_DEPLOY_KEY }}" > /tmp/git-keys/ww-customer-test-profile-test-repo
-          chmod 600 /tmp/git-keys/ww-customer-test-profile-test-repo 
+          echo "${{ secrets.TESTING_CATALOG_PRIVATE_EKS_WEAVEWORKS_BOT_DEPLOY_KEY }}" > /tmp/git-keys/ww-customer-test-profile-test-repo-eks
+          chmod 600 /tmp/git-keys/ww-customer-test-profile-test-repo-eks
           cp ${{ github.workspace }}/.bin/ssh_command.sh /tmp/ssh_command
           chmod +x /tmp/ssh_command
           git config --global user.email "action@github.com"
