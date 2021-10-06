@@ -77,10 +77,17 @@ jobs:
           chmod +x /tmp/ssh_command
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
-          make clean-repo
           make eks
       - name: clean repo
         shell: bash
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+          GIT_TOKEN: ${{secrets.GIT_TOKEN}}
+          GITHUB_TOKEN: ${{secrets.GIT_TOKEN}}
+          GIT_SSH_COMMAND: /tmp/ssh_command
+          GIT_SSH_COMMAND_DEBUGLOG: "1"
+          KUBECONFIG: "/home/runner/work/profiles-catalog/profiles-catalog/.conf/profiles-cluster.kubeconfig"
+          PROFILE: gitops-enterprise-mgmt-eks
+          TEST_REPO: profile-test-repo-eks   
         run: |
           make clean-repo
       - name: Run leaf integration tests
@@ -105,3 +112,15 @@ jobs:
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
           make eks
+      - name: clean repo
+        shell: bash
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+          GIT_TOKEN: ${{secrets.GIT_TOKEN}}
+          GITHUB_TOKEN: ${{secrets.GIT_TOKEN}}
+          GIT_SSH_COMMAND: /tmp/ssh_command
+          GIT_SSH_COMMAND_DEBUGLOG: "1"
+          KUBECONFIG: "/home/runner/work/profiles-catalog/profiles-catalog/.conf/profiles-cluster.kubeconfig"
+          PROFILE: gitops-enterprise-mgmt-eks
+          TEST_REPO: profile-test-repo-eks   
+        run: |
+          make clean-repo
