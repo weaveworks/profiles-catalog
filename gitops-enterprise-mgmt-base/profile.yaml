@@ -7,7 +7,7 @@ spec:
   maintainer: weaveworks
   prerequisites:
     - "kubernetes 1.19"
-  artifacts:       
+  artifacts:  
     - name: flagger
       chart:
         url: https://flagger.app
