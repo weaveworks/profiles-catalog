@@ -9,7 +9,7 @@ CLUSTERCTL_VERSION=0.4.2
 GITOPS_VERSION=0.3.0
 KIND_VERSION=0.11.1
 K8S_VERSION=1.21.1
-PCTL_VERSION=0.10.0
+PCTL_VERSION=0.11.0
 
 OS := $(shell uname | tr '[:upper:]' '[:lower:]')
 CONFDIR="${PWD}/.conf"
@@ -25,31 +25,37 @@ NODE_INSTANCE_TYPE="m5.large"
 NUM_OF_NODES="2"
 EKS_K8S_VERSION="1.21"
 
-EKS_MGMT_PROFILE=gitops-enterprise-mgmt-eks
-TEST_REPO_USER=ww-customer-test
-TEST_REPO=profile-test-repo
+PROFILE?=gitops-enterprise-mgmt-eks
+TEST_REPO_USER?=ww-customer-test
+TEST_REPO?=profile-test-repo-eks
 CATALOG_REPO_URL=git@github.com:weaveworks/profiles-catalog.git
-
-
-
-
 
 ##@ Flows
 
 
 ##@ with-clusterctl: check-requirements create-cluster save-kind-cluster-config initialise-docker-provider generate-manifests-clusterctl
 
-kind-slim: check-requirements create-cluster save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster install-profile-and-sync
+eks-e2e: deploy-profile-eks clean-repo
+
+kind-e2e: deploy-profile-kind clean-repo
+
+deploy-profile-eks: check-requirements check-eksctl get-eks-kubeconfig change-eks-kubeconfig install-profile-and-sync
+
+deploy-profile-kind: check-requirements check-kind create-cluster check-config-dir save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster install-profile-and-sync
+
+clean-repo: check-repo-dir clone-test-repo check-repo-profile-dir remove-profile-kustomization commit-test-repo reconcile-wego-system
 
 ##@ Post Kubernetes creation with valid KUBECONFIG set it installs gitops and profiles, boostraps cluster, installs profile, and syncs
 ##@ TODO: Clear current profile is it's there
-install-profile-and-sync: install-gitops-on-cluster install-profiles-on-cluster bootstrap-cluster check-repo-dir clone-test-repo create-profile-kustomization add-mgmt-eks-profile commit-test-repo
+install-profile-and-sync: install-gitops-on-cluster install-profiles-on-cluster bootstrap-cluster check-repo-dir clone-test-repo check-repo-profile-dir create-profile-kustomization add-profile commit-test-repo
 
 
 ##@ validate-configuration
 
+
 ##@ Requirements
-check-requirements: check-gitops check-clusterctl check-pctl check-kind
+check-requirements: check-gitops check-clusterctl check-pctl
+
 
 check-gitops:
 	@which gitops >/dev/null 2>&1 || (echo "gitops binary not found, installing ..." && \
@@ -79,6 +85,13 @@ check-kind:
 	mv ./kind /usr/local/bin/kind && \
 	kind version)
 
+check-eksctl:
+	@which eksctl  >/dev/null 2>&1 || (echo "eksctl binary not found, installing ..." && \
+	curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_${OS}_amd64.tar.gz" | tar xz -C /tmp && \
+	chmod +x /tmp/eksctl && \
+	sudo mv /tmp/eksctl /usr/local/bin && \
+	eksctl version)
+
 check-config-dir:
 	@echo "Check if config folder exists ...";
 	[ -d ${CONFDIR} ] || mkdir ${CONFDIR}
@@ -91,6 +104,13 @@ check-repo-profile-dir:
 	@echo "Check if config folder exists ...";
 	[ ! -d ${REPODIR}/${PROFILE} ] || rm -rf ${REPODIR}/${PROFILE}
 
+check-platform:
+	@echo "Check if PIPLINE_PLATFORM exists ...";
+	[ -z "${PIPLINE_PLATFORM}" ] || PLATFORM="${PIPLINE_PLATFORM}"
+
+reconcile-wego-system:
+	@echo "gitops wego-system";
+	gitops flux reconcile kustomization -n wego-system wego-system
 ##@ Cluster
 create-cluster:
 	@echo "Creating kind management cluster ...";
@@ -115,6 +135,10 @@ generate-manifests-clusterctl:
 
 change-kubeconfig:
 	@export KUBECONFIG=${CONFDIR}/${KIND_CLUSTER}.kubeconfig
+
+change-eks-kubeconfig:
+	@export KUBECONFIG=${CONFDIR}/${EKS_CLUSTER_NAME}.kubeconfig
+
 
 create-eks-cluster:
 	@echo "Creating eks cluster ..."
@@ -170,6 +194,11 @@ commit-test-repo:
 	@echo "commiting Profile to repo"
 	cd ${REPODIR} && git add . && git commit -m "adding profile" && git push
 
+
+remove-profile-kustomization:
+	@echo "remove Kustomization"
+	rm ${REPODIR}/clusters/my-cluster/${PROFILE}.yaml
+
 create-profile-kustomization:
 	@echo "Creating Kustomization"
 	gitops flux create kustomization ${EKS_MGMT_PROFILE} --export \
@@ -181,16 +210,12 @@ create-profile-kustomization:
 
 add-mgmt-eks-profile:
 	@echo "Adding Profile to repo"
-	cd ${REPODIR} && pctl add --name ${EKS_MGMT_PROFILE} \
+	cd ${REPODIR} && pctl add --name ${PROFILE} \
 	--profile-repo-url git@github.com:weaveworks/profiles-catalog.git \
 	--git-repository wego-system/wego-system \
-	--profile-path ./${EKS_MGMT_PROFILE} \
+	--profile-path ./${PROFILE} \
 	--profile-branch main
 
-
-
-test:
-	.bin/profile-install.sh kube-prometheus-stack
 
 local-env:
 	.bin/kind.sh
