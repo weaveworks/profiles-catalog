@@ -65,6 +65,9 @@ jobs:
           GIT_SSH_COMMAND: /tmp/ssh_command
           GIT_SSH_COMMAND_DEBUGLOG: "1"
           KUBECONFIG: "/home/runner/work/profiles-catalog/profiles-catalog/.conf/profiles-cluster.kubeconfig"
+          PROFILE: gitops-enterprise-mgmt-eks
+          TEST_REPO: profile-test-repo-eks
+          
         run: |
           mkdir -p /tmp/git-keys
           echo "${{ secrets.PROFILES_CATALOG_PRIVATE_WEAVEWORKS_BOT_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
