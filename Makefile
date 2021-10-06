@@ -26,7 +26,6 @@ NUM_OF_NODES="2"
 EKS_K8S_VERSION="1.21"
 
 PROFILE?=gitops-enterprise-mgmt-eks
-
 TEST_REPO_USER?=ww-customer-test
 TEST_REPO?=profile-test-repo-eks
 CATALOG_REPO_URL=git@github.com:weaveworks/profiles-catalog.git
@@ -202,14 +201,14 @@ remove-profile-kustomization:
 
 create-profile-kustomization:
 	@echo "Creating Kustomization"
-	gitops flux create kustomization ${PROFILE} --export \
-	    --path ./${PROFILE} \
+	gitops flux create kustomization ${EKS_MGMT_PROFILE} --export \
+	    --path ./${EKS_MGMT_PROFILE} \
 	    --interval=1m \
 	    --source=GitRepository/wego-system \
 	    -n wego-system \
-	    --prune=true > ${REPODIR}/clusters/my-cluster/${PROFILE}.yaml
+	    --prune=true > ${REPODIR}/clusters/my-cluster/${EKS_MGMT_PROFILE}.yaml
 
-add-profile:
+add-mgmt-eks-profile:
 	@echo "Adding Profile to repo"
 	cd ${REPODIR} && pctl add --name ${PROFILE} \
 	--profile-repo-url git@github.com:weaveworks/profiles-catalog.git \

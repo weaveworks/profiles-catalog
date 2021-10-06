@@ -1,0 +1,24 @@
+apiVersion: weave.works/v1alpha1
+kind: ProfileDefinition
+metadata:
+  name: gitops-enterprise-leaf-eks
+spec:
+  description: Profile for deploying clusters chart
+  maintainer: weaveworks
+  prerequisites:
+    - "kubernetes 1.19"
+  artifacts:
+    - name: observability
+      profile:
+        source:
+          url: git@github.com:weaveworks/profiles-catalog.git
+          branch: main
+          path: ./observability           
+    - name: gitops-enterprise-leaf-base
+      dependsOn:
+      - name: observability
+      profile:
+        source:
+          url: git@github.com:weaveworks/profiles-catalog.git
+          branch: main
+          path: ./gitops-enterprise-leaf-base           
