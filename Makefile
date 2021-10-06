@@ -25,10 +25,10 @@ NODE_INSTANCE_TYPE="m5.large"
 NUM_OF_NODES="2"
 EKS_K8S_VERSION="1.21"
 
-PROFILE?=gitops-enterprise-mgmt-kind
+PROFILE?=gitops-enterprise-mgmt-eks
 
 TEST_REPO_USER?=ww-customer-test
-TEST_REPO?=profile-test-repo-kind
+TEST_REPO?=profile-test-repo-eks
 CATALOG_REPO_URL=git@github.com:weaveworks/profiles-catalog.git
 
 ##@ Flows
@@ -42,9 +42,11 @@ base: check-requirements check-kind create-cluster check-config-dir save-kind-cl
 
 kind: check-requirements check-kind create-cluster check-config-dir save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster install-profile-and-sync
 
+clean-repo: check-repo-dir clone-test-repo check-repo-profile-dir remove-profile-kustomization commit-test-repo reconcile-wego-system wait-for-deletion
+
 ##@ Post Kubernetes creation with valid KUBECONFIG set it installs gitops and profiles, boostraps cluster, installs profile, and syncs
 ##@ TODO: Clear current profile is it's there
-install-profile-and-sync: install-gitops-on-cluster install-profiles-on-cluster bootstrap-cluster check-repo-dir clone-test-repo create-profile-kustomization add-profile commit-test-repo
+install-profile-and-sync: install-gitops-on-cluster install-profiles-on-cluster bootstrap-cluster check-repo-dir clone-test-repo check-repo-profile-dir create-profile-kustomization add-profile commit-test-repo
 
 
 ##@ validate-configuration
@@ -105,7 +107,9 @@ check-platform:
 	@echo "Check if PIPLINE_PLATFORM exists ...";
 	[ -z "${PIPLINE_PLATFORM}" ] || PLATFORM="${PIPLINE_PLATFORM}"
 
-
+reconcile-wego-system:
+	@echo "gitops wego-system";
+	gitops flux reconcile kustomization -n wego-system wego-system
 ##@ Cluster
 create-cluster:
 	@echo "Creating kind management cluster ...";
@@ -188,6 +192,11 @@ clone-test-repo:
 commit-test-repo:
 	@echo "commiting Profile to repo"
 	cd ${REPODIR} && git add . && git commit -m "adding profile" && git push
+
+
+remove-profile-kustomization:
+	@echo "remove Kustomization"
+	rm ${REPODIR}/clusters/my-cluster/${PROFILE}.yaml
 
 create-profile-kustomization:
 	@echo "Creating Kustomization"
