@@ -29,17 +29,17 @@ jobs:
           GIT_SSH_COMMAND_DEBUGLOG: "1"
         run: |
           mkdir -p /tmp/git-keys
-          echo "${{ secrets.PROFILES_CATALOG_PRIVATE_WEAVEWORKS_BOT_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
+          echo "${{ secrets.TESTING_CATALOG_PRIVATE_KIND_WEAVEWORKS_BOT_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
           chmod 600 /tmp/git-keys/weaveworks-profiles-catalog 
-          echo "${{ secrets.TESTING_CATALOG_PRIVATE_WEAVEWORKS_BOT_DEPLOY_KEY }}" > /tmp/git-keys/ww-customer-test-profile-test-repo 
-          chmod 600 /tmp/git-keys/ww-customer-test-profile-test-repo
+          echo "${{ secrets.TESTING_CATALOG_PRIVATE_KIND_WEAVEWORKS_BOT_DEPLOY_KEY }}" > /tmp/git-keys/ww-customer-test-profile-test-repo-kind 
+          chmod 600 /tmp/git-keys/ww-customer-test-profile-test-repo-kind
           cp ${{ github.workspace }}/.bin/ssh_command.sh /tmp/ssh_command
           chmod +x /tmp/ssh_command
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
           make kind
-  eks-profile-test:
-    name: EKS profile test
+  eks-e2e-profile-test:
+    name: EKS e2e profile test
     runs-on: ubuntu-latest
     env:
       SSH_DIR: "~/.ssh"
@@ -75,4 +75,4 @@ jobs:
           chmod +x /tmp/ssh_command
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
-          make eks
+          make eks-e2e

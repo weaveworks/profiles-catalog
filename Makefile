@@ -25,10 +25,10 @@ NODE_INSTANCE_TYPE="m5.large"
 NUM_OF_NODES="2"
 EKS_K8S_VERSION="1.21"
 
-PROFILE=gitops-enterprise-mgmt-eks
+PROFILE=gitops-enterprise-mgmt-kind
 
 TEST_REPO_USER=ww-customer-test
-TEST_REPO=profile-test-repo
+TEST_REPO=profile-test-repo-kind
 CATALOG_REPO_URL=git@github.com:weaveworks/profiles-catalog.git
 
 
@@ -39,8 +39,19 @@ CATALOG_REPO_URL=git@github.com:weaveworks/profiles-catalog.git
 
 
 ##@ with-clusterctl: check-requirements create-cluster save-kind-cluster-config initialise-docker-provider generate-manifests-clusterctl
+eks-e2e: set-eks-mgmt-variables eks
+
+eks-mgmt: set-eks-mgmt-variables eks
+
+eks-leaf: set-eks-leaf-variables eks
 
 eks: check-requirements set-eks-variables check-eksctl get-eks-kubeconfig change-eks-kubeconfig install-profile-and-sync
+
+base: check-requirements check-kind create-cluster check-config-dir save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster install-profile-and-sync
+
+kind-mgmt: set-kind-mgmt-variables kind
+
+kind-leaf: set-kind-leaf-variables kind
 
 kind: check-requirements check-kind create-cluster check-config-dir save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster install-profile-and-sync
 
@@ -50,6 +61,22 @@ install-profile-and-sync: install-gitops-on-cluster install-profiles-on-cluster 
 
 
 ##@ validate-configuration
+set-kind-mgmt-variables:
+	@echo "setting eks variables";
+	PROFILE=gitops-enterprise-kind-eks
+
+set-kind-leaf-variables:
+	@echo "setting eks variables";
+	PROFILE=gitops-enterprise-kind-eks
+
+
+set-eks-mgmt-variables:
+	@echo "setting eks variables";
+	PROFILE=gitops-enterprise-mgmt-eks
+
+set-eks-leaf-variables :
+	@echo "setting eks variables";
+	PROFILE=gitops-enterprise-leaf-eks
 
 set-eks-variables :
 	@echo "setting eks variables";
