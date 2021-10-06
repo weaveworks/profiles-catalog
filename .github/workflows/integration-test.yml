@@ -79,6 +79,7 @@ jobs:
           git config --global user.name "GitHub Action"
           make eks
       - name: clean repo
+        env:
         shell: bash
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
           GIT_TOKEN: ${{secrets.GIT_TOKEN}}
@@ -113,6 +114,7 @@ jobs:
           git config --global user.name "GitHub Action"
           make eks
       - name: clean repo
+        env:
         shell: bash
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
           GIT_TOKEN: ${{secrets.GIT_TOKEN}}
