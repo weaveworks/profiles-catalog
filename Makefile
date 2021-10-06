@@ -44,11 +44,11 @@ deploy-profile-eks: check-requirements check-eksctl get-eks-kubeconfig change-ek
 
 deploy-profile-kind: check-requirements check-kind create-cluster check-config-dir save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster clean-repo install-profile-and-sync
 
-clean-repo: check-repo-dir clone-test-repo remove-all-installed-kustomization remove-all-installed-profiles commit-test-repo reconcile-wego-system
+clean-repo: check-repo-dir clone-test-repo remove-all-installed-kustomization remove-all-installed-profiles commit-clean reconcile-wego-system
 
 ##@ Post Kubernetes creation with valid KUBECONFIG set it installs gitops and profiles, boostraps cluster, installs profile, and syncs
 ##@ TODO: Clear current profile is it's there
-install-profile-and-sync: install-gitops-on-cluster install-profiles-on-cluster bootstrap-cluster check-repo-dir clone-test-repo check-repo-profile-dir create-profile-kustomization add-profile commit-test-repo
+install-profile-and-sync: install-gitops-on-cluster install-profiles-on-cluster bootstrap-cluster check-repo-dir clone-test-repo check-repo-profile-dir create-profile-kustomization add-profile commit-profile
 
 remove-all-installed-kustomization:
 	@for f in $(shell ls ${PWD}); do [ ! -f ${REPODIR}/clusters/my-cluster/$${f}.yaml ] || rm ${REPODIR}/clusters/my-cluster/$${f}.yaml; done
@@ -196,10 +196,23 @@ clone-test-repo:
 	@echo "Clone test repo"
 	git clone git@github.com:${TEST_REPO_USER}/${TEST_REPO}.git ${REPODIR}
 
-commit-test-repo:
-	@echo "commiting Profile to repo"
-	cd ${REPODIR} && git add . && git commit -m "adding profile" && git push || true
-	
+
+commit-clean: commit-clean-test-repo push-to-test-repo
+
+commit-profile: commit-profile-repo push-to-test-repo
+
+commit-clean-test-repo:
+	@echo "commiting Profile to repo ${REPODIR}"
+	-cd ${REPODIR} && git add . && git commit -m "cleaning profile"
+
+commit-profile-repo:
+	@echo "commiting Profile to repo ${REPODIR}"
+	cd ${REPODIR} && git add . && git commit -m "adding profile"
+
+push-to-test-repo:
+	@echo "Pushing to repo"
+	-git push || true
+
 create-profile-kustomization:
 	@echo "Creating Kustomization"
 	gitops flux create kustomization ${PROFILE} --export \
@@ -215,7 +228,7 @@ add-profile:
 	--profile-repo-url git@github.com:weaveworks/profiles-catalog.git \
 	--git-repository wego-system/wego-system \
 	--profile-path ./${PROFILE} \
-	--profile-branch main
+	--profile-branch main 
 
 
 local-env:
