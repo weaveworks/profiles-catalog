@@ -7,8 +7,8 @@ on:
     branches: [ main ]
 
 jobs:
-  kind-profile-test:
-    name: Kind profile test
+  kind-e2e-profile-test:
+    name: Kind e2e profile test
     runs-on: ubuntu-latest
     env:
       SSH_DIR: "~/.ssh"
@@ -29,7 +29,7 @@ jobs:
           GIT_SSH_COMMAND_DEBUGLOG: "1"
         run: |
           mkdir -p /tmp/git-keys
-          echo "${{ secrets.TESTING_CATALOG_PRIVATE_KIND_WEAVEWORKS_BOT_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
+          echo "${{ secrets.PROFILES_CATALOG_PRIVATE_WEAVEWORKS_BOT_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
           chmod 600 /tmp/git-keys/weaveworks-profiles-catalog 
           echo "${{ secrets.TESTING_CATALOG_PRIVATE_KIND_WEAVEWORKS_BOT_DEPLOY_KEY }}" > /tmp/git-keys/ww-customer-test-profile-test-repo-kind 
           chmod 600 /tmp/git-keys/ww-customer-test-profile-test-repo-kind
@@ -66,8 +66,7 @@ jobs:
           GIT_SSH_COMMAND_DEBUGLOG: "1"
           KUBECONFIG: "/home/runner/work/profiles-catalog/profiles-catalog/.conf/profiles-cluster.kubeconfig"
           PROFILE: gitops-enterprise-mgmt-eks
-          TEST_REPO: profile-test-repo-eks
-          
+          TEST_REPO: profile-test-repo-eks       
         run: |
           mkdir -p /tmp/git-keys
           echo "${{ secrets.PROFILES_CATALOG_PRIVATE_WEAVEWORKS_BOT_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog

@@ -27,7 +27,7 @@ EKS_K8S_VERSION="1.21"
 
 PROFILE?=gitops-enterprise-mgmt-kind
 
-TEST_REPO_USER=ww-customer-test
+TEST_REPO_USER?=ww-customer-test
 TEST_REPO?=profile-test-repo-kind
 CATALOG_REPO_URL=git@github.com:weaveworks/profiles-catalog.git
 
