@@ -45,18 +45,23 @@ eks-e2e: deploy-profile-eks clean-repo
 
 kind-e2e: deploy-profile-kind clean-repo
 
-deploy-profile-eks: check-requirements check-eksctl get-eks-kubeconfig change-eks-kubeconfig install-profile-and-sync
+deploy-profile-eks: check-requirements check-eksctl get-eks-kubeconfig change-eks-kubeconfig clean-repo install-profile-and-sync
 
-deploy-profile-kind: check-requirements check-kind create-cluster check-config-dir save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster install-profile-and-sync
+deploy-profile-kind: check-requirements check-kind create-cluster check-config-dir save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster clean-repo install-profile-and-sync
 
-deploy-profile-gke: check-requirements check-gcloud get-eks-kubeconfig install-profile-and-sync
+deploy-profile-gke: check-requirements check-gcloud get-eks-kubeconfig clean-repo install-profile-and-sync
 
-clean-repo: check-repo-dir clone-test-repo check-repo-profile-dir remove-profile-kustomization commit-test-repo reconcile-wego-system
+clean-repo: check-repo-dir clone-test-repo remove-all-installed-kustomization remove-all-installed-profiles commit-test-repo reconcile-wego-system
 
 ##@ Post Kubernetes creation with valid KUBECONFIG set it installs gitops and profiles, boostraps cluster, installs profile, and syncs
 ##@ TODO: Clear current profile is it's there
 install-profile-and-sync: install-gitops-on-cluster install-profiles-on-cluster bootstrap-cluster check-repo-dir clone-test-repo check-repo-profile-dir create-profile-kustomization add-profile commit-test-repo
 
+remove-all-installed-kustomization:
+	@for f in $(shell ls ${PWD}); do [ ! -f ${REPODIR}/clusters/my-cluster/$${f}.yaml ] || rm ${REPODIR}/clusters/my-cluster/$${f}.yaml; done
+
+remove-all-installed-profiles:
+	@for f in $(shell ls ${PWD}); do [ ! -d ${REPODIR}/$${f} ] || rm -rf ${REPODIR}/$${f}; done
 
 ##@ validate-configuration
 
@@ -210,13 +215,8 @@ clone-test-repo:
 
 commit-test-repo:
 	@echo "commiting Profile to repo"
-	cd ${REPODIR} && git add . && git commit -m "adding profile" && git push
-
-
-remove-profile-kustomization:
-	@echo "remove Kustomization"
-	rm ${REPODIR}/clusters/my-cluster/${PROFILE}.yaml
-
+	cd ${REPODIR} && git add . && git commit -m "adding profile" && git push || true
+	
 create-profile-kustomization:
 	@echo "Creating Kustomization"
 	gitops flux create kustomization ${PROFILE} --export \

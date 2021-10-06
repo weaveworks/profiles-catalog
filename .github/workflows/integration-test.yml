@@ -26,7 +26,7 @@ jobs:
           GIT_TOKEN: ${{secrets.GIT_TOKEN}}
           GITHUB_TOKEN: ${{secrets.GIT_TOKEN}}
           GIT_SSH_COMMAND: /tmp/ssh_command
-          GIT_SSH_COMMAND_DEBUGLOG: "1"
+          GIT_SSH_COMMAND_DEBUGLOG: "/tmp/1"
           PROFILE: gitops-enterprise-mgmt-kind
           TEST_REPO: profile-test-repo-kind   
         run: |
@@ -47,7 +47,7 @@ jobs:
           GIT_TOKEN: ${{secrets.GIT_TOKEN}}
           GITHUB_TOKEN: ${{secrets.GIT_TOKEN}}
           GIT_SSH_COMMAND: /tmp/ssh_command
-          GIT_SSH_COMMAND_DEBUGLOG: "1"
+          GIT_SSH_COMMAND_DEBUGLOG: "/tmp/1"
           PROFILE: gitops-enterprise-leaf-kind
           TEST_REPO: profile-test-repo-kind   
         run: |
@@ -86,7 +86,7 @@ jobs:
           GIT_TOKEN: ${{secrets.GIT_TOKEN}}
           GITHUB_TOKEN: ${{secrets.GIT_TOKEN}}
           GIT_SSH_COMMAND: /tmp/ssh_command
-          GIT_SSH_COMMAND_DEBUGLOG: "1"
+          GIT_SSH_COMMAND_DEBUGLOG: "/tmp/1"
           KUBECONFIG: "/home/runner/work/profiles-catalog/profiles-catalog/.conf/profiles-cluster.kubeconfig"
           PROFILE: gitops-enterprise-mgmt-eks
           TEST_REPO: profile-test-repo-eks       
@@ -108,7 +108,7 @@ jobs:
           GIT_TOKEN: ${{secrets.GIT_TOKEN}}
           GITHUB_TOKEN: ${{secrets.GIT_TOKEN}}
           GIT_SSH_COMMAND: /tmp/ssh_command
-          GIT_SSH_COMMAND_DEBUGLOG: "1"
+          GIT_SSH_COMMAND_DEBUGLOG: "/tmp/1"
           KUBECONFIG: "/home/runner/work/profiles-catalog/profiles-catalog/.conf/profiles-cluster.kubeconfig"
           PROFILE: gitops-enterprise-leaf-eks
           TEST_REPO: profile-test-repo-eks       
