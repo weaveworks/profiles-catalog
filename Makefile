@@ -198,7 +198,7 @@ clone-test-repo:
 
 commit-test-repo:
 	@echo "commiting Profile to repo"
-	cd ${REPODIR} && git add . && git commit -m "adding profile" && git push
+	cd ${REPODIR} && git add . && git commit -m "adding profile" && git push || true
 
 
 remove-profile-kustomization:
