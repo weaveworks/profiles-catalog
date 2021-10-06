@@ -42,11 +42,9 @@ kind-e2e: deploy-profile-kind clean-repo
 
 deploy-profile-eks: check-requirements check-eksctl get-eks-kubeconfig change-eks-kubeconfig install-profile-and-sync
 
-base: check-requirements check-kind create-cluster check-config-dir save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster install-profile-and-sync
-
 deploy-profile-kind: check-requirements check-kind create-cluster check-config-dir save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster install-profile-and-sync
 
-clean-repo: check-repo-dir clone-test-repo check-repo-profile-dir remove-profile-kustomization commit-test-repo reconcile-wego-system wait-for-deletion
+clean-repo: check-repo-dir clone-test-repo check-repo-profile-dir remove-profile-kustomization commit-test-repo reconcile-wego-system
 
 ##@ Post Kubernetes creation with valid KUBECONFIG set it installs gitops and profiles, boostraps cluster, installs profile, and syncs
 ##@ TODO: Clear current profile is it's there
