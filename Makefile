@@ -36,6 +36,8 @@ TEST_REPO_USER?=ww-customer-test
 TEST_REPO?=profile-test-repo-eks
 CATALOG_REPO_URL=git@github.com:weaveworks/profiles-catalog.git
 
+RELEASE_ANNOTATION=profiles.weave.works/version
+
 ##@ Flows
 
 
@@ -55,8 +57,8 @@ clean-repo: check-repo-dir clone-test-repo remove-all-installed-kustomization re
 
 check-change-directory:
 	@for f in $(wildcard ls ${PWD}/*); do git diff --quiet HEAD main -- $$f ||  \
-	[ "$(git show main:gitops-enterprise-leaf-kind/profile.yaml > /tmp/main-profile.yaml && yq e .metadata.annotations.release-version /tmp/main-profile.yaml)" \
-	== "$(yq e .metadata.annotations.release-version $$f/profile.yaml)" ] | true || exit 15; done
+	[ $(git show main:gitops-enterprise-leaf-kind/profile.yaml > /tmp/main-profile.yaml && yq e '.metadata.annotations."${RELEASE_ANNOTATION}"' /tmp/main-profile.yaml) \
+	== "$(yq e '.metadata.annotations."${RELEASE_ANNOTATION}"' $$f/profile.yaml)" ] | echo "$$f error" || echo "error"; done
 
 list: 
 	$(foreach file, $(wildcard ${PWD}/*), echo $(file);)
