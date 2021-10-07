@@ -116,11 +116,11 @@ check-config-dir:
 	[ -d ${CONFDIR} ] || mkdir ${CONFDIR}
 
 check-repo-dir:
-	@echo "Check if config folder exists ...";
+	@echo "Check if repository folder exists ...";
 	[ ! -d ${REPODIR} ] || rm -rf ${REPODIR}
 
 check-repo-profile-dir:
-	@echo "Check if config folder exists ...";
+	@echo "Check if repository folder exists ...";
 	[ ! -d ${REPODIR}/${PROFILE} ] || rm -rf ${REPODIR}/${PROFILE}
 
 check-platform:
@@ -215,7 +215,12 @@ clone-test-repo:
 
 commit-test-repo:
 	@echo "commiting Profile to repo"
-	cd ${REPODIR} && git add . && git commit -m "adding profile" && git push || true
+	cd ${REPODIR} && git add --all && git commit -m "adding profile" && git push || true
+
+profile-integration-test:
+	@helm install -f ./tests/values.yaml profiles ./tests
+	helm test profiles
+	helm uninstall profiles
 	
 create-profile-kustomization:
 	@echo "Creating Kustomization"
