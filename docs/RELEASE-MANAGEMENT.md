@@ -27,7 +27,7 @@
 ### Version Check CI
 
 #### When will this job run
-    This job will run against main pull to check if a profile has changed.
+This job will run against main pull to check if a profile has changed.
 
 #### What will this job do
 
@@ -39,7 +39,7 @@
 ### Release CI
 
 #### When will this job run
-    This job will run against when merged into main.
+This job will run against when merged into main.
      
 #### What will this job do
 
