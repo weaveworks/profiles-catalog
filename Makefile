@@ -36,8 +36,6 @@ TEST_REPO_USER?=ww-customer-test
 TEST_REPO?=profile-test-repo-eks
 CATALOG_REPO_URL=git@github.com:weaveworks/profiles-catalog.git
 
-RELEASE_ANNOTATION=profiles.weave.works/version
-
 ##@ Flows
 
 
@@ -56,12 +54,9 @@ deploy-profile-gke: check-requirements check-gcloud get-eks-kubeconfig clean-rep
 clean-repo: check-repo-dir clone-test-repo remove-all-installed-kustomization remove-all-installed-profiles commit-clean
 
 check-change-directory:
-	@for f in $(wildcard ls ${PWD}/*); do git diff --quiet HEAD main -- $$f ||  \
-	[ $(git show main:gitops-enterprise-leaf-kind/profile.yaml > /tmp/main-profile.yaml && yq e '.metadata.annotations."${RELEASE_ANNOTATION}"' /tmp/main-profile.yaml) \
-	== "$(yq e '.metadata.annotations."${RELEASE_ANNOTATION}"' $$f/profile.yaml)" ] | echo "$$f error" || echo "error"; done
+	@for f in $(wildcard ls ${PWD}); do git diff --quiet HEAD main -- $$f ||  echo "$(git show main:gitops-enterprise-leaf-kind/profile.yaml > /tmp/main-profile.yaml && yq e '.metadata.annotations."profiles.weave.works/version"' /tmp/main-profile.yaml)"; done
 
-list: 
-	$(foreach file, $(wildcard ${PWD}/*), echo $(file);)
+
 
 ##@ Post Kubernetes creation with valid KUBECONFIG set it installs gitops and profiles, boostraps cluster, installs profile, and syncs
 ##@ TODO: Clear current profile is it's there
