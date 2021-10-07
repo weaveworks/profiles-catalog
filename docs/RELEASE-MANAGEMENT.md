@@ -5,7 +5,7 @@
 
 
 ## Proposal
-Currently (Oct. 7, 2021), the profiles spec does not include a version. Profiles are currently [versioned via git releases](https://profiles.dev/docs/author-docs/versioning). Without a versionmaintained in the profile spec, the release automation would not know the different between a major or minor release. 
+Currently (Oct. 7, 2021), the profiles spec does not include a version. Profiles are currently [versioned via git releases](https://profiles.dev/docs/author-docs/versioning). Without a version maintained in the profile spec, the release automation would not know the different between a major or minor release. 
 
 I propose the following annotation is added to all released profiles with two CI jobs.   
 
