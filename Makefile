@@ -10,6 +10,7 @@ GITOPS_VERSION=0.3.0
 KIND_VERSION=0.11.1
 K8S_VERSION=1.21.1
 PCTL_VERSION=0.11.0
+GCLOUD_VERSION=360.0.0
 
 OS := $(shell uname | tr '[:upper:]' '[:lower:]')
 CONFDIR="${PWD}/.conf"
@@ -24,6 +25,10 @@ NODEGROUP_NAME="ng-1"
 NODE_INSTANCE_TYPE="m5.large"
 NUM_OF_NODES="2"
 EKS_K8S_VERSION="1.21"
+
+GKE_CLUSTER_NAME="weave-profiles-test-cluster"
+GCP_REGION="us-west1"
+GCP_PROJECT_NAME="weave-profiles"
 
 PROFILE?=gitops-enterprise-mgmt-eks
 
@@ -44,7 +49,10 @@ deploy-profile-eks: check-requirements check-eksctl get-eks-kubeconfig change-ek
 
 deploy-profile-kind: check-requirements check-kind create-cluster check-config-dir save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster clean-repo install-profile-and-sync
 
+deploy-profile-gke: check-requirements check-gcloud get-eks-kubeconfig clean-repo install-profile-and-sync
+
 clean-repo: check-repo-dir clone-test-repo remove-all-installed-kustomization remove-all-installed-profiles commit-clean
+
 
 ##@ Post Kubernetes creation with valid KUBECONFIG set it installs gitops and profiles, boostraps cluster, installs profile, and syncs
 ##@ TODO: Clear current profile is it's there
@@ -97,6 +105,12 @@ check-eksctl:
 	chmod +x /tmp/eksctl && \
 	sudo mv /tmp/eksctl /usr/local/bin && \
 	eksctl version)
+
+check-gcloud:
+	@which kind  >/dev/null 2>&1 || (echo "gcloud binary not found, installing ..." && \	
+	curl --silent --location "https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${GCLOUD_VERSION}-${OS}-x86_64.tar.gz" | tar xz -C /tmp && \
+	./tmp/google-cloud-sdk/install.sh -q && \
+	gcloud version)
 
 check-config-dir:
 	@echo "Check if config folder exists ...";
@@ -163,6 +177,10 @@ get-eks-kubeconfig:
 delete-eks-cluster:
 	@echo "Deleting eks cluster ..."
 	eksctl delete cluster --region ${AWS_REGION} --name ${EKS_CLUSTER_NAME} --wait
+
+get-gke-kubeconfig:
+	@echo "Creating kubeconfig for GKE cluster ..."
+	gcloud container clusters get-credentials ${GKE_CLUSTER_NAME} --region ${GCP_REGION} --project ${GCP_PROJECT_NAME}
 ##@ kubernetes
 
 upload-profiles-image-to-cluster:

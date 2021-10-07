@@ -1,0 +1,45 @@
+apiVersion: weave.works/v1alpha1
+kind: ProfileDefinition
+metadata:
+  name: security
+spec:
+  description: Profile for deploying calico, kyverno, and snyk profiles
+  maintainer: weaveworks
+  prerequisites:
+    - "kubernetes 1.19"
+  artifacts:
+    - name: calico
+      chart:
+        url: https://docs.projectcalico.org/charts
+        name: tigera-operator
+        version: "v3.20.2"
+        defaultValues: |
+          installation:
+            kubernetesProvider: "GKE"
+    - name: kyverno-crds
+      chart:
+        url: https://kyverno.github.io/kyverno/
+        name: kyverno-crds
+        version: "v2.0.3"
+    - name: kyverno
+      dependsOn:
+      - name: kyverno-crds
+      chart:
+        url: https://kyverno.github.io/kyverno/
+        name: kyverno
+        version: "v2.0.3"
+        defaultValues: |
+          networkPolicy:
+            enabled: false
+    - name: snyk-monitor-secret
+      kustomize:
+        path: "snyk-artifacts/"
+    - name: snyk-monitor
+      dependsOn:
+        - name: snyk-monitor-secret
+      chart:
+        url: https://snyk.github.io/kubernetes-monitor/
+        name: snyk-monitor
+        version: "1.66.20"
+        defaultValues: |
+          clusterName: "eks-cluster"
