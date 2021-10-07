@@ -40,7 +40,6 @@ jobs:
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
           make kind-e2e
-          make clean-repo
       - name: Run leaf integration tests
         shell: bash
         env:
@@ -62,6 +61,7 @@ jobs:
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
           make kind-e2e
+          make clean-repo
   eks-e2e-profile-test:
     name: EKS e2e profile test
     runs-on: ubuntu-latest
