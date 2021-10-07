@@ -51,7 +51,7 @@ deploy-profile-eks: check-requirements check-eksctl get-eks-kubeconfig change-ek
 
 deploy-profile-kind: check-requirements check-kind create-cluster check-config-dir save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster clean-repo install-profile-and-sync
 
-deploy-profile-gke: check-requirements check-gcloud get-eks-kubeconfig clean-repo install-profile-and-sync
+deploy-profile-gke: check-requirements check-gcloud get-gke-kubeconfig clean-repo install-profile-and-sync
 
 clean-repo: check-repo-dir clone-test-repo remove-all-installed-kustomization remove-all-installed-profiles commit-clean
 
