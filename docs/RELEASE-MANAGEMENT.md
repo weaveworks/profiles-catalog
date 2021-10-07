@@ -15,7 +15,7 @@ kind: ProfileDefinition
 metadata:
   name: gitops-enterprise-leaf-kind
   annotations:
-    release-version: v0.0.1
+    profiles.weave.works/version: v0.0.1
 spec:
 ```
     
