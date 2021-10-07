@@ -21,7 +21,7 @@
     
 ### Jobs Diagram
 
-![Release flow]((images/release-flow.png)
+![Release flow](images/release-flow.png)
 
 
 ### Version Check CI
