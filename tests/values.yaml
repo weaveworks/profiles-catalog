@@ -1,0 +1,15 @@
+replicaCount: 1
+
+image:
+  repository: busybox
+  pullPolicy: Always
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+profiles: 
+  - name: alertmanager-operated
+    healthprobepath: /-/healthy
+    port: 9093
+  - name: prometheus-operated
+    healthprobepath: /-/healthy
+    port: 9090

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "test-profiles.fullname" . }}-test-connection"
+  labels:
+    {{- include "test-profiles.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: check
+      image: busybox
+      command: ['echo']
+      args: ['just testing profiles']
+  restartPolicy: Never
