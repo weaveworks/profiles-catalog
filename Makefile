@@ -10,6 +10,7 @@ GITOPS_VERSION=0.3.0
 KIND_VERSION=0.11.1
 K8S_VERSION=1.21.1
 PCTL_VERSION=0.11.0
+GCLOUD_VERSION=360.0.0
 
 OS := $(shell uname | tr '[:upper:]' '[:lower:]')
 CONFDIR="${PWD}/.conf"
@@ -25,6 +26,10 @@ NODE_INSTANCE_TYPE="m5.large"
 NUM_OF_NODES="2"
 EKS_K8S_VERSION="1.21"
 
+GKE_CLUSTER_NAME="weave-profiles-test-cluster"
+GCP_REGION="us-west1"
+GCP_PROJECT_NAME="weave-profiles"
+
 PROFILE?=gitops-enterprise-mgmt-eks
 
 TEST_REPO_USER?=ww-customer-test
@@ -36,20 +41,28 @@ CATALOG_REPO_URL=git@github.com:weaveworks/profiles-catalog.git
 
 ##@ with-clusterctl: check-requirements create-cluster save-kind-cluster-config initialise-docker-provider generate-manifests-clusterctl
 
-eks-e2e: deploy-profile-eks clean-repo
+eks-e2e: deploy-profile-eks
 
-kind-e2e: deploy-profile-kind clean-repo
+kind-e2e: deploy-profile-kind
 
-deploy-profile-eks: check-requirements check-eksctl get-eks-kubeconfig change-eks-kubeconfig install-profile-and-sync
+deploy-profile-eks: check-requirements check-eksctl get-eks-kubeconfig change-eks-kubeconfig clean-repo install-profile-and-sync
 
-deploy-profile-kind: check-requirements check-kind create-cluster check-config-dir save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster install-profile-and-sync
+deploy-profile-kind: check-requirements check-kind create-cluster check-config-dir save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster clean-repo install-profile-and-sync
 
-clean-repo: check-repo-dir clone-test-repo check-repo-profile-dir remove-profile-kustomization commit-test-repo reconcile-wego-system
+deploy-profile-gke: check-requirements check-gcloud get-eks-kubeconfig clean-repo install-profile-and-sync
+
+clean-repo: check-repo-dir clone-test-repo remove-all-installed-kustomization remove-all-installed-profiles commit-clean
+
 
 ##@ Post Kubernetes creation with valid KUBECONFIG set it installs gitops and profiles, boostraps cluster, installs profile, and syncs
 ##@ TODO: Clear current profile is it's there
-install-profile-and-sync: install-gitops-on-cluster install-profiles-on-cluster bootstrap-cluster check-repo-dir clone-test-repo check-repo-profile-dir create-profile-kustomization add-profile commit-test-repo
+install-profile-and-sync: install-gitops-on-cluster install-profiles-on-cluster bootstrap-cluster check-repo-dir clone-test-repo check-repo-profile-dir create-profile-kustomization add-profile commit-profile
 
+remove-all-installed-kustomization:
+	@for f in $(shell ls ${PWD}); do [ ! -f ${REPODIR}/clusters/my-cluster/$${f}.yaml ] || rm ${REPODIR}/clusters/my-cluster/$${f}.yaml; done
+
+remove-all-installed-profiles:
+	@for f in $(shell ls ${PWD}); do [ ! -d ${REPODIR}/$${f} ] || rm -rf ${REPODIR}/$${f}; done
 
 ##@ validate-configuration
 
@@ -92,6 +105,12 @@ check-eksctl:
 	chmod +x /tmp/eksctl && \
 	sudo mv /tmp/eksctl /usr/local/bin && \
 	eksctl version)
+
+check-gcloud:
+	@which kind  >/dev/null 2>&1 || (echo "gcloud binary not found, installing ..." && \	
+	curl --silent --location "https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${GCLOUD_VERSION}-${OS}-x86_64.tar.gz" | tar xz -C /tmp && \
+	./tmp/google-cloud-sdk/install.sh -q && \
+	gcloud version)
 
 check-config-dir:
 	@echo "Check if config folder exists ...";
@@ -158,6 +177,10 @@ get-eks-kubeconfig:
 delete-eks-cluster:
 	@echo "Deleting eks cluster ..."
 	eksctl delete cluster --region ${AWS_REGION} --name ${EKS_CLUSTER_NAME} --wait
+
+get-gke-kubeconfig:
+	@echo "Creating kubeconfig for GKE cluster ..."
+	gcloud container clusters get-credentials ${GKE_CLUSTER_NAME} --region ${GCP_REGION} --project ${GCP_PROJECT_NAME}
 ##@ kubernetes
 
 upload-profiles-image-to-cluster:
@@ -191,14 +214,13 @@ clone-test-repo:
 	@echo "Clone test repo"
 	git clone git@github.com:${TEST_REPO_USER}/${TEST_REPO}.git ${REPODIR}
 
-commit-test-repo:
-	@echo "commiting Profile to repo"
-	cd ${REPODIR} && git add . && git commit -m "adding profile" && git push
 
-
-remove-profile-kustomization:
-	@echo "remove Kustomization"
-	rm ${REPODIR}/clusters/my-cluster/${PROFILE}.yaml
+commit-clean:
+	@echo "commiting cleaning to repo"
+	cd ${REPODIR} && git add . && ( git commit -m "cleaning profile" | git push  || true )
+commit-profile:
+	@echo "committing profile to repo"
+	cd ${REPODIR} && git add . && git commit -m "adding profile" && git push 
 
 create-profile-kustomization:
 	@echo "Creating Kustomization"
@@ -215,7 +237,7 @@ add-profile:
 	--profile-repo-url git@github.com:weaveworks/profiles-catalog.git \
 	--git-repository wego-system/wego-system \
 	--profile-path ./${PROFILE} \
-	--profile-branch main
+	--profile-branch main 
 
 
 local-env:
