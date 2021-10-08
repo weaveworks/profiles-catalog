@@ -58,15 +58,6 @@ deploy-profile-gke: check-requirements check-gcloud get-gke-kubeconfig clean-rep
 
 clean-repo: check-repo-dir clone-test-repo remove-all-installed-kustomization remove-all-installed-profiles commit-clean
 
-
-
-PROFILE_VERSION_ANNOTATION="profiles.weave.works/version"
-MAIN_PROFILE_VERSION := $(shell git show main:gitops-enterprise-leaf-kind/profile.yaml > /tmp/main-profile.yaml && yq e '.metadata.annotations.${PROFILE_VERSION_ANNOTATION}' /tmp/main-profile.yaml)
-PROFILE_VERSION := $(shell yq e '.metadata.annotations.${PROFILE_VERSION_ANNOTATION}' gitops-enterprise-leaf-kind/profile.yaml)
-
-
-PROFILE_FILES := $(shell ls gitops-*/profile.yaml)
-
 PROFILE_VERSION_ANNOTATION="profiles.weave.works/version"
 PROFILE_FILES := $(shell ls gitops-*/profile.yaml)
 
