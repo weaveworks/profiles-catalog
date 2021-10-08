@@ -67,13 +67,13 @@ PROFILE_FILES := $(shell ls gitops-*/profile.yaml)
 
 check-profile-versions:
 	@for f in ${PROFILE_FILES}; do  \
-	git show main:$${f} >  .conf/tmp-profile.yaml 2>&1 && \
-	( yq e '.metadata.annotations.${PROFILE_VERSION_ANNOTATION}' ${PWD}/$${f} | cat > .conf/tmp-new ) && \
-	( yq e '.metadata.annotations.${PROFILE_VERSION_ANNOTATION}' ${PWD}/.conf/tmp-profile.yaml | cat > .conf/tmp-old ) && \
+	git show main:$${f} >  /tmp/tmp-profile.yaml 2>&1 && \
+	( yq e '.metadata.annotations.${PROFILE_VERSION_ANNOTATION}' ${PWD}/$${f} | cat > /tmp/tmp-new ) && \
+	( yq e '.metadata.annotations.${PROFILE_VERSION_ANNOTATION}' /tmp/tmp-profile.yaml | cat > /tmp/tmp-old ) && \
 	git diff --quiet HEAD main -- $$f || \
-		(  diff .conf/tmp-new .conf/tmp-old \
+		(  diff /tmp/tmp-new /tmp/tmp-old \
 		&& exit 1 || \
-		echo "$(cat .conf/tmp-new) $(cat .conf/tmp-old) Not equal" ) ; done
+		echo "$(cat /tmp/tmp-new) $(cat /tmp/tmp-old) Not equal" ) ; done
 
 create-releases:
 	gh release create gitops-enterprise-leaf-kind/v0.0.4 --title "gitops-enterprise-leaf-kind/v0.0.2" -n "gitops-enterprise-leaf-kind/v0.0.2" 
