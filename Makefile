@@ -67,7 +67,7 @@ PROFILE_FILES := $(shell ls gitops-*/profile.yaml)
 
 check-profile-versions:
 	@for f in ${PROFILE_FILES}; do  \
-	git show main:$${f} >  /tmp/tmp-profile.yaml 2>&1 && \
+	git show origin/main:$${f} >  /tmp/tmp-profile.yaml 2>&1 && \
 	( yq e '.metadata.annotations.${PROFILE_VERSION_ANNOTATION}' ${PWD}/$${f} | cat > /tmp/tmp-new ) && \
 	( yq e '.metadata.annotations.${PROFILE_VERSION_ANNOTATION}' /tmp/tmp-profile.yaml | cat > /tmp/tmp-old ) && \
 	git diff --quiet HEAD origin/main -- $$f || \
