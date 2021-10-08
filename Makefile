@@ -48,6 +48,8 @@ eks-e2e: deploy-profile-eks
 
 kind-e2e: deploy-profile-kind
 
+gke-e2e: deploy-profile-gke
+
 deploy-profile-eks: check-requirements check-eksctl get-eks-kubeconfig change-eks-kubeconfig clean-repo install-profile-and-sync
 
 deploy-profile-kind: check-requirements check-kind create-cluster check-config-dir save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster clean-repo install-profile-and-sync
