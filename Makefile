@@ -65,18 +65,21 @@ PROFILE_VERSION := $(shell yq e '.metadata.annotations.${PROFILE_VERSION_ANNOTAT
 
 PROFILE_FILES := $(shell ls gitops-*/profile.yaml)
 
+PROFILE_VERSION_ANNOTATION="profiles.weave.works/version"
+PROFILE_FILES := $(shell ls gitops-*/profile.yaml)
+
+##@ This really needs to be taken out of make into bash for the long term.
+##@ It seems like this is forcing make to do something it was not designed for.
 check-profile-versions:
 	@for f in ${PROFILE_FILES}; do  \
 	git show origin/main:$${f} >  /tmp/tmp-profile.yaml 2>&1 && \
 	( yq e '.metadata.annotations.${PROFILE_VERSION_ANNOTATION}' ${PWD}/$${f} | cat > /tmp/tmp-new ) && \
 	( yq e '.metadata.annotations.${PROFILE_VERSION_ANNOTATION}' /tmp/tmp-profile.yaml | cat > /tmp/tmp-old ) && \
+	( yq e '.metadata.name' /tmp/tmp-profile.yaml | cat > /tmp/tmp-name ) && \
 	git diff --quiet HEAD origin/main -- $$f || \
 		(  diff /tmp/tmp-new /tmp/tmp-old \
-		&& exit 1 || \
+		&& pkill make || \
 		echo "$(cat /tmp/tmp-new) $(cat /tmp/tmp-old) Not equal" ) ; done
-
-create-releases:
-	gh release create gitops-enterprise-leaf-kind/v0.0.4 --title "gitops-enterprise-leaf-kind/v0.0.2" -n "gitops-enterprise-leaf-kind/v0.0.2" 
 
 ##@ Post Kubernetes creation with valid KUBECONFIG set it installs gitops and profiles, boostraps cluster, installs profile, and syncs
 ##@ TODO: Clear current profile is it's there
