@@ -12,7 +12,8 @@ jobs:
       SSH_DIR: "~/.ssh"
     steps:
       - uses: actions/checkout@v2
-      - run: |
+      - name: Fetch 
+        run: |
           git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*
       - name: Compare versions
         shell: bash
