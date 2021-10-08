@@ -44,9 +44,9 @@ PROFILE_VERSION_ANNOTATION="profiles.weave.works/version"
 
 ##@ with-clusterctl: check-requirements create-cluster save-kind-cluster-config initialise-docker-provider generate-manifests-clusterctl
 
-eks-e2e: release
+eks-e2e: deploy-profile-eks
 
-kind-e2e: deploy-profile-kind
+kind-e2e: release
 
 gke-e2e: deploy-profile-gke
 
