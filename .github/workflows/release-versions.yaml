@@ -12,7 +12,9 @@ jobs:
       SSH_DIR: "~/.ssh"
     steps:
       - uses: actions/checkout@v2
-      - name: Run mgmt integration tests
+      - run: |
+          git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*
+      - name: Compare versions
         shell: bash
         env:
           GITHUB_TOKEN: ${{secrets.GIT_TOKEN}}
