@@ -1,4 +1,4 @@
-name: Profile CI
+name: Check Versions CI
 
 on:
   push:
