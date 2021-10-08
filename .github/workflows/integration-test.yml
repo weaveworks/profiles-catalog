@@ -23,8 +23,8 @@ jobs:
         shell: bash
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-          GIT_TOKEN: ${{secrets.GIT_TOKEN}}
-          GITHUB_TOKEN: ${{secrets.GIT_TOKEN}}
+          GIT_TOKEN: ${{secrets.PROFILES_CATALOG_BOT_PERSONAL_ACCESS_TOKEN}}
+          GITHUB_TOKEN: ${{secrets.PROFILES_CATALOG_BOT_PERSONAL_ACCESS_TOKEN}}
           GIT_SSH_COMMAND: /tmp/ssh_command
           GIT_SSH_COMMAND_DEBUGLOG: "/tmp/1"
           PROFILE: gitops-enterprise-mgmt-kind
@@ -44,8 +44,8 @@ jobs:
         shell: bash
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-          GIT_TOKEN: ${{secrets.GIT_TOKEN}}
-          GITHUB_TOKEN: ${{secrets.GIT_TOKEN}}
+          GIT_TOKEN: ${{secrets.PROFILES_CATALOG_BOT_PERSONAL_ACCESS_TOKEN}}
+          GITHUB_TOKEN: ${{secrets.PROFILES_CATALOG_BOT_PERSONAL_ACCESS_TOKEN}}
           GIT_SSH_COMMAND: /tmp/ssh_command
           GIT_SSH_COMMAND_DEBUGLOG: "/tmp/1"
           PROFILE: gitops-enterprise-leaf-kind
@@ -83,8 +83,8 @@ jobs:
         shell: bash
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-          GIT_TOKEN: ${{secrets.GIT_TOKEN}}
-          GITHUB_TOKEN: ${{secrets.GIT_TOKEN}}
+          GIT_TOKEN: ${{secrets.PROFILES_CATALOG_BOT_PERSONAL_ACCESS_TOKEN}}
+          GITHUB_TOKEN: ${{secrets.PROFILES_CATALOG_BOT_PERSONAL_ACCESS_TOKEN}}
           GIT_SSH_COMMAND: /tmp/ssh_command
           GIT_SSH_COMMAND_DEBUGLOG: "/tmp/1"
           KUBECONFIG: "/home/runner/work/profiles-catalog/profiles-catalog/.conf/profiles-cluster.kubeconfig"
@@ -105,8 +105,8 @@ jobs:
         shell: bash
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-          GIT_TOKEN: ${{secrets.GIT_TOKEN}}
-          GITHUB_TOKEN: ${{secrets.GIT_TOKEN}}
+          GIT_TOKEN: ${{secrets.PROFILES_CATALOG_BOT_PERSONAL_ACCESS_TOKEN}}
+          GITHUB_TOKEN: ${{secrets.PROFILES_CATALOG_BOT_PERSONAL_ACCESS_TOKEN}}
           GIT_SSH_COMMAND: /tmp/ssh_command
           GIT_SSH_COMMAND_DEBUGLOG: "/tmp/1"
           KUBECONFIG: "/home/runner/work/profiles-catalog/profiles-catalog/.conf/profiles-cluster.kubeconfig"
@@ -145,8 +145,8 @@ jobs:
         shell: bash
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-          GIT_TOKEN: ${{secrets.GIT_TOKEN}}
-          GITHUB_TOKEN: ${{secrets.GIT_TOKEN}}
+          GIT_TOKEN: ${{secrets.PROFILES_CATALOG_BOT_PERSONAL_ACCESS_TOKEN}}
+          GITHUB_TOKEN: ${{secrets.PROFILES_CATALOG_BOT_PERSONAL_ACCESS_TOKEN}}
           GIT_SSH_COMMAND: /tmp/ssh_command
           GIT_SSH_COMMAND_DEBUGLOG: "/tmp/1"
           PROFILE: gitops-enterprise-mgmt-gke
@@ -166,8 +166,8 @@ jobs:
         shell: bash
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-          GIT_TOKEN: ${{secrets.GIT_TOKEN}}
-          GITHUB_TOKEN: ${{secrets.GIT_TOKEN}}
+          GIT_TOKEN: ${{secrets.PROFILES_CATALOG_BOT_PERSONAL_ACCESS_TOKEN}}
+          GITHUB_TOKEN: ${{secrets.PROFILES_CATALOG_BOT_PERSONAL_ACCESS_TOKEN}}
           GIT_SSH_COMMAND: /tmp/ssh_command
           GIT_SSH_COMMAND_DEBUGLOG: "/tmp/1"
           PROFILE: gitops-enterprise-leaf-gke

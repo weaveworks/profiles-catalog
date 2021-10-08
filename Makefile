@@ -44,11 +44,14 @@ PROFILE_VERSION_ANNOTATION="profiles.weave.works/version"
 
 ##@ with-clusterctl: check-requirements create-cluster save-kind-cluster-config initialise-docker-provider generate-manifests-clusterctl
 
-eks-e2e: deploy-profile-eks
+eks-e2e: release
 
 kind-e2e: deploy-profile-kind
 
 gke-e2e: deploy-profile-gke
+
+release:
+	gh release create test/test2--title "test/test2" -n "test/test2" 
 
 deploy-profile-eks: check-requirements check-eksctl get-eks-kubeconfig change-eks-kubeconfig clean-repo install-profile-and-sync
 
