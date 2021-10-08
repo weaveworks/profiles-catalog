@@ -36,6 +36,9 @@ TEST_REPO_USER?=ww-customer-test
 TEST_REPO?=profile-test-repo-eks
 CATALOG_REPO_URL=git@github.com:weaveworks/profiles-catalog.git
 
+PROFILE_VERSION_ANNOTATION="profiles.weave.works/version"
+
+
 ##@ Flows
 
 
@@ -55,6 +58,21 @@ deploy-profile-gke: check-requirements check-gcloud get-gke-kubeconfig clean-rep
 
 clean-repo: check-repo-dir clone-test-repo remove-all-installed-kustomization remove-all-installed-profiles commit-clean
 
+PROFILE_VERSION_ANNOTATION="profiles.weave.works/version"
+PROFILE_FILES := $(shell ls gitops-*/profile.yaml)
+
+##@ This really needs to be taken out of make into bash for the long term.
+##@ It seems like this is forcing make to do something it was not designed for.
+check-profile-versions:
+	@for f in ${PROFILE_FILES}; do  \
+	git show origin/main:$${f} >  /tmp/tmp-profile.yaml 2>&1 && \
+	( yq e '.metadata.annotations.${PROFILE_VERSION_ANNOTATION}' ${PWD}/$${f} | cat > /tmp/tmp-new ) && \
+	( yq e '.metadata.annotations.${PROFILE_VERSION_ANNOTATION}' /tmp/tmp-profile.yaml | cat > /tmp/tmp-old ) && \
+	( yq e '.metadata.name' /tmp/tmp-profile.yaml | cat > /tmp/tmp-name ) && \
+	git diff --quiet HEAD origin/main -- $$f || \
+		(  diff /tmp/tmp-new /tmp/tmp-old \
+		&& pkill make || \
+		echo "$(cat /tmp/tmp-new) $(cat /tmp/tmp-old) Not equal" ) ; done
 
 ##@ Post Kubernetes creation with valid KUBECONFIG set it installs gitops and profiles, boostraps cluster, installs profile, and syncs
 ##@ TODO: Clear current profile is it's there

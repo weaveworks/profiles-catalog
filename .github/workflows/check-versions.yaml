@@ -1,0 +1,23 @@
+name: Check Versions CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  check-versions:
+    name: Check Versions CI (Please update profile.yaml version annoations if failed of modified profiles)
+    runs-on: ubuntu-latest
+    env:
+      SSH_DIR: "~/.ssh"
+    steps:
+      - uses: actions/checkout@v2
+      - name: Fetch 
+        run: |
+          git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*
+      - name: Check Profile versions (Please update profile.yaml version annoations if failed of modified profiles)
+        shell: bash
+        run: |
+          make check-profile-versions
