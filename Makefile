@@ -70,7 +70,7 @@ check-profile-versions:
 	git show main:$${f} >  /tmp/tmp-profile.yaml 2>&1 && \
 	( yq e '.metadata.annotations.${PROFILE_VERSION_ANNOTATION}' ${PWD}/$${f} | cat > /tmp/tmp-new ) && \
 	( yq e '.metadata.annotations.${PROFILE_VERSION_ANNOTATION}' /tmp/tmp-profile.yaml | cat > /tmp/tmp-old ) && \
-	git diff --quiet HEAD main -- $$f || \
+	git diff --quiet HEAD origin/main -- $$f || \
 		(  diff /tmp/tmp-new /tmp/tmp-old \
 		&& exit 1 || \
 		echo "$(cat /tmp/tmp-new) $(cat /tmp/tmp-old) Not equal" ) ; done
