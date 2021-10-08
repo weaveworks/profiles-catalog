@@ -72,7 +72,7 @@ check-profile-versions:
 	( yq e '.metadata.annotations.${PROFILE_VERSION_ANNOTATION}' ${PWD}/.conf/tmp-profile.yaml | cat > .conf/tmp-old ) && \
 	git diff --quiet HEAD main -- $$f || \
 		(  diff .conf/tmp-new .conf/tmp-old \
-		&& echo "Equal" || \
+		&& exit 1 || \
 		echo "$(cat .conf/tmp-new) $(cat .conf/tmp-old) Not equal" ) ; done
 
 create-releases:
