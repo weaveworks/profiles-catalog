@@ -32,8 +32,8 @@ GCP_PROJECT_NAME="weave-profiles"
 
 PROFILE?=gitops-enterprise-mgmt-eks
 
-TEST_REPO_USER?=ww-customer-test
-TEST_REPO?=profile-test-repo-eks
+TEST_REPO_USER?=weaveworks
+TEST_REPO?=profile-test-repo
 CATALOG_REPO_URL=git@github.com:weaveworks/profiles-catalog.git
 
 PROFILE_VERSION_ANNOTATION="profiles.weave.works/version"
