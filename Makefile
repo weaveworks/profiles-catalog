@@ -48,15 +48,19 @@ eks-e2e: deploy-profile-eks
 
 kind-e2e: deploy-profile-kind
 
-gke-e2e: deploy-profile-gke
-
 deploy-profile-eks: check-requirements check-eksctl get-eks-kubeconfig change-eks-kubeconfig clean-repo install-profile-and-sync
 
 deploy-profile-kind: check-requirements check-kind create-cluster check-config-dir save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster clean-repo install-profile-and-sync
 
-deploy-profile-gke: check-requirements check-gcloud get-gke-kubeconfig clean-repo install-profile-and-sync
+deploy-profile-gke: check-requirements check-gcloud get-eks-kubeconfig clean-repo install-profile-and-sync
 
 clean-repo: check-repo-dir clone-test-repo remove-all-installed-kustomization remove-all-installed-profiles commit-clean
+
+
+
+PROFILE_VERSION_ANNOTATION="profiles.weave.works/version"
+MAIN_PROFILE_VERSION := $(shell git show main:gitops-enterprise-leaf-kind/profile.yaml > /tmp/main-profile.yaml && yq e '.metadata.annotations.${PROFILE_VERSION_ANNOTATION}' /tmp/main-profile.yaml)
+PROFILE_VERSION := $(shell yq e '.metadata.annotations.${PROFILE_VERSION_ANNOTATION}' gitops-enterprise-leaf-kind/profile.yaml)
 
 
 PROFILE_FILES := $(shell ls gitops-*/profile.yaml)
@@ -68,7 +72,7 @@ check-profile-versions:
 	( yq e '.metadata.annotations.${PROFILE_VERSION_ANNOTATION}' ${PWD}/.conf/tmp-profile.yaml | cat > .conf/tmp-old ) && \
 	git diff --quiet HEAD main -- $$f || \
 		(  diff .conf/tmp-new .conf/tmp-old \
-		&& exit 3 || \
+		&& echo "Equal" || \
 		echo "$(cat .conf/tmp-new) $(cat .conf/tmp-old) Not equal" ) ; done
 
 create-releases:
