@@ -36,6 +36,9 @@ TEST_REPO_USER?=ww-customer-test
 TEST_REPO?=profile-test-repo-eks
 CATALOG_REPO_URL=git@github.com:weaveworks/profiles-catalog.git
 
+PROFILE_VERSION_ANNOTATION="profiles.weave.works/version"
+
+
 ##@ Flows
 
 
@@ -55,13 +58,21 @@ deploy-profile-gke: check-requirements check-gcloud get-gke-kubeconfig clean-rep
 
 clean-repo: check-repo-dir clone-test-repo remove-all-installed-kustomization remove-all-installed-profiles commit-clean
 
-check-change-directory:
-	@for f in $(wildcard ls ${PWD}/*); do git diff --quiet HEAD main -- $$f ||  \
-	[ "$(git show main:gitops-enterprise-leaf-kind/profile.yaml > /tmp/main-profile.yaml && yq e .metadata.annotations.release-version /tmp/main-profile.yaml)" \
-	== "$(yq e .metadata.annotations.release-version $$f/profile.yaml)" ] | true || exit 15; done
 
-list: 
-	$(foreach file, $(wildcard ${PWD}/*), echo $(file);)
+PROFILE_FILES := $(shell ls gitops-*/profile.yaml)
+
+check-profile-versions:
+	@for f in ${PROFILE_FILES}; do  \
+	git show main:$${f} >  .conf/tmp-profile.yaml 2>&1 && \
+	( yq e '.metadata.annotations.${PROFILE_VERSION_ANNOTATION}' ${PWD}/$${f} | cat > .conf/tmp-new ) && \
+	( yq e '.metadata.annotations.${PROFILE_VERSION_ANNOTATION}' ${PWD}/.conf/tmp-profile.yaml | cat > .conf/tmp-old ) && \
+	git diff --quiet HEAD main -- $$f || \
+		(  diff .conf/tmp-new .conf/tmp-old \
+		&& exit 3 || \
+		echo "$(cat .conf/tmp-new) $(cat .conf/tmp-old) Not equal" ) ; done
+
+create-releases:
+	gh release create gitops-enterprise-leaf-kind/v0.0.4 --title "gitops-enterprise-leaf-kind/v0.0.2" -n "gitops-enterprise-leaf-kind/v0.0.2" 
 
 ##@ Post Kubernetes creation with valid KUBECONFIG set it installs gitops and profiles, boostraps cluster, installs profile, and syncs
 ##@ TODO: Clear current profile is it's there

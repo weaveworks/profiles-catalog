@@ -7,6 +7,17 @@ on:
     branches: [ main ]
 
 jobs:
+  check-versions:
+    name: Check Versions CI
+    runs-on: ubuntu-latest
+    env:
+      SSH_DIR: "~/.ssh"
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run mgmt integration tests
+        shell: bash
+        run: |
+          make check-profile-versions
   kind-e2e-profile-test:
     name: Kind e2e profile test
     runs-on: ubuntu-latest

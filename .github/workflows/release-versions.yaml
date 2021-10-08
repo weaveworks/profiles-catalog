@@ -1,0 +1,20 @@
+name: Release Versions CI
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  Release-versions:
+    name: Release Versions CI
+    runs-on: ubuntu-latest
+    env:
+      SSH_DIR: "~/.ssh"
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run mgmt integration tests
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{secrets.GIT_TOKEN}}
+        run: |
+          make release
