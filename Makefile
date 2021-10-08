@@ -41,9 +41,9 @@ CATALOG_REPO_URL=git@github.com:weaveworks/profiles-catalog.git
 
 ##@ with-clusterctl: check-requirements create-cluster save-kind-cluster-config initialise-docker-provider generate-manifests-clusterctl
 
-eks-e2e: deploy-profile-eks clean-repo
+eks-e2e: deploy-profile-eks
 
-kind-e2e: deploy-profile-kind clean-repo
+kind-e2e: deploy-profile-kind
 
 deploy-profile-eks: check-requirements check-eksctl get-eks-kubeconfig change-eks-kubeconfig clean-repo install-profile-and-sync
 
@@ -51,11 +51,12 @@ deploy-profile-kind: check-requirements check-kind create-cluster check-config-d
 
 deploy-profile-gke: check-requirements check-gcloud get-eks-kubeconfig clean-repo install-profile-and-sync
 
-clean-repo: check-repo-dir clone-test-repo remove-all-installed-kustomization remove-all-installed-profiles commit-test-repo reconcile-wego-system
+clean-repo: check-repo-dir clone-test-repo remove-all-installed-kustomization remove-all-installed-profiles commit-clean
+
 
 ##@ Post Kubernetes creation with valid KUBECONFIG set it installs gitops and profiles, boostraps cluster, installs profile, and syncs
 ##@ TODO: Clear current profile is it's there
-install-profile-and-sync: install-gitops-on-cluster install-profiles-on-cluster bootstrap-cluster check-repo-dir clone-test-repo check-repo-profile-dir create-profile-kustomization add-profile commit-test-repo
+install-profile-and-sync: install-gitops-on-cluster install-profiles-on-cluster bootstrap-cluster check-repo-dir clone-test-repo check-repo-profile-dir create-profile-kustomization add-profile commit-profile
 
 remove-all-installed-kustomization:
 	@for f in $(shell ls ${PWD}); do [ ! -f ${REPODIR}/clusters/my-cluster/$${f}.yaml ] || rm ${REPODIR}/clusters/my-cluster/$${f}.yaml; done
@@ -213,15 +214,14 @@ clone-test-repo:
 	@echo "Clone test repo"
 	git clone git@github.com:${TEST_REPO_USER}/${TEST_REPO}.git ${REPODIR}
 
-commit-test-repo:
-	@echo "commiting Profile to repo"
-	cd ${REPODIR} && git add --all && git commit -m "adding profile" && git push || true
 
-profile-integration-test:
-	@helm install -f ./tests/values.yaml profiles ./tests
-	helm test profiles
-	helm uninstall profiles
-	
+commit-clean:
+	@echo "commiting cleaning to repo"
+	cd ${REPODIR} && git add . && ( git commit -m "cleaning profile" | git push  || true )
+commit-profile:
+	@echo "committing profile to repo"
+	cd ${REPODIR} && git add . && git commit -m "adding profile" && git push 
+
 create-profile-kustomization:
 	@echo "Creating Kustomization"
 	gitops flux create kustomization ${PROFILE} --export \
@@ -237,7 +237,7 @@ add-profile:
 	--profile-repo-url git@github.com:weaveworks/profiles-catalog.git \
 	--git-repository wego-system/wego-system \
 	--profile-path ./${PROFILE} \
-	--profile-branch main
+	--profile-branch main 
 
 
 local-env:
