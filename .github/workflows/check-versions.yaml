@@ -1,0 +1,20 @@
+name: Profile CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  check-versions:
+    name: Check Versions CI
+    runs-on: ubuntu-latest
+    env:
+      SSH_DIR: "~/.ssh"
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run mgmt integration tests
+        shell: bash
+        run: |
+          make check-profile-versions
