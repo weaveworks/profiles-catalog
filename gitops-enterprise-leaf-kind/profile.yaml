@@ -4,7 +4,6 @@ metadata:
   name: gitops-enterprise-leaf-kind
   annotations:
     profiles.weave.works/version: v0.0.1
-    profiles.weave.works/test: v0.0.1
 spec:
   description: Profile for deploying clusters chart
   maintainer: weaveworks
