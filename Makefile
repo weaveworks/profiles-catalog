@@ -224,7 +224,7 @@ install-profiles-on-cluster:
 
 
 bootstrap-cluster:
-	@echo "Adding Profile to repo"
+	@echo "Adding gitops flux bootstrap Profile to repo"
 	gitops flux bootstrap github \
 	    --owner=${TEST_REPO_USER} \
 	    --repository=${TEST_REPO} \
@@ -233,6 +233,8 @@ bootstrap-cluster:
 	    --personal \
 		--branch ${TEST_REPO_BRANCH} \
 	    --read-write-key 
+	@echo "Pulling updated contents of ${TEST_REPO} branch ${TEST_REPO_BRANCH}"
+	cd ${REPODIR} && git pull && cd ..
 
 clone-test-repo:
 	@echo "Clone test repo"
@@ -256,7 +258,7 @@ create-profile-kustomization:
 	    --prune=true > ${REPODIR}/clusters/my-cluster/${PROFILE}.yaml
 
 add-profile:
-	@echo "Adding Profile to repo"
+	@echo "Adding pctl Profile to repo"
 	cd ${REPODIR} && pctl add --name ${PROFILE} \
 	--profile-repo-url git@github.com:weaveworks/profiles-catalog.git \
 	--git-repository wego-system/wego-system \
