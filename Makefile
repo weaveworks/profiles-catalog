@@ -228,11 +228,12 @@ bootstrap-cluster:
 	    --namespace wego-system \
 	    --path=clusters/my-cluster \
 	    --personal \
+		--branch testing \
 	    --read-write-key 
 
 clone-test-repo:
 	@echo "Clone test repo"
-	git clone git@github.com:${TEST_REPO_USER}/${TEST_REPO}.git ${REPODIR}
+	git clone -b testing git@github.com:${TEST_REPO_USER}/${TEST_REPO}.git ${REPODIR}
 
 
 commit-clean:
