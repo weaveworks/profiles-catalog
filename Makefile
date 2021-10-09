@@ -51,7 +51,7 @@ kind-e2e: release
 gke-e2e: deploy-profile-gke
 
 release:
-	gh release create test2 --title "test/test2" -n "test/test2" 
+	gh release create test3 --title "test/test2" -n "test/test2" 
 
 deploy-profile-eks: check-requirements check-eksctl get-eks-kubeconfig change-eks-kubeconfig clean-repo install-profile-and-sync
 
