@@ -34,6 +34,7 @@ PROFILE?=gitops-enterprise-mgmt-kind
 
 TEST_REPO_USER?=weaveworks
 TEST_REPO?=profiles-catalog-test
+TEST_REPO_BRANCH:=testing
 CATALOG_REPO_URL=git@github.com:weaveworks/profiles-catalog.git
 
 PROFILE_VERSION_ANNOTATION="profiles.weave.works/version"
@@ -50,10 +51,13 @@ kind-e2e: deploy-profile-kind
 
 gke-e2e: deploy-profile-gke
 
+deploy-profile-eks: TEST_REPO_BRANCH:=testing-eks
 deploy-profile-eks: check-requirements check-eksctl get-eks-kubeconfig change-eks-kubeconfig clean-repo install-profile-and-sync
 
+deploy-profile-kind: TEST_REPO_BRANCH:=testing-kind
 deploy-profile-kind: check-requirements check-kind create-cluster check-config-dir save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster clean-repo install-profile-and-sync
 
+deploy-profile-gke: TEST_REPO_BRANCH:=testing-gke
 deploy-profile-gke: check-requirements check-gcloud get-gke-kubeconfig clean-repo install-profile-and-sync
 
 clean-repo: check-repo-dir clone-test-repo remove-all-installed-kustomization remove-all-installed-profiles commit-clean
@@ -224,16 +228,15 @@ bootstrap-cluster:
 	gitops flux bootstrap github \
 	    --owner=${TEST_REPO_USER} \
 	    --repository=${TEST_REPO} \
-	    --branch=main \
 	    --namespace wego-system \
 	    --path=clusters/my-cluster \
 	    --personal \
-		--branch testing \
+		--branch ${TEST_REPO_BRANCH} \
 	    --read-write-key 
 
 clone-test-repo:
 	@echo "Clone test repo"
-	git clone -b testing git@github.com:${TEST_REPO_USER}/${TEST_REPO}.git ${REPODIR}
+	git clone -b ${TEST_REPO_BRANCH} git@github.com:${TEST_REPO_USER}/${TEST_REPO}.git ${REPODIR}
 
 
 commit-clean:
