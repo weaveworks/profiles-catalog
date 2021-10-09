@@ -30,10 +30,10 @@ GKE_CLUSTER_NAME="weave-profiles-test-cluster"
 GCP_REGION="us-west1"
 GCP_PROJECT_NAME="weave-profiles"
 
-PROFILE?=gitops-enterprise-mgmt-eks
+PROFILE?=gitops-enterprise-mgmt-kind
 
-TEST_REPO_USER?=ww-customer-test
-TEST_REPO?=profile-test-repo-eks
+TEST_REPO_USER?=weaveworks
+TEST_REPO?=profiles-catalog-test
 CATALOG_REPO_URL=git@github.com:weaveworks/profiles-catalog.git
 
 PROFILE_VERSION_ANNOTATION="profiles.weave.works/version"

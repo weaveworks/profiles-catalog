@@ -23,18 +23,18 @@ jobs:
         shell: bash
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-          GIT_TOKEN: ${{secrets.GIT_TOKEN}}
-          GITHUB_TOKEN: ${{secrets.GIT_TOKEN}}
+          GIT_TOKEN: ${{secrets.WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
+          GITHUB_TOKEN: ${{secrets.WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
           GIT_SSH_COMMAND: /tmp/ssh_command
           GIT_SSH_COMMAND_DEBUGLOG: "/tmp/1"
           PROFILE: gitops-enterprise-mgmt-kind
-          TEST_REPO: profile-test-repo-kind   
+          TEST_REPO: profiles-catalog-test
         run: |
           mkdir -p /tmp/git-keys
-          echo "${{ secrets.PROFILES_CATALOG_PRIVATE_WEAVEWORKS_BOT_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
+          echo "${{ secrets.PROFILES_CATALOG_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
           chmod 600 /tmp/git-keys/weaveworks-profiles-catalog 
-          echo "${{ secrets.TESTING_CATALOG_PRIVATE_KIND_WEAVEWORKS_BOT_DEPLOY_KEY }}" > /tmp/git-keys/ww-customer-test-profile-test-repo-kind 
-          chmod 600 /tmp/git-keys/ww-customer-test-profile-test-repo-kind
+          echo "${{ secrets.PROFILES_CATALOG_TEST_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog-test
+          chmod 600 /tmp/git-keys/weaveworks-profiles-catalog-test
           cp ${{ github.workspace }}/.bin/ssh_command.sh /tmp/ssh_command
           chmod +x /tmp/ssh_command
           git config --global user.email "action@github.com"
@@ -44,18 +44,17 @@ jobs:
         shell: bash
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-          GIT_TOKEN: ${{secrets.GIT_TOKEN}}
-          GITHUB_TOKEN: ${{secrets.GIT_TOKEN}}
+          GIT_TOKEN: ${{secrets.WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
+          GITHUB_TOKEN: ${{secrets.WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
           GIT_SSH_COMMAND: /tmp/ssh_command
           GIT_SSH_COMMAND_DEBUGLOG: "/tmp/1"
           PROFILE: gitops-enterprise-leaf-kind
-          TEST_REPO: profile-test-repo-kind   
+          TEST_REPO: profiles-catalog-test  
         run: |
           mkdir -p /tmp/git-keys
-          echo "${{ secrets.PROFILES_CATALOG_PRIVATE_WEAVEWORKS_BOT_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
+          echo "${{ secrets.PROFILES_CATALOG_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
           chmod 600 /tmp/git-keys/weaveworks-profiles-catalog 
-          echo "${{ secrets.TESTING_CATALOG_PRIVATE_KIND_WEAVEWORKS_BOT_DEPLOY_KEY }}" > /tmp/git-keys/ww-customer-test-profile-test-repo-kind 
-          chmod 600 /tmp/git-keys/ww-customer-test-profile-test-repo-kind
+          echo "${{ secrets.PROFILES_CATALOG_TEST_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog-test
           cp ${{ github.workspace }}/.bin/ssh_command.sh /tmp/ssh_command
           chmod +x /tmp/ssh_command
           git config --global user.email "action@github.com"
