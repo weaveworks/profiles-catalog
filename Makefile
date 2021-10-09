@@ -46,7 +46,7 @@ PROFILE_VERSION_ANNOTATION="profiles.weave.works/version"
 
 eks-e2e: deploy-profile-eks
 
-kind-e2e: release
+kind-e2e: deploy-profile-kind:
 
 gke-e2e: deploy-profile-gke
 
