@@ -83,19 +83,19 @@ jobs:
         shell: bash
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-          GIT_TOKEN: ${{secrets.GIT_TOKEN}}
-          GITHUB_TOKEN: ${{secrets.GIT_TOKEN}}
+          GIT_TOKEN: ${{WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
+          GITHUB_TOKEN: ${{WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
           GIT_SSH_COMMAND: /tmp/ssh_command
           GIT_SSH_COMMAND_DEBUGLOG: "/tmp/1"
           KUBECONFIG: "/home/runner/work/profiles-catalog/profiles-catalog/.conf/profiles-cluster.kubeconfig"
           PROFILE: gitops-enterprise-mgmt-eks
-          TEST_REPO: profile-test-repo-eks       
+          TEST_REPO: profiles-catalog-test       
         run: |
           mkdir -p /tmp/git-keys
-          echo "${{ secrets.PROFILES_CATALOG_PRIVATE_WEAVEWORKS_BOT_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
+          echo "${{ secrets.PROFILES_CATALOG_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
           chmod 600 /tmp/git-keys/weaveworks-profiles-catalog 
-          echo "${{ secrets.TESTING_CATALOG_PRIVATE_EKS_WEAVEWORKS_BOT_DEPLOY_KEY }}" > /tmp/git-keys/ww-customer-test-profile-test-repo-eks
-          chmod 600 /tmp/git-keys/ww-customer-test-profile-test-repo-eks
+          echo "${{ secrets.TEST_SECRET }}" > /tmp/git-keys/weaveworks-profiles-catalog-test
+          chmod 600 /tmp/git-keys/weaveworks-profiles-catalog-test
           cp ${{ github.workspace }}/.bin/ssh_command.sh /tmp/ssh_command
           chmod +x /tmp/ssh_command
           git config --global user.email "action@github.com"
@@ -105,19 +105,19 @@ jobs:
         shell: bash
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-          GIT_TOKEN: ${{secrets.GIT_TOKEN}}
-          GITHUB_TOKEN: ${{secrets.GIT_TOKEN}}
+          GIT_TOKEN: ${{WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
+          GITHUB_TOKEN: ${{WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
           GIT_SSH_COMMAND: /tmp/ssh_command
           GIT_SSH_COMMAND_DEBUGLOG: "/tmp/1"
           KUBECONFIG: "/home/runner/work/profiles-catalog/profiles-catalog/.conf/profiles-cluster.kubeconfig"
           PROFILE: gitops-enterprise-leaf-eks
-          TEST_REPO: profile-test-repo-eks       
+          TEST_REPO: profiles-catalog-test       
         run: |
           mkdir -p /tmp/git-keys
-          echo "${{ secrets.PROFILES_CATALOG_PRIVATE_WEAVEWORKS_BOT_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
+          echo "${{ secrets.PROFILES_CATALOG_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
           chmod 600 /tmp/git-keys/weaveworks-profiles-catalog 
-          echo "${{ secrets.TESTING_CATALOG_PRIVATE_EKS_WEAVEWORKS_BOT_DEPLOY_KEY }}" > /tmp/git-keys/ww-customer-test-profile-test-repo-eks
-          chmod 600 /tmp/git-keys/ww-customer-test-profile-test-repo-eks
+          echo "${{ secrets.TEST_SECRET }}" > /tmp/git-keys/weaveworks-profiles-catalog-test
+          chmod 600 /tmp/git-keys/weaveworks-profiles-catalog-test
           cp ${{ github.workspace }}/.bin/ssh_command.sh /tmp/ssh_command
           chmod +x /tmp/ssh_command
           git config --global user.email "action@github.com"
@@ -145,18 +145,18 @@ jobs:
         shell: bash
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-          GIT_TOKEN: ${{secrets.GIT_TOKEN}}
-          GITHUB_TOKEN: ${{secrets.GIT_TOKEN}}
+          GIT_TOKEN: ${{WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
+          GITHUB_TOKEN: ${{WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
           GIT_SSH_COMMAND: /tmp/ssh_command
           GIT_SSH_COMMAND_DEBUGLOG: "/tmp/1"
           PROFILE: gitops-enterprise-mgmt-gke
-          TEST_REPO: profile-test-repo-gke       
+          TEST_REPO: profiles-catalog-test       
         run: |
           mkdir -p /tmp/git-keys
-          echo "${{ secrets.PROFILES_CATALOG_PRIVATE_WEAVEWORKS_BOT_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
+          echo "${{ secrets.PROFILES_CATALOG_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
           chmod 600 /tmp/git-keys/weaveworks-profiles-catalog 
-          echo "${{ secrets.TESTING_CATALOG_PRIVATE_GKE_WEAVEWORKS_BOT_DEPLOY_KEY }}" > /tmp/git-keys/ww-customer-test-profile-test-repo-gke
-          chmod 600 /tmp/git-keys/ww-customer-test-profile-test-repo-gke
+          echo "${{ secrets.TEST_SECRET }}" > /tmp/git-keys/weaveworks-profiles-catalog-test
+          chmod 600 /tmp/git-keys/weaveworks-profiles-catalog-test
           cp ${{ github.workspace }}/.bin/ssh_command.sh /tmp/ssh_command
           chmod +x /tmp/ssh_command
           git config --global user.email "action@github.com"
@@ -166,18 +166,18 @@ jobs:
         shell: bash
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-          GIT_TOKEN: ${{secrets.GIT_TOKEN}}
-          GITHUB_TOKEN: ${{secrets.GIT_TOKEN}}
+          GIT_TOKEN: ${{WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
+          GITHUB_TOKEN: ${{WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
           GIT_SSH_COMMAND: /tmp/ssh_command
           GIT_SSH_COMMAND_DEBUGLOG: "/tmp/1"
           PROFILE: gitops-enterprise-leaf-gke
-          TEST_REPO: profile-test-repo-gke       
+          TEST_REPO: profiles-catalog-test       
         run: |
           mkdir -p /tmp/git-keys
-          echo "${{ secrets.PROFILES_CATALOG_PRIVATE_WEAVEWORKS_BOT_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
+          echo "${{ secrets.PROFILES_CATALOG_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
           chmod 600 /tmp/git-keys/weaveworks-profiles-catalog 
-          echo "${{ secrets.TESTING_CATALOG_PRIVATE_GKE_WEAVEWORKS_BOT_DEPLOY_KEY }}" > /tmp/git-keys/ww-customer-test-profile-test-repo-gke
-          chmod 600 /tmp/git-keys/ww-customer-test-profile-test-repo-gke
+          echo "${{ secrets.TEST_SECRET }}" > /tmp/git-keys/weaveworks-profiles-catalog-test
+          chmod 600 /tmp/git-keys/weaveworks-profiles-catalog-test
           cp ${{ github.workspace }}/.bin/ssh_command.sh /tmp/ssh_command
           chmod +x /tmp/ssh_command
           git config --global user.email "action@github.com"
