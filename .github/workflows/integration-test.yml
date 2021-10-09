@@ -31,9 +31,9 @@ jobs:
           TEST_REPO: profile-test-repo
         run: |
           mkdir -p /tmp/git-keys
-          echo "${{ secrets.PROFILES_CATALOG_BOT_PROFILES_CATALOG_TEST_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
+          echo "${{ secrets.PROFILES_CATALOG_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
           chmod 600 /tmp/git-keys/weaveworks-profiles-catalog 
-          echo "${{ secrets.PROFILES_CATALOG_PRIVATE_WEAVEWORKS_BOT_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog-test 
+          echo "${{ secrets.PROFILES_CATALOG_TEST_DEPLOY_KEY  }}" > /tmp/git-keys/weaveworks-profiles-catalog-test 
           chmod 600 /tmp/git-keys/weaveworks-profiles-catalog-test
           cp ${{ github.workspace }}/.bin/ssh_command.sh /tmp/ssh_command
           chmod +x /tmp/ssh_command
@@ -52,9 +52,9 @@ jobs:
           TEST_REPO: profile-test-repo-kind   
         run: |
           mkdir -p /tmp/git-keys
-          echo "${{ secrets.PROFILES_CATALOG_PRIVATE_WEAVEWORKS_BOT_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
+          echo "${{ secrets.PROFILES_CATALOG_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
           chmod 600 /tmp/git-keys/weaveworks-profiles-catalog 
-          echo "${{ secrets.PROFILES_CATALOG_BOT_PROFILES_CATALOG_TEST_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog-test 
+          echo "${{ secrets. PROFILES_CATALOG_TEST_DEPLOY_KEY  }}" > /tmp/git-keys/weaveworks-profiles-catalog-test 
           chmod 600 /tmp/git-keys/weaveworks-profiles-catalog-test
           cp ${{ github.workspace }}/.bin/ssh_command.sh /tmp/ssh_command
           chmod +x /tmp/ssh_command
@@ -92,9 +92,9 @@ jobs:
           TEST_REPO: profile-test-repo      
         run: |
           mkdir -p /tmp/git-keys
-          echo "${{ secrets.PROFILES_CATALOG_PRIVATE_WEAVEWORKS_BOT_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
+          echo "${{ secrets.PROFILES_CATALOG_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
           chmod 600 /tmp/git-keys/weaveworks-profiles-catalog 
-          echo "${{ secrets.PROFILES_CATALOG_BOT_PROFILES_CATALOG_TEST_DEPLOY_KEY }}" > /tmp/git-keys/profiles-catalog-test
+          echo "${{ secrets. PROFILES_CATALOG_TEST_DEPLOY_KEY  }}" > /tmp/git-keys/profiles-catalog-test
           chmod 600 /tmp/git-keys/profiles-catalog-test
           cp ${{ github.workspace }}/.bin/ssh_command.sh /tmp/ssh_command
           chmod +x /tmp/ssh_command
@@ -114,9 +114,9 @@ jobs:
           TEST_REPO: profile-test-repo-eks       
         run: |
           mkdir -p /tmp/git-keys
-          echo "${{ secrets.PROFILES_CATALOG_PRIVATE_WEAVEWORKS_BOT_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
+          echo "${{ secrets.PROFILES_CATALOG_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
           chmod 600 /tmp/git-keys/weaveworks-profiles-catalog 
-          echo "${{ secrets.PROFILES_CATALOG_BOT_PROFILES_CATALOG_TEST_DEPLOY_KEY }}" > /tmp/git-keys/profiles-catalog-test
+          echo "${{ secrets. PROFILES_CATALOG_TEST_DEPLOY_KEY  }}" > /tmp/git-keys/profiles-catalog-test
           chmod 600 /tmp/git-keys/profiles-catalog-test
           cp ${{ github.workspace }}/.bin/ssh_command.sh /tmp/ssh_command
           chmod +x /tmp/ssh_command
@@ -153,9 +153,9 @@ jobs:
           TEST_REPO: profile-test-repo     
         run: |
           mkdir -p /tmp/git-keys
-          echo "${{ secrets.PROFILES_CATALOG_PRIVATE_WEAVEWORKS_BOT_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
+          echo "${{ secrets.PROFILES_CATALOG_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
           chmod 600 /tmp/git-keys/weaveworks-profiles-catalog 
-          echo "${{ secrets.PROFILES_CATALOG_BOT_PROFILES_CATALOG_TEST_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog-test
+          echo "${{ secrets. PROFILES_CATALOG_TEST_DEPLOY_KEY  }}" > /tmp/git-keys/weaveworks-profiles-catalog-test
           chmod 600 /tmp/git-keys/weaveworks-profiles-catalog-test
           cp ${{ github.workspace }}/.bin/ssh_command.sh /tmp/ssh_command
           chmod +x /tmp/ssh_command
@@ -174,9 +174,9 @@ jobs:
           TEST_REPO: profile-test-repo-gke       
         run: |
           mkdir -p /tmp/git-keys
-          echo "${{ secrets.PROFILES_CATALOG_PRIVATE_WEAVEWORKS_BOT_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
+          echo "${{ secrets.PROFILES_CATALOG_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
           chmod 600 /tmp/git-keys/weaveworks-profiles-catalog 
-          echo "${{ secrets.PROFILES_CATALOG_BOT_PROFILES_CATALOG_TEST_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog-test
+          echo "${{ secrets. PROFILES_CATALOG_TEST_DEPLOY_KEY  }}" > /tmp/git-keys/weaveworks-profiles-catalog-test
           chmod 600 /tmp/git-keys/weaveworks-profiles-catalog-test
           cp ${{ github.workspace }}/.bin/ssh_command.sh /tmp/ssh_command
           chmod +x /tmp/ssh_command
