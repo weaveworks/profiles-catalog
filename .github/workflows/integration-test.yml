@@ -54,7 +54,7 @@ jobs:
           mkdir -p /tmp/git-keys
           echo "${{ secrets.PROFILES_CATALOG_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
           chmod 600 /tmp/git-keys/weaveworks-profiles-catalog 
-          echo "${{ secrets.PROFILES_CATALOG_TEST_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog-test
+          echo "${{ secrets.TEST_SECRET }}" > /tmp/git-keys/weaveworks-profiles-catalog-test
           chmod 600 /tmp/git-keys/weaveworks-profiles-catalog-test
           cp ${{ github.workspace }}/.bin/ssh_command.sh /tmp/ssh_command
           chmod +x /tmp/ssh_command
@@ -83,8 +83,8 @@ jobs:
         shell: bash
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-          GIT_TOKEN: ${{WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
-          GITHUB_TOKEN: ${{WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
+          GIT_TOKEN: ${{secrets.WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
+          GITHUB_TOKEN: ${{secrets.WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
           GIT_SSH_COMMAND: /tmp/ssh_command
           GIT_SSH_COMMAND_DEBUGLOG: "/tmp/1"
           KUBECONFIG: "/home/runner/work/profiles-catalog/profiles-catalog/.conf/profiles-cluster.kubeconfig"
@@ -105,8 +105,8 @@ jobs:
         shell: bash
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-          GIT_TOKEN: ${{WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
-          GITHUB_TOKEN: ${{WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
+          GIT_TOKEN: ${{secrets.WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
+          GITHUB_TOKEN: ${{secrets.WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
           GIT_SSH_COMMAND: /tmp/ssh_command
           GIT_SSH_COMMAND_DEBUGLOG: "/tmp/1"
           KUBECONFIG: "/home/runner/work/profiles-catalog/profiles-catalog/.conf/profiles-cluster.kubeconfig"
@@ -145,8 +145,8 @@ jobs:
         shell: bash
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-          GIT_TOKEN: ${{WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
-          GITHUB_TOKEN: ${{WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
+          GIT_TOKEN: ${{secrets.WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
+          GITHUB_TOKEN: ${{secrets.WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
           GIT_SSH_COMMAND: /tmp/ssh_command
           GIT_SSH_COMMAND_DEBUGLOG: "/tmp/1"
           PROFILE: gitops-enterprise-mgmt-gke
@@ -166,8 +166,8 @@ jobs:
         shell: bash
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-          GIT_TOKEN: ${{WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
-          GITHUB_TOKEN: ${{WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
+          GIT_TOKEN: ${{secrets.WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
+          GITHUB_TOKEN: ${{secrets.WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
           GIT_SSH_COMMAND: /tmp/ssh_command
           GIT_SSH_COMMAND_DEBUGLOG: "/tmp/1"
           PROFILE: gitops-enterprise-leaf-gke
