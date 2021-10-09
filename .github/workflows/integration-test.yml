@@ -49,7 +49,7 @@ jobs:
           GIT_SSH_COMMAND: /tmp/ssh_command
           GIT_SSH_COMMAND_DEBUGLOG: "/tmp/1"
           PROFILE: gitops-enterprise-leaf-kind
-          TEST_REPO: profile-test-repo-kind   
+          TEST_REPO: profile-test-repo   
         run: |
           mkdir -p /tmp/git-keys
           echo "${{ secrets.TEST_SECRET }}" > /tmp/git-keys/weaveworks-profiles-catalog
@@ -111,7 +111,7 @@ jobs:
           GIT_SSH_COMMAND_DEBUGLOG: "/tmp/1"
           KUBECONFIG: "/home/runner/work/profiles-catalog/profiles-catalog/.conf/profiles-cluster.kubeconfig"
           PROFILE: gitops-enterprise-leaf-eks
-          TEST_REPO: profile-test-repo-eks       
+          TEST_REPO: profile-test-repo       
         run: |
           mkdir -p /tmp/git-keys
           echo "${{ secrets.TEST_SECRET }}" > /tmp/git-keys/weaveworks-profiles-catalog
@@ -171,7 +171,7 @@ jobs:
           GIT_SSH_COMMAND: /tmp/ssh_command
           GIT_SSH_COMMAND_DEBUGLOG: "/tmp/1"
           PROFILE: gitops-enterprise-leaf-gke
-          TEST_REPO: profile-test-repo-gke       
+          TEST_REPO: profile-test-repo       
         run: |
           mkdir -p /tmp/git-keys
           echo "${{ secrets.TEST_SECRET }}" > /tmp/git-keys/weaveworks-profiles-catalog
