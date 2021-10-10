@@ -223,7 +223,7 @@ install-profiles-on-cluster:
 ##@ catalog
 
 
-##@ TODO:INVESTIGATE FLUX KEY BY SEPERATING CLUSTER PATH NAME (MIGHT JUST ORIGINAL KEY)
+##@ TODO:INVESTIGATE FLUX KEY BY SEPERATING CLUSTER PATH NAME (MIGHT JUST OVERRIDE KEY)
 bootstrap-cluster:
 	@echo "Adding gitops flux bootstrap Profile to repo"
 	gitops flux bootstrap github \
