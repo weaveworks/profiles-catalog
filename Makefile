@@ -84,7 +84,7 @@ release:
 		 yq e '.metadata.name' ${PWD}/$${f} | cat > /tmp/tmp-name ; \
 		echo "null" | cat > /tmp/null-value ; \
 		paste -d / /tmp/tmp-name /tmp/tmp-version > /tmp/tmp-release ; \
-		diff /tmp/null-value /tmp/tmp-version || cat /tmp/tmp-release | xargs -I {} gh release create --notes "test" {}; done
+		diff /tmp/null-value /tmp/tmp-version || cat /tmp/tmp-release | xargs -I {} gh release create --notes "test" {} || true; done
 		
 
 
