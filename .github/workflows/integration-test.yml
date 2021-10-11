@@ -180,9 +180,6 @@ jobs:
   test-profile:
     name: Test profile
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./tests
     steps:
       - name: Install Go
         uses: actions/setup-go@v2
