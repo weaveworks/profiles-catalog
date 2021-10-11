@@ -280,4 +280,4 @@ test-e2e:
 	@ cd tests && go test
 
 test-single-profile:
-	@ cd tests && go test -args -profilename="wego-app" -profilenamespace="wego-system"
+	@ cd tests && go test -args -profilename=${PROFILE} -profilenamespace="default"
