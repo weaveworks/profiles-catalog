@@ -53,6 +53,8 @@ deploy-profile-kind: check-requirements check-kind create-cluster check-config-d
 
 deploy-profile-gke: check-requirements check-gcloud get-gke-kubeconfig clean-repo install-profile-and-sync
 
+test-profiles: test-e2e
+
 clean-repo: check-repo-dir clone-test-repo remove-all-installed-kustomization remove-all-installed-profiles commit-clean
 
 
@@ -248,3 +250,6 @@ local-env:
 local-destroy:
 	@echo "Deleting kind mgmt (control-plan) and testing (workload) clusters"
 	kind delete clusters mgmt testing
+
+test-e2e:
+	@ cd tests && go test
