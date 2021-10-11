@@ -1,6 +1,7 @@
 package test
 
 import (
+	"flag"
 	"fmt"
 	"io/ioutil"
 	corev1 "k8s.io/api/core/v1"
@@ -27,13 +28,23 @@ type Profile struct {
 	//	Port            int    `yaml:"port"`
 }
 
+var kubeconfigpath = flag.String("kubeconfig", "../.conf/testing.kubeconfig", "kubeconfig path")
+var valuespath = flag.String("values", "values.yaml", "profiles values.yaml path")
+var uniqueprofilename = flag.String("profilename", "", "individual profile name")
+var uniqueprofilenamespace = flag.String("profilenamespace", "", "individual profile namespace")
+
 func TestProfiles(t *testing.T) {
 	t.Parallel()
 
+	kubeconfig := *kubeconfigpath
+	values := *valuespath
+	profilename := *uniqueprofilename
+	profilenamespace := *uniqueprofilenamespace
+	config, err := readConf(values)
 	profilesToCheck := make(map[string][]string)
-	kubeconfig := "../.conf/testing.kubeconfig"
+	tocheck := 0 
 
-	config, err := readConf("values.yaml")
+
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -44,11 +55,17 @@ func TestProfiles(t *testing.T) {
 	// get list of pods
 	pods := k8s.ListPods(t, options, metav1.ListOptions{})
 
-	tocheck := mapProfilesFromConfig(config, kubeconfig, profilesToCheck, options)
-	if tocheck == 0 {
-		log.Println("no profiles to check")
-		t.Skip()
-		os.Exit(0)
+	if profilename == "" || profilenamespace == "" {
+		tocheck = mapProfilesFromConfig(config, kubeconfig, profilesToCheck, options)
+		if tocheck == 0 {
+			log.Println("no profiles to check")
+			t.Skip()
+			os.Exit(0)
+		}
+	}else{
+		tocheck = 1 
+		profilesToCheck[profilenamespace] = append(profilesToCheck[profilenamespace], profilename)
+
 	}
 
 	checked := checkRunningProfiles(t, pods, kubeconfig, profilesToCheck, options)
