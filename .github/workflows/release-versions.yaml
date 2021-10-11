@@ -17,6 +17,6 @@ jobs:
       - name: Compare versions
         shell: bash
         env:
-          GITHUB_TOKEN: ${{secrets.GIT_TOKEN}}
+          GITHUB_TOKEN: ${{secrets.WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
         run: |
           make release
