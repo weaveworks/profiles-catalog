@@ -2,6 +2,8 @@ apiVersion: weave.works/v1alpha1
 kind: ProfileDefinition
 metadata:
   name: security
+  annotations:
+    profiles.weave.works/version: v0.0.1
 spec:
   description: Profile for deploying calico, kyverno, and snyk profiles
   maintainer: weaveworks
