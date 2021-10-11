@@ -59,6 +59,14 @@ jobs:
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
           make kind-e2e
+      - name: Install Go for profile e2e
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.17.2
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Test profile e2e
+        run: make test-single-profile
   eks-e2e-profile-test:
     name: EKS e2e profile test
     runs-on: ubuntu-latest
@@ -177,15 +185,3 @@ jobs:
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
           make gke-e2e
-  test-profile:
-    name: Test profile
-    runs-on: ubuntu-latest
-    steps:
-      - name: Install Go
-        uses: actions/setup-go@v2
-        with:
-          go-version: 1.17.2
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Test
-        run: make test-single-profile
