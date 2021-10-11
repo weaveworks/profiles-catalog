@@ -3,7 +3,9 @@ package test
 import (
 	"fmt"
 	"io/ioutil"
+	corev1 "k8s.io/api/core/v1"
 	"log"
+	"os"
 	"strings"
 	"testing"
 	"time"
@@ -28,12 +30,7 @@ type Profile struct {
 func TestProfiles(t *testing.T) {
 	t.Parallel()
 
-	var name string
-	var namespace string
-
 	profilesToCheck := make(map[string][]string)
-	tocheck := 0
-	checked := 0
 	kubeconfig := "../.conf/testing.kubeconfig"
 
 	config, err := readConf("values.yaml")
@@ -47,6 +44,26 @@ func TestProfiles(t *testing.T) {
 	// get list of pods
 	pods := k8s.ListPods(t, options, metav1.ListOptions{})
 
+	tocheck := mapProfilesFromConfig(config, kubeconfig, profilesToCheck, options)
+	if tocheck == 0 {
+		log.Println("no profiles to check")
+		t.Skip()
+		os.Exit(0)
+	}
+
+	checked := checkRunningProfiles(t, pods, kubeconfig, profilesToCheck, options)
+	// ensure all profiles where tested
+	if tocheck != checked {
+		t.Errorf("expected '%d' but got '%d'", tocheck, checked)
+	}
+
+}
+
+func mapProfilesFromConfig(config *myData, kubeconfig string, profilesToCheck map[string][]string, options *k8s.KubectlOptions) (tocheck int) {
+	var name string
+	var namespace string
+	tocheck = 0
+
 	for i := 0; i < len(config.Profiles); i++ {
 		name = config.Profiles[i].Name
 		namespace = config.Profiles[i].Namespace
@@ -54,6 +71,12 @@ func TestProfiles(t *testing.T) {
 		profilesToCheck[namespace] = append(profilesToCheck[namespace], name)
 		tocheck++
 	}
+	return tocheck
+}
+
+func checkRunningProfiles(t *testing.T, pods []corev1.Pod, kubeconfig string, profilesToCheck map[string][]string, options *k8s.KubectlOptions) (checked int) {
+	var namespace string
+	checked = 0
 
 	for i := 0; i < len(pods); i++ {
 		namespace = pods[i].Namespace
@@ -68,11 +91,7 @@ func TestProfiles(t *testing.T) {
 			}
 		}
 	}
-	// ensure all profiles where tested
-	if tocheck != checked {
-		t.Errorf("expected '%d' but got '%d'", tocheck, checked)
-	}
-
+	return checked
 }
 
 func readConf(filename string) (*myData, error) {
