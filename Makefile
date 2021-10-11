@@ -78,6 +78,17 @@ check-profile-versions:
 		&& pkill make || \
 		echo "$(cat /tmp/tmp-new) $(cat /tmp/tmp-old) Not equal" ) ; done
 
+release:
+	@for f in ${PROFILE_FILES}; do  \
+		 yq e '.metadata.annotations.${PROFILE_VERSION_ANNOTATION}' ${PWD}/$${f} | cat > /tmp/tmp-version ; \
+		 yq e '.metadata.name' ${PWD}/$${f} | cat > /tmp/tmp-name ; \
+		echo "null" | cat > /tmp/null-value ; \
+		paste -d / /tmp/tmp-name /tmp/tmp-version > /tmp/tmp-release ; \
+		diff /tmp/null-value /tmp/tmp-version || cat /tmp/tmp-release | xargs -I {} gh release create --notes "test" {}; done
+		
+
+
+
 ##@ Post Kubernetes creation with valid KUBECONFIG set it installs gitops and profiles, boostraps cluster, installs profile, and syncs
 ##@ TODO: Clear current profile is it's there
 install-profile-and-sync: install-gitops-on-cluster install-profiles-on-cluster bootstrap-cluster check-repo-dir clone-test-repo check-repo-profile-dir create-profile-kustomization add-profile commit-profile

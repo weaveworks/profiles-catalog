@@ -2,6 +2,8 @@ apiVersion: weave.works/v1alpha1
 kind: ProfileDefinition
 metadata:
   name: gitops-enterprise-leaf-gke
+  annotations:
+    profiles.weave.works/version: v0.0.1
 spec:
   description: Profile for deploying clusters chart
   maintainer: weaveworks
