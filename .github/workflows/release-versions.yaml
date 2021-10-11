@@ -3,9 +3,7 @@ name: Release Versions CI
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
-
+    
 jobs:
   Release-versions:
     name: Release Versions CI
