@@ -280,4 +280,4 @@ test-e2e:
 	@ cd tests && go test
 
 test-single-profile:
-	@ cd tests && go test -args -profilename=${PROFILE} -profilenamespace="default"
+	@ cd tests && go test -args -kubeconfig "../${CONFDIR}/${KIND_CLUSTER}.kubeconfig" -profilename=${PROFILE} -profilenamespace="default"
