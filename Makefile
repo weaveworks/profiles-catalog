@@ -39,6 +39,7 @@ CATALOG_REPO_URL=git@github.com:weaveworks/profiles-catalog.git
 
 PROFILE_VERSION_ANNOTATION="profiles.weave.works/version"
 
+PROFILE_BRANCH=$(shell git rev-parse --abbrev-ref HEAD)
 
 ##@ Flows
 
@@ -277,7 +278,7 @@ add-profile:
 	--profile-repo-url git@github.com:weaveworks/profiles-catalog.git \
 	--git-repository wego-system/wego-system \
 	--profile-path ./${PROFILE} \
-	--profile-branch $(git rev-parse --abbrev-ref HEAD)} 
+	--profile-branch ${PROFILE_BRANCH}
 
 
 local-env:
