@@ -272,7 +272,7 @@ create-profile-kustomization:
 
 add-profile:
 	@echo "Adding pctl Profile to repo"
-	git branch --show-current >> /tmp/branch && \
+	git branch --show-current > /tmp/branch && \
 	cd ${REPODIR} && \
 	cat /tmp/branch | \
 	xargs -I {} \
