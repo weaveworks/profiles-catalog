@@ -1,64 +1,10 @@
-name: Profile CI
+name: EKS Integration Testing
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    branches: [ e2e-testing ]
 
 jobs:
-  kind-e2e-profile-test:
-    name: Kind e2e profile test
-    runs-on: ubuntu-latest
-    env:
-      SSH_DIR: "~/.ssh"
-    steps:
-      - uses: actions/checkout@v2
-      - name: Setup SSH known hosts
-        shell: bash
-        run: |
-          mkdir -p ${SSH_DIR} && chmod 700 ${SSH_DIR}
-          ssh-keyscan github.com >> ${SSH_DIR}/known_hosts
-      - name: Run mgmt integration tests
-        shell: bash
-        env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-          GITHUB_TOKEN: ${{secrets.WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
-          GIT_SSH_COMMAND: /tmp/ssh_command
-          GIT_SSH_COMMAND_DEBUGLOG: "/tmp/1"
-          PROFILE: gitops-enterprise-mgmt-kind
-          TEST_REPO: profiles-catalog-test
-        run: |
-          mkdir -p /tmp/git-keys
-          echo "${{ secrets.PROFILES_CATALOG_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
-          chmod 600 /tmp/git-keys/weaveworks-profiles-catalog 
-          echo "${{ secrets.PROFILES_CATALOG_TEST_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog-test
-          chmod 600 /tmp/git-keys/weaveworks-profiles-catalog-test
-          cp ${{ github.workspace }}/.bin/ssh_command.sh /tmp/ssh_command
-          chmod +x /tmp/ssh_command
-          git config --global user.email "action@github.com"
-          git config --global user.name "GitHub Action"
-          make kind-e2e
-      - name: Run leaf integration tests
-        shell: bash
-        env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-          GITHUB_TOKEN: ${{secrets.WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
-          GIT_SSH_COMMAND: /tmp/ssh_command
-          GIT_SSH_COMMAND_DEBUGLOG: "/tmp/1"
-          PROFILE: gitops-enterprise-leaf-kind
-          TEST_REPO: profiles-catalog-test  
-        run: |
-          mkdir -p /tmp/git-keys
-          echo "${{ secrets.PROFILES_CATALOG_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
-          chmod 600 /tmp/git-keys/weaveworks-profiles-catalog 
-          echo "${{ secrets.PROFILES_CATALOG_TEST_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog-test
-          chmod 600 /tmp/git-keys/weaveworks-profiles-catalog-test
-          cp ${{ github.workspace }}/.bin/ssh_command.sh /tmp/ssh_command
-          chmod +x /tmp/ssh_command
-          git config --global user.email "action@github.com"
-          git config --global user.name "GitHub Action"
-          make kind-e2e
   eks-e2e-profile-test:
     name: EKS e2e profile test
     runs-on: ubuntu-latest
@@ -77,6 +23,23 @@ jobs:
         run: |
           mkdir -p ${SSH_DIR} && chmod 700 ${SSH_DIR}
           ssh-keyscan github.com >> ${SSH_DIR}/known_hosts
+      - name: Create EKS testing cluster
+        shell: bash
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+          GIT_SSH_COMMAND: /tmp/ssh_command
+          GIT_SSH_COMMAND_DEBUGLOG: "/tmp/1"
+        run: |
+          mkdir -p /tmp/git-keys
+          echo "${{ secrets.PROFILES_CATALOG_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
+          chmod 600 /tmp/git-keys/weaveworks-profiles-catalog 
+          echo "${{ secrets.PROFILES_CATALOG_TEST_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog-test
+          chmod 600 /tmp/git-keys/weaveworks-profiles-catalog-test
+          cp ${{ github.workspace }}/.bin/ssh_command.sh /tmp/ssh_command
+          chmod +x /tmp/ssh_command
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+          make setup-eks
       - name: Run mgmt integration tests
         shell: bash
         env:
@@ -119,33 +82,12 @@ jobs:
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
           make eks-e2e
-  gke-e2e-profile-test:
-    name: gke e2e profile test
-    runs-on: ubuntu-latest
-    env:
-      SSH_DIR: "~/.ssh"
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@master
-        with:
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
-          service_account_key: ${{ secrets.GCP_SA_KEY }}
-          export_default_credentials: true
-      - name: Setup SSH known hosts
-        shell: bash
-        run: |
-          mkdir -p ${SSH_DIR} && chmod 700 ${SSH_DIR}
-          ssh-keyscan github.com >> ${SSH_DIR}/known_hosts
-      - name: Run mgmt integration tests
+      - name: Delete EKS testing cluster
         shell: bash
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-          GITHUB_TOKEN: ${{secrets.WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
           GIT_SSH_COMMAND: /tmp/ssh_command
           GIT_SSH_COMMAND_DEBUGLOG: "/tmp/1"
-          PROFILE: gitops-enterprise-mgmt-gke
-          TEST_REPO: profiles-catalog-test       
         run: |
           mkdir -p /tmp/git-keys
           echo "${{ secrets.PROFILES_CATALOG_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
@@ -156,24 +98,4 @@ jobs:
           chmod +x /tmp/ssh_command
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
-          make gke-e2e
-      - name: Run leaf integration tests
-        shell: bash
-        env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-          GITHUB_TOKEN: ${{secrets.WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
-          GIT_SSH_COMMAND: /tmp/ssh_command
-          GIT_SSH_COMMAND_DEBUGLOG: "/tmp/1"
-          PROFILE: gitops-enterprise-leaf-gke
-          TEST_REPO: profiles-catalog-test       
-        run: |
-          mkdir -p /tmp/git-keys
-          echo "${{ secrets.PROFILES_CATALOG_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
-          chmod 600 /tmp/git-keys/weaveworks-profiles-catalog 
-          echo "${{ secrets.PROFILES_CATALOG_TEST_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog-test
-          chmod 600 /tmp/git-keys/weaveworks-profiles-catalog-test
-          cp ${{ github.workspace }}/.bin/ssh_command.sh /tmp/ssh_command
-          chmod +x /tmp/ssh_command
-          git config --global user.email "action@github.com"
-          git config --global user.name "GitHub Action"
-          make gke-e2e
+          make delete-eks-cluster

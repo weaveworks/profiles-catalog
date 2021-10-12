@@ -44,6 +44,7 @@ PROFILE_VERSION_ANNOTATION="profiles.weave.works/version"
 
 ##@ with-clusterctl: check-requirements create-cluster save-kind-cluster-config initialise-docker-provider generate-manifests-clusterctl
 
+
 eks-e2e: deploy-profile-eks
 
 kind-e2e: deploy-profile-kind
@@ -51,7 +52,7 @@ kind-e2e: deploy-profile-kind
 gke-e2e: deploy-profile-gke
 
 deploy-profile-eks: TEST_REPO_BRANCH:=testing-eks
-deploy-profile-eks: check-requirements check-eksctl get-eks-kubeconfig change-eks-kubeconfig clean-repo install-profile-and-sync
+deploy-profile-eks: get-eks-kubeconfig change-eks-kubeconfig clean-repo install-profile-and-sync
 
 deploy-profile-kind: TEST_REPO_BRANCH:=testing-kind
 deploy-profile-kind: check-requirements check-kind create-cluster check-config-dir save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster clean-repo install-profile-and-sync
@@ -60,6 +61,8 @@ deploy-profile-gke: TEST_REPO_BRANCH:=testing-gke
 deploy-profile-gke: check-requirements check-gcloud get-gke-kubeconfig clean-repo install-profile-and-sync
 
 clean-repo: check-repo-dir clone-test-repo remove-all-installed-kustomization remove-all-installed-profiles commit-clean
+
+setup-eks: check-requirements check-eksctl create-eks-cluster
 
 PROFILE_VERSION_ANNOTATION="profiles.weave.works/version"
 PROFILE_FILES := $(shell ls */profile.yaml)
@@ -196,7 +199,7 @@ change-eks-kubeconfig:
 
 create-eks-cluster:
 	@echo "Creating eks cluster ..."
-	eksctl create cluster --name ${EKS_CLUSTER_NAME} \
+	eksctl delete cluster --region ${AWS_REGION} --name ${EKS_CLUSTER_NAME} --wait || eksctl create cluster --name ${EKS_CLUSTER_NAME} \
 		--region ${AWS_REGION} \
 		--version ${EKS_K8S_VERSION} \
 		--nodegroup-name ${NODEGROUP_NAME} \
