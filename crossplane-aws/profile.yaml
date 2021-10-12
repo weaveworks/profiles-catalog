@@ -14,3 +14,8 @@ spec:
         url: https://charts.crossplane.io/stable
         name: crossplane
         version: "1.4.1"
+    - name: crossplane-aws-provider
+      dependsOn:
+        - name: crossplane
+      kustomize:
+        path: "provider/"
