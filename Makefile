@@ -59,7 +59,7 @@ deploy-profile-kind: check-requirements check-kind create-cluster check-config-d
 deploy-profile-gke: TEST_REPO_BRANCH:=testing-gke
 deploy-profile-gke: check-requirements check-gcloud get-gke-kubeconfig clean-repo install-profile-and-sync
 
-clean-repo: check-repo-dir clone-test-repo remove-all-installed-kustomization remove-all-installed-profiles commit-clean
+clean-repo: check-repo-dir clone-test-repo remove-all-installed-kustomization remove-all-installed-profiles
 
 PROFILE_VERSION_ANNOTATION="profiles.weave.works/version"
 PROFILE_FILES := $(shell ls */profile.yaml)
@@ -255,6 +255,7 @@ clone-test-repo:
 commit-clean:
 	@echo "commiting cleaning to repo"
 	cd ${REPODIR} && git add . && ( git commit -m "cleaning profile" | git push  || true )
+	
 commit-profile:
 	@echo "committing profile to repo"
 	cd ${REPODIR} && git add . && git commit -m "adding profile" && git push 
