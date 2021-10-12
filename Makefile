@@ -65,6 +65,8 @@ clean-repo: check-repo-dir clone-test-repo remove-all-installed-kustomization re
 PROFILE_VERSION_ANNOTATION="profiles.weave.works/version"
 PROFILE_FILES := $(shell ls */profile.yaml)
 
+PROFILE_BRANCH := $(git rev-parse --abbrev-ref HEAD)
+
 ##@ This really needs to be taken out of make into bash for the long term.
 ##@ It seems like this is forcing make to do something it was not designed for.
 check-profile-versions:
@@ -275,7 +277,7 @@ add-profile:
 	--profile-repo-url git@github.com:weaveworks/profiles-catalog.git \
 	--git-repository wego-system/wego-system \
 	--profile-path ./${PROFILE} \
-	--profile-branch main 
+	--profile-branch ${PROFILE_BRANCH} 
 
 
 local-env:

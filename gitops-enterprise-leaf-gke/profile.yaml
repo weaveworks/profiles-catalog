@@ -14,8 +14,7 @@ spec:
       profile:
         source:
           url: git@github.com:weaveworks/profiles-catalog.git
-          branch: main
-          path: ./observability           
+          tag: observability/v0.0.1        
     - name: gitops-enterprise-leaf-base
       dependsOn:
       - name: observability
