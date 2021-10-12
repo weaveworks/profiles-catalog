@@ -1,10 +1,11 @@
 package test
 
 import (
+	"context"
+	"encoding/json"
 	"flag"
 	"fmt"
 	"io/ioutil"
-	corev1 "k8s.io/api/core/v1"
 	"log"
 	"os"
 	"strings"
@@ -12,10 +13,16 @@ import (
 	"time"
 
 	"gopkg.in/yaml.v3"
+	corev1 "k8s.io/api/core/v1"
 
 	"github.com/gruntwork-io/terratest/modules/k8s"
+	Profiles "github.com/weaveworks/profiles/api/v1alpha1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/client-go/kubernetes"
+	"k8s.io/client-go/tools/clientcmd"
 )
+
+type ProfileInstallationList = Profiles.ProfileInstallationList
 
 type myData struct {
 	Profiles []Profile `yaml:"profiles,flow"`
@@ -24,8 +31,6 @@ type myData struct {
 type Profile struct {
 	Name      string `yaml:"name"`
 	Namespace string `yaml:"namespace"`
-	//	Healthprobepath string `yaml:"healthprobepath"`
-	//	Port            int    `yaml:"port"`
 }
 
 var kubeconfigpath = flag.String("kubeconfig", "../.conf/testing.kubeconfig", "kubeconfig path")
@@ -33,7 +38,19 @@ var valuespath = flag.String("values", "values.yaml", "profiles values.yaml path
 var uniqueprofilename = flag.String("profilename", "", "individual profile name")
 var uniqueprofilenamespace = flag.String("profilenamespace", "", "individual profile namespace")
 
-func TestProfiles(t *testing.T) {
+func TestProfile(t *testing.T) {
+	kubeconfig := *kubeconfigpath
+	config, _ := clientcmd.BuildConfigFromFlags("", kubeconfig)
+	clientset, _ := kubernetes.NewForConfig(config)
+	var profiles ProfileInstallationList
+	err := getProfileInstallations(clientset, &profiles)
+	if err != nil {
+		panic(err.Error())
+	}
+	fmt.Println(profiles)
+}
+
+func TestProfilesPods(t *testing.T) {
 	t.Parallel()
 
 	kubeconfig := *kubeconfigpath
@@ -42,8 +59,7 @@ func TestProfiles(t *testing.T) {
 	profilenamespace := *uniqueprofilenamespace
 	config, err := readConf(values)
 	profilesToCheck := make(map[string][]string)
-	tocheck := 0 
-
+	tocheck := 0
 
 	if err != nil {
 		log.Fatal(err)
@@ -62,13 +78,13 @@ func TestProfiles(t *testing.T) {
 			t.Skip()
 			os.Exit(0)
 		}
-	}else{
-		tocheck = 1 
+	} else {
+		tocheck = 1
 		profilesToCheck[profilenamespace] = append(profilesToCheck[profilenamespace], profilename)
 
 	}
 
-	checked := checkRunningProfiles(t, pods, kubeconfig, profilesToCheck, options)
+	checked := checkRunningPods(t, pods, kubeconfig, profilesToCheck, options)
 	// ensure all profiles where tested
 	if tocheck != checked {
 		t.Errorf("expected '%d' but got '%d'", tocheck, checked)
@@ -91,7 +107,7 @@ func mapProfilesFromConfig(config *myData, kubeconfig string, profilesToCheck ma
 	return tocheck
 }
 
-func checkRunningProfiles(t *testing.T, pods []corev1.Pod, kubeconfig string, profilesToCheck map[string][]string, options *k8s.KubectlOptions) (checked int) {
+func checkRunningPods(t *testing.T, pods []corev1.Pod, kubeconfig string, profilesToCheck map[string][]string, options *k8s.KubectlOptions) (checked int) {
 	var namespace string
 	checked = 0
 
@@ -124,4 +140,13 @@ func readConf(filename string) (*myData, error) {
 	}
 
 	return c, nil
+}
+
+func getProfileInstallations(clientset *kubernetes.Clientset, profiles *ProfileInstallationList) error {
+	data, err := clientset.RESTClient().Get().AbsPath("/apis/weave.works/v1alpha1/").Namespace("default").Resource("profileinstallations").DoRaw(context.TODO())
+	if err != nil {
+		return err
+	}
+	err = json.Unmarshal(data, &profiles)
+	return err
 }
