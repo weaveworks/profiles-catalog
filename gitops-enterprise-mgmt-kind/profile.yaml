@@ -3,7 +3,7 @@ kind: ProfileDefinition
 metadata:
   name: gitops-enterprise-mgmt-kind
   annotations:
-    profiles.weave.works/version: v0.0.2
+    profiles.weave.works/version: v0.0.3
 spec:
   description: Profile for deploying clusters chart
   maintainer: weaveworks
@@ -14,12 +14,11 @@ spec:
       profile:
         source:
           url: git@github.com:weaveworks/profiles-catalog.git
-          branch: main
-          path: ./observability           
+          tag: observability/v0.0.1           
     - name: gitops-enterprise-mgmt-base
       dependsOn:
       - name: observability
       profile:
         source:
           url: git@github.com:weaveworks/profiles-catalog.git
-          tag: gitops-enterprise-mgmt-base/v0.0.1    
+          tag: gitops-enterprise-mgmt-base/v0.0.1
