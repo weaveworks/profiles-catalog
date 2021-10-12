@@ -33,3 +33,7 @@ Please see the current list of profiles in the catalog below and comment on the 
   - calico
   - kyverno
   - snyk
+* security-gke
+  - calico
+  - kyverno
+  - snyk
