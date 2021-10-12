@@ -272,8 +272,8 @@ create-profile-kustomization:
 
 add-profile:
 	@echo "Adding pctl Profile to repo"
-	cd ${REPODIR} && \
 	git rev-parse --abbrev-ref HEAD >> /tmp/branch && \
+	cd ${REPODIR} && \
 	cat /tmp/branch | \
 	xargs -I {} \
 	pctl add --name ${PROFILE} \
