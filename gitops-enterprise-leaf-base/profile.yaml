@@ -3,7 +3,7 @@ kind: ProfileDefinition
 metadata:
   name: gitops-enterprise-leaf-base
   annotations:
-    profiles.weave.works/version: v0.0.2
+    profiles.weave.works/version: v0.0.1
 spec:
   description: Profile for deploying clusters chart
   maintainer: weaveworks

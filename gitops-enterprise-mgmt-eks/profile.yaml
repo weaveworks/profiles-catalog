@@ -15,7 +15,7 @@ spec:
         source:
           url: git@github.com:weaveworks/profiles-catalog.git
           tag: observability/v0.0.1           
-s    - name: gitops-enterprise-mgmt-base
+    - name: gitops-enterprise-mgmt-base
       dependsOn:
       - name: observability
       profile:
