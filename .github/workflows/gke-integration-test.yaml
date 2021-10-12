@@ -1,7 +1,7 @@
 name: GKE Integration Testing
 
 on:
-  push:
+  pull_request:
     branches: [ e2e-testing ]
 
 jobs:

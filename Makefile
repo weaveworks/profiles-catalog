@@ -19,7 +19,7 @@ REPODIR="${PWD}/.repo"
 
 KIND_CLUSTER=testing
 
-EKS_CLUSTER_NAME="profiles-cluster"
+EKS_CLUSTER_NAME?="profiles-cluster"
 AWS_REGION="us-west-1"
 NODEGROUP_NAME="ng-1"
 NODE_INSTANCE_TYPE="m5.large"
@@ -45,7 +45,7 @@ PROFILE_VERSION_ANNOTATION="profiles.weave.works/version"
 ##@ with-clusterctl: check-requirements create-cluster save-kind-cluster-config initialise-docker-provider generate-manifests-clusterctl
 
 
-eks-e2e: deploy-profile-eks
+eks-e2e: check-requirements check-eksctl create-eks-cluster deploy-profile-eks delete-eks-cluster
 
 kind-e2e: deploy-profile-kind
 
@@ -61,8 +61,6 @@ deploy-profile-gke: TEST_REPO_BRANCH:=testing-gke
 deploy-profile-gke: check-requirements check-gcloud get-gke-kubeconfig clean-repo install-profile-and-sync
 
 clean-repo: check-repo-dir clone-test-repo remove-all-installed-kustomization remove-all-installed-profiles
-
-setup-eks: check-requirements check-eksctl create-eks-cluster
 
 PROFILE_VERSION_ANNOTATION="profiles.weave.works/version"
 PROFILE_FILES := $(shell ls */profile.yaml)

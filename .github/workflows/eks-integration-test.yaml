@@ -1,7 +1,7 @@
 name: EKS Integration Testing
 
 on:
-  push:
+  pull_request:
     branches: [ e2e-testing ]
 
 jobs:
@@ -23,23 +23,6 @@ jobs:
         run: |
           mkdir -p ${SSH_DIR} && chmod 700 ${SSH_DIR}
           ssh-keyscan github.com >> ${SSH_DIR}/known_hosts
-      - name: Create EKS testing cluster
-        shell: bash
-        env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-          GIT_SSH_COMMAND: /tmp/ssh_command
-          GIT_SSH_COMMAND_DEBUGLOG: "/tmp/1"
-        run: |
-          mkdir -p /tmp/git-keys
-          echo "${{ secrets.PROFILES_CATALOG_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
-          chmod 600 /tmp/git-keys/weaveworks-profiles-catalog 
-          echo "${{ secrets.PROFILES_CATALOG_TEST_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog-test
-          chmod 600 /tmp/git-keys/weaveworks-profiles-catalog-test
-          cp ${{ github.workspace }}/.bin/ssh_command.sh /tmp/ssh_command
-          chmod +x /tmp/ssh_command
-          git config --global user.email "action@github.com"
-          git config --global user.name "GitHub Action"
-          make setup-eks
       - name: Run mgmt integration tests
         shell: bash
         env:
@@ -49,7 +32,8 @@ jobs:
           GIT_SSH_COMMAND_DEBUGLOG: "/tmp/1"
           KUBECONFIG: "/home/runner/work/profiles-catalog/profiles-catalog/.conf/profiles-cluster.kubeconfig"
           PROFILE: gitops-enterprise-mgmt-eks
-          TEST_REPO: profiles-catalog-test       
+          TEST_REPO: profiles-catalog-test
+          EKS_CLUSTER_NAME: profiles-test-${{ github.ref }}-${{ github.run_id }}
         run: |
           mkdir -p /tmp/git-keys
           echo "${{ secrets.PROFILES_CATALOG_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog

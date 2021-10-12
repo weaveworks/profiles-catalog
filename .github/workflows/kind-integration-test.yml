@@ -4,7 +4,7 @@ on:
   push:
     branches: [ main, e2e-testing ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, e2e-testing ]
 
 jobs:
   kind-e2e-profile-test:
