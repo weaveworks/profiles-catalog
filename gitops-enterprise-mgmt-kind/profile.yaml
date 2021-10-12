@@ -22,5 +22,4 @@ spec:
       profile:
         source:
           url: git@github.com:weaveworks/profiles-catalog.git
-          branch: main
-          path: ./gitops-enterprise-mgmt-base     
+          tag: gitops-enterprise-mgmt-base/v0.0.1    
