@@ -30,10 +30,10 @@ jobs:
           GITHUB_TOKEN: ${{secrets.WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
           GIT_SSH_COMMAND: /tmp/ssh_command
           GIT_SSH_COMMAND_DEBUGLOG: "/tmp/1"
-          KUBECONFIG: "/home/runner/work/profiles-catalog/profiles-catalog/.conf/profiles-cluster.kubeconfig"
+          KUBECONFIG: "/home/runner/work/profiles-catalog/profiles-catalog/.conf/eks-cluster.kubeconfig"
           PROFILE: gitops-enterprise-mgmt-eks
           TEST_REPO: profiles-catalog-test
-          EKS_CLUSTER_NAME: profiles-test-${{ github.head_ref }}-${{ github.run_number }}
+          EKS_CLUSTER_NAME: profiles-test-mgmt-${{ github.head_ref }}-${{ github.run_number }}
         run: |
           mkdir -p /tmp/git-keys
           echo "${{ secrets.PROFILES_CATALOG_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
@@ -55,7 +55,7 @@ jobs:
           KUBECONFIG: "/home/runner/work/profiles-catalog/profiles-catalog/.conf/profiles-cluster.kubeconfig"
           PROFILE: gitops-enterprise-leaf-eks
           TEST_REPO: profiles-catalog-test
-          EKS_CLUSTER_NAME: profiles-test-${{ github.head_ref }}-${{ github.run_number }}
+          EKS_CLUSTER_NAME: profiles-test-leaf-${{ github.head_ref }}-${{ github.run_number }}
         run: |
           mkdir -p /tmp/git-keys
           echo "${{ secrets.PROFILES_CATALOG_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog

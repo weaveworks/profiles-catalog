@@ -26,7 +26,7 @@ NODE_INSTANCE_TYPE="m5.large"
 NUM_OF_NODES="2"
 EKS_K8S_VERSION="1.21"
 
-GKE_CLUSTER_NAME="weave-profiles-test-cluster"
+GKE_CLUSTER_NAME?="weave-profiles-test-cluster"
 GCP_REGION="us-west1"
 GCP_PROJECT_NAME="weave-profiles"
 
@@ -45,20 +45,20 @@ PROFILE_VERSION_ANNOTATION="profiles.weave.works/version"
 ##@ with-clusterctl: check-requirements create-cluster save-kind-cluster-config initialise-docker-provider generate-manifests-clusterctl
 
 
-eks-e2e: check-requirements check-eksctl create-eks-cluster deploy-profile-eks delete-eks-cluster
+eks-e2e: deploy-profile-eks
 
 kind-e2e: deploy-profile-kind
 
 gke-e2e: deploy-profile-gke
 
 deploy-profile-eks: TEST_REPO_BRANCH:=testing-eks
-deploy-profile-eks: get-eks-kubeconfig change-eks-kubeconfig clean-repo install-profile-and-sync
+deploy-profile-eks: check-requirements check-eksctl create-eks-cluster get-eks-kubeconfig change-eks-kubeconfig clean-repo install-profile-and-sync delete-eks-cluster
 
 deploy-profile-kind: TEST_REPO_BRANCH:=testing-kind
 deploy-profile-kind: check-requirements check-kind create-cluster check-config-dir save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster clean-repo install-profile-and-sync
 
 deploy-profile-gke: TEST_REPO_BRANCH:=testing-gke
-deploy-profile-gke: check-requirements check-gcloud get-gke-kubeconfig clean-repo install-profile-and-sync
+deploy-profile-gke: check-requirements check-gcloud create-gke-cluster get-gke-kubeconfig clean-repo install-profile-and-sync delete-gke-cluster
 
 clean-repo: check-repo-dir clone-test-repo remove-all-installed-kustomization remove-all-installed-profiles
 
@@ -192,7 +192,7 @@ change-kubeconfig:
 	@export KUBECONFIG=${CONFDIR}/${KIND_CLUSTER}.kubeconfig
 
 change-eks-kubeconfig:
-	@export KUBECONFIG=${CONFDIR}/${EKS_CLUSTER_NAME}.kubeconfig
+	@export KUBECONFIG=${CONFDIR}/eks-cluster.kubeconfig
 
 
 create-eks-cluster:
@@ -203,11 +203,11 @@ create-eks-cluster:
 		--nodegroup-name ${NODEGROUP_NAME} \
 		--node-type ${NODE_INSTANCE_TYPE} \
 		--nodes ${NUM_OF_NODES} \
-		--kubeconfig ${CONFDIR}/${EKS_CLUSTER_NAME}.kubeconfig
+		--kubeconfig ${CONFDIR}/eks-cluster.kubeconfig
 
 get-eks-kubeconfig:
 	@echo "Creating kubeconfig for EKS cluster ..."
-	eksctl utils write-kubeconfig --region ${AWS_REGION} --cluster ${EKS_CLUSTER_NAME} --kubeconfig ${CONFDIR}/${EKS_CLUSTER_NAME}.kubeconfig
+	eksctl utils write-kubeconfig --region ${AWS_REGION} --cluster ${EKS_CLUSTER_NAME} --kubeconfig ${CONFDIR}/eks-cluster.kubeconfig
 
 delete-eks-cluster:
 	@echo "Deleting eks cluster ..."
@@ -216,6 +216,14 @@ delete-eks-cluster:
 get-gke-kubeconfig:
 	@echo "Creating kubeconfig for GKE cluster ..."
 	gcloud container clusters get-credentials ${GKE_CLUSTER_NAME} --region ${GCP_REGION} --project ${GCP_PROJECT_NAME}
+
+create-gke-cluster:
+	@echo "Creating gke cluster ..."
+	gcloud container clusters create ${GKE_CLUSTER_NAME} --region ${GCP_REGION} --project ${GCP_PROJECT_NAME}
+
+delete-gke-cluster:
+	@echo "Deleting gke cluster ..."
+	gcloud container clusters delete ${GKE_CLUSTER_NAME} --region ${GCP_REGION} --project ${GCP_PROJECT_NAME} -q 
 ##@ kubernetes
 
 upload-profiles-image-to-cluster:

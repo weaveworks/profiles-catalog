@@ -31,7 +31,8 @@ jobs:
           GIT_SSH_COMMAND: /tmp/ssh_command
           GIT_SSH_COMMAND_DEBUGLOG: "/tmp/1"
           PROFILE: gitops-enterprise-mgmt-gke
-          TEST_REPO: profiles-catalog-test       
+          TEST_REPO: profiles-catalog-test
+          GKE_CLUSTER_NAME: profiles-test-mgmt-${{ github.head_ref }}-${{ github.run_number }}
         run: |
           mkdir -p /tmp/git-keys
           echo "${{ secrets.PROFILES_CATALOG_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
@@ -51,7 +52,8 @@ jobs:
           GIT_SSH_COMMAND: /tmp/ssh_command
           GIT_SSH_COMMAND_DEBUGLOG: "/tmp/1"
           PROFILE: gitops-enterprise-leaf-gke
-          TEST_REPO: profiles-catalog-test       
+          TEST_REPO: profiles-catalog-test
+          GKE_CLUSTER_NAME: profiles-test-leaf-${{ github.head_ref }}-${{ github.run_number }}
         run: |
           mkdir -p /tmp/git-keys
           echo "${{ secrets.PROFILES_CATALOG_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
