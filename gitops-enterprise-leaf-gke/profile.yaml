@@ -22,4 +22,5 @@ spec:
       profile:
         source:
           url: git@github.com:weaveworks/profiles-catalog.git
-          tag: gitops-enterprise-leaf-base/v0.0.1
+          path: ./gitops-enterprise-leaf-base
+          branch: main
