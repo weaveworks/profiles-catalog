@@ -3,7 +3,7 @@ kind: ProfileDefinition
 metadata:
   name: gitops-enterprise-leaf-gke
   annotations:
-    profiles.weave.works/version: v0.0.3
+    profiles.weave.works/version: v0.0.4
 spec:
   description: Profile for deploying clusters chart
   maintainer: weaveworks
@@ -21,5 +21,4 @@ spec:
       profile:
         source:
           url: git@github.com:weaveworks/profiles-catalog.git
-          branch: main
-          path: ./gitops-enterprise-leaf-base  
+          tag: gitops-enterprise-leaf-base/v0.0.2
