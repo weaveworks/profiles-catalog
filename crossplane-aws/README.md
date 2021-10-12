@@ -23,3 +23,5 @@ kubectl apply -f "secret.yaml"
 # delete the credentials variable
 unset BASE64ENCODED_AWS_ACCOUNT_CREDS
 ```
+
+For more information, please visit [Crossplane documentation](https://crossplane.io/docs/v1.4/cloud-providers/aws/aws-provider.html).
