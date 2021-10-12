@@ -3,7 +3,7 @@ kind: ProfileDefinition
 metadata:
   name: gitops-enterprise-mgmt-eks
   annotations:
-    profiles.weave.works/version: v0.0.1
+    profiles.weave.works/version: v0.0.2
 spec:
   description: Profile for deploying clusters chart
   maintainer: weaveworks
@@ -22,8 +22,7 @@ spec:
       profile:
         source:
           url: git@github.com:weaveworks/profiles-catalog.git
-          branch: main
-          path: ./gitops-enterprise-mgmt-base     
+          tag: gitops-enterprise-mgmt-base/v0.0.1
     - name: security
       profile:
         source:

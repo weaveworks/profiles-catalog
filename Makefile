@@ -63,7 +63,7 @@ deploy-profile-gke: check-requirements check-gcloud get-gke-kubeconfig clean-rep
 clean-repo: check-repo-dir clone-test-repo remove-all-installed-kustomization remove-all-installed-profiles commit-clean
 
 PROFILE_VERSION_ANNOTATION="profiles.weave.works/version"
-PROFILE_FILES := $(shell ls gitops-*/profile.yaml)
+PROFILE_FILES := $(shell ls */profile.yaml)
 
 ##@ This really needs to be taken out of make into bash for the long term.
 ##@ It seems like this is forcing make to do something it was not designed for.
