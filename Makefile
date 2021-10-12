@@ -39,8 +39,6 @@ CATALOG_REPO_URL=git@github.com:weaveworks/profiles-catalog.git
 
 PROFILE_VERSION_ANNOTATION="profiles.weave.works/version"
 
-PROFILE_BRANCH=$(shell git rev-parse --abbrev-ref HEAD)
-
 ##@ Flows
 
 
@@ -274,11 +272,15 @@ create-profile-kustomization:
 
 add-profile:
 	@echo "Adding pctl Profile to repo"
-	cd ${REPODIR} && pctl add --name ${PROFILE} \
+	cd ${REPODIR} && \
+	git rev-parse --abbrev-ref HEAD >> /tmp/branch && \
+	cat /tmp/branch | \
+	xargs -I {} \
+	pctl add --name ${PROFILE} \
 	--profile-repo-url git@github.com:weaveworks/profiles-catalog.git \
 	--git-repository wego-system/wego-system \
 	--profile-path ./${PROFILE} \
-	--profile-branch ${PROFILE_BRANCH}
+	--profile-branch {}
 
 
 local-env:
