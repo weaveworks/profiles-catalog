@@ -23,3 +23,4 @@ To add from a profile catalog entry:
 ```
 pctl --catalog-url https://github.com/weaveworks/profiles-catalog add --name <profile-name> --namespace default --profile-branch main --config-map configmap-name weaveworks-profiles-catalog/<PROFILE>[/<VERSION>]
 ```
+test
