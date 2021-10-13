@@ -151,6 +151,7 @@ func mapProfilesFromConfig(config *myData, kubeconfig string, profilesToCheck ma
 
 func checkRunningPods(t *testing.T, pods []corev1.Pod, kubeconfig string, profilesToCheck map[string][]string, options *k8s.KubectlOptions) (checked int) {
 	var namespace string
+	var parentReference string
 	checked = 0
 
 	for i := 0; i < len(pods); i++ {
@@ -158,7 +159,8 @@ func checkRunningPods(t *testing.T, pods []corev1.Pod, kubeconfig string, profil
 		// waituntilavailable needs specific namespace
 		options = k8s.NewKubectlOptions("", kubeconfig, namespace)
 		for k := 0; k < len(profilesToCheck[namespace]); k++ {
-			if strings.Contains(pods[i].Name, profilesToCheck[namespace][k]) {
+			parentReference = pods[i].GetOwnerReferences()[0].Name
+			if strings.Contains(parentReference, profilesToCheck[namespace][k]) {
 				fmt.Println("Tested profile:", profilesToCheck[namespace][k], "Namespace: ", namespace, "Pod:", pods[i].Name)
 				//wait until they are available
 				k8s.WaitUntilPodAvailable(t, options, pods[i].Name, 60, 1*time.Second)
