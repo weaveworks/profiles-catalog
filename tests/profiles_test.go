@@ -12,6 +12,8 @@ import (
 	"strings"
 	"testing"
 	"time"
+	"strconv"
+
 
 	"gopkg.in/yaml.v3"
 	v1 "k8s.io/api/apps/v1"
@@ -215,8 +217,7 @@ func statefulsetToCheck(resource []v1.StatefulSet, profilename string, resources
 		label = resource[i].Labels["helm.toolkit.fluxcd.io/name"]
 		if strings.Contains(label, profilename) {
 			resourcesToCheck[namespace] = append(resourcesToCheck[namespace], name)
-			tocheck++
-
+			tocheck = tocheck + int(*resource[i].Spec.Replicas)
 		}
 	}
 	return tocheck
@@ -234,7 +235,7 @@ func daemonsetToCheck(resource []v1.DaemonSet, profilename string, resourcesToCh
 		label = resource[i].Labels["helm.toolkit.fluxcd.io/name"]
 		if strings.Contains(label, profilename) {
 			resourcesToCheck[namespace] = append(resourcesToCheck[namespace], name)
-			tocheck++
+			tocheck = tocheck + int(resource[i].Status.DesiredNumberScheduled)
 		}
 	}
 	return tocheck
@@ -265,7 +266,12 @@ func replicasetToCheck(deployments []v1.Deployment, resource []v1.ReplicaSet, pr
 			replicasetParentReference = resource[i].GetOwnerReferences()[0].Name
 			if tempcheck[j].Name == replicasetParentReference {
 				resourcesToCheck[namespace] = append(resourcesToCheck[namespace], name)
-				tocheck++
+				desiredReplicas, err := strconv.Atoi(resource[i].Annotations["deployment.kubernetes.io/desired-replicas"])
+				if err != nil {
+					fmt.Println(err)
+					desiredReplicas = 1
+				}
+				tocheck = tocheck + int(desiredReplicas)
 			}
 		}
 	}
