@@ -12,6 +12,6 @@ spec:
   artifacts:
     - name: jaeger-operator
       chart:
-        url: https://github.com/jaegertracing/helm-charts/tree/main/charts/jaeger-operator
+        url: https://jaegertracing.github.io/helm-charts
         name: jaeger-operator
         version: "2.25.0"
