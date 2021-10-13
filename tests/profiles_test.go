@@ -40,7 +40,6 @@ var valuespath = flag.String("values", "values.yaml", "profiles values.yaml path
 var uniqueprofilename = flag.String("profilename", "", "individual profile name")
 var uniqueprofilenamespace = flag.String("profilenamespace", "", "individual profile namespace")
 
-
 func TestProfileInstallation(t *testing.T) {
 	kubeconfig := *kubeconfigpath
 	profiletocheck := *uniqueprofilename
@@ -64,7 +63,8 @@ func TestProfileInstallationComponents(t *testing.T) {
 	config, _ := clientcmd.BuildConfigFromFlags("", kubeconfig)
 	clientset, _ := kubernetes.NewForConfig(config)
 	profilename := *uniqueprofilename
-
+	checked := 0
+	tocheck := 0
 	profilesComponentsToCheck := make(map[string][]string)
 
 	// Setup the kubectl config and context.
@@ -78,16 +78,14 @@ func TestProfileInstallationComponents(t *testing.T) {
 	deployments := deploymentsList.Items
 	statefulSetsList, _ := clientset.AppsV1().StatefulSets("").List(context.TODO(), metav1.ListOptions{})
 	statefulSets := statefulSetsList.Items
-	statefulsetToCheck(statefulSets, profilename, profilesComponentsToCheck)
-	replicasetToCheck(deployments, replicaSets, profilename, profilesComponentsToCheck)
-	daemonsetToCheck(daemonSets, profilename, profilesComponentsToCheck)
+	tocheck = tocheck + statefulsetToCheck(statefulSets, profilename, profilesComponentsToCheck)
+	tocheck = tocheck + replicasetToCheck(deployments, replicaSets, profilename, profilesComponentsToCheck)
+	tocheck = tocheck + daemonsetToCheck(daemonSets, profilename, profilesComponentsToCheck)
 
-	checkRunningPods(t, pods, kubeconfig, profilesComponentsToCheck, options)
-
-	fmt.Println(pods)
-	fmt.Println(daemonSets)
-	fmt.Println(replicaSets)
-	fmt.Println(statefulSets)
+	checked = checkRunningPods(t, pods, kubeconfig, profilesComponentsToCheck, options)
+	if tocheck != checked {
+		t.Errorf("expected '%d' but got '%d'", tocheck, checked)
+	}
 }
 
 func TestProfilesPods(t *testing.T) {
@@ -200,40 +198,50 @@ func checkInstalledProfiles(profiles ProfileInstallationList, profilename string
 	return errors.New("Profile not installed")
 }
 
-func statefulsetToCheck(resource []v1.StatefulSet, profilename string, resourcesToCheck map[string][]string) {
+func statefulsetToCheck(resource []v1.StatefulSet, profilename string, resourcesToCheck map[string][]string) (tocheck int) {
 	var name string
 	var namespace string
 	var label string
+	tocheck = 0
 	for i := 0; i < len(resource); i++ {
 		name = resource[i].Name
 		namespace = resource[i].Namespace
 		label = resource[i].Labels["helm.toolkit.fluxcd.io/name"]
 		if strings.Contains(label, profilename) {
 			resourcesToCheck[namespace] = append(resourcesToCheck[namespace], name)
+			tocheck++
+
 		}
 	}
+	return tocheck
 }
 
-func daemonsetToCheck(resource []v1.DaemonSet, profilename string, resourcesToCheck map[string][]string) {
+func daemonsetToCheck(resource []v1.DaemonSet, profilename string, resourcesToCheck map[string][]string) (tocheck int) {
 	var name string
 	var namespace string
 	var label string
+	tocheck = 0
+
 	for i := 0; i < len(resource); i++ {
 		name = resource[i].Name
 		namespace = resource[i].Namespace
 		label = resource[i].Labels["helm.toolkit.fluxcd.io/name"]
 		if strings.Contains(label, profilename) {
 			resourcesToCheck[namespace] = append(resourcesToCheck[namespace], name)
+			tocheck++
 		}
 	}
+	return tocheck
+
 }
 
-func replicasetToCheck(deployments []v1.Deployment, resource []v1.ReplicaSet, profilename string, resourcesToCheck map[string][]string) {
+func replicasetToCheck(deployments []v1.Deployment, resource []v1.ReplicaSet, profilename string, resourcesToCheck map[string][]string) (tocheck int) {
 	var name string
 	var namespace string
 	var label string
 	var tempcheck []v1.Deployment
 	var replicasetParentReference string
+	tocheck = 0
 
 	for i := 0; i < len(deployments); i++ {
 		name = deployments[i].Name
@@ -251,7 +259,10 @@ func replicasetToCheck(deployments []v1.Deployment, resource []v1.ReplicaSet, pr
 			replicasetParentReference = resource[i].GetOwnerReferences()[0].Name
 			if tempcheck[j].Name == replicasetParentReference {
 				resourcesToCheck[namespace] = append(resourcesToCheck[namespace], name)
+				tocheck++
 			}
 		}
 	}
+	return tocheck
+
 }
