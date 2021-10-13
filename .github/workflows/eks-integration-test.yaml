@@ -1,0 +1,71 @@
+name: EKS Integration Testing
+
+on:
+  pull_request:
+    branches: [ e2e-testing ]
+
+jobs:
+  eks-e2e-profile-test:
+    name: EKS e2e profile test
+    runs-on: ubuntu-latest
+    env:
+      SSH_DIR: "~/.ssh"
+    steps:
+      - uses: actions/checkout@v2
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-west-1
+      - name: Setup SSH known hosts
+        shell: bash
+        run: |
+          mkdir -p ${SSH_DIR} && chmod 700 ${SSH_DIR}
+          ssh-keyscan github.com >> ${SSH_DIR}/known_hosts
+      - name: Run mgmt integration tests
+        shell: bash
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+          GITHUB_TOKEN: ${{secrets.WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
+          GIT_SSH_COMMAND: /tmp/ssh_command
+          GIT_SSH_COMMAND_DEBUGLOG: "/tmp/1"
+          KUBECONFIG: "/home/runner/work/profiles-catalog/profiles-catalog/.conf/eks-cluster.kubeconfig"
+          PROFILE: gitops-enterprise-mgmt-eks
+          TEST_REPO: profiles-catalog-test
+          EKS_CLUSTER_NAME: profiles-test-mgmt-${{ github.head_ref }}-${{ github.run_number }}
+          TEST_REPO_BRANCH: e2e-mgmt-${{ github.head_ref }}-${{ github.run_number }}
+        run: |
+          mkdir -p /tmp/git-keys
+          echo "${{ secrets.PROFILES_CATALOG_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
+          chmod 600 /tmp/git-keys/weaveworks-profiles-catalog 
+          echo "${{ secrets.PROFILES_CATALOG_TEST_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog-test
+          chmod 600 /tmp/git-keys/weaveworks-profiles-catalog-test
+          cp ${{ github.workspace }}/.bin/ssh_command.sh /tmp/ssh_command
+          chmod +x /tmp/ssh_command
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+          make eks-e2e
+      - name: Run leaf integration tests
+        shell: bash
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+          GITHUB_TOKEN: ${{secrets.WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
+          GIT_SSH_COMMAND: /tmp/ssh_command
+          GIT_SSH_COMMAND_DEBUGLOG: "/tmp/1"
+          KUBECONFIG: "/home/runner/work/profiles-catalog/profiles-catalog/.conf/profiles-cluster.kubeconfig"
+          PROFILE: gitops-enterprise-leaf-eks
+          TEST_REPO: profiles-catalog-test
+          EKS_CLUSTER_NAME: profiles-test-leaf-${{ github.head_ref }}-${{ github.run_number }}
+          TEST_REPO_BRANCH: e2e-leaf-${{ github.head_ref }}-${{ github.run_number }}
+        run: |
+          mkdir -p /tmp/git-keys
+          echo "${{ secrets.PROFILES_CATALOG_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
+          chmod 600 /tmp/git-keys/weaveworks-profiles-catalog 
+          echo "${{ secrets.PROFILES_CATALOG_TEST_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog-test
+          chmod 600 /tmp/git-keys/weaveworks-profiles-catalog-test
+          cp ${{ github.workspace }}/.bin/ssh_command.sh /tmp/ssh_command
+          chmod +x /tmp/ssh_command
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+          make eks-e2e

@@ -19,14 +19,14 @@ REPODIR="${PWD}/.repo"
 
 KIND_CLUSTER=testing
 
-EKS_CLUSTER_NAME="profiles-cluster"
+EKS_CLUSTER_NAME?="profiles-cluster"
 AWS_REGION="us-west-1"
 NODEGROUP_NAME="ng-1"
 NODE_INSTANCE_TYPE="m5.large"
 NUM_OF_NODES="2"
 EKS_K8S_VERSION="1.21"
 
-GKE_CLUSTER_NAME="weave-profiles-test-cluster"
+GKE_CLUSTER_NAME?="weave-profiles-test-cluster"
 GCP_REGION="us-west1"
 GCP_PROJECT_NAME="weave-profiles"
 
@@ -34,16 +34,16 @@ PROFILE?=gitops-enterprise-mgmt-kind
 
 TEST_REPO_USER?=weaveworks
 TEST_REPO?=profiles-catalog-test
-TEST_REPO_BRANCH:=testing
+TEST_REPO_BRANCH?=testing
 CATALOG_REPO_URL=git@github.com:weaveworks/profiles-catalog.git
 
 PROFILE_VERSION_ANNOTATION="profiles.weave.works/version"
-
 
 ##@ Flows
 
 
 ##@ with-clusterctl: check-requirements create-cluster save-kind-cluster-config initialise-docker-provider generate-manifests-clusterctl
+
 
 eks-e2e: deploy-profile-eks
 
@@ -51,21 +51,16 @@ kind-e2e: deploy-profile-kind
 
 gke-e2e: deploy-profile-gke
 
-deploy-profile-eks: TEST_REPO_BRANCH:=testing-eks
-deploy-profile-eks: check-requirements check-eksctl get-eks-kubeconfig change-eks-kubeconfig clean-repo install-profile-and-sync
+deploy-profile-eks: check-requirements check-eksctl create-eks-cluster get-eks-kubeconfig change-eks-kubeconfig clean-repo install-profile-and-sync delete-eks-cluster
 
-deploy-profile-kind: TEST_REPO_BRANCH:=testing-kind
 deploy-profile-kind: check-requirements check-kind create-cluster check-config-dir save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster clean-repo install-profile-and-sync
 
-deploy-profile-gke: TEST_REPO_BRANCH:=testing-gke
-deploy-profile-gke: check-requirements check-gcloud get-gke-kubeconfig clean-repo install-profile-and-sync
+deploy-profile-gke: check-requirements check-gcloud create-gke-cluster get-gke-kubeconfig clean-repo install-profile-and-sync delete-gke-cluster
 
-test-profiles: test-e2e
-
-clean-repo: check-repo-dir clone-test-repo remove-all-installed-kustomization remove-all-installed-profiles commit-clean
+clean-repo: check-repo-dir clone-test-repo remove-all-installed-kustomization remove-all-installed-profiles
 
 PROFILE_VERSION_ANNOTATION="profiles.weave.works/version"
-PROFILE_FILES := $(shell ls gitops-*/profile.yaml)
+PROFILE_FILES := $(shell ls */profile.yaml)
 
 ##@ This really needs to be taken out of make into bash for the long term.
 ##@ It seems like this is forcing make to do something it was not designed for.
@@ -79,6 +74,17 @@ check-profile-versions:
 		(  diff /tmp/tmp-new /tmp/tmp-old \
 		&& pkill make || \
 		echo "$(cat /tmp/tmp-new) $(cat /tmp/tmp-old) Not equal" ) ; done
+
+release:
+	@for f in ${PROFILE_FILES}; do  \
+		 yq e '.metadata.annotations.${PROFILE_VERSION_ANNOTATION}' ${PWD}/$${f} | cat > /tmp/tmp-version ; \
+		 yq e '.metadata.name' ${PWD}/$${f} | cat > /tmp/tmp-name ; \
+		echo "null" | cat > /tmp/null-value ; \
+		paste -d / /tmp/tmp-name /tmp/tmp-version > /tmp/tmp-release ; \
+		diff /tmp/null-value /tmp/tmp-version || cat /tmp/tmp-release | xargs -I {} gh release create --notes "test" {} || true; done
+		
+
+
 
 ##@ Post Kubernetes creation with valid KUBECONFIG set it installs gitops and profiles, boostraps cluster, installs profile, and syncs
 ##@ TODO: Clear current profile is it's there
@@ -183,22 +189,22 @@ change-kubeconfig:
 	@export KUBECONFIG=${CONFDIR}/${KIND_CLUSTER}.kubeconfig
 
 change-eks-kubeconfig:
-	@export KUBECONFIG=${CONFDIR}/${EKS_CLUSTER_NAME}.kubeconfig
+	@export KUBECONFIG=${CONFDIR}/eks-cluster.kubeconfig
 
 
 create-eks-cluster:
 	@echo "Creating eks cluster ..."
-	eksctl create cluster --name ${EKS_CLUSTER_NAME} \
+	eksctl delete cluster --region ${AWS_REGION} --name ${EKS_CLUSTER_NAME} --wait || eksctl create cluster --name ${EKS_CLUSTER_NAME} \
 		--region ${AWS_REGION} \
 		--version ${EKS_K8S_VERSION} \
 		--nodegroup-name ${NODEGROUP_NAME} \
 		--node-type ${NODE_INSTANCE_TYPE} \
 		--nodes ${NUM_OF_NODES} \
-		--kubeconfig ${CONFDIR}/${EKS_CLUSTER_NAME}.kubeconfig
+		--kubeconfig ${CONFDIR}/eks-cluster.kubeconfig
 
 get-eks-kubeconfig:
 	@echo "Creating kubeconfig for EKS cluster ..."
-	eksctl utils write-kubeconfig --region ${AWS_REGION} --cluster ${EKS_CLUSTER_NAME} --kubeconfig ${CONFDIR}/${EKS_CLUSTER_NAME}.kubeconfig
+	eksctl utils write-kubeconfig --region ${AWS_REGION} --cluster ${EKS_CLUSTER_NAME} --kubeconfig ${CONFDIR}/eks-cluster.kubeconfig
 
 delete-eks-cluster:
 	@echo "Deleting eks cluster ..."
@@ -207,6 +213,14 @@ delete-eks-cluster:
 get-gke-kubeconfig:
 	@echo "Creating kubeconfig for GKE cluster ..."
 	gcloud container clusters get-credentials ${GKE_CLUSTER_NAME} --region ${GCP_REGION} --project ${GCP_PROJECT_NAME}
+
+create-gke-cluster:
+	@echo "Creating gke cluster ..."
+	gcloud container clusters create ${GKE_CLUSTER_NAME} --region ${GCP_REGION} --project ${GCP_PROJECT_NAME}
+
+delete-gke-cluster:
+	@echo "Deleting gke cluster ..."
+	gcloud container clusters delete ${GKE_CLUSTER_NAME} --region ${GCP_REGION} --project ${GCP_PROJECT_NAME} -q 
 ##@ kubernetes
 
 upload-profiles-image-to-cluster:
@@ -247,6 +261,7 @@ clone-test-repo:
 commit-clean:
 	@echo "commiting cleaning to repo"
 	cd ${REPODIR} && git add . && ( git commit -m "cleaning profile" | git push  || true )
+	
 commit-profile:
 	@echo "committing profile to repo"
 	cd ${REPODIR} && git add . && git commit -m "adding profile" && git push 
@@ -262,11 +277,15 @@ create-profile-kustomization:
 
 add-profile:
 	@echo "Adding pctl Profile to repo"
-	cd ${REPODIR} && pctl add --name ${PROFILE} \
+	git branch --show-current > /tmp/branch && \
+	cd ${REPODIR} && \
+	cat /tmp/branch | \
+	xargs -I {} \
+	pctl add --name ${PROFILE} \
 	--profile-repo-url git@github.com:weaveworks/profiles-catalog.git \
 	--git-repository wego-system/wego-system \
 	--profile-path ./${PROFILE} \
-	--profile-branch main 
+	--profile-branch {}
 
 
 local-env:

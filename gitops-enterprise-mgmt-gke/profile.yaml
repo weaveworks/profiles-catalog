@@ -2,6 +2,8 @@ apiVersion: weave.works/v1alpha1
 kind: ProfileDefinition
 metadata:
   name: gitops-enterprise-mgmt-gke
+  annotations:
+    profiles.weave.works/version: v0.0.4
 spec:
   description: Profile for deploying clusters chart
   maintainer: weaveworks
@@ -12,19 +14,16 @@ spec:
       profile:
         source:
           url: git@github.com:weaveworks/profiles-catalog.git
-          branch: main
-          path: ./observability           
+          tag: observability/v0.0.1           
     - name: gitops-enterprise-mgmt-base
       dependsOn:
       - name: observability
       profile:
         source:
           url: git@github.com:weaveworks/profiles-catalog.git
-          branch: main
-          path: ./gitops-enterprise-mgmt-base     
+          tag: gitops-enterprise-mgmt-base/v0.0.1 
     - name: security
       profile:
         source:
           url: git@github.com:weaveworks/profiles-catalog.git
-          branch: main
-          path: ./security-gke
+          tag: security-gke/v0.0.2
