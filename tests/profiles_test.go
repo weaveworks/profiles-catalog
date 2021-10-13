@@ -41,48 +41,6 @@ var uniqueprofilename = flag.String("profilename", "", "individual profile name"
 var uniqueprofilenamespace = flag.String("profilenamespace", "", "individual profile namespace")
 
 
-func statefulsetToCheck(resource []v1.StatefulSet, profilename string, resourcesToCheck map[string][]string){
-	var name string
-	var namespace string
-	var label string
-	for i := 0 ; i < len(resource); i++ {
-		name = resource[i].Name
-		namespace = resource[i].Namespace
-		label = resource[i].Labels["helm.toolkit.fluxcd.io/name"]
-		if strings.Contains(label, profilename){
-			resourcesToCheck[namespace] = append(resourcesToCheck[namespace], name)
-		}
-	}
-}
-
-func daemonsetToCheck(resource []v1.DaemonSet, profilename string, resourcesToCheck map[string][]string){
-	var name string
-	var namespace string
-	var label string
-	for i := 0 ; i < len(resource); i++ {
-		name = resource[i].Name
-		namespace = resource[i].Namespace
-		label = resource[i].Labels["helm.toolkit.fluxcd.io/name"]
-		if strings.Contains(label, profilename){
-			resourcesToCheck[namespace] = append(resourcesToCheck[namespace], name)
-		}
-	}
-}
-
-func replicasetToCheck(resource []v1.ReplicaSet, profilename string, resourcesToCheck map[string][]string){
-	var name string
-	var namespace string
-	var label string
-	for i := 0 ; i < len(resource); i++ {
-		name = resource[i].Name
-		namespace = resource[i].Namespace
-		label = resource[i].Labels["helm.toolkit.fluxcd.io/name"]
-		if strings.Contains(label, profilename){
-			resourcesToCheck[namespace] = append(resourcesToCheck[namespace], name)
-		}
-	}
-}
-
 func TestProfileInstallation(t *testing.T) {
 	kubeconfig := *kubeconfigpath
 	profiletocheck := *uniqueprofilename
@@ -99,7 +57,7 @@ func TestProfileInstallation(t *testing.T) {
 	}
 }
 
-func TestProfileInstallationComponents(t *testing.T){
+func TestProfileInstallationComponents(t *testing.T) {
 	t.Parallel()
 
 	kubeconfig := *kubeconfigpath
@@ -107,9 +65,8 @@ func TestProfileInstallationComponents(t *testing.T){
 	clientset, _ := kubernetes.NewForConfig(config)
 	profilename := *uniqueprofilename
 
-	
 	profilesComponentsToCheck := make(map[string][]string)
-	
+
 	// Setup the kubectl config and context.
 	options := k8s.NewKubectlOptions("", kubeconfig, "")
 
@@ -117,20 +74,21 @@ func TestProfileInstallationComponents(t *testing.T){
 	pods := k8s.ListPods(t, options, metav1.ListOptions{})
 	daemonSets := k8s.ListDaemonSets(t, options, metav1.ListOptions{})
 	replicaSets := k8s.ListReplicaSets(t, options, metav1.ListOptions{})
+	deploymentsList, _ := clientset.AppsV1().Deployments("").List(context.TODO(), metav1.ListOptions{})
+	deployments := deploymentsList.Items
 	statefulSetsList, _ := clientset.AppsV1().StatefulSets("").List(context.TODO(), metav1.ListOptions{})
-	statefulSets := statefulSetsList.Items 
+	statefulSets := statefulSetsList.Items
 	statefulsetToCheck(statefulSets, profilename, profilesComponentsToCheck)
-	replicasetToCheck(replicaSets, profilename, profilesComponentsToCheck)
+	replicasetToCheck(deployments, replicaSets, profilename, profilesComponentsToCheck)
 	daemonsetToCheck(daemonSets, profilename, profilesComponentsToCheck)
-	
+
+	checkRunningPods(t, pods, kubeconfig, profilesComponentsToCheck, options)
+
 	fmt.Println(pods)
 	fmt.Println(daemonSets)
 	fmt.Println(replicaSets)
 	fmt.Println(statefulSets)
 }
-
-
-
 
 func TestProfilesPods(t *testing.T) {
 	t.Parallel()
@@ -171,7 +129,6 @@ func TestProfilesPods(t *testing.T) {
 	if tocheck != checked {
 		t.Errorf("expected '%d' but got '%d'", tocheck, checked)
 	}
-
 }
 
 func mapProfilesFromConfig(config *myData, kubeconfig string, profilesToCheck map[string][]string, options *k8s.KubectlOptions) (tocheck int) {
@@ -188,8 +145,6 @@ func mapProfilesFromConfig(config *myData, kubeconfig string, profilesToCheck ma
 	}
 	return tocheck
 }
-
-
 
 func checkRunningPods(t *testing.T, pods []corev1.Pod, kubeconfig string, profilesToCheck map[string][]string, options *k8s.KubectlOptions) (checked int) {
 	var namespace string
@@ -236,11 +191,67 @@ func getProfileInstallations(clientset *kubernetes.Clientset, profiles *ProfileI
 	return err
 }
 
-func checkInstalledProfiles(profiles ProfileInstallationList, profilename string) (error){
+func checkInstalledProfiles(profiles ProfileInstallationList, profilename string) error {
 	for i := 0; i < len(profiles.Items); i++ {
 		if profiles.Items[i].Name == profilename {
-			return nil;
+			return nil
 		}
 	}
-	return errors.New("Profile not installed");
+	return errors.New("Profile not installed")
+}
+
+func statefulsetToCheck(resource []v1.StatefulSet, profilename string, resourcesToCheck map[string][]string) {
+	var name string
+	var namespace string
+	var label string
+	for i := 0; i < len(resource); i++ {
+		name = resource[i].Name
+		namespace = resource[i].Namespace
+		label = resource[i].Labels["helm.toolkit.fluxcd.io/name"]
+		if strings.Contains(label, profilename) {
+			resourcesToCheck[namespace] = append(resourcesToCheck[namespace], name)
+		}
+	}
+}
+
+func daemonsetToCheck(resource []v1.DaemonSet, profilename string, resourcesToCheck map[string][]string) {
+	var name string
+	var namespace string
+	var label string
+	for i := 0; i < len(resource); i++ {
+		name = resource[i].Name
+		namespace = resource[i].Namespace
+		label = resource[i].Labels["helm.toolkit.fluxcd.io/name"]
+		if strings.Contains(label, profilename) {
+			resourcesToCheck[namespace] = append(resourcesToCheck[namespace], name)
+		}
+	}
+}
+
+func replicasetToCheck(deployments []v1.Deployment, resource []v1.ReplicaSet, profilename string, resourcesToCheck map[string][]string) {
+	var name string
+	var namespace string
+	var label string
+	var tempcheck []v1.Deployment
+	var replicasetParentReference string
+
+	for i := 0; i < len(deployments); i++ {
+		name = deployments[i].Name
+		namespace = deployments[i].Namespace
+		label = deployments[i].Labels["helm.toolkit.fluxcd.io/name"]
+		if strings.Contains(label, profilename) {
+			tempcheck = append(tempcheck, deployments[i])
+		}
+	}
+	for i := 0; i < len(resource); i++ {
+		name = resource[i].Name
+		namespace = resource[i].Namespace
+		label = resource[i].Labels["helm.toolkit.fluxcd.io/name"]
+		for j := 0; j < len(tempcheck); j++ {
+			replicasetParentReference = resource[i].GetOwnerReferences()[0].Name
+			if tempcheck[j].Name == replicasetParentReference {
+				resourcesToCheck[namespace] = append(resourcesToCheck[namespace], name)
+			}
+		}
+	}
 }
