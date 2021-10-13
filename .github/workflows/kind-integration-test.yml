@@ -1,10 +1,8 @@
 name: Kind Integration Testing
 
 on:
-  push:
-    branches: [ main, e2e-testing ]
   pull_request:
-    branches: [ main, e2e-testing ]
+    branches: [ main ]
 
 jobs:
   kind-e2e-profile-test:
@@ -28,7 +26,7 @@ jobs:
           GIT_SSH_COMMAND_DEBUGLOG: "/tmp/1"
           PROFILE: gitops-enterprise-mgmt-kind
           TEST_REPO: profiles-catalog-test
-          TEST_REPO_BRANCH: e2e-leaf-${{ github.head_ref }}-${{ github.run_number }}
+          TEST_REPO_BRANCH: e2e-kind-mgmt-${{ github.head_ref }}-${{ github.run_number }}
         run: |
           mkdir -p /tmp/git-keys
           echo "${{ secrets.PROFILES_CATALOG_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
@@ -49,7 +47,7 @@ jobs:
           GIT_SSH_COMMAND_DEBUGLOG: "/tmp/1"
           PROFILE: gitops-enterprise-leaf-kind
           TEST_REPO: profiles-catalog-test
-          TEST_REPO_BRANCH: e2e-leaf-${{ github.head_ref }}-${{ github.run_number }}
+          TEST_REPO_BRANCH: e2e-kind-leaf-${{ github.head_ref }}-${{ github.run_number }}
         run: |
           mkdir -p /tmp/git-keys
           echo "${{ secrets.PROFILES_CATALOG_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog

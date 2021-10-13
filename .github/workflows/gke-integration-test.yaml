@@ -2,7 +2,7 @@ name: GKE Integration Testing
 
 on:
   pull_request:
-    branches: [ e2e-testing ]
+    branches: [ main ]
 
 jobs:
   gke-e2e-profile-test:
@@ -33,7 +33,7 @@ jobs:
           PROFILE: gitops-enterprise-mgmt-gke
           TEST_REPO: profiles-catalog-test
           GKE_CLUSTER_NAME: profiles-test-mgmt-${{ github.head_ref }}-${{ github.run_number }}
-          TEST_REPO_BRANCH: e2e-leaf-${{ github.head_ref }}-${{ github.run_number }}
+          TEST_REPO_BRANCH: e2e-gke-mgmt-${{ github.head_ref }}-${{ github.run_number }}
         run: |
           mkdir -p /tmp/git-keys
           echo "${{ secrets.PROFILES_CATALOG_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
@@ -55,7 +55,7 @@ jobs:
           PROFILE: gitops-enterprise-leaf-gke
           TEST_REPO: profiles-catalog-test
           GKE_CLUSTER_NAME: profiles-test-leaf-${{ github.head_ref }}-${{ github.run_number }}
-          TEST_REPO_BRANCH: e2e-leaf-${{ github.head_ref }}-${{ github.run_number }}
+          TEST_REPO_BRANCH: e2e-gke-leaf-${{ github.head_ref }}-${{ github.run_number }}
         run: |
           mkdir -p /tmp/git-keys
           echo "${{ secrets.PROFILES_CATALOG_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
