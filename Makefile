@@ -57,8 +57,6 @@ deploy-profile-kind: check-requirements check-kind create-cluster check-config-d
 
 deploy-profile-gke: check-requirements check-gcloud create-gke-cluster get-gke-kubeconfig clean-repo install-profile-and-sync delete-gke-cluster
 
-clean-repo: check-repo-dir clone-test-repo remove-all-installed-kustomization remove-all-installed-profiles
-
 PROFILE_VERSION_ANNOTATION="profiles.weave.works/version"
 PROFILE_FILES := $(shell ls */profile.yaml)
 
@@ -88,7 +86,7 @@ release:
 
 ##@ Post Kubernetes creation with valid KUBECONFIG set it installs gitops and profiles, boostraps cluster, installs profile, and syncs
 ##@ TODO: Clear current profile is it's there
-install-profile-and-sync: install-gitops-on-cluster install-profiles-on-cluster bootstrap-cluster check-repo-dir clone-test-repo check-repo-profile-dir create-profile-kustomization add-profile commit-profile
+install-profile-and-sync: check-repo-dir install-gitops-on-cluster install-profiles-on-cluster bootstrap-cluster check-repo-dir clone-test-repo check-repo-profile-dir create-profile-kustomization add-profile commit-profile
 
 remove-all-installed-kustomization:
 	@for f in $(shell ls ${PWD}); do [ ! -f ${REPODIR}/clusters/my-cluster/$${f}.yaml ] || rm ${REPODIR}/clusters/my-cluster/$${f}.yaml; done
