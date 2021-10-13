@@ -3,6 +3,7 @@ package test
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"flag"
 	"fmt"
 	"io/ioutil"
@@ -11,9 +12,9 @@ import (
 	"strings"
 	"testing"
 	"time"
-	"errors"
 
 	"gopkg.in/yaml.v3"
+	v1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 
 	"github.com/gruntwork-io/terratest/modules/k8s"
@@ -39,6 +40,49 @@ var valuespath = flag.String("values", "values.yaml", "profiles values.yaml path
 var uniqueprofilename = flag.String("profilename", "", "individual profile name")
 var uniqueprofilenamespace = flag.String("profilenamespace", "", "individual profile namespace")
 
+
+func statefulsetToCheck(resource []v1.StatefulSet, profilename string, resourcesToCheck map[string][]string){
+	var name string
+	var namespace string
+	var label string
+	for i := 0 ; i < len(resource); i++ {
+		name = resource[i].Name
+		namespace = resource[i].Namespace
+		label = resource[i].Labels["helm.toolkit.fluxcd.io/name"]
+		if strings.Contains(label, profilename){
+			resourcesToCheck[namespace] = append(resourcesToCheck[namespace], name)
+		}
+	}
+}
+
+func daemonsetToCheck(resource []v1.DaemonSet, profilename string, resourcesToCheck map[string][]string){
+	var name string
+	var namespace string
+	var label string
+	for i := 0 ; i < len(resource); i++ {
+		name = resource[i].Name
+		namespace = resource[i].Namespace
+		label = resource[i].Labels["helm.toolkit.fluxcd.io/name"]
+		if strings.Contains(label, profilename){
+			resourcesToCheck[namespace] = append(resourcesToCheck[namespace], name)
+		}
+	}
+}
+
+func replicasetToCheck(resource []v1.ReplicaSet, profilename string, resourcesToCheck map[string][]string){
+	var name string
+	var namespace string
+	var label string
+	for i := 0 ; i < len(resource); i++ {
+		name = resource[i].Name
+		namespace = resource[i].Namespace
+		label = resource[i].Labels["helm.toolkit.fluxcd.io/name"]
+		if strings.Contains(label, profilename){
+			resourcesToCheck[namespace] = append(resourcesToCheck[namespace], name)
+		}
+	}
+}
+
 func TestProfileInstallation(t *testing.T) {
 	kubeconfig := *kubeconfigpath
 	profiletocheck := *uniqueprofilename
@@ -55,14 +99,38 @@ func TestProfileInstallation(t *testing.T) {
 	}
 }
 
-func checkInstalledProfiles(profiles ProfileInstallationList, profilename string) (error){
-	for i := 0; i < len(profiles.Items); i++ {
-		if profiles.Items[i].Name == profilename {
-			return nil;
-		}
-	}
-	return errors.New("Profile not installed");
+func TestProfileInstallationComponents(t *testing.T){
+	t.Parallel()
+
+	kubeconfig := *kubeconfigpath
+	config, _ := clientcmd.BuildConfigFromFlags("", kubeconfig)
+	clientset, _ := kubernetes.NewForConfig(config)
+	profilename := *uniqueprofilename
+
+	
+	profilesComponentsToCheck := make(map[string][]string)
+	
+	// Setup the kubectl config and context.
+	options := k8s.NewKubectlOptions("", kubeconfig, "")
+
+	// get list of pods
+	pods := k8s.ListPods(t, options, metav1.ListOptions{})
+	daemonSets := k8s.ListDaemonSets(t, options, metav1.ListOptions{})
+	replicaSets := k8s.ListReplicaSets(t, options, metav1.ListOptions{})
+	statefulSetsList, _ := clientset.AppsV1().StatefulSets("").List(context.TODO(), metav1.ListOptions{})
+	statefulSets := statefulSetsList.Items 
+	statefulsetToCheck(statefulSets, profilename, profilesComponentsToCheck)
+	replicasetToCheck(replicaSets, profilename, profilesComponentsToCheck)
+	daemonsetToCheck(daemonSets, profilename, profilesComponentsToCheck)
+	
+	fmt.Println(pods)
+	fmt.Println(daemonSets)
+	fmt.Println(replicaSets)
+	fmt.Println(statefulSets)
 }
+
+
+
 
 func TestProfilesPods(t *testing.T) {
 	t.Parallel()
@@ -121,10 +189,6 @@ func mapProfilesFromConfig(config *myData, kubeconfig string, profilesToCheck ma
 	return tocheck
 }
 
-// append deployment, replicaset and daemonset with Label["helm.toolkit.fluxcd.io/name"] == profilename
-// https://github.com/gruntwork-io/terratest/blob/master/modules/k8s/daemonset.go
-// https://github.com/gruntwork-io/terratest/blob/master/modules/k8s/replicaset.go
-
 
 
 func checkRunningPods(t *testing.T, pods []corev1.Pod, kubeconfig string, profilesToCheck map[string][]string, options *k8s.KubectlOptions) (checked int) {
@@ -136,8 +200,6 @@ func checkRunningPods(t *testing.T, pods []corev1.Pod, kubeconfig string, profil
 		namespace = pods[i].Namespace
 		// waituntilavailable needs specific namespace
 		options = k8s.NewKubectlOptions("", kubeconfig, namespace)
-		//a=pods[i].Labels["kustomize.toolkit.fluxcd.io/name"]
-		//fmt.Println(a)
 		for k := 0; k < len(profilesToCheck[namespace]); k++ {
 			if strings.Contains(pods[i].Name, profilesToCheck[namespace][k]) {
 				fmt.Println("Tested profile:", profilesToCheck[namespace][k], "Namespace: ", namespace, "Pod:", pods[i].Name)
@@ -172,4 +234,13 @@ func getProfileInstallations(clientset *kubernetes.Clientset, profiles *ProfileI
 	}
 	err = json.Unmarshal(data, &profiles)
 	return err
+}
+
+func checkInstalledProfiles(profiles ProfileInstallationList, profilename string) (error){
+	for i := 0; i < len(profiles.Items); i++ {
+		if profiles.Items[i].Name == profilename {
+			return nil;
+		}
+	}
+	return errors.New("Profile not installed");
 }
