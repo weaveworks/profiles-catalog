@@ -51,11 +51,11 @@ kind-e2e: deploy-profile-kind
 
 gke-e2e: deploy-profile-gke
 
-deploy-profile-eks: check-requirements check-eksctl create-eks-cluster get-eks-kubeconfig change-eks-kubeconfig clean-repo install-profile-and-sync delete-eks-cluster
+deploy-profile-eks: check-requirements check-eksctl create-eks-cluster get-eks-kubeconfig change-eks-kubeconfig install-profile-and-sync delete-eks-cluster
 
-deploy-profile-kind: check-requirements check-kind create-cluster check-config-dir save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster clean-repo install-profile-and-sync
+deploy-profile-kind: check-requirements check-kind create-cluster check-config-dir save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster install-profile-and-sync
 
-deploy-profile-gke: check-requirements check-gcloud create-gke-cluster get-gke-kubeconfig clean-repo install-profile-and-sync delete-gke-cluster
+deploy-profile-gke: check-requirements check-gcloud create-gke-cluster get-gke-kubeconfig install-profile-and-sync delete-gke-cluster
 
 PROFILE_VERSION_ANNOTATION="profiles.weave.works/version"
 PROFILE_FILES := $(shell ls */profile.yaml)
