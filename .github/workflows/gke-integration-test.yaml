@@ -33,7 +33,7 @@ jobs:
           PROFILE: gitops-enterprise-mgmt-gke
           TEST_REPO: profiles-catalog-test
           GKE_CLUSTER_NAME: profiles-test-mgmt-${{ github.head_ref }}-${{ github.run_number }}
-          TEST_REPO_BRANCH: e2e-leaf-${{ github.head_ref }}-${{ github.run_number }}
+          TEST_REPO_BRANCH: e2e-mgmt-${{ github.head_ref }}-${{ github.run_number }}
         run: |
           mkdir -p /tmp/git-keys
           echo "${{ secrets.PROFILES_CATALOG_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
