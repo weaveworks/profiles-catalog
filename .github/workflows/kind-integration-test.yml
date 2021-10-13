@@ -1,10 +1,8 @@
 name: Kind Integration Testing
 
 on:
-  push:
-    branches: [ main, e2e-testing ]
   pull_request:
-    branches: [ main, e2e-testing ]
+    branches: [ main ]
 
 jobs:
   kind-e2e-profile-test:

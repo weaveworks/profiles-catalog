@@ -2,7 +2,7 @@ name: GKE Integration Testing
 
 on:
   pull_request:
-    branches: [ e2e-testing ]
+    branches: [ main ]
 
 jobs:
   gke-e2e-profile-test:

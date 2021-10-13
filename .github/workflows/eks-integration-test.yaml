@@ -2,7 +2,7 @@ name: EKS Integration Testing
 
 on:
   pull_request:
-    branches: [ e2e-testing ]
+    branches: [ main ]
 
 jobs:
   eks-e2e-profile-test:
