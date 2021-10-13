@@ -36,7 +36,7 @@ type Profile struct {
 }
 
 var kubeconfigpath = flag.String("kubeconfig", "../.conf/testing.kubeconfig", "kubeconfig path")
-var valuespath = flag.String("values", "values.yaml", "profiles values.yaml path")
+var valuespath = flag.String("values", "", "profiles values.yaml path")
 var uniqueprofilename = flag.String("profilename", "", "individual profile name")
 var uniqueprofilenamespace = flag.String("profilenamespace", "", "individual profile namespace")
 
@@ -90,14 +90,19 @@ func TestProfileInstallationComponents(t *testing.T) {
 
 func TestProfilesPods(t *testing.T) {
 	t.Parallel()
-
-	kubeconfig := *kubeconfigpath
 	values := *valuespath
+
+	
+	kubeconfig := *kubeconfigpath
 	profilename := *uniqueprofilename
 	profilenamespace := *uniqueprofilenamespace
 	config, err := readConf(values)
 	profilesToCheck := make(map[string][]string)
 	tocheck := 0
+	
+	if values == ""{
+		t.Skip()
+	}
 
 	if err != nil {
 		log.Fatal(err)
@@ -146,7 +151,6 @@ func mapProfilesFromConfig(config *myData, kubeconfig string, profilesToCheck ma
 
 func checkRunningPods(t *testing.T, pods []corev1.Pod, kubeconfig string, profilesToCheck map[string][]string, options *k8s.KubectlOptions) (checked int) {
 	var namespace string
-	//var a string
 	checked = 0
 
 	for i := 0; i < len(pods); i++ {
