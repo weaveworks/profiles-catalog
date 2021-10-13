@@ -11,6 +11,7 @@ import (
 	"strings"
 	"testing"
 	"time"
+	"errors"
 
 	"gopkg.in/yaml.v3"
 	corev1 "k8s.io/api/core/v1"
@@ -38,8 +39,9 @@ var valuespath = flag.String("values", "values.yaml", "profiles values.yaml path
 var uniqueprofilename = flag.String("profilename", "", "individual profile name")
 var uniqueprofilenamespace = flag.String("profilenamespace", "", "individual profile namespace")
 
-func TestProfile(t *testing.T) {
+func TestProfileInstallation(t *testing.T) {
 	kubeconfig := *kubeconfigpath
+	profiletocheck := *uniqueprofilename
 	config, _ := clientcmd.BuildConfigFromFlags("", kubeconfig)
 	clientset, _ := kubernetes.NewForConfig(config)
 	var profiles ProfileInstallationList
@@ -47,7 +49,19 @@ func TestProfile(t *testing.T) {
 	if err != nil {
 		panic(err.Error())
 	}
-	fmt.Println(profiles)
+	err = checkInstalledProfiles(profiles, profiletocheck)
+	if err != nil {
+		t.Errorf("Profile '%s' not found on default namespace", profiletocheck)
+	}
+}
+
+func checkInstalledProfiles(profiles ProfileInstallationList, profilename string) (error){
+	for i := 0; i < len(profiles.Items); i++ {
+		if profiles.Items[i].Name == profilename {
+			return nil;
+		}
+	}
+	return errors.New("Profile not installed");
 }
 
 func TestProfilesPods(t *testing.T) {
@@ -107,14 +121,23 @@ func mapProfilesFromConfig(config *myData, kubeconfig string, profilesToCheck ma
 	return tocheck
 }
 
+// append deployment, replicaset and daemonset with Label["helm.toolkit.fluxcd.io/name"] == profilename
+// https://github.com/gruntwork-io/terratest/blob/master/modules/k8s/daemonset.go
+// https://github.com/gruntwork-io/terratest/blob/master/modules/k8s/replicaset.go
+
+
+
 func checkRunningPods(t *testing.T, pods []corev1.Pod, kubeconfig string, profilesToCheck map[string][]string, options *k8s.KubectlOptions) (checked int) {
 	var namespace string
+	//var a string
 	checked = 0
 
 	for i := 0; i < len(pods); i++ {
 		namespace = pods[i].Namespace
-		// waituntilavailavle needs specific namespace
+		// waituntilavailable needs specific namespace
 		options = k8s.NewKubectlOptions("", kubeconfig, namespace)
+		//a=pods[i].Labels["kustomize.toolkit.fluxcd.io/name"]
+		//fmt.Println(a)
 		for k := 0; k < len(profilesToCheck[namespace]); k++ {
 			if strings.Contains(pods[i].Name, profilesToCheck[namespace][k]) {
 				fmt.Println("Tested profile:", profilesToCheck[namespace][k], "Namespace: ", namespace, "Pod:", pods[i].Name)
