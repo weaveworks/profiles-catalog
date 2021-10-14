@@ -49,7 +49,7 @@ func TestProfileInstallation(t *testing.T) {
 	var profiles ProfileInstallationList
 	var err error
 	var start time.Time
-	for start = time.Now(); time.Since(start) < 600*time.Second && checkInstalledProfiles(profiles, profiletocheck) != nil; {
+	for start = time.Now(); time.Since(start) < 300*time.Second && checkInstalledProfiles(profiles, profiletocheck) != nil; {
 		err = getProfileInstallations(clientset, &profiles)
 		if err != nil {
 			panic(err.Error())
