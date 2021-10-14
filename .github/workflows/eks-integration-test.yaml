@@ -10,6 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SSH_DIR: "~/.ssh"
+      SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+      GITHUB_TOKEN: ${{secrets.WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
+      GIT_SSH_COMMAND: /tmp/ssh_command
+      GIT_SSH_COMMAND_DEBUGLOG: "/tmp/1"
+      KUBECONFIG: "/home/runner/work/profiles-catalog/profiles-catalog/.conf/eks-cluster.kubeconfig"
+      TEST_REPO: profiles-catalog-test
     steps:
       - uses: actions/checkout@v2
       - name: Configure AWS Credentials
@@ -26,13 +32,7 @@ jobs:
       - name: Run mgmt integration tests
         shell: bash
         env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-          GITHUB_TOKEN: ${{secrets.WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
-          GIT_SSH_COMMAND: /tmp/ssh_command
-          GIT_SSH_COMMAND_DEBUGLOG: "/tmp/1"
-          KUBECONFIG: "/home/runner/work/profiles-catalog/profiles-catalog/.conf/eks-cluster.kubeconfig"
           PROFILE: gitops-enterprise-mgmt-eks
-          TEST_REPO: profiles-catalog-test
           EKS_CLUSTER_NAME: profiles-test-mgmt-${{ github.head_ref }}-${{ github.run_number }}
           TEST_REPO_BRANCH: e2e-eks-mgmt-${{ github.head_ref }}-${{ github.run_number }}
         run: |
@@ -46,16 +46,17 @@ jobs:
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
           make eks-e2e
+      - name: Clean up testing mgmt cluster
+        if: failure()
+        shell: bash
+        env:
+          EKS_CLUSTER_NAME: profiles-test-mgmt-${{ github.head_ref }}-${{ github.run_number }}
+        run: |
+          make delete-eks-cluster
       - name: Run leaf integration tests
         shell: bash
         env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-          GITHUB_TOKEN: ${{secrets.WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
-          GIT_SSH_COMMAND: /tmp/ssh_command
-          GIT_SSH_COMMAND_DEBUGLOG: "/tmp/1"
-          KUBECONFIG: "/home/runner/work/profiles-catalog/profiles-catalog/.conf/eks-cluster.kubeconfig"
           PROFILE: gitops-enterprise-leaf-eks
-          TEST_REPO: profiles-catalog-test
           EKS_CLUSTER_NAME: profiles-test-leaf-${{ github.head_ref }}-${{ github.run_number }}
           TEST_REPO_BRANCH: e2e-eks-leaf-${{ github.head_ref }}-${{ github.run_number }}
         run: |
@@ -69,3 +70,10 @@ jobs:
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
           make eks-e2e
+      - name: Clean up testing leaf cluster
+        if: failure()
+        shell: bash
+        env:
+          EKS_CLUSTER_NAME: profiles-test-leaf-${{ github.head_ref }}-${{ github.run_number }}
+        run: |
+          make delete-eks-cluster
