@@ -45,7 +45,7 @@ jobs:
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
           make gke-e2e
-      - name: Clean up testing mgmt cluster
+      - name: Clean up testing mgmt cluster if previous step fails
         if: failure()
         shell: bash
         env:
@@ -69,7 +69,7 @@ jobs:
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
           make gke-e2e
-      - name: Clean up testing leaf cluster
+      - name: Clean up testing leaf cluster if previous step fails
         if: failure()
         shell: bash
         env:
