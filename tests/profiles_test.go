@@ -48,13 +48,18 @@ func TestProfileInstallation(t *testing.T) {
 	config, _ := clientcmd.BuildConfigFromFlags("", kubeconfig)
 	clientset, _ := kubernetes.NewForConfig(config)
 	var profiles ProfileInstallationList
-	err := getProfileInstallations(clientset, &profiles)
-	if err != nil {
-		panic(err.Error())
+	var err error
+	var start time.Time
+	for start = time.Now(); time.Since(start) < 60 * time.Second && checkInstalledProfiles(profiles, profiletocheck) != nil  ; {
+		err = getProfileInstallations(clientset, &profiles)
+		if err != nil {
+			panic(err.Error())
+		}
+		time.Sleep(1 * time.Second)
 	}
 	err = checkInstalledProfiles(profiles, profiletocheck)
 	if err != nil {
-		t.Errorf("Profile '%s' not found on default namespace", profiletocheck)
+		t.Errorf("Profile '%s' not found on default namespace after %s", profiletocheck, time.Since(start))
 	}
 }
 
