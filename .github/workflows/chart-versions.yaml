@@ -1,8 +1,6 @@
 name: Update Chart Versions
 
-on:
-  pull_request:
-    branches: [ main ]
+on: workflow_dispatch
 
 jobs:
   check-versions:
