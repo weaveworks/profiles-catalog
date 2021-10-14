@@ -18,7 +18,7 @@ spec:
         defaultValues: |
           meshProvider: istio
           crd:
-            create: false 
+            create: false
     - name: istio-base
       dependsOn:
       - name: kube-prometheus-stack
