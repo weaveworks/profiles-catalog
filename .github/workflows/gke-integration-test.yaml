@@ -44,14 +44,7 @@ jobs:
           chmod +x /tmp/ssh_command
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
-          make gke-e2e
-      - name: Clean up testing mgmt cluster if previous step fails
-        if: failure()
-        shell: bash
-        env:
-          GKE_CLUSTER_NAME: profiles-test-mgmt-${{ github.head_ref }}-${{ github.run_number }}
-        run: |
-          make delete-gke-cluster
+          make gke-e2e || make delete-gke-cluster
       - name: Run leaf integration tests
         shell: bash
         env:
@@ -68,11 +61,4 @@ jobs:
           chmod +x /tmp/ssh_command
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
-          make gke-e2e
-      - name: Clean up testing leaf cluster if previous step fails
-        if: failure()
-        shell: bash
-        env:
-          GKE_CLUSTER_NAME: profiles-test-leaf-${{ github.head_ref }}-${{ github.run_number }}
-        run: |
-          make delete-gke-cluster
+          make gke-e2e || make delete-gke-cluster
