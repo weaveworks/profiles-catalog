@@ -4,7 +4,7 @@ metadata:
   name: crossplane-aws
   namespace: crossplane-system
   annotations:
-    profiles.weave.works/version: v0.0.1
+    profiles.weave.works/version: v0.0.2
 spec:
   description: Profile for deploying crossplane and AWS provider
   maintainer: weaveworks
