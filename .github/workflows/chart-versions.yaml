@@ -1,4 +1,4 @@
-name: Check Versions CI
+name: Update Chart Versions
 
 on:
   pull_request:
