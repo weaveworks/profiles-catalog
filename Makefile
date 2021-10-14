@@ -86,7 +86,7 @@ release:
 
 ##@ Post Kubernetes creation with valid KUBECONFIG set it installs gitops and profiles, boostraps cluster, installs profile, and syncs
 ##@ TODO: Clear current profile is it's there
-install-profile-and-sync: install-gitops-on-cluster install-profiles-on-cluster bootstrap-cluster check-repo-dir clone-test-repo create-profile-kustomization add-profile commit-profile test-single-profile delete-branch
+install-profile-and-sync: install-gitops-on-cluster install-profiles-on-cluster bootstrap-cluster check-repo-dir clone-test-repo create-profile-kustomization add-profile commit-profile reconcile-wego-system test-single-profile delete-branch
 
 remove-all-installed-kustomization:
 	@for f in $(shell ls ${PWD}); do [ ! -f ${REPODIR}/clusters/my-cluster/$${f}.yaml ] || rm ${REPODIR}/clusters/my-cluster/$${f}.yaml; done

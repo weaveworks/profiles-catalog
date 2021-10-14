@@ -49,7 +49,7 @@ func TestProfileInstallation(t *testing.T) {
 	var profiles ProfileInstallationList
 	var err error
 	var start time.Time
-	for start = time.Now(); time.Since(start) < 240*time.Second && checkInstalledProfiles(profiles, profiletocheck) != nil; {
+	for start = time.Now(); time.Since(start) < 600*time.Second && checkInstalledProfiles(profiles, profiletocheck) != nil; {
 		err = getProfileInstallations(clientset, &profiles)
 		if err != nil {
 			panic(err.Error())
@@ -61,7 +61,7 @@ func TestProfileInstallation(t *testing.T) {
 		t.Errorf("Profile '%s' not found on default namespace after %s", profiletocheck, time.Since(start))
 	}
 	// wait for deployment, statefulset and daemonset to start 
-	time.Sleep(20 * time.Second)
+	time.Sleep(30 * time.Second)
 }
 
 func TestProfileInstallationComponents(t *testing.T) {
