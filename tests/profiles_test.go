@@ -9,11 +9,10 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"strconv"
 	"strings"
 	"testing"
 	"time"
-	"strconv"
-
 
 	"gopkg.in/yaml.v3"
 	v1 "k8s.io/api/apps/v1"
@@ -50,7 +49,7 @@ func TestProfileInstallation(t *testing.T) {
 	var profiles ProfileInstallationList
 	var err error
 	var start time.Time
-	for start = time.Now(); time.Since(start) < 60 * time.Second && checkInstalledProfiles(profiles, profiletocheck) != nil  ; {
+	for start = time.Now(); time.Since(start) < 60*time.Second && checkInstalledProfiles(profiles, profiletocheck) != nil; {
 		err = getProfileInstallations(clientset, &profiles)
 		if err != nil {
 			panic(err.Error())
@@ -99,15 +98,14 @@ func TestProfilesPods(t *testing.T) {
 	t.Parallel()
 	values := *valuespath
 
-	
 	kubeconfig := *kubeconfigpath
 	profilename := *uniqueprofilename
 	profilenamespace := *uniqueprofilenamespace
 	config, err := readConf(values)
 	profilesToCheck := make(map[string][]string)
 	tocheck := 0
-	
-	if values == ""{
+
+	if values == "" {
 		t.Skip()
 	}
 
