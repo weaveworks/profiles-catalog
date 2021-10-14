@@ -136,6 +136,13 @@ check-eksctl:
 	sudo mv /tmp/eksctl /usr/local/bin && \
 	eksctl version)
 
+check-awscli:
+	@which aws  >/dev/null 2>&1 || (echo "aws binary not found, installing ..." && \
+	curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
+	unzip awscliv2.zip && \
+	sudo ./aws/install && \
+	aws --version)
+
 check-gcloud:
 	@which kind  >/dev/null 2>&1 || (echo "gcloud binary not found, installing ..." && \	
 	curl --silent --location "https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${GCLOUD_VERSION}-${OS}-x86_64.tar.gz" | tar xz -C /tmp && \
@@ -206,7 +213,9 @@ get-eks-kubeconfig:
 
 delete-eks-cluster:
 	@echo "Deleting eks cluster ..."
-	eksctl delete cluster --region ${AWS_REGION} --name ${EKS_CLUSTER_NAME} --wait
+	eksctl delete cluster --region ${AWS_REGION} --name ${EKS_CLUSTER_NAME} --wait || \
+	check-awscli && \
+	aws cloudformation delete-stack --stack-name eksctl-${EKS_CLUSTER_NAME}-cluster
 
 get-gke-kubeconfig:
 	@echo "Creating kubeconfig for GKE cluster ..."
