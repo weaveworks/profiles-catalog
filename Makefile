@@ -160,7 +160,7 @@ check-platform:
 
 reconcile-wego-system:
 	@echo "gitops wego-system";
-	gitops flux reconcile kustomization -n wego-system wego-system
+	gitops flux reconcile source git wego-system -n wego-system
 ##@ Cluster
 create-cluster:
 	@echo "Creating kind management cluster ...";
