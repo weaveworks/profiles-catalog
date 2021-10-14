@@ -294,3 +294,8 @@ local-env:
 local-destroy:
 	@echo "Deleting kind mgmt (control-plan) and testing (workload) clusters"
 	kind delete clusters mgmt testing
+
+
+##@ Update Helm chart versions for profile references
+update-chart-versions:
+	./.bin/update-chart-versions.sh
