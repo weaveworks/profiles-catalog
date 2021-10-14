@@ -51,13 +51,11 @@ kind-e2e: deploy-profile-kind
 
 gke-e2e: deploy-profile-gke
 
-deploy-profile-eks: check-requirements check-eksctl create-eks-cluster get-eks-kubeconfig change-eks-kubeconfig clean-repo install-profile-and-sync delete-eks-cluster
+deploy-profile-eks: check-requirements check-eksctl create-eks-cluster get-eks-kubeconfig change-eks-kubeconfig install-profile-and-sync delete-eks-cluster
 
-deploy-profile-kind: check-requirements check-kind create-cluster check-config-dir save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster clean-repo install-profile-and-sync
+deploy-profile-kind: check-requirements check-kind create-cluster check-config-dir save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster install-profile-and-sync
 
-deploy-profile-gke: check-requirements check-gcloud create-gke-cluster get-gke-kubeconfig clean-repo install-profile-and-sync delete-gke-cluster
-
-clean-repo: check-repo-dir clone-test-repo remove-all-installed-kustomization remove-all-installed-profiles
+deploy-profile-gke: check-requirements check-gcloud create-gke-cluster get-gke-kubeconfig install-profile-and-sync delete-gke-cluster
 
 PROFILE_VERSION_ANNOTATION="profiles.weave.works/version"
 PROFILE_FILES := $(shell ls */profile.yaml)
@@ -88,7 +86,7 @@ release:
 
 ##@ Post Kubernetes creation with valid KUBECONFIG set it installs gitops and profiles, boostraps cluster, installs profile, and syncs
 ##@ TODO: Clear current profile is it's there
-install-profile-and-sync: install-gitops-on-cluster install-profiles-on-cluster bootstrap-cluster check-repo-dir clone-test-repo check-repo-profile-dir create-profile-kustomization add-profile commit-profile
+install-profile-and-sync: install-gitops-on-cluster install-profiles-on-cluster bootstrap-cluster check-repo-dir clone-test-repo create-profile-kustomization add-profile commit-profile delete-branch
 
 remove-all-installed-kustomization:
 	@for f in $(shell ls ${PWD}); do [ ! -f ${REPODIR}/clusters/my-cluster/$${f}.yaml ] || rm ${REPODIR}/clusters/my-cluster/$${f}.yaml; done
@@ -250,8 +248,6 @@ bootstrap-cluster:
 	    --personal \
 		--branch ${TEST_REPO_BRANCH} \
 	    --read-write-key 
-	@echo "Pulling updated contents of ${TEST_REPO} branch ${TEST_REPO_BRANCH}"
-	cd ${REPODIR} && git pull && cd ..
 
 clone-test-repo:
 	@echo "Clone test repo"
@@ -265,6 +261,10 @@ commit-clean:
 commit-profile:
 	@echo "committing profile to repo"
 	cd ${REPODIR} && git add . && git commit -m "adding profile" && git push 
+
+delete-branch:
+	@echo "Deleting testing branch ..."
+	cd ${REPODIR} && git push origin --delete ${TEST_REPO_BRANCH}
 
 create-profile-kustomization:
 	@echo "Creating Kustomization"

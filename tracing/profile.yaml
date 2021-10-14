@@ -1,0 +1,17 @@
+apiVersion: weave.works/v1alpha1
+kind: ProfileDefinition
+metadata:
+  name: tracing
+  annotations:
+    profiles.weave.works/version: v0.0.1
+spec:
+  description: Profile for deploying Jaeger Operator
+  maintainer: weaveworks
+  prerequisites:
+    - "kubernetes 1.19"
+  artifacts:
+    - name: jaeger-operator
+      chart:
+        url: https://jaegertracing.github.io/helm-charts
+        name: jaeger-operator
+        version: "2.25.0"
