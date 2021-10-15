@@ -2,7 +2,7 @@ PROFILE_VERSION_ANNOTATION=$1
 
 for f in $(ls */profile.yaml); do
     CHART_URLS=$(yq e '.spec.artifacts.[].chart.url | select(. != null)' ${PWD}/${f})
-    CHART_NAMES=($(yq e '.spec.artifacts.[].chart.name | select(. != null)' ${PWD}/${f}))
+    CHART_NAMES=$(yq e '.spec.artifacts.[].chart.name | select(. != null)' ${PWD}/${f})
     INDEX=0
     BUMP_PROFILE_VERSION=0
     for i in ${CHART_URLS[@]}; do
