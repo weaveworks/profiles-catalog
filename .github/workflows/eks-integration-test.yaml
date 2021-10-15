@@ -49,8 +49,7 @@ jobs:
           chmod +x /tmp/ssh_command
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
-          make delete-cluster
-          # make eks-e2e || make delete-cluster && exit 1
+          make eks-e2e || make delete-cluster && exit 1
       - name: Run leaf integration tests
         shell: bash
         env:
