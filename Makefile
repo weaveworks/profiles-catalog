@@ -298,4 +298,5 @@ local-destroy:
 
 ##@ Update Helm chart versions for profile references
 update-chart-versions:
-	./.bin/update-chart-versions.sh
+	@echo "Bumping helm chart versions ..."
+	./.bin/update-chart-versions.sh ${PROFILE_VERSION_ANNOTATION}
