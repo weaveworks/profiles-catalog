@@ -190,7 +190,7 @@ delete-cluster:
 	elif [ ${INFRASTRUCTURE} = "eks" ]; then\
 		echo "Deleting eks cluster ..."
 		eksctl delete cluster --region ${AWS_REGION} --name ${EKS_CLUSTER_NAME} --wait || \
-		aws cloudformation delete-stack --stack-name eksctl-${EKS_CLUSTER_NAME}-cluster
+		aws cloudformation delete-stack --region ${AWS_REGION} --stack-name eksctl-${EKS_CLUSTER_NAME}-cluster
 	elif [ ${INFRASTRUCTURE} = "gke" ]; then\
 		echo "Deleting gke cluster ..."
 		gcloud container clusters delete ${GKE_CLUSTER_NAME} --region ${GCP_REGION} --project ${GCP_PROJECT_NAME} -q
