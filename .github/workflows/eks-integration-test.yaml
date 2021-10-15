@@ -41,8 +41,10 @@ jobs:
           mkdir -p /tmp/git-keys
           echo "${{ secrets.PROFILES_CATALOG_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
           chmod 600 /tmp/git-keys/weaveworks-profiles-catalog 
-          echo "${{ secrets.PROFILES_CATALOG_TEST_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog-test
+          echo "${{ secrets.PROFILES_CATALOG_TEST_DEPLOY_KEY_2 }}" > /tmp/git-keys/weaveworks-profiles-catalog-test
           chmod 600 /tmp/git-keys/weaveworks-profiles-catalog-test
+          echo "${{ secrets.PROFILES_CATALOG_TEST_DEPLOY_KEY_PUB_2 }}" > /tmp/git-keys/weaveworks-profiles-catalog-test.pub
+          chmod 600 /tmp/git-keys/weaveworks-profiles-catalog-test.pub
           cp ${{ github.workspace }}/.bin/ssh_command.sh /tmp/ssh_command
           chmod +x /tmp/ssh_command
           git config --global user.email "action@github.com"
@@ -58,8 +60,10 @@ jobs:
           mkdir -p /tmp/git-keys
           echo "${{ secrets.PROFILES_CATALOG_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
           chmod 600 /tmp/git-keys/weaveworks-profiles-catalog 
-          echo "${{ secrets.PROFILES_CATALOG_TEST_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog-test
+          echo "${{ secrets.PROFILES_CATALOG_TEST_DEPLOY_KEY_2 }}" > /tmp/git-keys/weaveworks-profiles-catalog-test
           chmod 600 /tmp/git-keys/weaveworks-profiles-catalog-test
+          echo "${{ secrets.PROFILES_CATALOG_TEST_DEPLOY_KEY_PUB_2 }}" > /tmp/git-keys/weaveworks-profiles-catalog-test.pub
+          chmod 600 /tmp/git-keys/weaveworks-profiles-catalog-test.pub
           cp ${{ github.workspace }}/.bin/ssh_command.sh /tmp/ssh_command
           chmod +x /tmp/ssh_command
           git config --global user.email "action@github.com"
