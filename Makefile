@@ -303,7 +303,7 @@ update-chart-versions: check-repo-dir clone-profiles-repo bump-versions commit-v
 
 bump-versions:
 	@echo "Bumping helm chart versions ..."
-	bash ./.bin/update-chart-versions.sh ${PROFILE_VERSION_ANNOTATION}
+	cd ${REPODIR} && bash ./.bin/update-chart-versions.sh ${PROFILE_VERSION_ANNOTATION}
 
 clone-profiles-repo:
 	@echo "Clone profiles repo ..."
@@ -311,4 +311,4 @@ clone-profiles-repo:
 
 commit-versions:
 	@echo "Committing version changes to repo"
-	git add . && git branch bump-versions-${BUILD_NUM} && git commit -m "bump versions" && git push
+	cd ${REPODIR} && git add . && git checkout -b bump-versions-${BUILD_NUM} && git commit -m "bump versions" && git push
