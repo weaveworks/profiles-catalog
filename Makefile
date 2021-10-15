@@ -310,5 +310,5 @@ clone-profiles-repo:
 	git clone git@github.com:weaveworks/profiles-catalog.git ${REPODIR}
 
 commit-versions:
-	@echo "committing version changes to repo"
-	cd ${REPODIR} && git add . && git branch -b bump-versions-${BUILD_NUM} && git commit -m "bump versions" && git push
+	@echo "Committing version changes to repo"
+	cd ${REPODIR} && git add . && git branch bump-versions-${BUILD_NUM} && git commit -m "bump versions" && git push
