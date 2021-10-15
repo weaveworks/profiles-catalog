@@ -39,6 +39,7 @@ CATALOG_REPO_URL=git@github.com:weaveworks/profiles-catalog.git
 
 PROFILE_VERSION_ANNOTATION="profiles.weave.works/version"
 
+INFRASTRUCTURE?="kind"
 ##@ Flows
 
 
@@ -51,11 +52,11 @@ kind-e2e: deploy-profile-kind
 
 gke-e2e: deploy-profile-gke
 
-deploy-profile-eks: check-requirements check-eksctl create-eks-cluster get-eks-kubeconfig change-eks-kubeconfig install-profile-and-sync delete-eks-cluster
+deploy-profile-eks: check-requirements check-eksctl create-cluster get-eks-kubeconfig change-eks-kubeconfig install-profile-and-sync delete-cluster
 
 deploy-profile-kind: check-requirements check-kind create-cluster check-config-dir save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster install-profile-and-sync
 
-deploy-profile-gke: check-requirements check-gcloud create-gke-cluster get-gke-kubeconfig install-profile-and-sync delete-gke-cluster
+deploy-profile-gke: check-requirements check-gcloud create-cluster get-gke-kubeconfig install-profile-and-sync delete-cluster
 
 PROFILE_VERSION_ANNOTATION="profiles.weave.works/version"
 PROFILE_FILES := $(shell ls */profile.yaml)
@@ -86,7 +87,7 @@ release:
 
 ##@ Post Kubernetes creation with valid KUBECONFIG set it installs gitops and profiles, boostraps cluster, installs profile, and syncs
 ##@ TODO: Clear current profile is it's there
-install-profile-and-sync: install-gitops-on-cluster install-profiles-on-cluster bootstrap-cluster check-repo-dir clone-test-repo create-profile-kustomization add-profile commit-profile delete-branch
+install-profile-and-sync: install-gitops-on-cluster install-profiles-on-cluster bootstrap-cluster check-repo-dir clone-test-repo create-profile-kustomization add-profile commit-profile reconcile-wego-system test-single-profile delete-branch
 
 remove-all-installed-kustomization:
 	@for f in $(shell ls ${PWD}); do [ ! -f ${REPODIR}/clusters/my-cluster/$${f}.yaml ] || rm ${REPODIR}/clusters/my-cluster/$${f}.yaml; done
@@ -136,6 +137,13 @@ check-eksctl:
 	sudo mv /tmp/eksctl /usr/local/bin && \
 	eksctl version)
 
+check-awscli:
+	@which aws  >/dev/null 2>&1 || (echo "aws binary not found, installing ..." && \
+	curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
+	unzip awscliv2.zip && \
+	sudo ./aws/install && \
+	aws --version)
+
 check-gcloud:
 	@which kind  >/dev/null 2>&1 || (echo "gcloud binary not found, installing ..." && \	
 	curl --silent --location "https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${GCLOUD_VERSION}-${OS}-x86_64.tar.gz" | tar xz -C /tmp && \
@@ -147,24 +155,45 @@ check-config-dir:
 	[ -d ${CONFDIR} ] || mkdir ${CONFDIR}
 
 check-repo-dir:
-	@echo "Check if config folder exists ...";
+	@echo "Check if repository folder exists ...";
 	[ ! -d ${REPODIR} ] || rm -rf ${REPODIR}
-
-check-repo-profile-dir:
-	@echo "Check if config folder exists ...";
-	[ ! -d ${REPODIR}/${PROFILE} ] || rm -rf ${REPODIR}/${PROFILE}
-
-check-platform:
-	@echo "Check if PIPLINE_PLATFORM exists ...";
-	[ -z "${PIPLINE_PLATFORM}" ] || PLATFORM="${PIPLINE_PLATFORM}"
 
 reconcile-wego-system:
 	@echo "gitops wego-system";
-	gitops flux reconcile kustomization -n wego-system wego-system
+	gitops flux reconcile source git wego-system -n wego-system
+
 ##@ Cluster
 create-cluster:
-	@echo "Creating kind management cluster ...";
-	kind get clusters | grep ${KIND_CLUSTER} || kind create cluster --config ${BINDIR}/kind-cluster-with-extramounts.yaml --name ${KIND_CLUSTER}
+	@if [ ${INFRASTRUCTURE} = "kind" ]; then\
+		echo "Creating kind management cluster ...";
+		kind get clusters | grep ${KIND_CLUSTER} || kind create cluster --config ${BINDIR}/kind-cluster-with-extramounts.yaml --name ${KIND_CLUSTER}
+	elif [ ${INFRASTRUCTURE} = "eks" ]; then\
+		echo "Creating eks cluster ..."
+		eksctl delete cluster --region ${AWS_REGION} --name ${EKS_CLUSTER_NAME} --wait || eksctl create cluster --name ${EKS_CLUSTER_NAME} \
+			--region ${AWS_REGION} \
+			--version ${EKS_K8S_VERSION} \
+			--nodegroup-name ${NODEGROUP_NAME} \
+			--node-type ${NODE_INSTANCE_TYPE} \
+			--nodes ${NUM_OF_NODES} \
+			--kubeconfig ${CONFDIR}/eks-cluster.kubeconfig
+	elif [ ${INFRASTRUCTURE} = "gke" ]; then\
+		echo "Creating gke cluster ..."
+		gcloud container clusters create ${GKE_CLUSTER_NAME} --region ${GCP_REGION} --project ${GCP_PROJECT_NAME}
+	fi
+
+delete-cluster:
+	@if [ ${INFRASTRUCTURE} = "kind" ]; then\
+		echo "Deleting kind cluster ..."
+		kind delete cluster --name ${KIND_CLUSTER}
+	elif [ ${INFRASTRUCTURE} = "eks" ]; then\
+		echo "Deleting eks cluster ..."
+		eksctl delete cluster --region ${AWS_REGION} --name ${EKS_CLUSTER_NAME} --wait || \
+		check-awscli && \
+		aws cloudformation delete-stack --stack-name eksctl-${EKS_CLUSTER_NAME}-cluster
+	elif [ ${INFRASTRUCTURE} = "gke" ]; then\
+		echo "Deleting gke cluster ..."
+		gcloud container clusters delete ${GKE_CLUSTER_NAME} --region ${GCP_REGION} --project ${GCP_PROJECT_NAME} -q
+	fi
 
 save-kind-cluster-config:
 	@echo "Exporting kind management cluster kubeconfig ..."
@@ -189,36 +218,14 @@ change-kubeconfig:
 change-eks-kubeconfig:
 	@export KUBECONFIG=${CONFDIR}/eks-cluster.kubeconfig
 
-
-create-eks-cluster:
-	@echo "Creating eks cluster ..."
-	eksctl delete cluster --region ${AWS_REGION} --name ${EKS_CLUSTER_NAME} --wait || eksctl create cluster --name ${EKS_CLUSTER_NAME} \
-		--region ${AWS_REGION} \
-		--version ${EKS_K8S_VERSION} \
-		--nodegroup-name ${NODEGROUP_NAME} \
-		--node-type ${NODE_INSTANCE_TYPE} \
-		--nodes ${NUM_OF_NODES} \
-		--kubeconfig ${CONFDIR}/eks-cluster.kubeconfig
-
 get-eks-kubeconfig:
 	@echo "Creating kubeconfig for EKS cluster ..."
 	eksctl utils write-kubeconfig --region ${AWS_REGION} --cluster ${EKS_CLUSTER_NAME} --kubeconfig ${CONFDIR}/eks-cluster.kubeconfig
-
-delete-eks-cluster:
-	@echo "Deleting eks cluster ..."
-	eksctl delete cluster --region ${AWS_REGION} --name ${EKS_CLUSTER_NAME} --wait
 
 get-gke-kubeconfig:
 	@echo "Creating kubeconfig for GKE cluster ..."
 	gcloud container clusters get-credentials ${GKE_CLUSTER_NAME} --region ${GCP_REGION} --project ${GCP_PROJECT_NAME}
 
-create-gke-cluster:
-	@echo "Creating gke cluster ..."
-	gcloud container clusters create ${GKE_CLUSTER_NAME} --region ${GCP_REGION} --project ${GCP_PROJECT_NAME}
-
-delete-gke-cluster:
-	@echo "Deleting gke cluster ..."
-	gcloud container clusters delete ${GKE_CLUSTER_NAME} --region ${GCP_REGION} --project ${GCP_PROJECT_NAME} -q 
 ##@ kubernetes
 
 upload-profiles-image-to-cluster:
@@ -235,7 +242,6 @@ install-profiles-on-cluster:
 	@echo "Installing profile-controller"
 	pctl install --flux-namespace wego-system
 ##@ catalog
-
 
 ##@ TODO:INVESTIGATE FLUX KEY BY SEPERATING CLUSTER PATH NAME (MIGHT JUST OVERRIDE KEY)
 bootstrap-cluster:
@@ -294,3 +300,6 @@ local-env:
 local-destroy:
 	@echo "Deleting kind mgmt (control-plan) and testing (workload) clusters"
 	kind delete clusters mgmt testing
+
+test-single-profile:
+	@ cd tests && kubectl get pods -A --kubeconfig "${CONFDIR}/${KIND_CLUSTER}.kubeconfig" && kubectl get profileinstallations.weave.works  && go test -args -kubeconfig "${CONFDIR}/${KIND_CLUSTER}.kubeconfig" -profilename=${PROFILE} 
