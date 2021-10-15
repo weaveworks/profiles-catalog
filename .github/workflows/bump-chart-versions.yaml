@@ -12,7 +12,7 @@ jobs:
     name: Bump Chart Versions
     runs-on: ubuntu-latest
     env:
-      SSH_DIR: "~/.ssh"
+      SSH_DIR: "/home/.ssh"
       SSH_AUTH_SOCK: /tmp/ssh_agent.sock
       GITHUB_TOKEN: ${{secrets.WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
       GIT_SSH_COMMAND: /tmp/ssh_command
