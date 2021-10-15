@@ -157,17 +157,10 @@ check-repo-dir:
 	@echo "Check if repository folder exists ...";
 	[ ! -d ${REPODIR} ] || rm -rf ${REPODIR}
 
-check-repo-profile-dir:
-	@echo "Check if repository folder exists ...";
-	[ ! -d ${REPODIR}/${PROFILE} ] || rm -rf ${REPODIR}/${PROFILE}
-
-check-platform:
-	@echo "Check if PIPLINE_PLATFORM exists ...";
-	[ -z "${PIPLINE_PLATFORM}" ] || PLATFORM="${PIPLINE_PLATFORM}"
-
 reconcile-wego-system:
 	@echo "gitops wego-system";
 	gitops flux reconcile source git wego-system -n wego-system
+
 ##@ Cluster
 create-cluster:
 	@echo "Creating kind management cluster ...";
@@ -245,7 +238,6 @@ install-profiles-on-cluster:
 	pctl install --flux-namespace wego-system
 ##@ catalog
 
-
 ##@ TODO:INVESTIGATE FLUX KEY BY SEPERATING CLUSTER PATH NAME (MIGHT JUST OVERRIDE KEY)
 bootstrap-cluster:
 	@echo "Adding gitops flux bootstrap Profile to repo"
@@ -303,9 +295,6 @@ local-env:
 local-destroy:
 	@echo "Deleting kind mgmt (control-plan) and testing (workload) clusters"
 	kind delete clusters mgmt testing
-
-test-e2e:
-	@ cd tests && go test
 
 test-single-profile:
 	@ cd tests && kubectl get pods -A --kubeconfig "${CONFDIR}/${KIND_CLUSTER}.kubeconfig" && kubectl get profileinstallations.weave.works  && go test -args -kubeconfig "${CONFDIR}/${KIND_CLUSTER}.kubeconfig" -profilename=${PROFILE} 
