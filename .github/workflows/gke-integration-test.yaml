@@ -15,7 +15,6 @@ jobs:
       GIT_SSH_COMMAND: /tmp/ssh_command
       GIT_SSH_COMMAND_DEBUGLOG: "/tmp/1"
       TEST_REPO: profiles-catalog-test
-      PIPELINE: 1
     steps:
       - uses: actions/checkout@v2
       - name: Set up Cloud SDK
