@@ -303,11 +303,11 @@ update-chart-versions: check-repo-dir clone-profiles-repo bump-versions commit-v
 
 bump-versions:
 	@echo "Bumping helm chart versions ..."
-	cd ${REPODIR} && ls && bash .bin/update-chart-versions.sh ${PROFILE_VERSION_ANNOTATION}
+	cd ${REPODIR} && ls -lart && bash .bin/update-chart-versions.sh ${PROFILE_VERSION_ANNOTATION}
 
 clone-profiles-repo:
 	@echo "Clone profiles repo ..."
-	git clone git@github.com:weaveworks/profiles-catalog.git ${REPODIR}
+	git clone -b auto-chart-version git@github.com:weaveworks/profiles-catalog.git ${REPODIR} 
 
 commit-versions:
 	@echo "Committing version changes to repo"
