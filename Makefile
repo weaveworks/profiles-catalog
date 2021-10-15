@@ -245,16 +245,26 @@ install-profiles-on-cluster:
 
 ##@ TODO:INVESTIGATE FLUX KEY BY SEPERATING CLUSTER PATH NAME (MIGHT JUST OVERRIDE KEY)
 bootstrap-cluster:
-	@echo "Adding gitops flux bootstrap Profile to repo"
-	gitops flux bootstrap github \
-	    --owner=${TEST_REPO_USER} \
-	    --repository=${TEST_REPO} \
-	    --namespace wego-system \
-	    --path=clusters/my-cluster \
-	    --personal \
+	@if [ "${PIPELINE}" = "1" ]; then\
+        echo "bootstrapping via git" && \
+			gitops flux bootstrap git \
+			--url=ssh://git@github.com/${TEST_REPO_USER}/${TEST_REPO}.git \
+			--namespace wego-system \
+			--path=clusters/my-cluster \
+			--branch ${TEST_REPO_BRANCH} \
+			--private-key-file=/tmp/git-keys/${TEST_REPO_USER}-${TEST_REPO}; \
+	else \
+        echo "bootstrapping via github" && \
+		gitops flux bootstrap github \
+		--owner=${TEST_REPO_USER} \
+		--repository=${TEST_REPO} \
+		--namespace wego-system \
+		--path=clusters/my-cluster \
+		--personal \
 		--branch ${TEST_REPO_BRANCH} \
-	    --read-write-key 
-
+		--read-write-key; \
+    fi
+	
 clone-test-repo:
 	@echo "Clone test repo"
 	git clone -b ${TEST_REPO_BRANCH} git@github.com:${TEST_REPO_USER}/${TEST_REPO}.git ${REPODIR}
