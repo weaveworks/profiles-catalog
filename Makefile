@@ -303,7 +303,7 @@ update-chart-versions: check-repo-dir clone-profiles-repo bump-versions commit-v
 
 bump-versions:
 	@echo "Bumping helm chart versions ..."
-	./.bin/update-chart-versions.sh ${PROFILE_VERSION_ANNOTATION}
+	cd ${REPODIR} && ./.bin/update-chart-versions.sh ${PROFILE_VERSION_ANNOTATION}
 
 clone-profiles-repo:
 	@echo "Clone profiles repo ..."
