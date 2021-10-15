@@ -17,6 +17,7 @@ jobs:
       KUBECONFIG: "/home/runner/work/profiles-catalog/profiles-catalog/.conf/eks-cluster.kubeconfig"
       TEST_REPO: profiles-catalog-test
       INFRASTRUCTURE: eks
+      PIPELINE: 1
     steps:
       - uses: actions/checkout@v2
       - name: Configure AWS Credentials
