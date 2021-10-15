@@ -243,13 +243,13 @@ install-profiles-on-cluster:
 	pctl install --flux-namespace wego-system
 ##@ catalog
 
-##@ TODO:INVESTIGATE FLUX KEY BY SEPERATING CLUSTER PATH NAME (MIGHT JUST OVERRIDE KEY)
 bootstrap-cluster:
 	@if [ "${PIPELINE}" = "1" ]; then\
         echo "bootstrapping via git" && \
-			kubectl create secret generic -n wego-system flux-system --from-file=identity=/tmp/git-keys/${TEST_REPO_USER}-${TEST_REPO} \
+			kubectl create secret generic -n wego-system flux-system \
+			--from-file=identity=/tmp/git-keys/${TEST_REPO_USER}-${TEST_REPO} \
 			--from-file=identity.pub=/tmp/git-keys/${TEST_REPO_USER}-${TEST_REPO}.pub && \
-			gitops flux bootstrap git \
+			gitops flux bootstrap git -s \
 			--url=ssh://git@github.com/${TEST_REPO_USER}/${TEST_REPO}.git \
 			--namespace wego-system \
 			--path=clusters/my-cluster \
