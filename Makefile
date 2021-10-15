@@ -311,4 +311,4 @@ clone-profiles-repo:
 
 commit-versions:
 	@echo "Committing version changes to repo"
-	cd ${REPODIR} && git add . && git branch bump-versions-${BUILD_NUM} && git commit -m "bump versions" && git push
+	git add . && git branch bump-versions-${BUILD_NUM} && git commit -m "bump versions" && git push
