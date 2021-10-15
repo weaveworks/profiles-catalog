@@ -241,7 +241,7 @@ install-profiles-on-cluster:
 ##@ TODO:INVESTIGATE FLUX KEY BY SEPERATING CLUSTER PATH NAME (MIGHT JUST OVERRIDE KEY)
 bootstrap-cluster:
 	@echo "Adding gitops flux bootstrap Profile to repo"
-	[ -z "${PIPLINE}" ] |
+	[ ! -z "${PIPELINE}" ] |
 	gitops flux bootstrap github \
 	--owner=${TEST_REPO_USER} \
 	--repository=${TEST_REPO} \
