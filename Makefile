@@ -254,7 +254,6 @@ bootstrap-cluster:
 			--path=clusters/my-cluster \
 			--personal \
 			--branch ${TEST_REPO_BRANCH} \
-			--read-write-key \
 			--private-key-file=/tmp/git-keys/${TEST_REPO_USER}-${TEST_REPO}; \
 	else \
         echo "bootstrapping via github" && \
