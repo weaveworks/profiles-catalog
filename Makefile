@@ -307,7 +307,7 @@ bump-versions:
 
 clone-profiles-repo:
 	@echo "Clone profiles repo ..."
-	git clone -b auto-chart-version git@github.com:weaveworks/profiles-catalog.git ${REPODIR} 
+	git clone -b main git@github.com:weaveworks/profiles-catalog.git ${REPODIR} 
 
 commit-versions:
 	@echo "Committing version changes to repo"
