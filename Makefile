@@ -247,7 +247,7 @@ install-profiles-on-cluster:
 bootstrap-cluster:
 	@if [ "${PIPELINE}" = "1" ]; then\
         echo "Adding key and bootstrapping" && \
-		kubectl create secret generic flux-git-deploy --from-file=identity=/tmp/git-keys/${TEST_REPO_USER}-${TEST_REPO} && \
+		kubectl create secret generic -n wego-system flux-system--from-file=identity=/tmp/git-keys/${TEST_REPO_USER}-${TEST_REPO} && \
 		gitops flux bootstrap github \
 		--owner=${TEST_REPO_USER} \
 		--repository=${TEST_REPO} \
