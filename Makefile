@@ -39,6 +39,8 @@ CATALOG_REPO_URL=git@github.com:weaveworks/profiles-catalog.git
 
 PROFILE_VERSION_ANNOTATION="profiles.weave.works/version"
 
+BUILD_NUM?=0
+
 ##@ Flows
 
 
@@ -297,6 +299,16 @@ local-destroy:
 
 
 ##@ Update Helm chart versions for profile references
-update-chart-versions:
+update-chart-versions: check-repo-dir clone-profiles-repo bump-versions commit-versions
+
+bump-versions:
 	@echo "Bumping helm chart versions ..."
 	./.bin/update-chart-versions.sh ${PROFILE_VERSION_ANNOTATION}
+
+clone-profiles-repo:
+	@echo "Clone profiles repo ..."
+	git clone git@github.com:weaveworks/profiles-catalog.git ${REPODIR}
+
+commit-versions:
+	@echo "committing version changes to repo"
+	cd ${REPODIR} && git add . && git branch -b bump-versions-${BUILD_NUM} && git commit -m "bump versions" && git push
