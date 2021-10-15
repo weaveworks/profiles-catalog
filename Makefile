@@ -246,15 +246,16 @@ install-profiles-on-cluster:
 ##@ TODO:INVESTIGATE FLUX KEY BY SEPERATING CLUSTER PATH NAME (MIGHT JUST OVERRIDE KEY)
 bootstrap-cluster:
 	@if [ "${PIPELINE}" = "1" ]; then\
-        echo "bootstrapping via github with private key" && \
-			gitops flux bootstrap github \
-			--owner=${TEST_REPO_USER} \
-			--repository=${TEST_REPO} \
-			--namespace wego-system \
-			--path=clusters/my-cluster \
-			--personal \
-			--branch ${TEST_REPO_BRANCH} \
-			--private-key-file=/tmp/git-keys/${TEST_REPO_USER}-${TEST_REPO}; \
+        echo "Adding key and bootstrapping" && \
+		kubectl create secret generic flux-git-deploy --from-file=identity=/tmp/git-keys/${TEST_REPO_USER}-${TEST_REPO} && \
+		gitops flux bootstrap github \
+		--owner=${TEST_REPO_USER} \
+		--repository=${TEST_REPO} \
+		--namespace wego-system \
+		--path=clusters/my-cluster \
+		--personal \
+		--branch ${TEST_REPO_BRANCH} \
+		--read-write-key; \
 	else \
         echo "bootstrapping via github" && \
 		gitops flux bootstrap github \
@@ -266,7 +267,7 @@ bootstrap-cluster:
 		--branch ${TEST_REPO_BRANCH} \
 		--read-write-key; \
     fi
-
+	
 clone-test-repo:
 	@echo "Clone test repo"
 	git clone -b ${TEST_REPO_BRANCH} git@github.com:${TEST_REPO_USER}/${TEST_REPO}.git ${REPODIR}
