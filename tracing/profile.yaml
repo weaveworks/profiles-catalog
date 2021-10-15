@@ -3,7 +3,7 @@ kind: ProfileDefinition
 metadata:
   name: tracing
   annotations:
-    profiles.weave.works/version: v0.0.1
+    profiles.weave.works/version: v0.0.2
 spec:
   description: Profile for deploying Jaeger Operator
   maintainer: weaveworks
@@ -14,4 +14,4 @@ spec:
       chart:
         url: https://jaegertracing.github.io/helm-charts
         name: jaeger-operator
-        version: "2.25.0"
+        version: "2.26.0"

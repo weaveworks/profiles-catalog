@@ -3,26 +3,26 @@ kind: ProfileDefinition
 metadata:
   name: gitops-enterprise-leaf-base
   annotations:
-    profiles.weave.works/version: v0.0.2
+    profiles.weave.works/version: v0.0.3
 spec:
   description: Profile for deploying clusters chart
   maintainer: weaveworks
   prerequisites:
     - "kubernetes 1.19"
-  artifacts:       
+  artifacts:
     - name: flagger
       chart:
         url: https://flagger.app
         name: flagger
-        version: "1.13.0"
+        version: "1.14.0"
         defaultValues: |
           meshProvider: istio
           crd:
-            create: false 
+            create: false
     - name: istio-base
       dependsOn:
-      - name: kube-prometheus-stack
-      - name: flagger    
+        - name: kube-prometheus-stack
+        - name: flagger
       chart:
         path: istio/base
         defaultValues: |
@@ -30,7 +30,7 @@ spec:
             istioNamespace: default
     - name: istio-discovery
       dependsOn:
-      - name: istio-base
+        - name: istio-base
       chart:
         path: istio/istio-discovery
         defaultValues: |
@@ -38,7 +38,7 @@ spec:
             istioNamespace: default
     - name: istio-ingress
       dependsOn:
-      - name: istio-discovery
+        - name: istio-discovery
       chart:
         path: istio/istio-ingress
         defaultValues: |
@@ -46,7 +46,7 @@ spec:
             istioNamespace: default
     - name: istio-egress
       dependsOn:
-      - name: istio-discovery
+        - name: istio-discovery
       chart:
         path: istio/istio-egress
         defaultValues: |
@@ -54,12 +54,12 @@ spec:
             istioNamespace: default
     - name: istio-gateway
       dependsOn:
-      - name: istio-ingress
+        - name: istio-ingress
       kustomize:
         path: istio/gateway
     - name: weave-scope
       chart:
-        url: https://charts.helm.sh/stable 
+        url: https://charts.helm.sh/stable
         name: weave-scope
         version: "1.1.12"
         defaultValues: |

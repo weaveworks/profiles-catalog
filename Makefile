@@ -39,6 +39,8 @@ CATALOG_REPO_URL=git@github.com:weaveworks/profiles-catalog.git
 
 PROFILE_VERSION_ANNOTATION="profiles.weave.works/version"
 
+BUILD_NUM?=0
+
 INFRASTRUCTURE?="kind"
 ##@ Flows
 
@@ -313,5 +315,22 @@ local-destroy:
 	@echo "Deleting kind mgmt (control-plan) and testing (workload) clusters"
 	kind delete clusters mgmt testing
 
+
+##@ Profile tests flow
 test-single-profile:
 	@ cd tests && kubectl get pods -A --kubeconfig "${CONFDIR}/${KIND_CLUSTER}.kubeconfig" && kubectl get profileinstallations.weave.works  && go test -args -kubeconfig "${CONFDIR}/${KIND_CLUSTER}.kubeconfig" -profilename=${PROFILE} 
+
+##@ Update Helm chart versions for profile references
+update-chart-versions: check-repo-dir clone-profiles-repo bump-versions commit-versions
+
+bump-versions:
+	@echo "Bumping helm chart versions ..."
+	cd ${REPODIR} && bash .bin/update-chart-versions.sh ${PROFILE_VERSION_ANNOTATION}
+
+clone-profiles-repo:
+	@echo "Clone profiles repo ..."
+	git clone -b main git@github.com:weaveworks/profiles-catalog.git ${REPODIR} 
+
+commit-versions:
+	@echo "Committing version changes to repo"
+	cd ${REPODIR} && git add . && git checkout -b bump-versions-${BUILD_NUM} && git commit -m "bump versions" && git push --set-upstream origin bump-versions-${BUILD_NUM}

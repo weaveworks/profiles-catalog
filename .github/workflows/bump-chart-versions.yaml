@@ -1,0 +1,46 @@
+name: Bump Chart Versions CI
+
+on:
+  schedule:
+    - cron: '0 0 * * 6'
+  workflow_dispatch:
+
+jobs:
+  check-versions:
+    name: Bump Chart Versions
+    runs-on: ubuntu-latest
+    env:
+      SSH_DIR: "/tmp/.ssh"
+      SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+      GITHUB_TOKEN: ${{secrets.WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
+      GIT_SSH_COMMAND: /tmp/ssh_command
+      GIT_SSH_COMMAND_DEBUGLOG: "/tmp/1"
+      BUILD_NUM: ${{ github.run_number }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup SSH known hosts
+        shell: bash
+        run: |
+          mkdir -p ${SSH_DIR} && chmod 700 ${SSH_DIR}
+          ssh-keyscan github.com >> ${SSH_DIR}/known_hosts
+      - name: Bump Chart Versions
+        shell: bash
+        run: |
+          mkdir -p /tmp/git-keys
+          echo "${{ secrets.PROFILES_CATALOG_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
+          chmod 600 /tmp/git-keys/weaveworks-profiles-catalog 
+          cp ${{ github.workspace }}/.bin/ssh_command.sh /tmp/ssh_command
+          chmod +x /tmp/ssh_command
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+          make update-chart-versions
+      - name: Create Pull Request
+        id: cpr
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{secrets.WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
+          branch: bump-versions-${{ github.run_number }}
+          delete-branch: true
+          title: 'Bumping Chart Versions in Profiles'
+          body: |
+            Bumping chart versions in all profiles. Please review files changed. 
