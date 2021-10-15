@@ -247,6 +247,7 @@ install-profiles-on-cluster:
 bootstrap-cluster:
 	@if [ "${PIPELINE}" = "1" ]; then\
         echo "bootstrapping via git" && \
+			kubectl create secret generic -n wego-system flux-git-deploy --from-file=identity=/tmp/git-keys/${TEST_REPO_USER}-${TEST_REPO} &&
 			gitops flux bootstrap git \
 			--url=ssh://git@github.com/${TEST_REPO_USER}/${TEST_REPO}.git \
 			--namespace wego-system \
@@ -264,7 +265,7 @@ bootstrap-cluster:
 		--branch ${TEST_REPO_BRANCH} \
 		--read-write-key; \
     fi
-	
+
 clone-test-repo:
 	@echo "Clone test repo"
 	git clone -b ${TEST_REPO_BRANCH} git@github.com:${TEST_REPO_USER}/${TEST_REPO}.git ${REPODIR}
