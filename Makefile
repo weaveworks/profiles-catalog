@@ -39,6 +39,7 @@ CATALOG_REPO_URL=git@github.com:weaveworks/profiles-catalog.git
 
 PROFILE_VERSION_ANNOTATION="profiles.weave.works/version"
 
+INFRASTRUCTURE?="kind"
 ##@ Flows
 
 
@@ -51,11 +52,11 @@ kind-e2e: deploy-profile-kind
 
 gke-e2e: deploy-profile-gke
 
-deploy-profile-eks: check-requirements check-eksctl create-eks-cluster get-eks-kubeconfig change-eks-kubeconfig install-profile-and-sync delete-eks-cluster
+deploy-profile-eks: check-requirements check-eksctl create-cluster get-eks-kubeconfig change-eks-kubeconfig install-profile-and-sync delete-cluster
 
 deploy-profile-kind: check-requirements check-kind create-cluster check-config-dir save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster install-profile-and-sync
 
-deploy-profile-gke: check-requirements check-gcloud create-gke-cluster get-gke-kubeconfig install-profile-and-sync delete-gke-cluster
+deploy-profile-gke: check-requirements check-gcloud create-cluster get-gke-kubeconfig install-profile-and-sync delete-cluster
 
 PROFILE_VERSION_ANNOTATION="profiles.weave.works/version"
 PROFILE_FILES := $(shell ls */profile.yaml)
@@ -163,8 +164,36 @@ reconcile-wego-system:
 
 ##@ Cluster
 create-cluster:
-	@echo "Creating kind management cluster ...";
-	kind get clusters | grep ${KIND_CLUSTER} || kind create cluster --config ${BINDIR}/kind-cluster-with-extramounts.yaml --name ${KIND_CLUSTER}
+	@if [ ${INFRASTRUCTURE} = "kind" ]; then\
+		echo "Creating kind management cluster ...";
+		kind get clusters | grep ${KIND_CLUSTER} || kind create cluster --config ${BINDIR}/kind-cluster-with-extramounts.yaml --name ${KIND_CLUSTER}
+	elif [ ${INFRASTRUCTURE} = "eks" ]; then\
+		echo "Creating eks cluster ..."
+		eksctl delete cluster --region ${AWS_REGION} --name ${EKS_CLUSTER_NAME} --wait || eksctl create cluster --name ${EKS_CLUSTER_NAME} \
+			--region ${AWS_REGION} \
+			--version ${EKS_K8S_VERSION} \
+			--nodegroup-name ${NODEGROUP_NAME} \
+			--node-type ${NODE_INSTANCE_TYPE} \
+			--nodes ${NUM_OF_NODES} \
+			--kubeconfig ${CONFDIR}/eks-cluster.kubeconfig
+	elif [ ${INFRASTRUCTURE} = "gke" ]; then\
+		echo "Creating gke cluster ..."
+		gcloud container clusters create ${GKE_CLUSTER_NAME} --region ${GCP_REGION} --project ${GCP_PROJECT_NAME}
+	fi
+
+delete-cluster:
+	@if [ ${INFRASTRUCTURE} = "kind" ]; then\
+		echo "Deleting kind cluster ..."
+		kind delete cluster --name ${KIND_CLUSTER}
+	elif [ ${INFRASTRUCTURE} = "eks" ]; then\
+		echo "Deleting eks cluster ..."
+		eksctl delete cluster --region ${AWS_REGION} --name ${EKS_CLUSTER_NAME} --wait || \
+		check-awscli && \
+		aws cloudformation delete-stack --stack-name eksctl-${EKS_CLUSTER_NAME}-cluster
+	elif [ ${INFRASTRUCTURE} = "gke" ]; then\
+		echo "Deleting gke cluster ..."
+		gcloud container clusters delete ${GKE_CLUSTER_NAME} --region ${GCP_REGION} --project ${GCP_PROJECT_NAME} -q
+	fi
 
 save-kind-cluster-config:
 	@echo "Exporting kind management cluster kubeconfig ..."
@@ -189,38 +218,14 @@ change-kubeconfig:
 change-eks-kubeconfig:
 	@export KUBECONFIG=${CONFDIR}/eks-cluster.kubeconfig
 
-
-create-eks-cluster:
-	@echo "Creating eks cluster ..."
-	eksctl delete cluster --region ${AWS_REGION} --name ${EKS_CLUSTER_NAME} --wait || eksctl create cluster --name ${EKS_CLUSTER_NAME} \
-		--region ${AWS_REGION} \
-		--version ${EKS_K8S_VERSION} \
-		--nodegroup-name ${NODEGROUP_NAME} \
-		--node-type ${NODE_INSTANCE_TYPE} \
-		--nodes ${NUM_OF_NODES} \
-		--kubeconfig ${CONFDIR}/eks-cluster.kubeconfig
-
 get-eks-kubeconfig:
 	@echo "Creating kubeconfig for EKS cluster ..."
 	eksctl utils write-kubeconfig --region ${AWS_REGION} --cluster ${EKS_CLUSTER_NAME} --kubeconfig ${CONFDIR}/eks-cluster.kubeconfig
-
-delete-eks-cluster:
-	@echo "Deleting eks cluster ..."
-	eksctl delete cluster --region ${AWS_REGION} --name ${EKS_CLUSTER_NAME} --wait || \
-	check-awscli && \
-	aws cloudformation delete-stack --stack-name eksctl-${EKS_CLUSTER_NAME}-cluster
 
 get-gke-kubeconfig:
 	@echo "Creating kubeconfig for GKE cluster ..."
 	gcloud container clusters get-credentials ${GKE_CLUSTER_NAME} --region ${GCP_REGION} --project ${GCP_PROJECT_NAME}
 
-create-gke-cluster:
-	@echo "Creating gke cluster ..."
-	gcloud container clusters create ${GKE_CLUSTER_NAME} --region ${GCP_REGION} --project ${GCP_PROJECT_NAME}
-
-delete-gke-cluster:
-	@echo "Deleting gke cluster ..."
-	gcloud container clusters delete ${GKE_CLUSTER_NAME} --region ${GCP_REGION} --project ${GCP_PROJECT_NAME} -q 
 ##@ kubernetes
 
 upload-profiles-image-to-cluster:

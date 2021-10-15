@@ -16,6 +16,7 @@ jobs:
       GIT_SSH_COMMAND_DEBUGLOG: "/tmp/1"
       KUBECONFIG: "/home/runner/work/profiles-catalog/profiles-catalog/.conf/eks-cluster.kubeconfig"
       TEST_REPO: profiles-catalog-test
+      INFRASTRUCTURE: eks
     steps:
       - uses: actions/checkout@v2
       - name: Configure AWS Credentials
