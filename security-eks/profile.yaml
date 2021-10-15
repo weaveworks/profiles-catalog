@@ -3,7 +3,7 @@ kind: ProfileDefinition
 metadata:
   name: security-eks
   annotations:
-    profiles.weave.works/version: v0.0.3
+    profiles.weave.works/version: v0.0.4
 spec:
   description: Profile for deploying calico, kyverno, and snyk profiles
   maintainer: weaveworks
