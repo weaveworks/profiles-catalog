@@ -317,7 +317,7 @@ local-destroy:
 
 ##@ Profile tests flow
 test-single-profile:
-	@ cd tests && go test -args -kubeconfig "${CONFDIR}/${KIND_CLUSTER}.kubeconfig" -profilename=${PROFILE} 
+	@ cd tests && go test -args -profilename=${PROFILE} 
 
 ##@ Update Helm chart versions for profile references
 update-chart-versions: check-repo-dir clone-profiles-repo bump-versions commit-versions
