@@ -54,7 +54,7 @@ kind-e2e: deploy-profile-kind
 
 gke-e2e: deploy-profile-gke
 
-deploy-profile-eks: check-requirements check-eksctl create-cluster get-eks-kubeconfig change-eks-kubeconfig install-profile-and-sync delete-cluster
+deploy-profile-eks: check-requirements check-eksctl check-awscli create-cluster get-eks-kubeconfig change-eks-kubeconfig install-profile-and-sync delete-cluster
 
 deploy-profile-kind: check-requirements check-kind create-cluster check-config-dir save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster install-profile-and-sync
 
@@ -183,15 +183,14 @@ create-cluster:
 		gcloud container clusters create ${GKE_CLUSTER_NAME} --region ${GCP_REGION} --project ${GCP_PROJECT_NAME}
 	fi
 
-delete-cluster:
+delete-cluster: 
 	@if [ ${INFRASTRUCTURE} = "kind" ]; then\
 		echo "Deleting kind cluster ..."
 		kind delete cluster --name ${KIND_CLUSTER}
 	elif [ ${INFRASTRUCTURE} = "eks" ]; then\
 		echo "Deleting eks cluster ..."
 		eksctl delete cluster --region ${AWS_REGION} --name ${EKS_CLUSTER_NAME} --wait || \
-		check-awscli && \
-		aws cloudformation delete-stack --stack-name eksctl-${EKS_CLUSTER_NAME}-cluster
+		aws cloudformation delete-stack --region ${AWS_REGION} --stack-name eksctl-${EKS_CLUSTER_NAME}-cluster
 	elif [ ${INFRASTRUCTURE} = "gke" ]; then\
 		echo "Deleting gke cluster ..."
 		gcloud container clusters delete ${GKE_CLUSTER_NAME} --region ${GCP_REGION} --project ${GCP_PROJECT_NAME} -q
