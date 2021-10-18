@@ -36,7 +36,7 @@ type Profile struct {
 	Namespace string `yaml:"namespace"`
 }
 
-var kubeconfigpath = flag.String("kubeconfig", "../.conf/testing.kubeconfig", "kubeconfig path")
+var kubeconfigpath = flag.String("kubeconfig", os.Getenv("KUBECONFIG"), "kubeconfig path")
 var valuespath = flag.String("values", "", "profiles values.yaml path")
 var uniqueprofilename = flag.String("profilename", "", "individual profile name")
 var uniqueprofilenamespace = flag.String("profilenamespace", "", "individual profile namespace")
