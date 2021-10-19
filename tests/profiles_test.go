@@ -170,7 +170,7 @@ func checkRunningPods(t *testing.T, pods []corev1.Pod, kubeconfig string, profil
 			if strings.Contains(parentReference, profilesToCheck[namespace][k]) {
 				fmt.Println("Tested profile:", profilesToCheck[namespace][k], "Namespace: ", namespace, "Pod:", pods[i].Name)
 				//wait until they are available
-				k8s.WaitUntilPodAvailable(t, options, pods[i].Name, 60, 1*time.Second)
+				k8s.WaitUntilPodAvailable(t, options, pods[i].Name, 180, 1*time.Second)
 				checked++
 			}
 		}
