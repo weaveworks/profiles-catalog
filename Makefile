@@ -36,7 +36,6 @@ TEST_REPO_USER?=weaveworks
 TEST_REPO?=profiles-catalog-test
 TEST_REPO_BRANCH?=testing
 CATALOG_REPO_URL=git@github.com:weaveworks/profiles-catalog.git
-CATALOG_REPO_BRANCH?=main
 
 PROFILE_VERSION_ANNOTATION="profiles.weave.works/version"
 
@@ -291,11 +290,7 @@ create-profile-kustomization:
 
 add-profile:
 	@echo "Adding pctl Profile to repo ..."
-	git branch
-	git branch --show-current > /tmp/branch
-	cat /tmp/branch
-	echo "???"
-	cat /tmp/branch | xargs -I {} echo {}
+	git branch --show-current > /tmp/branch && \
 	cd ${REPODIR} && \
 	cat /tmp/branch | \
 	xargs -I {} \
@@ -304,7 +299,6 @@ add-profile:
 	--git-repository wego-system/wego-system \
 	--profile-path ./${PROFILE} \
 	--profile-branch {}
-	
 
 
 local-env:
