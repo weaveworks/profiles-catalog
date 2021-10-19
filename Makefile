@@ -290,6 +290,7 @@ create-profile-kustomization:
 
 add-profile:
 	@echo "Adding pctl Profile to repo ..."
+	git branch
 	git branch --show-current > /tmp/branch
 	cat /tmp/branch
 	echo "???"
