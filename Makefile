@@ -317,8 +317,9 @@ test-single-profile:
 		export KUBECONFIG=${CONFDIR}/eks-cluster.kubeconfig
 	elif [ ${INFRASTRUCTURE} = "gke" ]; then\
 		gcloud container clusters get-credentials ${GKE_CLUSTER_NAME} --region ${GCP_REGION} --project ${GCP_PROJECT_NAME}
+		export KUBECONFIG=$${HOME}/.kube/config
 	fi
-	cd tests && go test -args -profilename=${PROFILE} 
+	echo ${KUBECONFIG} && cd tests && go test -args -profilename=${PROFILE} 
 
 ##@ Update Helm chart versions for profile references
 update-chart-versions: check-repo-dir clone-profiles-repo bump-versions commit-versions
