@@ -18,6 +18,8 @@ jobs:
       PIPELINE: 1
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
       - name: Setup SSH known hosts
         shell: bash
         run: |
