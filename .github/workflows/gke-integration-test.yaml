@@ -17,6 +17,7 @@ jobs:
       TEST_REPO: profiles-catalog-test
       INFRASTRUCTURE: gke
       PIPELINE: 1
+      DOCKERHUB_ACCESS_TOKEN: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
     steps:
       - uses: actions/checkout@v2
         with:

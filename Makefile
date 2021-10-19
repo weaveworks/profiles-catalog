@@ -42,6 +42,9 @@ PROFILE_VERSION_ANNOTATION="profiles.weave.works/version"
 BUILD_NUM?=0
 
 INFRASTRUCTURE?="kind"
+
+DOCKERHUB_USERNAME?=tomhuang12
+DOCKERHUB_ACCESS_TOKEN?=secret
 ##@ Flows
 
 
@@ -289,7 +292,10 @@ create-profile-kustomization:
 	    --prune=true > ${REPODIR}/clusters/my-cluster/${PROFILE}.yaml
 
 add-profile:
-	@echo "Adding pctl Profile to repo ..."
+	@echo "Creating docker hub registry secret and labeling nodes ..."
+	kubectl create secret docker-registry docker-io-pull-secret --docker-username=${DOCKERHUB_USERNAME} --docker-password=${DOCKERHUB_ACCESS_TOKEN}
+	kubectl label nodes $(shell kubectl get nodes -o jsonpath='{.items[0].metadata.name}') wkp-database-volume-node=true
+	echo "Adding pctl Profile to repo ..."
 	git branch --show-current > /tmp/branch && \
 	cd ${REPODIR} && \
 	cat /tmp/branch | \

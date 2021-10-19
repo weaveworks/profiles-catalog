@@ -16,6 +16,7 @@ jobs:
       GIT_SSH_COMMAND_DEBUGLOG: "/tmp/1"
       TEST_REPO: profiles-catalog-test
       PIPELINE: 1
+      DOCKERHUB_ACCESS_TOKEN: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
     steps:
       - uses: actions/checkout@v2
         with:
