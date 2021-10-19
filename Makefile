@@ -290,16 +290,18 @@ create-profile-kustomization:
 
 add-profile:
 	@echo "Adding pctl Profile to repo ..."
-	git branch --show-current > /tmp/branch && \
-	cd ${REPODIR} && \
-	cat /tmp/branch | \
-	xargs -I {} \
+
 	pctl add --name ${PROFILE} \
 	--profile-repo-url git@github.com:weaveworks/profiles-catalog.git \
 	--git-repository wego-system/wego-system \
 	--profile-path ./${PROFILE} \
 	--profile-branch fix-tests
 	ls -lart
+
+#	git branch --show-current > /tmp/branch && \
+#	cd ${REPODIR} && \
+#	cat /tmp/branch | \
+#	xargs -I {} 
 
 
 local-env:
