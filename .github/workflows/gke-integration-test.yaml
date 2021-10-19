@@ -19,6 +19,8 @@ jobs:
       PIPELINE: 1
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@master
         with:
