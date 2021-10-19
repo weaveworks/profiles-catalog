@@ -268,11 +268,11 @@ clone-test-repo:
 
 
 commit-clean:
-	@echo "commiting cleaning to repo"
+	@echo "Commiting cleaning to repo ..."
 	cd ${REPODIR} && git add . && ( git commit -m "cleaning profile" | git push  || true )
 	
 commit-profile:
-	@echo "committing profile to repo"
+	@echo "Committing profile to repo ..."
 	cd ${REPODIR} && git add . && git commit -m "adding profile" && git push 
 
 delete-branch:
@@ -289,8 +289,8 @@ create-profile-kustomization:
 	    --prune=true > ${REPODIR}/clusters/my-cluster/${PROFILE}.yaml
 
 add-profile:
-	@echo "Adding pctl Profile to repo"
-	git branch --show-current > /tmp/branch && \
+	@echo "Adding pctl Profile to repo ..."
+	git branch --show-current > /tmp/branch && cat /tmp/branch && \
 	cd ${REPODIR} && \
 	cat /tmp/branch | \
 	xargs -I {} \
