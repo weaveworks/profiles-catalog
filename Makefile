@@ -327,7 +327,7 @@ test-single-profile:
 	fi
 	cd tests && go test -timeout 20m -args -profilename=${PROFILE}
 	kubectl get pods
-	kubectl describe pods istiod
+	kubectl describe pods istio
 
 ##@ Update Helm chart versions for profile references
 update-chart-versions: check-repo-dir clone-profiles-repo bump-versions commit-versions
