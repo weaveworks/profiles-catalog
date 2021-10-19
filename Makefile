@@ -54,9 +54,9 @@ kind-e2e: deploy-profile-kind
 
 gke-e2e: deploy-profile-gke
 
-deploy-profile-eks: check-requirements check-eksctl check-awscli create-cluster get-eks-kubeconfig change-eks-kubeconfig install-profile-and-sync delete-cluster
+deploy-profile-eks: check-requirements check-eksctl check-awscli create-cluster get-eks-kubeconfig  install-profile-and-sync delete-cluster
 
-deploy-profile-kind: check-requirements check-kind create-cluster check-config-dir save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster install-profile-and-sync
+deploy-profile-kind: check-requirements check-kind create-cluster check-config-dir save-kind-cluster-config upload-profiles-image-to-cluster install-profile-and-sync
 
 deploy-profile-gke: check-requirements check-gcloud create-cluster get-gke-kubeconfig install-profile-and-sync delete-cluster
 
@@ -213,12 +213,6 @@ generate-manifests-clusterctl:
 	--worker-machine-count=3 \
 	| kubectl apply -f -
 
-change-kubeconfig:
-	@export KUBECONFIG=${CONFDIR}/${KIND_CLUSTER}.kubeconfig
-
-change-eks-kubeconfig:
-	@export KUBECONFIG=${CONFDIR}/eks-cluster.kubeconfig
-
 get-eks-kubeconfig:
 	@echo "Creating kubeconfig for EKS cluster ..."
 	eksctl utils write-kubeconfig --region ${AWS_REGION} --cluster ${EKS_CLUSTER_NAME} --kubeconfig ${CONFDIR}/eks-cluster.kubeconfig
@@ -317,7 +311,14 @@ local-destroy:
 
 ##@ Profile tests flow
 test-single-profile:
-	@ cd tests && go test -args -profilename=${PROFILE} 
+	@if [ ${INFRASTRUCTURE} = "kind" ]; then\
+		export KUBECONFIG=${CONFDIR}/${KIND_CLUSTER}.kubeconfig
+	elif [ ${INFRASTRUCTURE} = "eks" ]; then\
+		export KUBECONFIG=${CONFDIR}/eks-cluster.kubeconfig
+	elif [ ${INFRASTRUCTURE} = "gke" ]; then\
+		gcloud container clusters get-credentials ${GKE_CLUSTER_NAME} --region ${GCP_REGION} --project ${GCP_PROJECT_NAME}
+	fi
+	cd tests && go test -args -profilename=${PROFILE} 
 
 ##@ Update Helm chart versions for profile references
 update-chart-versions: check-repo-dir clone-profiles-repo bump-versions commit-versions
