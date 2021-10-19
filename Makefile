@@ -172,6 +172,7 @@ create-cluster:
 	@if [ ${INFRASTRUCTURE} = "kind" ]; then\
 		echo "Creating kind management cluster ...";
 		kind get clusters | grep ${KIND_CLUSTER} || kind create cluster --config ${BINDIR}/kind-cluster-with-extramounts.yaml --name ${KIND_CLUSTER}
+		kubectl get nodes -o jsonpath='{.items[0].status.allocatable}'
 	elif [ ${INFRASTRUCTURE} = "eks" ]; then\
 		echo "Creating eks cluster ..."
 		eksctl delete cluster --region ${AWS_REGION} --name ${EKS_CLUSTER_NAME} --wait || eksctl create cluster --name ${EKS_CLUSTER_NAME} \
