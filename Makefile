@@ -36,6 +36,7 @@ TEST_REPO_USER?=weaveworks
 TEST_REPO?=profiles-catalog-test
 TEST_REPO_BRANCH?=testing
 CATALOG_REPO_URL=git@github.com:weaveworks/profiles-catalog.git
+CATALOG_REPO_BRANCH?=main
 
 PROFILE_VERSION_ANNOTATION="profiles.weave.works/version"
 
