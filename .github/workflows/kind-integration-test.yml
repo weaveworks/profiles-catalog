@@ -1,65 +1,70 @@
-name: Kind Integration Testing
+# name: Kind Integration Testing
 
-on:
-  pull_request:
-    branches: [ main ]
+# on:
+#   pull_request:
+#     branches: [ main ]
 
-jobs:
-  kind-e2e-profile-test:
-    name: Kind e2e profile test
-    runs-on: ubuntu-latest
-    env:
-      SSH_DIR: "~/.ssh"
-      SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-      GITHUB_TOKEN: ${{secrets.WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
-      GIT_SSH_COMMAND: /tmp/ssh_command
-      GIT_SSH_COMMAND_DEBUGLOG: "/tmp/1"
-      TEST_REPO: profiles-catalog-test
-      PIPELINE: 1
-    steps:
-      - uses: actions/checkout@v2
-      - name: Setup SSH known hosts
-        shell: bash
-        run: |
-          mkdir -p ${SSH_DIR} && chmod 700 ${SSH_DIR}
-          ssh-keyscan github.com >> ${SSH_DIR}/known_hosts
-      - name: Install Go for profile e2e
-        uses: actions/setup-go@v2
-        with:
-          go-version: 1.17.2
-      - name: Run mgmt integration tests
-        shell: bash
-        env:
-          PROFILE: gitops-enterprise-mgmt-kind
-          TEST_REPO_BRANCH: e2e-kind-mgmt-${{ github.head_ref }}-${{ github.run_number }}
-        run: |
-          mkdir -p /tmp/git-keys
-          echo "${{ secrets.PROFILES_CATALOG_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
-          chmod 600 /tmp/git-keys/weaveworks-profiles-catalog 
-          echo "${{ secrets.PROFILES_CATALOG_TEST_DEPLOY_KEY_2 }}" > /tmp/git-keys/weaveworks-profiles-catalog-test
-          chmod 600 /tmp/git-keys/weaveworks-profiles-catalog-test
-          echo "${{ secrets.PROFILES_CATALOG_TEST_DEPLOY_KEY_PUB_2 }}" > /tmp/git-keys/weaveworks-profiles-catalog-test.pub
-          chmod 600 /tmp/git-keys/weaveworks-profiles-catalog-test.pub
-          cp ${{ github.workspace }}/.bin/ssh_command.sh /tmp/ssh_command
-          chmod +x /tmp/ssh_command
-          git config --global user.email "action@github.com"
-          git config --global user.name "GitHub Action"
-          make kind-e2e
-      - name: Run leaf integration tests
-        shell: bash
-        env:
-          PROFILE: gitops-enterprise-leaf-kind
-          TEST_REPO_BRANCH: e2e-kind-leaf-${{ github.head_ref }}-${{ github.run_number }}
-        run: |
-          mkdir -p /tmp/git-keys
-          echo "${{ secrets.PROFILES_CATALOG_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
-          chmod 600 /tmp/git-keys/weaveworks-profiles-catalog 
-          echo "${{ secrets.PROFILES_CATALOG_TEST_DEPLOY_KEY_2 }}" > /tmp/git-keys/weaveworks-profiles-catalog-test
-          chmod 600 /tmp/git-keys/weaveworks-profiles-catalog-test
-          echo "${{ secrets.PROFILES_CATALOG_TEST_DEPLOY_KEY_PUB_2 }}" > /tmp/git-keys/weaveworks-profiles-catalog-test.pub
-          chmod 600 /tmp/git-keys/weaveworks-profiles-catalog-test.pub
-          cp ${{ github.workspace }}/.bin/ssh_command.sh /tmp/ssh_command
-          chmod +x /tmp/ssh_command
-          git config --global user.email "action@github.com"
-          git config --global user.name "GitHub Action"
-          make kind-e2e
+# jobs:
+#   kind-e2e-profile-test:
+#     name: Kind e2e profile test
+#     runs-on: ubuntu-latest
+#     env:
+#       SSH_DIR: "~/.ssh"
+#       SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+#       GITHUB_TOKEN: ${{secrets.WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
+#       GIT_SSH_COMMAND: /tmp/ssh_command
+#       GIT_SSH_COMMAND_DEBUGLOG: "/tmp/1"
+#       TEST_REPO: profiles-catalog-test
+#       PIPELINE: 1
+#       DOCKERHUB_ACCESS_TOKEN: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
+#     steps:
+#       - uses: actions/checkout@v2
+#         with:
+#           ref: ${{ github.head_ref }}
+#       - name: Setup SSH known hosts
+#         shell: bash
+#         run: |
+#           mkdir -p ${SSH_DIR} && chmod 700 ${SSH_DIR}
+#           ssh-keyscan github.com >> ${SSH_DIR}/known_hosts
+#       - name: Install Go for profile e2e
+#         uses: actions/setup-go@v2
+#         with:
+#           go-version: 1.17.2
+#       - name: Run mgmt integration tests
+#         shell: bash
+#         env:
+#           PROFILE: gitops-enterprise-mgmt-kind
+#           TEST_REPO_BRANCH: e2e-kind-mgmt-${{ github.head_ref }}-${{ github.run_number }}
+#           KIND_CLUSTER: testing-mgmt
+#         run: |
+#           mkdir -p /tmp/git-keys
+#           echo "${{ secrets.PROFILES_CATALOG_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
+#           chmod 600 /tmp/git-keys/weaveworks-profiles-catalog 
+#           echo "${{ secrets.PROFILES_CATALOG_TEST_DEPLOY_KEY_2 }}" > /tmp/git-keys/weaveworks-profiles-catalog-test
+#           chmod 600 /tmp/git-keys/weaveworks-profiles-catalog-test
+#           echo "${{ secrets.PROFILES_CATALOG_TEST_DEPLOY_KEY_PUB_2 }}" > /tmp/git-keys/weaveworks-profiles-catalog-test.pub
+#           chmod 600 /tmp/git-keys/weaveworks-profiles-catalog-test.pub
+#           cp ${{ github.workspace }}/.bin/ssh_command.sh /tmp/ssh_command
+#           chmod +x /tmp/ssh_command
+#           git config --global user.email "action@github.com"
+#           git config --global user.name "GitHub Action"
+#           make kind-e2e
+#       - name: Run leaf integration tests
+#         shell: bash
+#         env:
+#           PROFILE: gitops-enterprise-leaf-kind
+#           TEST_REPO_BRANCH: e2e-kind-leaf-${{ github.head_ref }}-${{ github.run_number }}
+#           KIND_CLUSTER: testing-leaf
+#         run: |
+#           mkdir -p /tmp/git-keys
+#           echo "${{ secrets.PROFILES_CATALOG_DEPLOY_KEY }}" > /tmp/git-keys/weaveworks-profiles-catalog
+#           chmod 600 /tmp/git-keys/weaveworks-profiles-catalog 
+#           echo "${{ secrets.PROFILES_CATALOG_TEST_DEPLOY_KEY_2 }}" > /tmp/git-keys/weaveworks-profiles-catalog-test
+#           chmod 600 /tmp/git-keys/weaveworks-profiles-catalog-test
+#           echo "${{ secrets.PROFILES_CATALOG_TEST_DEPLOY_KEY_PUB_2 }}" > /tmp/git-keys/weaveworks-profiles-catalog-test.pub
+#           chmod 600 /tmp/git-keys/weaveworks-profiles-catalog-test.pub
+#           cp ${{ github.workspace }}/.bin/ssh_command.sh /tmp/ssh_command
+#           chmod +x /tmp/ssh_command
+#           git config --global user.email "action@github.com"
+#           git config --global user.name "GitHub Action"
+#           make kind-e2e

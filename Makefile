@@ -42,6 +42,9 @@ PROFILE_VERSION_ANNOTATION="profiles.weave.works/version"
 BUILD_NUM?=0
 
 INFRASTRUCTURE?="kind"
+
+DOCKERHUB_USERNAME?=tomhuang12
+DOCKERHUB_ACCESS_TOKEN?=secret
 ##@ Flows
 
 
@@ -54,9 +57,9 @@ kind-e2e: deploy-profile-kind
 
 gke-e2e: deploy-profile-gke
 
-deploy-profile-eks: check-requirements check-eksctl check-awscli create-cluster get-eks-kubeconfig change-eks-kubeconfig install-profile-and-sync delete-cluster
+deploy-profile-eks: check-requirements check-eksctl check-awscli create-cluster get-eks-kubeconfig  install-profile-and-sync delete-cluster
 
-deploy-profile-kind: check-requirements check-kind create-cluster check-config-dir save-kind-cluster-config change-kubeconfig upload-profiles-image-to-cluster install-profile-and-sync
+deploy-profile-kind: check-requirements check-kind create-cluster check-config-dir save-kind-cluster-config upload-profiles-image-to-cluster install-profile-and-sync
 
 deploy-profile-gke: check-requirements check-gcloud create-cluster get-gke-kubeconfig install-profile-and-sync delete-cluster
 
@@ -213,12 +216,6 @@ generate-manifests-clusterctl:
 	--worker-machine-count=3 \
 	| kubectl apply -f -
 
-change-kubeconfig:
-	@export KUBECONFIG=${CONFDIR}/${KIND_CLUSTER}.kubeconfig
-
-change-eks-kubeconfig:
-	@export KUBECONFIG=${CONFDIR}/eks-cluster.kubeconfig
-
 get-eks-kubeconfig:
 	@echo "Creating kubeconfig for EKS cluster ..."
 	eksctl utils write-kubeconfig --region ${AWS_REGION} --cluster ${EKS_CLUSTER_NAME} --kubeconfig ${CONFDIR}/eks-cluster.kubeconfig
@@ -274,11 +271,11 @@ clone-test-repo:
 
 
 commit-clean:
-	@echo "commiting cleaning to repo"
+	@echo "Commiting cleaning to repo ..."
 	cd ${REPODIR} && git add . && ( git commit -m "cleaning profile" | git push  || true )
 	
 commit-profile:
-	@echo "committing profile to repo"
+	@echo "Committing profile to repo ..."
 	cd ${REPODIR} && git add . && git commit -m "adding profile" && git push 
 
 delete-branch:
@@ -295,7 +292,10 @@ create-profile-kustomization:
 	    --prune=true > ${REPODIR}/clusters/my-cluster/${PROFILE}.yaml
 
 add-profile:
-	@echo "Adding pctl Profile to repo"
+	@echo "Creating docker hub registry secret and labeling nodes ..."
+	kubectl create secret docker-registry docker-io-pull-secret --docker-username=${DOCKERHUB_USERNAME} --docker-password=${DOCKERHUB_ACCESS_TOKEN}
+	kubectl label nodes $(shell kubectl get nodes -o jsonpath='{.items[0].metadata.name}') wkp-database-volume-node=true
+	echo "Adding pctl Profile to repo ..."
 	git branch --show-current > /tmp/branch && \
 	cd ${REPODIR} && \
 	cat /tmp/branch | \
@@ -317,7 +317,15 @@ local-destroy:
 
 ##@ Profile tests flow
 test-single-profile:
-	@ cd tests && kubectl get pods -A --kubeconfig "${CONFDIR}/${KIND_CLUSTER}.kubeconfig" && kubectl get profileinstallations.weave.works  && go test -args -kubeconfig "${CONFDIR}/${KIND_CLUSTER}.kubeconfig" -profilename=${PROFILE} 
+	@if [ ${INFRASTRUCTURE} = "kind" ]; then\
+		export KUBECONFIG=${CONFDIR}/${KIND_CLUSTER}.kubeconfig
+	elif [ ${INFRASTRUCTURE} = "eks" ]; then\
+		export KUBECONFIG=${CONFDIR}/eks-cluster.kubeconfig
+	elif [ ${INFRASTRUCTURE} = "gke" ]; then\
+		gcloud container clusters get-credentials ${GKE_CLUSTER_NAME} --region ${GCP_REGION} --project ${GCP_PROJECT_NAME}
+		export KUBECONFIG=$${HOME}/.kube/config
+	fi
+	cd tests && go test -timeout 20m -args -profilename=${PROFILE}
 
 ##@ Update Helm chart versions for profile references
 update-chart-versions: check-repo-dir clone-profiles-repo bump-versions commit-versions
