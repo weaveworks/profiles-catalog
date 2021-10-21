@@ -1,4 +1,5 @@
 kube-prometheus-stack:
+  enabled: true
   grafana:
     ingress:
       path: /grafana/?(.*)
