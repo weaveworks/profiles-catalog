@@ -10,7 +10,7 @@ entries:
       weave.works/operator: "true"
       weave.works/profile: observability
     apiVersion: v2
-    created: "2021-10-21T12:32:08.708277-04:00"
+    created: "2021-10-21T14:04:30.680064-04:00"
     dependencies:
     - condition: kube-prometheus-stack.enabled
       name: kube-prometheus-stack
@@ -32,6 +32,6 @@ entries:
     - https://github.com/prometheus-operator/kube-prometheus
     type: application
     urls:
-    - https://raw.githubusercontent.com/weaveworks/profiles-catalog/observability-v2/charts/
+    - observability-0.0.1.tgz
     version: 0.0.1
-generated: "2021-10-21T12:32:08.685936-04:00"
+generated: "2021-10-21T14:04:30.652804-04:00"
