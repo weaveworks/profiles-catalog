@@ -32,6 +32,6 @@ entries:
     - https://github.com/prometheus-operator/kube-prometheus
     type: application
     urls:
-    - https://stunning-bassoon-592abc80.pages.github.io/observability-0.0.1.tgz
+    - https://raw.githubusercontent.com/weaveworks/profiles-catalog/observability-v2/charts/
     version: 0.0.1
 generated: "2021-10-21T12:32:08.685936-04:00"
