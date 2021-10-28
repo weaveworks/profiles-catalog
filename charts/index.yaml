@@ -10,7 +10,7 @@ entries:
       weave.works/operator: "true"
       weave.works/profile: observability
     apiVersion: v2
-    created: "2021-10-21T14:04:30.680064-04:00"
+    created: "2021-10-28T14:13:16.200305-04:00"
     dependencies:
     - condition: kube-prometheus-stack.enabled
       name: kube-prometheus-stack
@@ -34,4 +34,35 @@ entries:
     urls:
     - observability-0.0.1.tgz
     version: 0.0.1
-generated: "2021-10-21T14:04:30.652804-04:00"
+  oidc:
+  - annotations:
+      weave.works/links: |
+        - name: Chart Sources
+          url: https://github.com/dexidp/helm-charts
+        - name: Upstream Project
+          url: https://github.com/dexidp/dex
+      weave.works/operator: "true"
+      weave.works/profile: dex
+    apiVersion: v2
+    created: "2021-10-28T14:13:16.201498-04:00"
+    dependencies:
+    - condition: dex.enabled
+      name: dex
+      repository: https://charts.dexidp.io
+      version: 0.6.3
+    description: A Weaveworks Helm chart for OpenID Connect (OIDC)
+    digest: c0aad3ac2107d505bdd113c0d4a89240013b18af698bba8f58960fb6b8895052
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://dexidp.io/img/logos/dex-horizontal-color.png
+    keywords:
+    - dex
+    - oidc
+    kubeVersion: '>=1.16.0-0'
+    name: oidc
+    sources:
+    - https://github.com/dexidp/helm-charts
+    type: application
+    urls:
+    - oidc-0.0.1.tgz
+    version: 0.0.1
+generated: "2021-10-28T14:13:16.180812-04:00"
