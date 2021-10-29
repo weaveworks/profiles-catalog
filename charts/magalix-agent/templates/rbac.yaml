@@ -1,0 +1,28 @@
+{{- if .Values.rbac.create }}
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ include "magalix-agent.fullname" . }}
+  labels: {{ include "magalix-agent.labels" . | nindent 4}}
+rules:
+- apiGroups: ["", "extensions", "apps", "batch", "metrics.k8s.io", "networking.k8s.io", "rbac.authorization.k8s.io", "storage.k8s.io"]
+  resources: ["nodes", "nodes/stats", "nodes/metrics", "nodes/proxy", "namespaces", "pods", "limitranges", "deployments", "replicationcontrollers", "statefulsets", "daemonsets", "replicasets", "jobs", "cronjobs", "ingresses", "ingressclasses", "services", "networkpolicies", "clusterrolebindings", "clusterroles", "roles", "rolebindings", "persistentvolumes", "persistentvolumeclaims", "storageclasses"]
+  verbs: ["get", "watch"]
+- apiGroups: ["*"]
+  resources: ["*"]
+  verbs: ["list"]
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ include "magalix-agent.fullname" . }}
+  labels: {{ include "magalix-agent.labels" . | nindent 4}}
+subjects:
+- kind: ServiceAccount
+  name: {{ include "magalix-agent.serviceAccountName" . }}
+  namespace: {{ .Release.Namespace }}
+roleRef:
+  kind: ClusterRole
+  name: {{ include "magalix-agent.fullname" . }}
+  apiGroup: rbac.authorization.k8s.io
+{{- end }}

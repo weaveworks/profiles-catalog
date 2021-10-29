@@ -1,5 +1,29 @@
 apiVersion: v1
 entries:
+  magalix-agent:
+  - annotations:
+      weave.works/links: |
+        - name: Upstream Project
+          url: https://github.com/MagalixCorp/magalix-agent
+      weave.works/operator: "true"
+      weave.works/profile: magalix
+    apiVersion: v2
+    created: "2021-10-29T14:24:31.041299-04:00"
+    description: A Weaveworks Helm chart for Magalix policy agent
+    digest: 2269edea422e8571b2708e31aab209ce2c358b984c990180882f27af7a771c3d
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://www.magalix.com/hubfs/Imported%20images/logo-02.png%3Fwidth=560%26name=logo-02-Dec-18-2020-11-24-41-75-AM.png
+    keywords:
+    - magalix
+    - policy
+    kubeVersion: '>=1.16.0-0'
+    name: magalix-agent
+    sources:
+    - https://github.com/MagalixCorp/magalix-agent
+    type: application
+    urls:
+    - magalix-agent-0.0.1.tgz
+    version: 0.0.1
   observability:
   - annotations:
       weave.works/links: |
@@ -10,7 +34,7 @@ entries:
       weave.works/operator: "true"
       weave.works/profile: observability
     apiVersion: v2
-    created: "2021-10-28T14:13:16.200305-04:00"
+    created: "2021-10-29T14:24:31.065256-04:00"
     dependencies:
     - condition: kube-prometheus-stack.enabled
       name: kube-prometheus-stack
@@ -44,7 +68,7 @@ entries:
       weave.works/operator: "true"
       weave.works/profile: dex
     apiVersion: v2
-    created: "2021-10-28T14:13:16.201498-04:00"
+    created: "2021-10-29T14:24:31.066441-04:00"
     dependencies:
     - condition: dex.enabled
       name: dex
@@ -65,4 +89,4 @@ entries:
     urls:
     - oidc-0.0.1.tgz
     version: 0.0.1
-generated: "2021-10-28T14:13:16.180812-04:00"
+generated: "2021-10-29T14:24:31.0407-04:00"
