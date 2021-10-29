@@ -1,6 +1,8 @@
 
-sevicemesh:
+servicemesh:
   enableControlPlaneAutoRotatingCerts: true
+  installCRDs: true
+  createTrustAnchorSecret: true
   identityTrustAnchorsPrivatePEM: |
     -----BEGIN EC PRIVATE KEY-----
     MHcCAQEEIM3kx3y0M8DIFZA3fgooSD412sM6THLrOYUcnXBof5OtoAoGCCqGSM49

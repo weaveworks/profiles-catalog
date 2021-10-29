@@ -1,1 +1,1 @@
-The service-mesh.linkerd2 controller has been installed.
+The servicemesh.linkerd2 controller has been installed.

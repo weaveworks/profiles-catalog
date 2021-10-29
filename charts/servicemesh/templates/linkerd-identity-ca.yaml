@@ -1,4 +1,4 @@
-{{- if .Values.sevicemesh.enableControlPlaneAutoRotatingCerts -}}
+{{- if .Values.servicemesh.enableControlPlaneAutoRotatingCerts -}}
 apiVersion: cert-manager.io/v1
 kind: Issuer
 metadata:

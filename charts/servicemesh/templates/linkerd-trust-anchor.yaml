@@ -1,8 +1,8 @@
-{{- if .Values.sevicemesh.enableControlPlaneAutoRotatingCerts -}}
+{{- if .Values.servicemesh.createTrustAnchorSecret -}}
 apiVersion: v1
 data:
   tls.crt: {{ .Values.linkerd2.identityTrustAnchorsPEM | b64enc }}
-  tls.key: {{ .Values.sevicemesh.identityTrustAnchorsPrivatePEM | b64enc }}
+  tls.key: {{ .Values.servicemesh.identityTrustAnchorsPrivatePEM | b64enc }}
 kind: Secret
 metadata:
   creationTimestamp: null
