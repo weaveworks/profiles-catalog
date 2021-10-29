@@ -1,5 +1,36 @@
 apiVersion: v1
 entries:
+  ingress:
+  - annotations:
+      weave.works/links: |
+        - name: Chart Sources
+          url:  https://kubernetes.github.io/ingress-nginx
+        - name: Upstream Project
+          url: https://github.com/kubernetes/ingress-nginx/tree/main/charts/ingress-nginx
+      weave.works/profile: ingress
+    apiVersion: v2
+    created: "2021-10-29T15:17:23.852106-04:00"
+    dependencies:
+    - name: ingress-nginx
+      repository: https://kubernetes.github.io/ingress-nginx
+      version: 4.0.6
+    description: A Weaveworks Helm chart for ingress
+    digest: 9033cd23aa427ea6484e67bc4dd4771c9acd2c96886681c7cb9045166a27b87b
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://raw.githubusercontent.com/prometheus/prometheus.github.io/master/assets/prometheus_logo-cb55bb5c346.png
+    keywords:
+    - network
+    - ingress
+    - nginx
+    - nginx-ingress
+    kubeVersion: '>=1.16.0-0'
+    name: ingress
+    sources:
+    - https://kubernetes.github.io/ingress-nginx
+    type: application
+    urls:
+    - ingress-0.0.1.tgz
+    version: 0.0.1
   observability:
   - annotations:
       weave.works/links: |
@@ -10,7 +41,7 @@ entries:
       weave.works/operator: "true"
       weave.works/profile: observability
     apiVersion: v2
-    created: "2021-10-21T14:04:30.680064-04:00"
+    created: "2021-10-29T15:17:23.873061-04:00"
     dependencies:
     - condition: kube-prometheus-stack.enabled
       name: kube-prometheus-stack
@@ -34,4 +65,38 @@ entries:
     urls:
     - observability-0.0.1.tgz
     version: 0.0.1
-generated: "2021-10-21T14:04:30.652804-04:00"
+  sevicemesh:
+  - annotations:
+      weave.works/links: |
+        - name: Chart Sources
+          url:  https://helm.linkerd.io/stable
+        - name: Upstream Project
+          url: https://github.com/linkerd/linkerd2
+      weave.works/profile: ingress
+    apiVersion: v2
+    created: "2021-10-29T15:17:23.887372-04:00"
+    dependencies:
+    - condition: cert-manager.enabled
+      name: cert-manager
+      repository: https://charts.jetstack.io
+      version: 1.6.0
+    - name: linkerd2
+      repository: https://helm.linkerd.io/stable
+      version: 2.11.0
+    description: A Weaveworks Helm chart for service-mesh
+    digest: f9d10467c8f8dfe77f571a10dfac422f60b4b82b5c9055f325ce09e4fceaa3db
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://raw.githubusercontent.com/prometheus/prometheus.github.io/master/assets/prometheus_logo-cb55bb5c346.png
+    keywords:
+    - network
+    - servicemesh
+    - linkerd
+    kubeVersion: '>=1.16.0-0'
+    name: sevicemesh
+    sources:
+    - https://helm.linkerd.io/stable
+    type: application
+    urls:
+    - sevicemesh-0.0.1.tgz
+    version: 0.0.1
+generated: "2021-10-29T15:17:23.84912-04:00"
