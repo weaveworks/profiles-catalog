@@ -1,0 +1,10 @@
+[
+  { "op": "replace",
+    "path": "/spec/template/spec/containers/0/env/28",
+    "value":  {"name":"LINKERD2_PROXY_IDENTITY_TRUST_ANCHORS", "valueFrom":{
+      "secretKeyRef":{
+      "key": "ca.crt",
+      "name": "linkerd-trust-anchor"
+    }} } 
+  }
+]

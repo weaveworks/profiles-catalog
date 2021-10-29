@@ -1,0 +1,18 @@
+[
+  {
+    "op": "replace",
+    "path": "/spec/template/spec/volumes/1",
+    "value": {
+      "name": "trust-roots",
+      "secret": {
+        "secretName": "linkerd-trust-anchor",
+        "items": [
+          {
+            "key": "ca.crt",
+            "path": "ca-bundle.crt"
+          }
+        ]
+      }
+    }
+  }
+]

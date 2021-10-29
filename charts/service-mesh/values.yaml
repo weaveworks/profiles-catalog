@@ -1,0 +1,7 @@
+cert-manager: 
+  enabled: false
+linkerd2:
+  installNamespace: false
+  identity:
+    issuer:
+      scheme: kubernetes.io/tls
