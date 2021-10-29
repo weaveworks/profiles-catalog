@@ -1,0 +1,26 @@
+## Default values for Magalix Agent
+
+nameOverride:  # ""
+
+fullnameOverride:  # ""
+
+image:
+  repository: magalixcorp/agent
+  tag: latest
+  pullPolicy: IfNotPresent
+  pullSecret:
+
+creds:
+  accountId: your-magalix-account-id
+  clusterId: your-magalix-cluster-id
+  secret: your-magalix-account-secret
+## Use existing Secret which stores credentials instead of creating a new one
+credsExistingSecret:
+
+
+serviceAccount:
+  create: true
+  name:
+
+rbac:
+  create: true

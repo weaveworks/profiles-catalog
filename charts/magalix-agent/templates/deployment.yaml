@@ -1,0 +1,70 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: {{ include "magalix-agent.fullname" . }}
+  labels: {{ include "magalix-agent.labels" . | nindent 4}}
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {{ include "magalix-agent.selectorLabels" . | nindent 6}}
+  template:
+    metadata:
+      labels: {{ include "magalix-agent.selectorLabels" . | nindent 8}}
+    spec:
+      serviceAccountName: {{ include "magalix-agent.serviceAccountName" . }}
+      restartPolicy: Always
+      {{- if .Values.image.pullSecret }}
+      imagePullSecrets:
+        - name: {{ .Values.image.pullSecret }}
+      {{- end }}
+      containers:
+        - image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          name: agent
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            privileged: false
+            procMount: Default
+            readOnlyRootFilesystem: true
+            runAsGroup: 1000
+            runAsUser: 1000
+          resources:
+            limits:
+              memory: 750Mi
+              cpu: 1
+            requests:
+              memory: 200Mi
+              cpu: 100m
+          livenessProbe:
+            httpGet:
+              path: /live
+              port: 8080
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 8080
+          startupProbe:
+            failureThreshold: 10
+            httpGet:
+              path: /ready
+              port: 8080
+              scheme: HTTP
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          args:
+            - --kube-incluster
+            - --gateway=wss://agent-gateway.magalix.com/
+            - --source=kubelet
+            - --trace-log=/agent.log
+            - --port=8080
+          envFrom:
+            - secretRef:
+                {{- if not .Values.credsExistingSecret }}
+                name: {{ include "magalix-agent.fullname" . }}
+                {{- else }}
+                name: {{ .Values.credsExistingSecret }}
+                {{- end }}
