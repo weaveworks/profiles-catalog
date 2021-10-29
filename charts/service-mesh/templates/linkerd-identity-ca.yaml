@@ -1,38 +1,6 @@
 apiVersion: cert-manager.io/v1
 kind: Issuer
 metadata:
-  name: linkerd-trust-anchor-issuer
-  namespace: linkerd
-spec:
-  selfSigned: {}
----
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: linkerd-trust-anchor-issuer
-  namespace: linkerd
-spec:
-  secretName: linkerd-trust-anchor
-  duration: 48h
-  renewBefore: 25h
-  issuerRef:
-    name: linkerd-trust-anchor-issuer
-    kind: Issuer
-  commonName: root.linkerd.cluster.local
-  dnsNames:
-  - root.linkerd.cluster.local
-  isCA: true
-  privateKey:
-    algorithm: ECDSA
-  usages:
-  - cert sign
-  - crl sign
-  - server auth
-  - client auth
----
-apiVersion: cert-manager.io/v1
-kind: Issuer
-metadata:
   name: linkerd-trust-anchor
   namespace: linkerd
 spec:

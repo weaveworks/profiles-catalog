@@ -1,5 +1,5 @@
 apiVersion: v2
-name: ingress
+name: sevice-mesh
 icon: https://raw.githubusercontent.com/prometheus/prometheus.github.io/master/assets/prometheus_logo-cb55bb5c346.png
 description: A Weaveworks Helm chart for service-mesh
 type: application
@@ -24,9 +24,9 @@ annotations:
 
 dependencies:
 - name: cert-manager
-  version: "4.0.6"
+  version: "1.6.0"
   repository: "https://charts.jetstack.io"
-  condition: kube-prometheus-stack.enabled
+  condition: cert-manager.enabled
 - name: linkerd2
-  version: "2.10.2"
+  version: "2.11.0"
   repository: "https://helm.linkerd.io/stable"

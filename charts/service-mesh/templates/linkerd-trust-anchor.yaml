@@ -1,0 +1,9 @@
+apiVersion: v1
+data:
+  tls.crt: {{ .Values.linkerd2.identityTrustAnchorsPEM | b64enc }}
+  tls.key: {{ .Values.sevicemesh.identityTrustAnchorsPrivatePEM | b64enc }}
+kind: Secret
+metadata:
+  creationTimestamp: null
+  name: linkerd-trust-anchor
+  namespace: linkerd

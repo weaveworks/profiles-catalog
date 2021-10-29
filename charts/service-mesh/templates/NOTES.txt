@@ -1,1 +1,1 @@
-The ingress.ingress-nginx controller has been installed.
+The service-mesh.linkerd2 controller has been installed.
