@@ -7,5 +7,5 @@ kind: Secret
 metadata:
   creationTimestamp: null
   name: linkerd-trust-anchor
-  namespace: linkerd
+  namespace: {{ .Values.linkerd2.namespace }}
 {{ end }}
