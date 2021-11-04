@@ -31,7 +31,8 @@ jobs:
             echo $dir
             repo_urls=$(helm dependency list charts/"$dir" | grep -Eo "(http|https)://[a-zA-Z0-9./?=_%:-]*" || true)
             i=0
-            echo $repo_urls | while read u; do
+            read -a strarr <<< "$repo_urls"
+            for u in "${strarr[@]}"; do
               if [ ! -z "$u" ] 
               then
                 echo $u
