@@ -3,7 +3,7 @@ name: magalix-agent
 icon: https://www.magalix.com/hubfs/Imported%20images/logo-02.png%3Fwidth=560%26name=logo-02-Dec-18-2020-11-24-41-75-AM.png
 description: A Weaveworks Helm chart for Magalix policy agent
 type: application
-version: 0.0.3
+version: 0.0.4
 kubeVersion: ">=1.16.0-0"
 home: https://github.com/weaveworks/profiles-catalog
 sources:
