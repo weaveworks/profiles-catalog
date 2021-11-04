@@ -28,6 +28,7 @@ jobs:
         shell: bash
         run: |
           for dir in $(ls -d charts/*/ | cut -f2 -d'/'); do
+            echo $dir
             repo_urls=$(helm dependency list charts/$dir | grep -Eo "(http|https)://[a-zA-Z0-9./?=_%:-]*")
             i=0
             echo $repo_urls | while read -r u; do
