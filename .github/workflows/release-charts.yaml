@@ -22,7 +22,7 @@ jobs:
       - name: Install Helm
         uses: azure/setup-helm@v1
         with:
-          version: v3.4.0
+          version: v3.7.0
 
       - name: Add dependencies
         shell: bash
@@ -33,7 +33,6 @@ jobs:
             echo $repo_urls | while read -r u; do
               if [ ! -z "$u" ] 
               then
-                echo $u
                 helm repo add $dir$i $u
                 ((i=i+1))
               fi
