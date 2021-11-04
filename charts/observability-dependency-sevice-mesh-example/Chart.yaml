@@ -27,7 +27,7 @@ annotations:
 
 dependencies:
 - name: servicemesh
-  version: "0.0.1"
+  version: "~0.0.1"
   repository: "file://../servicemesh"
 - name: kube-prometheus-stack
   version: "19.2.2"
