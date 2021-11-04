@@ -47,7 +47,7 @@ jobs:
         with:
           config: cr.yaml
           charts_dir: charts
-          charts_repo_url: https://psychic-parakeet-596291fa.pages.github.io/
+          charts_repo_url: https://raw.githubusercontent.com/weaveworks/profiles-catalog/gh-pages/
           packages_with_index: true
         env:
           YACR_TOKEN: "${{ secrets.WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN }}"
