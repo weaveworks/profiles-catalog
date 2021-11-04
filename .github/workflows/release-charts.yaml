@@ -31,7 +31,7 @@ jobs:
           for dir in $(ls -d charts/*/ | cut -f2 -d'/'); do
             repo_urls=$(helm dependency list charts/"$dir" | grep -Eo "(http|https)://[a-zA-Z0-9./?=_%:-]*" || true)
             i=0
-            read -A strarr <<< "$repo_urls"
+            read -a strarr <<< "$repo_urls"
             for u in "${strarr[@]}"; do
               if [ ! -z "$u" ] 
               then
