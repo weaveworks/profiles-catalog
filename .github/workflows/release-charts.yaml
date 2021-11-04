@@ -43,10 +43,11 @@ jobs:
           done
 
       - name: Run chart-releaser
-        uses: helm/chart-releaser-action@v1.2.1
+        uses: stecky/yet-another-chart-releaser-action@v1
         with:
           config: cr.yaml
           charts_dir: charts
           charts_repo_url: https://psychic-parakeet-596291fa.pages.github.io/
+          packages_with_index: true
         env:
-          CR_TOKEN: "${{ secrets.WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN }}"
+          YACR_TOKEN: "${{ secrets.WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN }}"
