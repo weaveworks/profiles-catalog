@@ -34,6 +34,7 @@ jobs:
             echo $repo_urls | while read -r u; do
               if [ ! -z "$u" ] 
               then
+                echo $u
                 helm repo add $dir$i $u
                 ((i=i+1))
               fi
