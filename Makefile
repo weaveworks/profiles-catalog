@@ -341,9 +341,3 @@ clone-profiles-repo:
 commit-versions:
 	@echo "Committing version changes to repo"
 	cd ${REPODIR} && git add . && git checkout -b bump-versions-${BUILD_NUM} && git commit -m "bump versions" && git push --set-upstream origin bump-versions-${BUILD_NUM}
-
-
-##@ e2e integration tests for new profiles defined by helm charts
-kind-e2e-v2: check-requirements check-kind create-cluster check-config-dir save-kind-cluster-config upload-profiles-image-to-cluster install-profile-and-sync-v2
-
-install-profile-and-sync-v2: install-gitops-on-cluster install-profiles-on-cluster bootstrap-cluster check-repo-dir clone-test-repo  commit-profile reconcile-wego-system test-single-profile delete-branch
