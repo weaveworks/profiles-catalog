@@ -1,5 +1,36 @@
 apiVersion: v1
 entries:
+  ingress:
+  - annotations:
+      weave.works/links: |
+        - name: Chart Sources
+          url:  https://kubernetes.github.io/ingress-nginx
+        - name: Upstream Project
+          url: https://github.com/kubernetes/ingress-nginx/tree/main/charts/ingress-nginx
+      weave.works/profile: ingress
+    apiVersion: v2
+    created: "2021-11-05T13:29:05.364606032Z"
+    dependencies:
+    - name: ingress-nginx
+      repository: https://kubernetes.github.io/ingress-nginx
+      version: 4.0.6
+    description: A Weaveworks Helm chart for ingress
+    digest: 8d581077dc1ad36172c7b5c63e6e0364ea129d713bc42f04b813426b8c9b2c15
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://raw.githubusercontent.com/prometheus/prometheus.github.io/master/assets/prometheus_logo-cb55bb5c346.png
+    keywords:
+    - network
+    - ingress
+    - nginx
+    - nginx-ingress
+    kubeVersion: '>=1.16.0-0'
+    name: ingress
+    sources:
+    - https://kubernetes.github.io/ingress-nginx
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/ingress-0.0.5/ingress-0.0.5.tgz
+    version: 0.0.5
   magalix-agent:
   - annotations:
       weave.works/links: |
@@ -70,6 +101,40 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/magalix-agent-0.0.7/magalix-agent-0.0.7.tgz
     version: 0.0.7
+  observability:
+  - annotations:
+      weave.works/links: |
+        - name: Chart Sources
+          url: https://github.com/prometheus-community/helm-charts
+        - name: Upstream Project
+          url: https://github.com/prometheus-operator/kube-prometheus
+      weave.works/operator: "true"
+      weave.works/profile: observability
+    apiVersion: v2
+    created: "2021-11-05T13:29:05.558102757Z"
+    dependencies:
+    - condition: kube-prometheus-stack.enabled
+      name: kube-prometheus-stack
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 19.2.2
+    description: A Weaveworks Helm chart for observability
+    digest: 1cff88af6b33c269395f28bd3704205f0aee3f308393f84f3e045ea865b0af68
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://raw.githubusercontent.com/prometheus/prometheus.github.io/master/assets/prometheus_logo-cb55bb5c346.png
+    keywords:
+    - operator
+    - prometheus
+    - kube-prometheus
+    - observability
+    kubeVersion: '>=1.16.0-0'
+    name: observability
+    sources:
+    - https://github.com/prometheus-community/helm-charts
+    - https://github.com/prometheus-operator/kube-prometheus
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/observability-0.0.6/observability-0.0.6.tgz
+    version: 0.0.6
   oidc:
   - annotations:
       weave.works/links: |
@@ -161,4 +226,4 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/oidc-0.0.4/oidc-0.0.4.tgz
     version: 0.0.4
-generated: "2021-11-05T13:16:23.975812501Z"
+generated: "2021-11-05T13:29:05.558430965Z"
