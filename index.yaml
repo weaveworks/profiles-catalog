@@ -47,4 +47,35 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/magalix-agent-0.0.7/magalix-agent-0.0.7.tgz
     version: 0.0.7
-generated: "2021-11-05T13:06:17.660845076Z"
+  oidc:
+  - annotations:
+      weave.works/links: |
+        - name: Chart Sources
+          url: https://github.com/dexidp/helm-charts
+        - name: Upstream Project
+          url: https://github.com/dexidp/dex
+      weave.works/operator: "true"
+      weave.works/profile: dex
+    apiVersion: v2
+    created: "2021-11-05T13:07:11.822131107Z"
+    dependencies:
+    - condition: dex.enabled
+      name: dex
+      repository: https://charts.dexidp.io
+      version: 0.6.3
+    description: A Weaveworks Helm chart for OpenID Connect (OIDC)
+    digest: 2b0d34c41122441bae7583889380f3c93c8fd8544be81f49306f9396bf048bf2
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://dexidp.io/img/logos/dex-horizontal-color.png
+    keywords:
+    - dex
+    - oidc
+    kubeVersion: '>=1.16.0-0'
+    name: oidc
+    sources:
+    - https://github.com/dexidp/helm-charts
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/oidc-0.0.4/oidc-0.0.4.tgz
+    version: 0.0.4
+generated: "2021-11-05T13:07:11.822148507Z"
