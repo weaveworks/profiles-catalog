@@ -1,5 +1,36 @@
 apiVersion: v1
 entries:
+  ingress:
+  - annotations:
+      weave.works/links: |
+        - name: Chart Sources
+          url:  https://kubernetes.github.io/ingress-nginx
+        - name: Upstream Project
+          url: https://github.com/kubernetes/ingress-nginx/tree/main/charts/ingress-nginx
+      weave.works/profile: ingress
+    apiVersion: v2
+    created: "2021-11-05T13:09:10.084726109Z"
+    dependencies:
+    - name: ingress-nginx
+      repository: https://kubernetes.github.io/ingress-nginx
+      version: 4.0.6
+    description: A Weaveworks Helm chart for ingress
+    digest: 9bc204b5467be8ab3dfc6dd9109030ce687710d513fb13381a98f3f24d770209
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://raw.githubusercontent.com/prometheus/prometheus.github.io/master/assets/prometheus_logo-cb55bb5c346.png
+    keywords:
+    - network
+    - ingress
+    - nginx
+    - nginx-ingress
+    kubeVersion: '>=1.16.0-0'
+    name: ingress
+    sources:
+    - https://kubernetes.github.io/ingress-nginx
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/ingress-0.0.3/ingress-0.0.3.tgz
+    version: 0.0.3
   magalix-agent:
   - annotations:
       weave.works/links: |
@@ -47,6 +78,77 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/magalix-agent-0.0.7/magalix-agent-0.0.7.tgz
     version: 0.0.7
+  observability:
+  - annotations:
+      weave.works/links: |
+        - name: Chart Sources
+          url: https://github.com/prometheus-community/helm-charts
+        - name: Upstream Project
+          url: https://github.com/prometheus-operator/kube-prometheus
+      weave.works/operator: "true"
+      weave.works/profile: observability
+    apiVersion: v2
+    created: "2021-11-05T13:09:10.305355378Z"
+    dependencies:
+    - condition: kube-prometheus-stack.enabled
+      name: kube-prometheus-stack
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 19.2.2
+    description: A Weaveworks Helm chart for observability
+    digest: ed721319f8cd4456443931345a2f868912e31bac6d8e1b360c70806a78e95c8b
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://raw.githubusercontent.com/prometheus/prometheus.github.io/master/assets/prometheus_logo-cb55bb5c346.png
+    keywords:
+    - operator
+    - prometheus
+    - kube-prometheus
+    - observability
+    kubeVersion: '>=1.16.0-0'
+    name: observability
+    sources:
+    - https://github.com/prometheus-community/helm-charts
+    - https://github.com/prometheus-operator/kube-prometheus
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/observability-0.0.4/observability-0.0.4.tgz
+    version: 0.0.4
+  observability-dependency-sevice-mesh-example:
+  - annotations:
+      weave.works/links: |
+        - name: Chart Sources
+          url: https://github.com/prometheus-community/helm-charts
+        - name: Upstream Project
+          url: https://github.com/prometheus-operator/kube-prometheus
+      weave.works/operator: "true"
+      weave.works/profile: observability
+    apiVersion: v2
+    created: "2021-11-05T13:09:10.570118221Z"
+    dependencies:
+    - name: servicemesh
+      repository: file://../servicemesh
+      version: ~0.0.1
+    - condition: kube-prometheus-stack.enabled
+      name: kube-prometheus-stack
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 19.2.2
+    description: A Weaveworks Helm chart for observability-dependency-sevice-mesh-example
+    digest: f7419676352da17db36cc365ceb6f97c82089f078fedda86f6b36e14d66137be
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://raw.githubusercontent.com/prometheus/prometheus.github.io/master/assets/prometheus_logo-cb55bb5c346.png
+    keywords:
+    - operator
+    - prometheus
+    - kube-prometheus
+    - observability
+    kubeVersion: '>=1.16.0-0'
+    name: observability-dependency-sevice-mesh-example
+    sources:
+    - https://github.com/prometheus-community/helm-charts
+    - https://github.com/prometheus-operator/kube-prometheus
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/observability-dependency-sevice-mesh-example-0.0.4/observability-dependency-sevice-mesh-example-0.0.4.tgz
+    version: 0.0.4
   oidc:
   - annotations:
       weave.works/links: |
@@ -78,4 +180,38 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/oidc-0.0.4/oidc-0.0.4.tgz
     version: 0.0.4
-generated: "2021-11-05T13:07:11.822148507Z"
+  servicemesh:
+  - annotations:
+      weave.works/links: |
+        - name: Chart Sources
+          url:  https://helm.linkerd.io/stable
+        - name: Upstream Project
+          url: https://github.com/linkerd/linkerd2
+      weave.works/profile: ingress
+    apiVersion: v2
+    created: "2021-11-05T13:09:10.805443682Z"
+    dependencies:
+    - condition: cert-manager.enabled
+      name: cert-manager
+      repository: https://charts.jetstack.io
+      version: 1.6.0
+    - name: linkerd2
+      repository: https://helm.linkerd.io/stable
+      version: 2.11.0
+    description: A Weaveworks Helm chart for service-mesh
+    digest: db00011d0121733b262de7b76f1daaf6f56f15c38f66ca3550da5be0b61f3685
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://raw.githubusercontent.com/prometheus/prometheus.github.io/master/assets/prometheus_logo-cb55bb5c346.png
+    keywords:
+    - network
+    - servicemesh
+    - linkerd
+    kubeVersion: '>=1.16.0-0'
+    name: servicemesh
+    sources:
+    - https://helm.linkerd.io/stable
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/servicemesh-0.0.5/servicemesh-0.0.5.tgz
+    version: 0.0.5
+generated: "2021-11-05T13:09:10.805582383Z"
