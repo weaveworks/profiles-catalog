@@ -3,7 +3,7 @@ name: servicemesh
 icon: https://raw.githubusercontent.com/prometheus/prometheus.github.io/master/assets/prometheus_logo-cb55bb5c346.png
 description: A Weaveworks Helm chart for service-mesh
 type: application
-version: 0.0.4
+version: 0.0.5
 kubeVersion: ">=1.16.0-0"
 home: https://github.com/weaveworks/profiles-catalog
 sources:
