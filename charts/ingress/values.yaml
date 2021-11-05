@@ -1,8 +1,0 @@
-ingress-nginx: 
-  controller:
-    service:
-      annotations:
-        service.beta.kubernetes.io/aws-load-balancer-internal: "true"
-        networking.gke.io/load-balancer-type: "Internal"
-        service.beta.kubernetes.io/azure-load-balancer-internal: "true"
-        service.beta.kubernetes.io/oci-load-balancer-internal: "true"

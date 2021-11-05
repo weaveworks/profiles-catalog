@@ -1,1 +1,0 @@
-The servicemesh.linkerd2 controller has been installed.

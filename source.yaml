@@ -1,7 +1,0 @@
-apiVersion: weave.works/v1alpha1
-kind: ProfileCatalogSource
-metadata:
-  name: weaveworks-profiles-catalog
-spec:
-  repositories:
-  - url: https://github.com/weaveworks/profiles-catalog
