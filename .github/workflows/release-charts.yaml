@@ -47,5 +47,6 @@ jobs:
         with:
           charts_dir: charts
           charts_repo_url: https://raw.githubusercontent.com/weaveworks/profiles-catalog/gh-pages/
+          packages-with-index: true
         env:
           YACR_TOKEN: "${{ secrets.WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN }}"
