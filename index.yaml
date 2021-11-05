@@ -1,0 +1,58 @@
+apiVersion: v1
+entries:
+  magalix-agent:
+  - annotations:
+      weave.works/links: |
+        - name: Upstream Project
+          url: https://github.com/MagalixCorp/magalix-agent
+      weave.works/operator: "true"
+      weave.works/profile: magalix
+    apiVersion: v2
+    created: "2021-11-05T12:57:57.527716343Z"
+    description: A Weaveworks Helm chart for Magalix policy agent
+    digest: 6db0367aec9dfcf2910f06b14d4363d825c83c6a69e8b84b966dd880babe812d
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://www.magalix.com/hubfs/Imported%20images/logo-02.png%3Fwidth=560%26name=logo-02-Dec-18-2020-11-24-41-75-AM.png
+    keywords:
+    - magalix
+    - policy
+    kubeVersion: '>=1.16.0-0'
+    name: magalix-agent
+    sources:
+    - https://github.com/MagalixCorp/magalix-agent
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/magalix-agent-0.0.6/magalix-agent-0.0.6.tgz
+    version: 0.0.6
+  oidc:
+  - annotations:
+      weave.works/links: |
+        - name: Chart Sources
+          url: https://github.com/dexidp/helm-charts
+        - name: Upstream Project
+          url: https://github.com/dexidp/dex
+      weave.works/operator: "true"
+      weave.works/profile: dex
+    apiVersion: v2
+    created: "2021-11-05T12:57:57.710373738Z"
+    dependencies:
+    - condition: dex.enabled
+      name: dex
+      repository: https://charts.dexidp.io
+      version: 0.6.3
+    description: A Weaveworks Helm chart for OpenID Connect (OIDC)
+    digest: 84e119a89d745072a513e673b4fc8e5d6ed60b69669eb16058c20f1d554a365d
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://dexidp.io/img/logos/dex-horizontal-color.png
+    keywords:
+    - dex
+    - oidc
+    kubeVersion: '>=1.16.0-0'
+    name: oidc
+    sources:
+    - https://github.com/dexidp/helm-charts
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/oidc-0.0.3/oidc-0.0.3.tgz
+    version: 0.0.3
+generated: "2021-11-05T12:57:57.710381939Z"
