@@ -1,4 +1,4 @@
 {{ $.Chart.Name }} has been installed. Check its status by running:
-  kubectl --namespace {{ .Release.Namespace }} get pods -l "app.kubernetes.io/name={{ include "magalix-agent.name" . }}"
+  kubectl --namespace {{ .Release.Namespace }} get pods -l "app.kubernetes.io/name={{ include "dex.name" . }}"
 
 Visit https://github.com/dexidp/helm-charts/ for instructions on how to create & configure Dex.
