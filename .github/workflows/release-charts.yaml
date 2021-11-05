@@ -45,7 +45,6 @@ jobs:
       - name: Run chart-releaser
         uses: stecky/yet-another-chart-releaser-action@v1
         with:
-          config: cr.yaml
           charts_dir: charts
           charts_repo_url: https://raw.githubusercontent.com/weaveworks/profiles-catalog/gh-pages/
         env:
