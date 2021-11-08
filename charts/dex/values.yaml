@@ -18,3 +18,4 @@ dex:
       - host: my-issuer-url.com
         paths:
           - path: /
+            pathType: ImplementationSpecific
