@@ -15,6 +15,10 @@ keywords:
 - nginx
 - nginx-ingress
 
+maintainers:
+  - name: Weaveworks
+    email: support@weave.works
+
 annotations:
   "weave.works/profile": ingress-nginx
   "weave.works/links": |

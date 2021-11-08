@@ -239,7 +239,7 @@ zipkin:
         requests:
             cpu: 100m
             memory: 300Mi
-    enabled:  false
+    enabled: false
     url: zipkin.zipkin.svc.cluster.local
 
 zipkinmysql:
