@@ -53,7 +53,15 @@ jobs:
       - name: Run chart-testing (lint)
         run: ct lint --config ct.yaml
 
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          export_default_credentials: true
+
       - name: Run gke cluster
+        if: steps.list-changed.outputs.changed == 'true'
         shell: bash
         env:
           GKE_CLUSTER_NAME: profiles-test-mgmt-${{ github.head_ref }}-${{ github.run_number }}
@@ -65,7 +73,7 @@ jobs:
         run: ct install --config ct.yaml
 
       - name: Delete gke cluster
-        if: always()
+        if: steps.list-changed.outputs.changed == 'true'
         shell: bash
         env:
           GKE_CLUSTER_NAME: profiles-test-mgmt-${{ github.head_ref }}-${{ github.run_number }}
