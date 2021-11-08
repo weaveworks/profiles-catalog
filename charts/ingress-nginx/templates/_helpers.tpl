@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "ingress.name" -}}
+{{- define "ingress-nginx.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "ingress.fullname" -}}
+{{- define "ingress-nginx.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,16 +26,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "ingress.chart" -}}
+{{- define "ingress-nginx.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "ingress.labels" -}}
-helm.sh/chart: {{ include "ingress.chart" . }}
-{{ include "ingress.selectorLabels" . }}
+{{- define "ingress-nginx.labels" -}}
+helm.sh/chart: {{ include "ingress-nginx.chart" . }}
+{{ include "ingress-nginx.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,17 +45,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "ingress.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "ingress.name" . }}
+{{- define "ingress-nginx.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "ingress-nginx.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "ingress.serviceAccountName" -}}
+{{- define "ingress-nginx.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "ingress.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "ingress-nginx.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
