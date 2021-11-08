@@ -1,5 +1,5 @@
 
-name: Lint and Test Charts
+name: Lint and Test Charts on Kind
 
 on: pull_request
 

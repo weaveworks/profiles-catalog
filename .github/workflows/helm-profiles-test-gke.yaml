@@ -1,0 +1,74 @@
+
+name: Lint and Test Charts on GKE
+
+on: pull_request
+
+jobs:
+  lint-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v1
+        with:
+          version: 3.*
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+
+      - name: Set up chart-testing
+        uses: helm/chart-testing-action@v2.1.0
+
+      - name: Run chart-testing (list-changed)
+        id: list-changed
+        run: |
+          changed=$(ct list-changed --config ct.yaml)
+          if [[ -n "$changed" ]]; then
+            echo "::set-output name=changed::true"
+          fi
+          
+      - name: Add dependencies
+        shell: bash
+        run: |
+          for dir in $(ls -d charts/*/ | cut -f2 -d'/'); do
+            repo_urls=$(helm dependency list charts/"$dir" | grep -Eo "(http|https)://[a-zA-Z0-9./?=_%:-]*" || true)
+            i=0
+            echo $repo_urls | while read urls; do
+              for u in $urls; do
+                if [ ! -z "$u" ] 
+                then
+                  echo $u
+                  helm repo add $dir$i $u
+                  ((i=i+1))
+                fi
+              done
+            done
+          done
+          
+      - name: Run chart-testing (lint)
+        run: ct lint --config ct.yaml
+
+      - name: Run gke cluster
+        shell: bash
+        env:
+          GKE_CLUSTER_NAME: profiles-test-mgmt-${{ github.head_ref }}-${{ github.run_number }}
+          INFRASTRUCTURE: "gke"
+        run: |
+          make create-cluster
+
+      - name: Run chart-testing (install)
+        run: ct install --config ct.yaml
+
+      - name: Delete gke cluster
+        if: always()
+        shell: bash
+        env:
+          GKE_CLUSTER_NAME: profiles-test-mgmt-${{ github.head_ref }}-${{ github.run_number }}
+          INFRASTRUCTURE: "gke"
+        run: |
+          make delete-cluster
