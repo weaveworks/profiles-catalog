@@ -1,0 +1,6 @@
+dependencies:
+- name: ingress-nginx
+  repository: file://../ingress-nginx
+  version: 0.0.5
+digest: sha256:adb8bd6fdb74cf879dd026d6457c6db7a9256064eb6c2293e6ba08130c7d41cb
+generated: "2021-11-08T13:53:50.353293-05:00"

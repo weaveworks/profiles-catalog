@@ -1,9 +1,9 @@
 apiVersion: v2
-name: ingress
+name: ingress-nginx
 icon: https://raw.githubusercontent.com/prometheus/prometheus.github.io/master/assets/prometheus_logo-cb55bb5c346.png
-description: A Weaveworks Helm chart for ingress
+description: A Weaveworks Helm chart for ingress-nginx
 type: application
-version: 0.0.1
+version: 0.0.5
 kubeVersion: ">=1.16.0-0"
 home: https://github.com/weaveworks/profiles-catalog
 sources:
@@ -15,8 +15,12 @@ keywords:
 - nginx
 - nginx-ingress
 
+maintainers:
+  - name: Weaveworks
+    email: support@weave.works
+
 annotations:
-  "weave.works/profile": ingress
+  "weave.works/profile": ingress-nginx
   "weave.works/links": |
     - name: Chart Sources
       url:  https://kubernetes.github.io/ingress-nginx
