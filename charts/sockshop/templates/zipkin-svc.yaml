@@ -1,0 +1,14 @@
+{{- if .Values.zipkin.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: zipkin
+  labels:
+    name: zipkin
+spec:
+  ports:
+  - port: 9411
+    targetPort: 9411
+  selector:
+    name: zipkin
+{{- end -}}

@@ -1,1 +1,0 @@
-The ingress.ingress-nginx controller has been installed.
