@@ -25,6 +25,9 @@ annotations:
       url: https://github.com/dexidp/helm-charts
     - name: Upstream Project
       url: https://github.com/dexidp/dex
+  "weave.works/profile-ci": |
+    - "gke"
+    - "kind"
 
 dependencies:
 - name: dex

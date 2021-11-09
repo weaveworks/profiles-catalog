@@ -25,3 +25,5 @@ annotations:
       url: https://github.com/microservices-demo/microservices-demo/tree/master/deploy/kubernetes/helm-chart
     - name: Upstream Project
       url: https://github.com/microservices-demo/microservices-demo
+  "weave.works/profile-ci": |
+    - "gke"

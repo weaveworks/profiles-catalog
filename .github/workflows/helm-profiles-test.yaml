@@ -1,11 +1,11 @@
 
-name: Lint and Test Charts on GKE
+name: Lint and Test Charts on Kind
 
 on: pull_request
 
 jobs:
-  lint-test:
-    runs-on: ubuntu-latest
+  runs-on: ubuntu-latest
+  setup:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -31,6 +31,19 @@ jobs:
           if [[ -n "$changed" ]]; then
             echo "::set-output name=changed::true"
           fi
+          touch /tmp/kind-ci
+          touch /tmp/gke-ci
+          echo $changed | while read dir; do
+            echo $dir/Chart.yaml
+            if [[ $(yq e '.annotations."weave.works/profile-ci"|contains("kind")' $dir/Chart.yaml) = "true" ]]; then
+              echo $dir >> /tmp/kind-ci
+              echo "::set-output name=kind-ci::true"
+            fi
+            if [[ $(yq e '.annotations."weave.works/profile-ci"|contains("gke")' $dir/Chart.yaml) = "true" ]]; then
+              echo $dir >> /tmp/gke-ci
+              echo "::set-output name=gke-ci::true"
+            fi
+          done
           
       - name: Add dependencies
         shell: bash
@@ -49,10 +62,23 @@ jobs:
               done
             done
           done
-          
+  lint:
+    steps: 
       - name: Run chart-testing (lint)
         run: ct lint --config ct.yaml
 
+  test-on-kind:
+    if: steps.list-changed.outputs.kind-ci == 'true'
+    steps:
+      - name: Create kind cluster
+        uses: helm/kind-action@v1.2.0
+
+      - name: Run chart-testing on Kind (install)
+        run: ct install --config ct.yaml --charts $(awk '{print $1}' /tmp/kind-ci | paste -s -d, -)
+
+  test-on-gke:
+    if: steps.list-changed.outputs.gke-ci == 'true'
+    steps:
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@master
         with:
@@ -61,7 +87,6 @@ jobs:
           export_default_credentials: true
 
       - name: Run gke cluster
-        if: steps.list-changed.outputs.changed == 'true'
         shell: bash
         env:
           GKE_CLUSTER_NAME: profiles-test-mgmt-${{ github.head_ref }}-${{ github.run_number }}
@@ -69,11 +94,10 @@ jobs:
         run: |
           make create-cluster
 
-      - name: Run chart-testing (install)
-        run: ct install --config ct.yaml
+      - name: Run chart-testing on GKE (install)
+        run: ct install --config ct.yaml --charts $(awk '{print $1}' /tmp/gke-ci | paste -s -d, -)
 
       - name: Delete gke cluster
-        if: steps.list-changed.outputs.changed == 'true'
         shell: bash
         env:
           GKE_CLUSTER_NAME: profiles-test-mgmt-${{ github.head_ref }}-${{ github.run_number }}
