@@ -33,7 +33,8 @@ jobs:
           fi
           touch /tmp/kind-ci
           touch /tmp/gke-ci
-          echo $changed | while read dir; do
+          echo $changed
+          for dir in $changed; do
             echo $dir/Chart.yaml
             if [[ $(yq e '.annotations."weave.works/profile-ci"|contains("kind")' $dir/Chart.yaml) = "true" ]]; then
               echo $dir >> /tmp/kind-ci
