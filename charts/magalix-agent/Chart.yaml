@@ -19,3 +19,6 @@ annotations:
   "weave.works/links": |
     - name: Upstream Project
       url: https://github.com/MagalixCorp/magalix-agent
+  "weave.works/profile-ci": |
+    - "gke"
+    - "kind"

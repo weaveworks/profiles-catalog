@@ -24,6 +24,9 @@ annotations:
       url: https://github.com/prometheus-community/helm-charts
     - name: Upstream Project
       url: https://github.com/prometheus-operator/kube-prometheus
+  "weave.works/profile-ci": |
+    - "gke"
+    - "kind"
 
 dependencies:
 - name: servicemesh

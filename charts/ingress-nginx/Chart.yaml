@@ -26,6 +26,8 @@ annotations:
       url:  https://kubernetes.github.io/ingress-nginx
     - name: Upstream Project
       url: https://github.com/kubernetes/ingress-nginx/tree/main/charts/ingress-nginx
+  "weave.works/profile-ci": |
+    - "gke"
 
 dependencies:
 - name: ingress-nginx
