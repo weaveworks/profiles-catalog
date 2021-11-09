@@ -3,7 +3,7 @@ name: observability-dependency-sevice-mesh-example
 icon: https://raw.githubusercontent.com/prometheus/prometheus.github.io/master/assets/prometheus_logo-cb55bb5c346.png
 description: A Weaveworks Helm chart for observability-dependency-sevice-mesh-example
 type: application
-version: 0.0.5
+version: 0.0.6
 kubeVersion: ">=1.16.0-0"
 home: https://github.com/weaveworks/profiles-catalog
 sources:
@@ -16,6 +16,10 @@ keywords:
 - kube-prometheus
 - observability
 
+maintainers:
+  - name: Weaveworks
+    email: support@weave.works
+
 annotations:
   "weave.works/profile": observability
   "weave.works/operator": "true"
@@ -24,6 +28,9 @@ annotations:
       url: https://github.com/prometheus-community/helm-charts
     - name: Upstream Project
       url: https://github.com/prometheus-operator/kube-prometheus
+  "weave.works/profile-ci": |
+    - "gke"
+    - "kind"
 
 dependencies:
 - name: servicemesh

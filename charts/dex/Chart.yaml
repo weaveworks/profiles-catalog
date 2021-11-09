@@ -3,7 +3,7 @@ name: dex
 icon: https://dexidp.io/img/logos/dex-horizontal-color.png
 description: A Weaveworks Helm chart for OpenID Connect (OIDC)
 type: application
-version: 0.0.7
+version: 0.0.8
 kubeVersion: ">=1.16.0-0"
 home: https://github.com/weaveworks/profiles-catalog
 sources:
@@ -25,6 +25,9 @@ annotations:
       url: https://github.com/dexidp/helm-charts
     - name: Upstream Project
       url: https://github.com/dexidp/dex
+  "weave.works/profile-ci": |
+    - "gke"
+    - "kind"
 
 dependencies:
 - name: dex

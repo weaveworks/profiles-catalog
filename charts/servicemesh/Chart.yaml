@@ -3,7 +3,7 @@ name: servicemesh
 icon: https://raw.githubusercontent.com/prometheus/prometheus.github.io/master/assets/prometheus_logo-cb55bb5c346.png
 description: A Weaveworks Helm chart for service-mesh
 type: application
-version: 0.0.6
+version: 0.0.7
 kubeVersion: ">=1.16.0-0"
 home: https://github.com/weaveworks/profiles-catalog
 sources:
@@ -14,6 +14,10 @@ keywords:
 - servicemesh
 - linkerd
 
+maintainers:
+  - name: Weaveworks
+    email: support@weave.works
+
 annotations:
   "weave.works/profile": ingress
   "weave.works/links": |
@@ -21,6 +25,9 @@ annotations:
       url:  https://helm.linkerd.io/stable
     - name: Upstream Project
       url: https://github.com/linkerd/linkerd2
+  "weave.works/profile-ci": |
+    - "gke"
+    - "kind"
 
 dependencies:
 - name: cert-manager
