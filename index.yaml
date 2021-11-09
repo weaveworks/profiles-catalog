@@ -31,6 +31,40 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/ingress-0.0.5/ingress-0.0.5.tgz
     version: 0.0.5
+  ingress-nginx:
+  - annotations:
+      weave.works/links: |
+        - name: Chart Sources
+          url:  https://kubernetes.github.io/ingress-nginx
+        - name: Upstream Project
+          url: https://github.com/kubernetes/ingress-nginx/tree/main/charts/ingress-nginx
+      weave.works/profile: ingress-nginx
+    apiVersion: v2
+    created: "2021-11-09T14:21:43.460589176Z"
+    dependencies:
+    - name: ingress-nginx
+      repository: https://kubernetes.github.io/ingress-nginx
+      version: 4.0.6
+    description: A Weaveworks Helm chart for ingress-nginx
+    digest: 2ea313d2ea88f50637d33bed54db054ed7943f7f221019dcc1b36b0c0e49a3c2
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://raw.githubusercontent.com/prometheus/prometheus.github.io/master/assets/prometheus_logo-cb55bb5c346.png
+    keywords:
+    - network
+    - ingress
+    - nginx
+    - nginx-ingress
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: ingress-nginx
+    sources:
+    - https://kubernetes.github.io/ingress-nginx
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/ingress-nginx-0.0.5/ingress-nginx-0.0.5.tgz
+    version: 0.0.5
   magalix-agent:
   - annotations:
       weave.works/links: |
@@ -297,4 +331,33 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/servicemesh-0.0.6/servicemesh-0.0.6.tgz
     version: 0.0.6
-generated: "2021-11-05T13:30:58.997741512Z"
+  sockshop:
+  - annotations:
+      weave.works/links: |
+        - name: Chart Sources
+          url: https://github.com/microservices-demo/microservices-demo/tree/master/deploy/kubernetes/helm-chart
+        - name: Upstream Project
+          url: https://github.com/microservices-demo/microservices-demo
+      weave.works/profile: sockshop
+    apiVersion: v2
+    created: "2021-11-09T14:21:43.641138928Z"
+    dependencies:
+    - name: ingress-nginx
+      repository: file://../ingress-nginx
+      version: ~0.0.5
+    description: A Weaveworks Helm chart for sockshop microservices demo
+    digest: e5fd6744f794edf96cc799081b74db26b7e588f5766e6009fc284e96b0b15dd0
+    home: https://github.com/weaveworks/profiles-catalog
+    keywords:
+    - microservices
+    - sockshop
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: sockshop
+    sources:
+    - https://github.com/microservices-demo/microservices-demo/tree/master/deploy/kubernetes/helm-chart
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/sockshop-0.0.1/sockshop-0.0.1.tgz
+    version: 0.0.1
+generated: "2021-11-09T14:21:43.641154228Z"
