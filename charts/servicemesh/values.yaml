@@ -1,4 +1,3 @@
-
 servicemesh:
   enableControlPlaneAutoRotatingCerts: true
   installCRDs: true
@@ -10,7 +9,7 @@ servicemesh:
     yiKC9f7uujdHCUlOdsibnuiKutzrzGmv6w==
     -----END EC PRIVATE KEY-----
 
-cert-manager: 
+cert-manager:
   enabled: true
   installCRDs: false
 linkerd2:

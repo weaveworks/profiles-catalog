@@ -16,6 +16,10 @@ keywords:
 - kube-prometheus
 - observability
 
+maintainers:
+  - name: Weaveworks
+    email: support@weave.works
+
 annotations:
   "weave.works/profile": observability
   "weave.works/operator": "true"
