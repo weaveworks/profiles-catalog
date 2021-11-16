@@ -35,4 +35,3 @@ annotations:
   "weave.works/profile-ci": |
     - "gke"
     - "kind"
-
