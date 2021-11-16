@@ -1,0 +1,38 @@
+apiVersion: v2
+name: tracing
+icon: https://www.jaegertracing.io/img/jaeger-icon-reverse-color.svg
+description: A Weaveworks Helm chart for tracing
+type: application
+version: 0.0.1
+dependencies:
+  - name: jaeger-operator
+    version: "2.26.0"
+    repository: "https://jaegertracing.github.io/helm-charts/"
+kubeVersion: ">=1.16.0-0"
+home: https://github.com/weaveworks/profiles-catalog
+sources:
+  - https://jaegertracing.github.io/helm-charts
+  - https://github.com/jaegertracing/jaeger-operator
+
+keywords:
+- operator
+- jaeger-operator
+- jaeger
+- tracing
+
+maintainers:
+  - name: Weaveworks
+    email: support@weave.works
+
+annotations:
+  "weave.works/profile": tracing
+  "weave.works/operator": "true"
+  "weave.works/links": |
+    - name: Chart Sources
+      url: https://jaegertracing.github.io/helm-charts
+    - name: Upstream Project
+      url: https://github.com/jaegertracing/jaeger-operator
+  "weave.works/profile-ci": |
+    - "gke"
+    - "kind"
+
