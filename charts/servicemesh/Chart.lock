@@ -1,9 +1,6 @@
 dependencies:
-- name: cert-manager
-  repository: https://charts.jetstack.io
-  version: v1.6.0
 - name: linkerd2
   repository: https://helm.linkerd.io/stable
   version: 2.11.0
-digest: sha256:ac3a01913d2581f85fb212009f4edbbf49bfc8b9368b52107b7c7268ecbad5c5
-generated: "2021-10-29T13:10:26.101416-04:00"
+digest: sha256:e76a017cf0365c13768017ccd74ad4b626348783f63d367b9940e66ce4ddfe51
+generated: "2021-11-17T15:33:29.118853-05:00"

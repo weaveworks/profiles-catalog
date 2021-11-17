@@ -1,9 +1,13 @@
 apiVersion: v2
 name: servicemesh
-icon: https://raw.githubusercontent.com/prometheus/prometheus.github.io/master/assets/prometheus_logo-cb55bb5c346.png
-description: A Weaveworks Helm chart for service-mesh
+icon: https://linkerd.io/images/logo-only-200h.png
+description: A Weaveworks Helm chart for the Service Mesh Profile
 type: application
-version: 0.0.7
+version: 0.0.8
+dependencies:
+- name: linkerd2
+  version: "2.11.0"
+  repository: "https://helm.linkerd.io/stable"
 kubeVersion: ">=1.16.0-0"
 home: https://github.com/weaveworks/profiles-catalog
 sources:
@@ -19,7 +23,8 @@ maintainers:
     email: support@weave.works
 
 annotations:
-  "weave.works/profile": ingress
+  "weave.works/profile": Service Mesh
+  "weave.works/layer": layer-1
   "weave.works/links": |
     - name: Chart Sources
       url:  https://helm.linkerd.io/stable
@@ -28,12 +33,3 @@ annotations:
   "weave.works/profile-ci": |
     - "gke"
     - "kind"
-
-dependencies:
-- name: cert-manager
-  version: "1.6.0"
-  repository: "https://charts.jetstack.io"
-  condition: cert-manager.enabled
-- name: linkerd2
-  version: "2.11.0"
-  repository: "https://helm.linkerd.io/stable"

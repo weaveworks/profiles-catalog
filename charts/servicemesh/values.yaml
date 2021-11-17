@@ -9,9 +9,6 @@ servicemesh:
     yiKC9f7uujdHCUlOdsibnuiKutzrzGmv6w==
     -----END EC PRIVATE KEY-----
 
-cert-manager:
-  enabled: true
-  installCRDs: false
 linkerd2:
   namespace: wego-system
   identityTrustAnchorsPEM: |
