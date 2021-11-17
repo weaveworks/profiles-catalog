@@ -611,4 +611,43 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/sockshop-0.0.1/sockshop-0.0.1.tgz
     version: 0.0.1
-generated: "2021-11-09T22:07:32.770295343Z"
+  tracing:
+  - annotations:
+      weave.works/links: |
+        - name: Chart Sources
+          url: https://jaegertracing.github.io/helm-charts
+        - name: Upstream Project
+          url: https://github.com/jaegertracing/jaeger-operator
+      weave.works/operator: "true"
+      weave.works/profile: tracing
+      weave.works/profile-ci: |
+        - "gke"
+        - "kind"
+    apiVersion: v2
+    created: "2021-11-17T18:25:22.059969493Z"
+    dependencies:
+    - name: jaeger-operator
+      repository: https://jaegertracing.github.io/helm-charts/
+      version: 2.26.0
+    description: A Weaveworks Helm chart for tracing
+    digest: f68555ecaf31753ebc67e6b2e9de34c3512e58ad5c89119672389d881cef90af
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://www.jaegertracing.io/img/jaeger-icon-reverse-color.svg
+    keywords:
+    - operator
+    - jaeger-operator
+    - jaeger
+    - tracing
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: tracing
+    sources:
+    - https://jaegertracing.github.io/helm-charts
+    - https://github.com/jaegertracing/jaeger-operator
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/tracing-0.0.1/tracing-0.0.1.tgz
+    version: 0.0.1
+generated: "2021-11-17T18:25:22.060003492Z"
