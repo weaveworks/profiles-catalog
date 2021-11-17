@@ -4,4 +4,3 @@ jaeger-operator:
     tag: 1.27.0
     pullPolicy: IfNotPresent
     imagePullSecrets: []
-    
