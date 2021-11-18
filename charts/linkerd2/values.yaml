@@ -9,9 +9,6 @@ servicemesh:
     yiKC9f7uujdHCUlOdsibnuiKutzrzGmv6w==
     -----END EC PRIVATE KEY-----
 
-cert-manager:
-  enabled: true
-  installCRDs: false
 linkerd2:
   namespace: wego-system
   identityTrustAnchorsPEM: |
@@ -26,7 +23,7 @@ linkerd2:
     MdDSrNLrQa1eF87QlaLVgxMnqTF3OHDl2sfGRQ6hAiA+QKrADWz0lSd6QfYuQCOt
     HLWeQ4kP5m83ZGuSzHwecQ==
     -----END CERTIFICATE-----
-  installNamespace: false
+  installNamespace: true
   identity:
     issuer:
       scheme: kubernetes.io/tls
