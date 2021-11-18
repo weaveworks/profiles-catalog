@@ -1,5 +1,5 @@
 apiVersion: v2
-name: servicemesh
+name: linkerd2
 icon: https://linkerd.io/images/logo-only-200h.png
 description: A Weaveworks Helm chart for the Service Mesh Profile
 type: application
@@ -16,14 +16,15 @@ sources:
 keywords:
 - network
 - servicemesh
-- linkerd
+- linkerd2
 
 maintainers:
   - name: Weaveworks
     email: support@weave.works
 
 annotations:
-  "weave.works/profile": Service Mesh
+  "weave.works/profile": linkerd2
+  "weave.works/category": Service Mesh
   "weave.works/layer": layer-1
   "weave.works/links": |
     - name: Chart Sources

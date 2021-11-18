@@ -24,7 +24,8 @@ maintainers:
     email: support@weave.works
 
 annotations:
-  "weave.works/profile": Certificate
+  "weave.works/profile": cert-manager
+  "weave.works/category": Certificate
   "weave.works/layer": layer-0
   "weave.works/operator": "true"
   "weave.works/links": |
