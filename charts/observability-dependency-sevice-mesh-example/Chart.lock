@@ -1,9 +1,0 @@
-dependencies:
-- name: servicemesh
-  repository: file://../servicemesh
-  version: 0.0.7
-- name: kube-prometheus-stack
-  repository: https://prometheus-community.github.io/helm-charts
-  version: 19.2.2
-digest: sha256:be4a9dfa1f3ea492f4dbadf5f98df42814d3085f40d65b71ad632e3830dfb32a
-generated: "2021-11-09T15:58:32.475952-05:00"

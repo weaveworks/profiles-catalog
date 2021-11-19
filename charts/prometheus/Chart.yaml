@@ -17,7 +17,8 @@ keywords:
 - observability
 
 annotations:
-  "weave.works/profile": observability
+  "weave.works/profile": prometheus
+  "weave.works/category": Observability
   "weave.works/operator": "true"
   "weave.works/links": |
     - name: Chart Sources

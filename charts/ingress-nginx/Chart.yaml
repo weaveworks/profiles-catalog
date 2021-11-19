@@ -21,6 +21,8 @@ maintainers:
 
 annotations:
   "weave.works/profile": ingress-nginx
+  "weave.works/category": Ingress
+  "weave.works/layer": layer-1
   "weave.works/links": |
     - name: Chart Sources
       url:  https://kubernetes.github.io/ingress-nginx

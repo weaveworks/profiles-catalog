@@ -25,7 +25,8 @@ maintainers:
     email: support@weave.works
 
 annotations:
-  "weave.works/profile": tracing
+  "weave.works/profile": jaeger
+  "weave.works/category": Tracing
   "weave.works/operator": "true"
   "weave.works/links": |
     - name: Chart Sources
