@@ -30,7 +30,7 @@ annotations:
     - "kind"
 
 dependencies:
-- name: snyk
+- name: snyk-monitor
   version: "1.70.4"
   repository: "https://snyk.github.io/kubernetes-monitor/"
   condition: snyk.enabled
