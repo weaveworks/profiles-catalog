@@ -1,0 +1,35 @@
+apiVersion: v2
+name: snyk
+icon: https://snyk.io/wp-content/themes/snyk_v2_etyhadar/dist/images/snyk-logo-patch-new.svg
+description: A Weaveworks Helm chart for Snyk Kubernetes monitor
+type: application
+version: 0.0.1
+kubeVersion: ">=1.16.0-0"
+home: https://github.com/weaveworks/profiles-catalog
+sources:
+  - https://github.com/snyk/kubernetes-monitor
+
+keywords:
+- snyk
+- security
+
+maintainers:
+  - name: Weaveworks
+    email: support@weave.works
+
+annotations:
+  "weave.works/profile": snyk
+  "weave.works/category": Security
+  "weave.works/links": |
+    - name: Chart Sources
+      url: https://snyk.github.io/kubernetes-monitor/
+    - name: Upstream Project
+      url: https://github.com/snyk/kubernetes-monitor
+  "weave.works/profile-ci": |
+    - "gke"
+    - "kind"
+
+dependencies:
+- name: snyk-monitor
+  version: "1.70.4"
+  repository: "https://snyk.github.io/kubernetes-monitor/"

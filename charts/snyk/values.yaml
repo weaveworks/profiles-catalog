@@ -1,0 +1,4 @@
+snyk:
+  dockercfgjson: {}
+  # replace with your integration id
+  integrationId: abcd1234-abcd-1234-abcd-1234abcd1234

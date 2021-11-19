@@ -1,0 +1,4 @@
+{{ $.Chart.Name }} has been installed. Check its status by running:
+  kubectl --namespace {{ .Release.Namespace }} get pods -l "app.kubernetes.io/name={{ include "snyk.name" . }}"
+
+Visit https://artifacthub.io/packages/helm/snyk/snyk-monitor for instructions on how to create & configure snyk.
