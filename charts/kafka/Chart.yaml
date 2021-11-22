@@ -32,8 +32,8 @@ annotations:
 dependencies:
 - name: cp-zookeeper
   version: "0.1.0"
-  repository: "https://confluentinc.github.io/cp-helm-charts"
+  repository: "https://confluentinc.github.io/cp-helm-charts/charts/"
 
 - name: cp-kafka
   version: "0.6.0"
-  repository: "https://confluentinc.github.io/cp-helm-charts"
+  repository: "https://confluentinc.github.io/cp-helm-charts/charts/"
