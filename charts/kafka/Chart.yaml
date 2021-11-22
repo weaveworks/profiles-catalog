@@ -1,0 +1,39 @@
+apiVersion: v2
+name: kafka
+description: A Weaveworks Helm chart for cp-kafka 
+type: application
+version: 0.0.1
+kubeVersion: ">=1.16.0-0"
+home: https://github.com/weaveworks/profiles-catalog
+sources:
+  - https://github.com/confluentinc/cp-helm-charts
+
+keywords:
+- kafka
+- zookeeper
+- confluent
+
+maintainers:
+  - name: Weaveworks
+    email: support@weave.works
+
+annotations:
+  "weave.works/profile": kafka
+  "weave.works/category": data
+  "weave.works/links": |
+    - name: Chart Sources
+      url: https://confluentinc.github.io/cp-helm-charts
+    - name: Upstream Project
+      url: https://github.com/confluentinc/cp-helm-charts
+  "weave.works/profile-ci": |
+    - "gke"
+    - "kind"
+
+dependencies:
+- name: cp-zookeeper
+  version: "0.1.0"
+  repository: "https://confluentinc.github.io/cp-helm-charts"
+
+- name: cp-kafka
+  version: "0.6.0"
+  repository: "https://confluentinc.github.io/cp-helm-charts"
