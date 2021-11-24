@@ -1,5 +1,5 @@
 apiVersion: v2
-name: tracing
+name: jaeger
 icon: https://www.jaegertracing.io/img/jaeger-icon-reverse-color.svg
 description: A Weaveworks Helm chart for tracing
 type: application
