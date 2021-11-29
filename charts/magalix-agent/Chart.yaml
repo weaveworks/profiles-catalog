@@ -20,11 +20,7 @@ maintainers:
 annotations:
   "weave.works/profile": magalix
   "weave.works/category": Policy
-  "weave.works/layer": layer-0
   "weave.works/operator": "true"
   "weave.works/links": |
     - name: Upstream Project
       url: https://github.com/MagalixCorp/magalix-agent
-  "weave.works/profile-ci": |
-    - "gke"
-    - "kind"
