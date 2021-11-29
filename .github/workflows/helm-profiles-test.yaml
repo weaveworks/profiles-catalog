@@ -82,7 +82,7 @@ jobs:
         if: steps.list-changed.outputs.gke-ci == 'true'
         shell: bash
         env:
-          GKE_CLUSTER_NAME: profiles-test-mgmt-${{ github.head_ref }}-${{ github.run_number }}
+          GKE_CLUSTER_NAME: profiles-test-mgmt-${{ trunc 10 github.head_ref }}-${{ github.run_number }}
           INFRASTRUCTURE: "gke"
         run: |
           make create-cluster
@@ -95,7 +95,7 @@ jobs:
         if: steps.list-changed.outputs.gke-ci == 'true'
         shell: bash
         env:
-          GKE_CLUSTER_NAME: profiles-test-mgmt-${{ github.head_ref }}-${{ github.run_number }}
+          GKE_CLUSTER_NAME: profiles-test-mgmt-${{ trunc 10 github.head_ref }}-${{ github.run_number }}
           INFRASTRUCTURE: "gke"
         run: |
           make delete-cluster
