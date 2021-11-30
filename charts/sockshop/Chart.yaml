@@ -1,11 +1,7 @@
 apiVersion: v2
 name: sockshop
 description: A Weaveworks Helm chart for sockshop microservices demo
-version: 0.0.3
-dependencies:
-  - name: ingress-nginx
-    version: "~0.0.5"
-    repository: "file://../ingress-nginx"
+version: 0.0.4
 home: https://github.com/weaveworks/profiles-catalog
 sources:
   - https://github.com/microservices-demo/microservices-demo/tree/master/deploy/kubernetes/helm-chart
@@ -20,10 +16,9 @@ maintainers:
 
 annotations:
   "weave.works/profile": sockshop
+  "weave.works/layer": layer-2
   "weave.works/links": |
     - name: Chart Sources
       url: https://github.com/microservices-demo/microservices-demo/tree/master/deploy/kubernetes/helm-chart
     - name: Upstream Project
       url: https://github.com/microservices-demo/microservices-demo
-  "weave.works/profile-ci": |
-    - "gke"
