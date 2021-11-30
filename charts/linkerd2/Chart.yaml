@@ -31,6 +31,3 @@ annotations:
       url:  https://helm.linkerd.io/stable
     - name: Upstream Project
       url: https://github.com/linkerd/linkerd2
-  "weave.works/profile-ci": |
-    - "gke"
-    - "kind"
