@@ -40,6 +40,41 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/cert-manager-0.0.1/cert-manager-0.0.1.tgz
     version: 0.0.1
+  crossplane:
+  - annotations:
+      weave.works/category: Infrastructure
+      weave.works/links: |
+        - name: Chart Sources
+          url: https://charts.crossplane.io/stable
+        - name: Upstream Project
+          url: https://github.com/crossplane/crossplane
+      weave.works/profile: crossplane
+      weave.works/profile-ci: |
+        - "gke"
+        - "kind"
+    apiVersion: v2
+    created: "2021-12-01T19:56:52.54825999Z"
+    dependencies:
+    - name: crossplane
+      repository: https://charts.crossplane.io/stable
+      version: ~1.2.5
+    description: A Weaveworks Helm chart for the Crossplane Profile
+    digest: 256c49520c2b1836a93a71e4769aee16182896e3b282c881aaf282a8e732c0ea
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://crossplane.io/images/favicon_192x192.png
+    keywords:
+    - crossplane
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: crossplane
+    sources:
+    - https://charts.crossplane.io/stable
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/crossplane-0.0.2/crossplane-0.0.2.tgz
+    version: 0.0.2
   dex:
   - annotations:
       weave.works/links: |
@@ -931,4 +966,4 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/tracing-0.0.1/tracing-0.0.1.tgz
     version: 0.0.1
-generated: "2021-12-01T19:53:25.299399448Z"
+generated: "2021-12-01T19:56:52.54829569Z"
