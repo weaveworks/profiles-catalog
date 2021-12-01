@@ -1,5 +1,45 @@
 apiVersion: v1
 entries:
+  cert-manager:
+  - annotations:
+      weave.works/category: Certificate
+      weave.works/layer: layer-0
+      weave.works/links: |
+        - name: Chart Sources
+          url: https://charts.jetstack.io
+        - name: Upstream Project
+          url: https://github.com/jetstack/cert-manager
+      weave.works/operator: "true"
+      weave.works/profile: cert-manager
+      weave.works/profile-ci: |
+        - "gke"
+        - "kind"
+    apiVersion: v2
+    created: "2021-12-01T19:53:24.082695051Z"
+    dependencies:
+    - name: cert-manager
+      repository: https://charts.jetstack.io
+      version: 1.6.0
+    description: A Weaveworks Helm chart for the Certificate Profile
+    digest: cbc419bd62f9706669dd399fba8e1a92653605dd2197e63bc65c737477696393
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://raw.githubusercontent.com/jetstack/cert-manager/master/logo/logo.png
+    keywords:
+    - cert-manager
+    - kube-lego
+    - letsencrypt
+    - tls
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: cert-manager
+    sources:
+    - https://charts.jetstack.io
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/cert-manager-0.0.1/cert-manager-0.0.1.tgz
+    version: 0.0.1
   dex:
   - annotations:
       weave.works/links: |
@@ -70,6 +110,43 @@ entries:
     version: 0.0.5
   ingress-nginx:
   - annotations:
+      weave.works/category: Ingress
+      weave.works/layer: layer-1
+      weave.works/links: |
+        - name: Chart Sources
+          url:  https://kubernetes.github.io/ingress-nginx
+        - name: Upstream Project
+          url: https://github.com/kubernetes/ingress-nginx/tree/main/charts/ingress-nginx
+      weave.works/profile: ingress-nginx
+      weave.works/profile-ci: |
+        - "gke"
+    apiVersion: v2
+    created: "2021-12-01T19:53:24.256444365Z"
+    dependencies:
+    - name: ingress-nginx
+      repository: https://kubernetes.github.io/ingress-nginx
+      version: 4.0.6
+    description: A Weaveworks Helm chart for ingress-nginx
+    digest: 37257a3f3dce0e2cc21cd751abae3cad6468626596a468e9d1211436cd224b01
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://raw.githubusercontent.com/prometheus/prometheus.github.io/master/assets/prometheus_logo-cb55bb5c346.png
+    keywords:
+    - network
+    - ingress
+    - nginx
+    - nginx-ingress
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: ingress-nginx
+    sources:
+    - https://kubernetes.github.io/ingress-nginx
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/ingress-nginx-0.0.7/ingress-nginx-0.0.7.tgz
+    version: 0.0.7
+  - annotations:
       weave.works/links: |
         - name: Chart Sources
           url:  https://kubernetes.github.io/ingress-nginx
@@ -137,7 +214,109 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/ingress-nginx-0.0.5/ingress-nginx-0.0.5.tgz
     version: 0.0.5
+  jaeger:
+  - annotations:
+      weave.works/category: Tracing
+      weave.works/links: |
+        - name: Chart Sources
+          url: https://jaegertracing.github.io/helm-charts
+        - name: Upstream Project
+          url: https://github.com/jaegertracing/jaeger-operator
+      weave.works/operator: "true"
+      weave.works/profile: jaeger
+      weave.works/profile-ci: |
+        - "gke"
+        - "kind"
+    apiVersion: v2
+    created: "2021-12-01T19:53:24.426127915Z"
+    dependencies:
+    - name: jaeger-operator
+      repository: https://jaegertracing.github.io/helm-charts/
+      version: 2.26.0
+    description: A Weaveworks Helm chart for tracing
+    digest: 236ce13a92d04a133c8b02280c511f5a4a77777d983ba33dce26c8eb031576d1
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://www.jaegertracing.io/img/jaeger-icon-reverse-color.svg
+    keywords:
+    - operator
+    - jaeger-operator
+    - jaeger
+    - tracing
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: jaeger
+    sources:
+    - https://jaegertracing.github.io/helm-charts
+    - https://github.com/jaegertracing/jaeger-operator
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/jaeger-0.0.1/jaeger-0.0.1.tgz
+    version: 0.0.1
+  linkerd2:
+  - annotations:
+      weave.works/category: Service Mesh
+      weave.works/layer: layer-1
+      weave.works/links: |
+        - name: Chart Sources
+          url:  https://helm.linkerd.io/stable
+        - name: Upstream Project
+          url: https://github.com/linkerd/linkerd2
+      weave.works/profile: linkerd2
+    apiVersion: v2
+    created: "2021-12-01T19:53:24.59274077Z"
+    dependencies:
+    - name: linkerd2
+      repository: https://helm.linkerd.io/stable
+      version: 2.11.0
+    description: A Weaveworks Helm chart for the Service Mesh Profile
+    digest: 12a0ec1564ed0a6d7fa5a65c1158fc29ecf130ca37c1d33fa61c4161e4fa63d1
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://linkerd.io/images/logo-only-200h.png
+    keywords:
+    - network
+    - servicemesh
+    - linkerd2
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: linkerd2
+    sources:
+    - https://helm.linkerd.io/stable
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/linkerd2-0.0.9/linkerd2-0.0.9.tgz
+    version: 0.0.9
   magalix-agent:
+  - annotations:
+      weave.works/category: Policy
+      weave.works/links: |
+        - name: Upstream Project
+          url: https://github.com/MagalixCorp/magalix-agent
+      weave.works/operator: "true"
+      weave.works/profile: magalix
+    apiVersion: v2
+    created: "2021-12-01T19:53:24.758932223Z"
+    description: A Weaveworks Helm chart for Magalix policy agent
+    digest: f549334b6f3de6faf41838662ac08a31eb18159a292af6eee55b1e1ac7b9bec5
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://www.magalix.com/hubfs/Imported%20images/logo-02.png%3Fwidth=560%26name=logo-02-Dec-18-2020-11-24-41-75-AM.png
+    keywords:
+    - magalix
+    - policy
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: magalix-agent
+    sources:
+    - https://github.com/MagalixCorp/magalix-agent
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/magalix-agent-0.0.12/magalix-agent-0.0.12.tgz
+    version: 0.0.12
   - annotations:
       weave.works/links: |
         - name: Upstream Project
@@ -479,6 +658,47 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/oidc-0.0.4/oidc-0.0.4.tgz
     version: 0.0.4
+  prometheus:
+  - annotations:
+      weave.works/category: Observability
+      weave.works/links: |
+        - name: Chart Sources
+          url: https://github.com/prometheus-community/helm-charts
+        - name: Upstream Project
+          url: https://github.com/prometheus-operator/kube-prometheus
+      weave.works/operator: "true"
+      weave.works/profile: prometheus
+      weave.works/profile-ci: |
+        - "gke"
+        - "kind"
+    apiVersion: v2
+    created: "2021-12-01T19:53:24.957764783Z"
+    dependencies:
+    - condition: kube-prometheus-stack.enabled
+      name: kube-prometheus-stack
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 19.2.2
+    description: A Weaveworks Helm chart for observability
+    digest: 030e878acd581470b3e7c149722a15120740f8b35e97eddeceb88cfc915ed7ae
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://raw.githubusercontent.com/prometheus/prometheus.github.io/master/assets/prometheus_logo-cb55bb5c346.png
+    keywords:
+    - operator
+    - prometheus
+    - kube-prometheus
+    - observability
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: prometheus
+    sources:
+    - https://github.com/prometheus-community/helm-charts
+    - https://github.com/prometheus-operator/kube-prometheus
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/prometheus-0.0.7/prometheus-0.0.7.tgz
+    version: 0.0.7
   servicemesh:
   - annotations:
       weave.works/links: |
@@ -552,7 +772,68 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/servicemesh-0.0.6/servicemesh-0.0.6.tgz
     version: 0.0.6
+  snyk:
+  - annotations:
+      weave.works/category: Security
+      weave.works/links: |
+        - name: Chart Sources
+          url: https://snyk.github.io/kubernetes-monitor/
+        - name: Upstream Project
+          url: https://github.com/snyk/kubernetes-monitor
+      weave.works/profile: snyk
+      weave.works/profile-ci: |
+        - "gke"
+        - "kind"
+    apiVersion: v2
+    created: "2021-12-01T19:53:25.147077783Z"
+    dependencies:
+    - name: snyk-monitor
+      repository: https://snyk.github.io/kubernetes-monitor/
+      version: 1.70.4
+    description: A Weaveworks Helm chart for Snyk Kubernetes monitor
+    digest: ac43eb2525688d3cc51b042e371dbeacaafa5fbde7d5d27230d57d9d37b9d62a
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://snyk.io/wp-content/themes/snyk_v2_etyhadar/dist/images/snyk-logo-patch-new.svg
+    keywords:
+    - snyk
+    - security
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: snyk
+    sources:
+    - https://github.com/snyk/kubernetes-monitor
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/snyk-0.0.1/snyk-0.0.1.tgz
+    version: 0.0.1
   sockshop:
+  - annotations:
+      weave.works/layer: layer-2
+      weave.works/links: |
+        - name: Chart Sources
+          url: https://github.com/microservices-demo/microservices-demo/tree/master/deploy/kubernetes/helm-chart
+        - name: Upstream Project
+          url: https://github.com/microservices-demo/microservices-demo
+      weave.works/profile: sockshop
+    apiVersion: v2
+    created: "2021-12-01T19:53:25.299323547Z"
+    description: A Weaveworks Helm chart for sockshop microservices demo
+    digest: 553f4d7d4ae091a9cbf551c4d4329d47bafbf8ef127b6f7dbe858ba4d338a574
+    home: https://github.com/weaveworks/profiles-catalog
+    keywords:
+    - microservices
+    - sockshop
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: sockshop
+    sources:
+    - https://github.com/microservices-demo/microservices-demo/tree/master/deploy/kubernetes/helm-chart
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/sockshop-0.0.4/sockshop-0.0.4.tgz
+    version: 0.0.4
   - annotations:
       weave.works/links: |
         - name: Chart Sources
@@ -650,4 +931,4 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/tracing-0.0.1/tracing-0.0.1.tgz
     version: 0.0.1
-generated: "2021-11-17T18:25:22.060003492Z"
+generated: "2021-12-01T19:53:25.299399448Z"
