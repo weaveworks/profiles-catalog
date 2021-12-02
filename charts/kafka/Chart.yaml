@@ -1,0 +1,35 @@
+apiVersion: v2
+name: kafka
+icon: https://bitnami.com/assets/stacks/kafka/img/kafka-stack-220x234.png
+description: A Weaveworks Helm chart for Bitnami Kafka
+type: application
+version: 0.0.1
+kubeVersion: ">=1.16.0-0"
+home: https://github.com/weaveworks/profiles-catalog
+sources:
+  - https://github.com/bitnami/charts/tree/master/bitnami/kafka
+
+keywords:
+- kafka
+- zookeeper
+- streaming
+
+maintainers:
+  - name: Weaveworks
+    email: support@weave.works
+
+annotations:
+  "weave.works/profile": kafka
+  "weave.works/category": Streaming
+  "weave.works/links": |
+    - name: Chart Sources
+      url: https://charts.bitnami.com/bitnami
+    - name: Upstream Project
+      url: https://kafka.apache.org/
+  "weave.works/profile-ci": |
+    - "gke"
+
+dependencies:
+- name: kafka
+  version: "14.4.1"
+  repository: "https://charts.bitnami.com/bitnami"
