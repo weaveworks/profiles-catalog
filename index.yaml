@@ -289,6 +289,43 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/jaeger-0.0.1/jaeger-0.0.1.tgz
     version: 0.0.1
+  kafka:
+  - annotations:
+      weave.works/category: Streaming
+      weave.works/links: |
+        - name: Chart Sources
+          url: https://charts.bitnami.com/bitnami
+        - name: Upstream Project
+          url: https://kafka.apache.org/
+      weave.works/profile: kafka
+      weave.works/profile-ci: |
+        - "gke"
+        - "kind"
+    apiVersion: v2
+    created: "2021-12-03T14:15:52.793025786Z"
+    dependencies:
+    - name: kafka
+      repository: https://charts.bitnami.com/bitnami
+      version: 14.4.1
+    description: A Weaveworks Helm chart for Bitnami Kafka
+    digest: 8383562f8afd58e96cc4e9f2da35dd80b557e383b13fae41e9a68a54e9dd3b5d
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://bitnami.com/assets/stacks/kafka/img/kafka-stack-220x234.png
+    keywords:
+    - kafka
+    - zookeeper
+    - streaming
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: kafka
+    sources:
+    - https://github.com/bitnami/charts/tree/master/bitnami/kafka
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/kafka-0.0.1/kafka-0.0.1.tgz
+    version: 0.0.1
   linkerd2:
   - annotations:
       weave.works/category: Service Mesh
@@ -966,4 +1003,4 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/tracing-0.0.1/tracing-0.0.1.tgz
     version: 0.0.1
-generated: "2021-12-01T19:56:52.54829569Z"
+generated: "2021-12-03T14:15:52.793065286Z"
