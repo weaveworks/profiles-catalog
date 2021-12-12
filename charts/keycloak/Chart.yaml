@@ -1,0 +1,36 @@
+apiVersion: v2
+name: keycloak
+icon: https://bitnami.com/assets/stacks/keycloak/img/keycloak-stack-220x234.png
+description: A Weaveworks Helm chart for Bitnami Keycloak
+type: application
+version: 0.0.1
+kubeVersion: ">=1.16.0-0"
+home: https://github.com/weaveworks/profiles-catalog
+sources:
+  - https://github.com/bitnami/charts/tree/master/bitnami/keycloak
+
+keywords:
+- keycloak
+- identity
+- access-management
+
+maintainers:
+  - name: Weaveworks
+    email: support@weave.works
+
+annotations:
+  "weave.works/profile": keycloak
+  "weave.works/category": Identity and Access Management
+  "weave.works/links": |
+    - name: Chart Sources
+      url: https://charts.bitnami.com/bitnami
+    - name: Upstream Project
+      url: https://kafka.apache.org/
+  "weave.works/profile-ci": |
+    - "gke"
+    - "kind"
+
+dependencies:
+- name: keycloak
+  version: "5.2.4"
+  repository: "https://charts.bitnami.com/bitnami"

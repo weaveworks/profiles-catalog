@@ -1,0 +1,8 @@
+keycloak:
+  metrics:
+    enabled: true
+  service:
+    # place cloud provider load balancer annotations below
+    # Example:
+    #   service.beta.kubernetes.io/aws-load-balancer-scheme: internal
+    annotations: {}
