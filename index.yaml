@@ -326,6 +326,42 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/kafka-0.0.1/kafka-0.0.1.tgz
     version: 0.0.1
+  keycloak:
+  - annotations:
+      weave.works/category: Identity and Access Management
+      weave.works/links: |
+        - name: Chart Sources
+          url: https://charts.bitnami.com/bitnami
+        - name: Upstream Project
+          url: https://kafka.apache.org/
+      weave.works/profile: keycloak
+      weave.works/profile-ci: |
+        - "gke"
+    apiVersion: v2
+    created: "2021-12-13T16:20:00.834363215Z"
+    dependencies:
+    - name: keycloak
+      repository: https://charts.bitnami.com/bitnami
+      version: 5.2.4
+    description: A Weaveworks Helm chart for Bitnami Keycloak
+    digest: dda1d2a60073941abe645661a93f7542ea079f76d1dbc49f3eeb3b8be4966cad
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://bitnami.com/assets/stacks/keycloak/img/keycloak-stack-220x234.png
+    keywords:
+    - keycloak
+    - identity
+    - access-management
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: keycloak
+    sources:
+    - https://github.com/bitnami/charts/tree/master/bitnami/keycloak
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/keycloak-0.0.1/keycloak-0.0.1.tgz
+    version: 0.0.1
   linkerd2:
   - annotations:
       weave.works/category: Service Mesh
@@ -1003,4 +1039,4 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/tracing-0.0.1/tracing-0.0.1.tgz
     version: 0.0.1
-generated: "2021-12-03T14:15:52.793065286Z"
+generated: "2021-12-13T16:20:00.834402815Z"
