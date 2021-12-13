@@ -28,7 +28,6 @@ annotations:
       url: https://kafka.apache.org/
   "weave.works/profile-ci": |
     - "gke"
-    - "kind"
 
 dependencies:
 - name: keycloak
