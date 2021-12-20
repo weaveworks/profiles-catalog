@@ -1,0 +1,34 @@
+apiVersion: v2
+name: Flagger
+icon: https://linkerd.io/images/logo-only-200h.png
+description: A Weaveworks Helm chart for the Flagger Profile
+type: application
+version: 1.16.1
+dependencies:
+- name: flagger
+  version: "1.16.1"
+  repository: "https://flagger.app"
+kubeVersion: ">=1.16.0-0"
+home: https://github.com/weaveworks/profiles-catalog
+sources:
+  - https://flagger.app
+
+keywords:
+- network
+- canary
+- deployment
+- flagger
+
+maintainers:
+  - name: Weaveworks
+    email: support@weave.works
+
+annotations:
+  "weave.works/profile": linkerd2
+  "weave.works/category": Deployment
+  "weave.works/layer": layer-2
+  "weave.works/links": |
+    - name: Chart Sources
+      url:  https://flagger.app
+    - name: Upstream Project
+      url: https://github.com/fluxcd/flagger/

@@ -1,0 +1,4 @@
+metricsServer: http://prometheus.linkerd-viz:9090
+crd:
+  create: true
+meshProvider: linkerd
