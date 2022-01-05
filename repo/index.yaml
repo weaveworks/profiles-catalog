@@ -11,7 +11,7 @@ entries:
           url: https://github.com/fluxcd/flagger/
       weave.works/profile: linkerd2
     apiVersion: v2
-    created: "2022-01-05T16:30:44.822283-05:00"
+    created: "2022-01-05T16:37:43.672034-05:00"
     dependencies:
     - name: flagger
       repository: https://flagger.app
@@ -36,6 +36,46 @@ entries:
     urls:
     - Flagger-1.16.1.tgz
     version: 1.16.1
+  cert-manager:
+  - annotations:
+      weave.works/category: Certificate
+      weave.works/layer: layer-0
+      weave.works/links: |
+        - name: Chart Sources
+          url: https://charts.jetstack.io
+        - name: Upstream Project
+          url: https://github.com/jetstack/cert-manager
+      weave.works/operator: "true"
+      weave.works/profile: cert-manager
+      weave.works/profile-ci: |
+        - "gke"
+        - "kind"
+    apiVersion: v2
+    created: "2022-01-05T16:37:43.685481-05:00"
+    dependencies:
+    - name: cert-manager
+      repository: https://charts.jetstack.io
+      version: 1.6.0
+    description: A Weaveworks Helm chart for the Certificate Profile
+    digest: bbe145bf7db06fae63a76235234aa20514b50ae689858b52dc98268c9bd15954
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://raw.githubusercontent.com/jetstack/cert-manager/master/logo/logo.png
+    keywords:
+    - cert-manager
+    - kube-lego
+    - letsencrypt
+    - tls
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: cert-manager
+    sources:
+    - https://charts.jetstack.io
+    type: application
+    urls:
+    - cert-manager-0.0.1.tgz
+    version: 0.0.1
   linkerd2:
   - annotations:
       weave.works/category: Service Mesh
@@ -47,7 +87,7 @@ entries:
           url: https://github.com/linkerd/linkerd2
       weave.works/profile: linkerd2
     apiVersion: v2
-    created: "2022-01-05T16:30:44.825981-05:00"
+    created: "2022-01-05T16:37:43.689987-05:00"
     dependencies:
     - name: linkerd2
       repository: https://helm.linkerd.io/stable
@@ -86,7 +126,7 @@ entries:
         - "gke"
         - "kind"
     apiVersion: v2
-    created: "2022-01-05T16:30:44.877256-05:00"
+    created: "2022-01-05T16:37:43.755112-05:00"
     dependencies:
     - condition: kube-prometheus-stack.enabled
       name: kube-prometheus-stack
@@ -126,7 +166,7 @@ entries:
         - "gke"
         - "kind"
     apiVersion: v2
-    created: "2022-01-05T16:30:44.85184-05:00"
+    created: "2022-01-05T16:37:43.727569-05:00"
     dependencies:
     - condition: kube-prometheus-stack.enabled
       name: kube-prometheus-stack
@@ -153,4 +193,4 @@ entries:
     urls:
     - prometheus-0.0.7.tgz
     version: 0.0.7
-generated: "2022-01-05T16:30:44.819351-05:00"
+generated: "2022-01-05T16:37:43.667511-05:00"
