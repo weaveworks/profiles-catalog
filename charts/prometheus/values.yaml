@@ -1,7 +1,7 @@
 kube-prometheus-stack:
   fullnameOverride: weaveworks-prometheus
   prometheus:
-    prometheusSpec: 
+    prometheusSpec:
       additionalScrapeConfigs:
       - job_name: 'kubernetes-nodes-cadvisor'
         scheme: https
@@ -25,7 +25,7 @@ kube-prometheus-stack:
           regex: '(container|machine)_(cpu|memory|network|fs)_(.+)'
           action: keep
         - source_labels: [__name__]
-          regex: 'container_memory_failures_total' # unneeded large metric
+          regex: 'container_memory_failures_total'
           action: drop
       - job_name: 'linkerd-controller'
         kubernetes_sd_configs:
@@ -70,6 +70,7 @@ kube-prometheus-stack:
         - source_labels: [__meta_kubernetes_pod_name]
           action: replace
           target_label: pod
+
         # special case k8s' "job" label, to not interfere with prometheus' "job"
         # label
         # __meta_kubernetes_pod_label_linkerd_io_proxy_job=foo =>
@@ -77,31 +78,39 @@ kube-prometheus-stack:
         - source_labels: [__meta_kubernetes_pod_label_linkerd_io_proxy_job]
           action: replace
           target_label: k8s_job
+
         # drop __meta_kubernetes_pod_label_linkerd_io_proxy_job
         - action: labeldrop
           regex: __meta_kubernetes_pod_label_linkerd_io_proxy_job
+
         # __meta_kubernetes_pod_label_linkerd_io_proxy_deployment=foo =>
         # deployment=foo
         - action: labelmap
           regex: __meta_kubernetes_pod_label_linkerd_io_proxy_(.+)
+
         # drop all labels that we just made copies of in the previous labelmap
         - action: labeldrop
           regex: __meta_kubernetes_pod_label_linkerd_io_proxy_(.+)
+
         # __meta_kubernetes_pod_label_linkerd_io_foo=bar =>
         # foo=bar
         - action: labelmap
           regex: __meta_kubernetes_pod_label_linkerd_io_(.+)
+
         # Copy all pod labels to tmp labels
         - action: labelmap
           regex: __meta_kubernetes_pod_label_(.+)
           replacement: __tmp_pod_label_$1
+
         # Take `linkerd_io_` prefixed labels and copy them without the prefix
         - action: labelmap
           regex: __tmp_pod_label_linkerd_io_(.+)
-          replacement:  __tmp_pod_label_$1
+          replacement: __tmp_pod_label_$1
+
         # Drop the `linkerd_io_` originals
         - action: labeldrop
           regex: __tmp_pod_label_linkerd_io_(.+)
+
         # Copy tmp labels into real labels
         - action: labelmap
           regex: __tmp_pod_label_(.+)
