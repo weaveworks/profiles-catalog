@@ -1,5 +1,5 @@
 apiVersion: v2
-name: Flagger
+name: flagger
 icon: https://linkerd.io/images/logo-only-200h.png
 description: A Weaveworks Helm chart for the Flagger Profile
 type: application
