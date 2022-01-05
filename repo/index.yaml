@@ -15,7 +15,7 @@ entries:
         - "gke"
         - "kind"
     apiVersion: v2
-    created: "2022-01-05T17:06:23.028458-05:00"
+    created: "2022-01-05T17:10:22.728117-05:00"
     dependencies:
     - name: cert-manager
       repository: https://charts.jetstack.io
@@ -51,7 +51,7 @@ entries:
           url: https://github.com/fluxcd/flagger/
       weave.works/profile: linkerd2
     apiVersion: v2
-    created: "2022-01-05T17:06:23.030423-05:00"
+    created: "2022-01-05T17:10:22.73037-05:00"
     dependencies:
     - name: flagger
       repository: https://flagger.app
@@ -87,7 +87,7 @@ entries:
           url: https://github.com/linkerd/linkerd2
       weave.works/profile: linkerd2
     apiVersion: v2
-    created: "2022-01-05T17:06:23.034695-05:00"
+    created: "2022-01-05T17:10:22.733748-05:00"
     dependencies:
     - name: linkerd2
       repository: https://helm.linkerd.io/stable
@@ -126,7 +126,7 @@ entries:
         - "gke"
         - "kind"
     apiVersion: v2
-    created: "2022-01-05T17:06:23.087373-05:00"
+    created: "2022-01-05T17:10:22.78506-05:00"
     dependencies:
     - condition: kube-prometheus-stack.enabled
       name: kube-prometheus-stack
@@ -166,7 +166,7 @@ entries:
         - "gke"
         - "kind"
     apiVersion: v2
-    created: "2022-01-05T17:06:23.05852-05:00"
+    created: "2022-01-05T17:10:22.760002-05:00"
     dependencies:
     - condition: kube-prometheus-stack.enabled
       name: kube-prometheus-stack
@@ -193,4 +193,4 @@ entries:
     urls:
     - prometheus-0.0.7.tgz
     version: 0.0.7
-generated: "2022-01-05T17:06:23.014534-05:00"
+generated: "2022-01-05T17:10:22.713899-05:00"
