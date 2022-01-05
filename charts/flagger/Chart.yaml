@@ -32,4 +32,3 @@ annotations:
       url:  https://flagger.app
     - name: Upstream Project
       url: https://github.com/fluxcd/flagger/
-      

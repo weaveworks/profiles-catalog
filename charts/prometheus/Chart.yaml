@@ -39,4 +39,3 @@ dependencies:
   version: "19.2.2"
   repository: "https://prometheus-community.github.io/helm-charts"
   condition: kube-prometheus-stack.enabled
-  
