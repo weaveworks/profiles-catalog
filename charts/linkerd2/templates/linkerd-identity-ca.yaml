@@ -4,6 +4,8 @@ kind: Issuer
 metadata:
   name: linkerd-trust-anchor
   namespace: {{ .Values.linkerd2.namespace }}
+  labels:
+    {{- include "linkerd2.labels" . | nindent 4 }}
 spec:
   ca:
     secretName: linkerd-trust-anchor
@@ -13,6 +15,8 @@ kind: Certificate
 metadata:
   name: linkerd-identity-issuer
   namespace: {{ .Values.linkerd2.namespace }}
+  labels:
+    {{- include "linkerd2.labels" . | nindent 4 }}  
 spec:
   secretName: linkerd-identity-issuer
   duration: 48h

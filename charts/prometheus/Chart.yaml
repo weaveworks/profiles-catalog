@@ -3,7 +3,7 @@ name: prometheus
 icon: https://raw.githubusercontent.com/prometheus/prometheus.github.io/master/assets/prometheus_logo-cb55bb5c346.png
 description: A Weaveworks Helm chart for observability
 type: application
-version: 0.0.7
+version: 0.0.8
 kubeVersion: ">=1.16.0-0"
 home: https://github.com/weaveworks/profiles-catalog
 sources:
@@ -20,6 +20,7 @@ annotations:
   "weave.works/profile": prometheus
   "weave.works/category": Observability
   "weave.works/operator": "true"
+  "weave.works/layer": layer-1
   "weave.works/links": |
     - name: Chart Sources
       url: https://github.com/prometheus-community/helm-charts

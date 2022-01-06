@@ -1,22 +1,23 @@
 apiVersion: v2
-name: linkerd2
+name: flagger
 icon: https://linkerd.io/images/logo-only-200h.png
-description: A Weaveworks Helm chart for the Service Mesh Profile
+description: A Weaveworks Helm chart for the Flagger Profile
 type: application
-version: 0.0.10
+version: 1.16.1
 dependencies:
-- name: linkerd2
-  version: "2.11.0"
-  repository: "https://helm.linkerd.io/stable"
+- name: flagger
+  version: "1.16.1"
+  repository: "https://flagger.app"
 kubeVersion: ">=1.16.0-0"
 home: https://github.com/weaveworks/profiles-catalog
 sources:
-  - https://helm.linkerd.io/stable
+  - https://flagger.app
 
 keywords:
 - network
-- servicemesh
-- linkerd2
+- canary
+- deployment
+- flagger
 
 maintainers:
   - name: Weaveworks
@@ -24,10 +25,10 @@ maintainers:
 
 annotations:
   "weave.works/profile": linkerd2
-  "weave.works/category": Service Mesh
-  "weave.works/layer": layer-1
+  "weave.works/category": Deployment
+  "weave.works/layer": layer-2
   "weave.works/links": |
     - name: Chart Sources
-      url:  https://helm.linkerd.io/stable
+      url:  https://flagger.app
     - name: Upstream Project
-      url: https://github.com/linkerd/linkerd2
+      url: https://github.com/fluxcd/flagger/

@@ -8,4 +8,6 @@ metadata:
   creationTimestamp: null
   name: linkerd-trust-anchor
   namespace: {{ .Values.linkerd2.namespace }}
+  labels:
+    {{- include "linkerd2.labels" . | nindent 4 }}
 {{ end }}
