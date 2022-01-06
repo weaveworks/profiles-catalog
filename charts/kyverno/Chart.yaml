@@ -26,7 +26,7 @@ maintainers:
 annotations:
   "weave.works/profile": linkerd2
   "weave.works/category": Deployment
-  "weave.works/layer": layer-2
+  "weave.works/layer": layer-1
   "weave.works/links": |
     - name: Chart Sources
       url:  https://kyverno.github.io/kyverno/
