@@ -112,6 +112,42 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/dex-0.0.8/dex-0.0.8.tgz
     version: 0.0.8
+  flagger:
+  - annotations:
+      weave.works/category: Deployment
+      weave.works/layer: layer-2
+      weave.works/links: |
+        - name: Chart Sources
+          url:  https://flagger.app
+        - name: Upstream Project
+          url: https://github.com/fluxcd/flagger/
+      weave.works/profile: linkerd2
+    apiVersion: v2
+    created: "2022-01-06T16:11:58.123301092Z"
+    dependencies:
+    - name: flagger
+      repository: https://flagger.app
+      version: 1.16.1
+    description: A Weaveworks Helm chart for the Flagger Profile
+    digest: 71ec83e088424828edf69a3374ce7246afcbe4feb8e9d3fe8407d077fa6d447e
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://linkerd.io/images/logo-only-200h.png
+    keywords:
+    - network
+    - canary
+    - deployment
+    - flagger
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: flagger
+    sources:
+    - https://flagger.app
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/flagger-1.16.1/flagger-1.16.1.tgz
+    version: 1.16.1
   ingress:
   - annotations:
       weave.works/links: |
@@ -363,6 +399,40 @@ entries:
     - https://github.com/weaveworks/profiles-catalog/releases/download/keycloak-0.0.1/keycloak-0.0.1.tgz
     version: 0.0.1
   linkerd2:
+  - annotations:
+      weave.works/category: Service Mesh
+      weave.works/layer: layer-1
+      weave.works/links: |
+        - name: Chart Sources
+          url:  https://helm.linkerd.io/stable
+        - name: Upstream Project
+          url: https://github.com/linkerd/linkerd2
+      weave.works/profile: linkerd2
+    apiVersion: v2
+    created: "2022-01-06T16:11:58.292003804Z"
+    dependencies:
+    - name: linkerd2
+      repository: https://helm.linkerd.io/stable
+      version: 2.11.0
+    description: A Weaveworks Helm chart for the Service Mesh Profile
+    digest: 74ef6b62ab2594916861e12ef205195174926855114421f83b50dd5366795213
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://linkerd.io/images/logo-only-200h.png
+    keywords:
+    - network
+    - servicemesh
+    - linkerd2
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: linkerd2
+    sources:
+    - https://helm.linkerd.io/stable
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/linkerd2-0.0.10/linkerd2-0.0.10.tgz
+    version: 0.0.10
   - annotations:
       weave.works/category: Service Mesh
       weave.works/layer: layer-1
@@ -769,6 +839,47 @@ entries:
   prometheus:
   - annotations:
       weave.works/category: Observability
+      weave.works/layer: layer-1
+      weave.works/links: |
+        - name: Chart Sources
+          url: https://github.com/prometheus-community/helm-charts
+        - name: Upstream Project
+          url: https://github.com/prometheus-operator/kube-prometheus
+      weave.works/operator: "true"
+      weave.works/profile: prometheus
+      weave.works/profile-ci: |
+        - "gke"
+        - "kind"
+    apiVersion: v2
+    created: "2022-01-06T16:11:58.493893888Z"
+    dependencies:
+    - condition: kube-prometheus-stack.enabled
+      name: kube-prometheus-stack
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 19.2.2
+    description: A Weaveworks Helm chart for observability
+    digest: 6ea44b04521a717d5e34badde3811f397711b49c4ec9ffb6c5d7a10e581320ae
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://raw.githubusercontent.com/prometheus/prometheus.github.io/master/assets/prometheus_logo-cb55bb5c346.png
+    keywords:
+    - operator
+    - prometheus
+    - kube-prometheus
+    - observability
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: prometheus
+    sources:
+    - https://github.com/prometheus-community/helm-charts
+    - https://github.com/prometheus-operator/kube-prometheus
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/prometheus-0.0.8/prometheus-0.0.8.tgz
+    version: 0.0.8
+  - annotations:
+      weave.works/category: Observability
       weave.works/links: |
         - name: Chart Sources
           url: https://github.com/prometheus-community/helm-charts
@@ -1039,4 +1150,4 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/tracing-0.0.1/tracing-0.0.1.tgz
     version: 0.0.1
-generated: "2021-12-13T16:20:00.834402815Z"
+generated: "2022-01-06T16:11:58.493939789Z"
