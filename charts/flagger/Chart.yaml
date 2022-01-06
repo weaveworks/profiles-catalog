@@ -34,4 +34,3 @@ annotations:
       url: https://github.com/fluxcd/flagger/
   "weave.works/profile-ci": |
     - "kind"
-
