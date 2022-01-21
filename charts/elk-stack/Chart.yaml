@@ -7,16 +7,16 @@ version: 0.0.1
 dependencies:
 - name: elasticsearch
   version: "7.16.3"
-  repository: "https://Helm.elastic.co"
+  repository: "https://helm.elastic.co"
 - name: kibana
   version: "7.16.3"
-  repository: "https://Helm.elastic.co"
+  repository: "https://helm.elastic.co"
 - name: metricbeat
   version: "7.16.3"
-  repository: "https://Helm.elastic.co"
+  repository: "https://helm.elastic.co"
 - name: filebeat
   version: "7.16.3"
-  repository: "https://Helm.elastic.co"
+  repository: "https://helm.elastic.co"
 kubeVersion: ">=1.16.0-0"
 home: https://github.com/weaveworks/profiles-catalog
 sources:
