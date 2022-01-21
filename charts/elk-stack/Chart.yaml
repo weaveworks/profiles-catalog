@@ -1,0 +1,46 @@
+apiVersion: v2
+name: elk-stack
+icon: https://static-www.elastic.co/v3/assets/bltefdd0b53724fa2ce/blt74acb493aaf69084/5ea8c8dbf5880355558334cd/brand-elastic-stack-220x130.svg
+description: A Weaveworks Helm chart for the ELK Stack Profile
+type: application
+version: 0.0.1
+dependencies:
+- name: elasticsearch
+  version: "7.16.3"
+  repository: "https://Helm.elastic.co"
+- name: kibana
+  version: "7.16.3"
+  repository: "https://Helm.elastic.co"
+- name: metricbeat
+  version: "7.16.3"
+  repository: "https://Helm.elastic.co"
+- name: filebeat
+  version: "7.16.3"
+  repository: "https://Helm.elastic.co"
+kubeVersion: ">=1.16.0-0"
+home: https://github.com/weaveworks/profiles-catalog
+sources:
+  - https://Helm.elastic.co
+
+keywords:
+- network
+- canary
+- deployment
+- elk-stack
+- elastic
+
+maintainers:
+  - name: Weaveworks
+    email: support@weave.works
+
+annotations:
+  "weave.works/profile": elk-stack
+  "weave.works/category": Deployment
+  "weave.works/layer": layer-2
+  "weave.works/links": |
+    - name: Chart Sources
+      url:  https://Helm.elastic.co
+    - name: Upstream Project
+      url: https://github.com/fluxcd/elk-stack/
+  "weave.works/profile-ci": |
+    - "gpc"
