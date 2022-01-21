@@ -12,4 +12,4 @@ dependencies:
   repository: https://helm.elastic.co
   version: 7.16.3
 digest: sha256:0227cf52296547795e0227e4b8995347a92a569639cdeba40d0c3fb110509aae
-generated: "2022-01-21T15:40:37.355547-05:00"
+generated: "2022-01-21T17:17:46.143941-05:00"
