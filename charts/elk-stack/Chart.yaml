@@ -41,6 +41,6 @@ annotations:
     - name: Chart Sources
       url:  https://Helm.elastic.co
     - name: Upstream Project
-      url: https://github.com/fluxcd/elk-stack/
+      url: https://github.com/elastic/helm-charts
   "weave.works/profile-ci": |
-    - "gpc"
+    - "kind"
