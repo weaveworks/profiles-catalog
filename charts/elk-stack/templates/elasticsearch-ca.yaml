@@ -1,11 +1,14 @@
-{{- if .Values.global.generateCerts -}}
+{{- if .Values.auth.generateCerts -}}
 apiVersion: cert-manager.io/v1
 kind: Issuer
 metadata:
   name: elasticsearch-self-signed-issuer
   namespace: {{ template "elk-stack.namespace" . }}
   labels:
-    {{- include "elk-stack.labels" . | nindent 4 }} 
+    app: {{ template "elk-stack.name" . }}
+    chart: {{ template "elk-stack.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
 spec:
   selfSigned: {}
 ---
@@ -15,7 +18,10 @@ metadata:
   name: elasticsearch-cert
   namespace: {{ template "elk-stack.namespace" . }}
   labels:
-    {{- include "elk-stack.labels" . | nindent 4 }} 
+    app: {{ template "elk-stack.name" . }}
+    chart: {{ template "elk-stack.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
 spec:
   commonName: weaveworks
   isCA: true

@@ -1,6 +1,9 @@
-global:
+
+auth:
   generateCerts: true
-  generatePassword: true
+  username: elastic
+  # password:
+
 kibana:
   extraEnvs:
     - name: "NODE_OPTIONS"
@@ -19,17 +22,20 @@ kibana:
     enabled: false
     className: "nginx"
     pathtype: ImplementationSpecific
-    annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
     hosts:
       - host: your-domain.local
         paths:
-            - path: /
+        - path: /
   secretMounts:
     - name: elastic-certificate-pem
       secretName: elasticsearch-self-signed-ca-cert
       path: /usr/share/kibana/config/certs
+  kibanaConfig:
+    kibana.yml: |
+      elasticsearch.ssl:
+        certificateAuthorities: /usr/share/kibana/config/certs/tls.key
+        verificationMode: certificate
+
 
 
 elasticsearch:
