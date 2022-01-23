@@ -1,4 +1,3 @@
-
 auth:
   generateCerts: true
   username: elastic
@@ -36,8 +35,6 @@ kibana:
         certificateAuthorities: /usr/share/kibana/config/certs/tls.key
         verificationMode: certificate
 
-
-
 elasticsearch:
   extraEnvs:
     - name: ELASTIC_PASSWORD
@@ -59,9 +56,9 @@ elasticsearch:
       xpack.security.transport.ssl.truststore.path: /usr/share/elasticsearch/config/certs-gen/keystore.p12
       xpack.security.authc:
         anonymous:
-          username: anonymous 
+          username: anonymous
           roles: superuser
-          authz_exception: true 
+          authz_exception: true
   extraVolumes:
   - name: tls-certificates
     emptyDir: {}
