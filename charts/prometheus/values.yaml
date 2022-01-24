@@ -116,6 +116,8 @@ kube-prometheus-stack:
           regex: __tmp_pod_label_(.+)
   enabled: true
   grafana:
+    admin:
+      existingSecret: weaveworks-grafana-credentials
     ingress:
       path: /grafana/?(.*)
       enabled: true
