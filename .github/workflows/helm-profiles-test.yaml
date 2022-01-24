@@ -58,13 +58,16 @@ jobs:
               done
             done
           done
-
       - name: Run chart-testing (lint)
         run: ct lint --config ct.yaml
 
       - name: Create kind cluster
         if: steps.list-changed.outputs.kind-ci == 'true'
         uses: helm/kind-action@v1.2.0
+
+      - name: Create wego-system namespace (kind)
+        if: steps.list-changed.outputs.kind-ci == 'true'
+        run: kubectl create namespace wego-system
 
       - name: Run chart-testing on Kind (install)
         if: steps.list-changed.outputs.kind-ci == 'true'
@@ -86,6 +89,10 @@ jobs:
           INFRASTRUCTURE: "gke"
         run: |
           make create-cluster
+
+      - name: Create wego-system namespace (gke)
+        if: steps.list-changed.outputs.gke-ci == 'true'
+        run: kubectl create namespace wego-system
 
       - name: Run chart-testing on gke (install)
         if: steps.list-changed.outputs.gke-ci == 'true'

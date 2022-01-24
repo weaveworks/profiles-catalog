@@ -1,0 +1,35 @@
+{{- if .Values.auth.generateCerts -}}
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: elasticsearch-self-signed-issuer
+  namespace: {{ template "elk-stack.namespace" . }}
+  labels:
+    app: {{ template "elk-stack.name" . }}
+    chart: {{ template "elk-stack.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  selfSigned: {}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: elasticsearch-cert
+  namespace: {{ template "elk-stack.namespace" . }}
+  labels:
+    app: {{ template "elk-stack.name" . }}
+    chart: {{ template "elk-stack.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  commonName: weaveworks
+  isCA: true
+  issuerRef:
+    kind: Issuer
+    name: elasticsearch-self-signed-issuer
+  secretName: elasticsearch-self-signed-ca-cert
+  subject:
+    organizations:
+      - weaveworks
+{{ end }}
