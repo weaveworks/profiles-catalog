@@ -82,6 +82,7 @@ jobs:
         run: kubectl create namespace wego-system
 
       - name: Install layer-0 list (kind)
+        if: steps.list-changed.outputs.kind-ci == 'true'
         id: install-layer-0-kind
         run: |
           charts=$(cat /tmp/layer-0-ci)
@@ -115,6 +116,7 @@ jobs:
         run: kubectl create namespace wego-system
 
       - name: Install layer-0 list (gke)
+        if: steps.list-changed.outputs.gke-ci == 'true'
         id: install-layer-0-gke
         run: |
           charts=$(cat /tmp/layer-0-ci)
