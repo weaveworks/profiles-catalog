@@ -183,7 +183,7 @@ create-cluster:
 			--kubeconfig ${CONFDIR}/eks-cluster.kubeconfig
 	elif [ ${INFRASTRUCTURE} = "gke" ]; then\
 		echo "Creating gke cluster ..."
-		gcloud container clusters create ${GKE_CLUSTER_NAME} --region ${GCP_REGION} --project ${GCP_PROJECT_NAME}
+		gcloud container clusters create ${GKE_CLUSTER_NAME} --region ${GCP_REGION} --project ${GCP_PROJECT_NAME} --enable-autoprovisioning 
 	fi
 
 delete-cluster: 
