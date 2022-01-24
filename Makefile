@@ -29,7 +29,7 @@ EKS_K8S_VERSION="1.21"
 GKE_CLUSTER_NAME?="weave-profiles-test-cluster"
 GCP_REGION="us-west1"
 GCP_PROJECT_NAME="weave-profiles"
-GCP_NUM_NODES=5
+GCP_NUM_NODES=6
 
 PROFILE?=gitops-enterprise-mgmt-kind
 

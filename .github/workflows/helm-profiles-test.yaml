@@ -28,7 +28,9 @@ jobs:
         id: list-changed
         run: |
           changed=$(ct list-changed --config ct.yaml)
+          touch /tmp/layer-0-kind-ci
           touch /tmp/kind-ci
+          touch /tmp/layer-0-gke-ci
           touch /tmp/gke-ci
           for dir in $changed; do
             if [[ $(yq e '.annotations."weave.works/profile-ci"|contains("kind")' $dir/Chart.yaml) = "true" ]] && [[ $(yq e '.annotations."weave.works/layer"|contains("layer-0")' $dir/Chart.yaml) = "false" ]]; then
@@ -38,6 +40,14 @@ jobs:
             if [[ $(yq e '.annotations."weave.works/profile-ci"|contains("gke")' $dir/Chart.yaml) = "true" ]] && [[ $(yq e '.annotations."weave.works/layer"|contains("layer-0")' $dir/Chart.yaml) = "false" ]]; then
               echo $dir >> /tmp/gke-ci
               echo "::set-output name=gke-ci::true"
+            fi
+            if [[ $(yq e '.annotations."weave.works/profile-ci"|contains("kind")' $dir/Chart.yaml) = "true" ]] && [[ $(yq e '.annotations."weave.works/layer"|contains("layer-0")' $dir/Chart.yaml) = "true" ]]; then
+              echo $dir >> /tmp/layer-0-kind-ci
+              echo "::set-output name=layer-0-kind-ci::true"
+            fi
+            if [[ $(yq e '.annotations."weave.works/profile-ci"|contains("gke")' $dir/Chart.yaml) = "true" ]] && [[ $(yq e '.annotations."weave.works/layer"|contains("layer-0")' $dir/Chart.yaml) = "true" ]]; then
+              echo $dir >> /tmp/layer-0-gke-ci
+              echo "::set-output name=layer-0-gke-ci::true"
             fi
           done
           cat /tmp/kind-ci
@@ -81,6 +91,10 @@ jobs:
         if: steps.list-changed.outputs.kind-ci == 'true'
         run: kubectl create namespace wego-system
 
+      - name: Run chart-testing on Layer-0 Kind (install)
+        if: steps.list-changed.outputs.layer-0-kind-ci == 'true'
+        run: ct install --debug --config ct.yaml --charts $(awk '{print $1}' /tmp/layer-0-kind-ci | paste -s -d, -)
+
       - name: Install layer-0 list (kind)
         if: steps.list-changed.outputs.kind-ci == 'true'
         id: install-layer-0-kind
@@ -114,6 +128,10 @@ jobs:
       - name: Create wego-system namespace (gke)
         if: steps.list-changed.outputs.gke-ci == 'true'
         run: kubectl create namespace wego-system
+
+      - name: Run chart-testing on Layer-0 gke (install)
+        if: steps.list-changed.outputs.layer-0-gke-ci == 'true'
+        run: ct install --debug --config ct.yaml --charts $(awk '{print $1}' /tmp/layer-0-gke-ci | paste -s -d, -)
 
       - name: Install layer-0 list (gke)
         if: steps.list-changed.outputs.gke-ci == 'true'
