@@ -86,7 +86,7 @@ jobs:
 
       - name: Run chart-testing on Kind (install)
         if: steps.list-changed.outputs.kind-ci == 'true'
-        run: ct install --config ct.yaml --charts $(awk '{print $1}' /tmp/kind-ci | paste -s -d, -)
+        run: ct install --debug --config ct.yaml --charts $(awk '{print $1}' /tmp/kind-ci | paste -s -d, -)
 
       - name: Set up Google Cloud SDK
         if: steps.list-changed.outputs.gke-ci == 'true'
