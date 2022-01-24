@@ -29,9 +29,8 @@ EKS_K8S_VERSION="1.21"
 GKE_CLUSTER_NAME?="weave-profiles-test-cluster"
 GCP_REGION="us-west1"
 GCP_PROJECT_NAME="weave-profiles"
-GCP_MAX_CPU=32
-GCP_MAX_MEM=124
-
+GCP_NUM_NODES=1
+GCP_MACHINE_TYPE=e2-standard-4
 PROFILE?=gitops-enterprise-mgmt-kind
 
 TEST_REPO_USER?=weaveworks
@@ -184,8 +183,7 @@ create-cluster:
 			--kubeconfig ${CONFDIR}/eks-cluster.kubeconfig
 	elif [ ${INFRASTRUCTURE} = "gke" ]; then\
 		echo "Creating gke cluster ..."
-		gcloud container clusters create ${GKE_CLUSTER_NAME} --region ${GCP_REGION} --project ${GCP_PROJECT_NAME} --max-cpu ${GCP_MAX_CPU} --max-memory ${GCP_MAX_MEM} --enable-autoprovisioning --no-enable-autoprovisioning-autorepair --no-enable-autoprovisioning-autoupgrade
-
+		gcloud container clusters create ${GKE_CLUSTER_NAME} --region ${GCP_REGION} -m ${GCP_MACHINE_TYPE}  --num-nodes=${GCP_NUM_NODES} --project ${GCP_PROJECT_NAME}
 	fi
 
 delete-cluster: 
@@ -198,7 +196,7 @@ delete-cluster:
 		aws cloudformation delete-stack --region ${AWS_REGION} --stack-name eksctl-${EKS_CLUSTER_NAME}-cluster
 	elif [ ${INFRASTRUCTURE} = "gke" ]; then\
 		echo "Deleting gke cluster ..."
-		gcloud container clusters delete ${GKE_CLUSTER_NAME} --max-cpu --max-memory --region ${GCP_REGION} --project ${GCP_PROJECT_NAME} -q
+		gcloud container clusters delete ${GKE_CLUSTER_NAME} --region ${GCP_REGION} --project ${GCP_PROJECT_NAME} -q
 	fi
 
 save-kind-cluster-config:
