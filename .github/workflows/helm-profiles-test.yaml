@@ -31,11 +31,11 @@ jobs:
           touch /tmp/kind-ci
           touch /tmp/gke-ci
           for dir in $changed; do
-            if [[ $(yq e '.annotations."weave.works/profile-ci"|contains("kind")' $dir/Chart.yaml) = "true" ]]; then
+            if [[ $(yq e '.annotations."weave.works/profile-ci"|contains("kind")' $dir/Chart.yaml) = "true" ]] && [[ $(yq e '.annotations."weave.works/layer"|contains("layer-0")' $dir/Chart.yaml) = "false" ]]; then
               echo $dir >> /tmp/kind-ci
               echo "::set-output name=kind-ci::true"
             fi
-            if [[ $(yq e '.annotations."weave.works/profile-ci"|contains("gke")' $dir/Chart.yaml) = "true" ]]; then
+            if [[ $(yq e '.annotations."weave.works/profile-ci"|contains("gke")' $dir/Chart.yaml) = "true" ]] && [[ $(yq e '.annotations."weave.works/layer"|contains("layer-0")' $dir/Chart.yaml) = "false" ]]; then
               echo $dir >> /tmp/gke-ci
               echo "::set-output name=gke-ci::true"
             fi
