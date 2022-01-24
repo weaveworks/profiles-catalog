@@ -130,7 +130,7 @@ jobs:
         run: ct install --config ct.yaml --charts $(awk '{print $1}' /tmp/gke-ci | paste -s -d, -)
 
       - name: Delete gke cluster
-        if: steps.list-changed.outputs.gke-ci == 'true'
+        if: ${{ always() && steps.list-changed.outputs.gke-ci == 'true' }}
         shell: bash
         env:
           GKE_CLUSTER_NAME: profiles-${{ github.run_number }}

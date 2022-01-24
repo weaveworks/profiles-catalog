@@ -31,7 +31,7 @@ GCP_REGION="us-west1"
 GCP_PROJECT_NAME="weave-profiles"
 GCP_MAX_CPU=32
 GCP_MAX_MEMORY=128
-
+GCP_MIN_NODE=14
 PROFILE?=gitops-enterprise-mgmt-kind
 
 TEST_REPO_USER?=weaveworks
@@ -185,7 +185,7 @@ create-cluster:
 			--kubeconfig ${CONFDIR}/eks-cluster.kubeconfig
 	elif [ ${INFRASTRUCTURE} = "gke" ]; then\
 		echo "Creating gke cluster ..."
-		gcloud container clusters create ${GKE_CLUSTER_NAME} --region ${GCP_REGION} --max-cpu ${GCP_MAX_CPU} --max-memory ${GCP_MAX_MEMORY}  --project ${GCP_PROJECT_NAME} --enable-autoprovisioning 
+		gcloud container clusters create ${GKE_CLUSTER_NAME} --region ${GCP_REGION}  --project ${GCP_PROJECT_NAME} --min-nodes ${GCP_MIN_NODE}
 	fi
 
 delete-cluster: 
