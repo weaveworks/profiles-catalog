@@ -81,7 +81,7 @@ jobs:
         run: kubectl create namespace wego-system
 
       - name: Install layer-0 list
-        id: list-layer-0
+        id: install-layer-0-kind
         run: |
           charts=$(cat /tmp/layer-0-ci)
           for dir in $charts; do
