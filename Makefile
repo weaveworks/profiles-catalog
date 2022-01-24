@@ -185,7 +185,7 @@ create-cluster:
 			--kubeconfig ${CONFDIR}/eks-cluster.kubeconfig
 	elif [ ${INFRASTRUCTURE} = "gke" ]; then\
 		echo "Creating gke cluster ..."
-		gcloud container clusters create ${GKE_CLUSTER_NAME} --region ${GCP_REGION}  --project ${GCP_PROJECT_NAME} --num-nodes ${GCP_NUM_NODES}
+		gcloud container clusters create ${GKE_CLUSTER_NAME} --region ${GCP_REGION}  --project ${GCP_PROJECT_NAME} --num-nodes 14
 	fi
 
 delete-cluster: 
