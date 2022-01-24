@@ -93,7 +93,7 @@ jobs:
 
       - name: Run chart-testing on Layer-0 Kind (install)
         if: steps.list-changed.outputs.layer-0-kind-ci == 'true'
-        run: ct install --debug --config ct.yaml --charts $(awk '{print $1}' /tmp/layer-0-kind-ci | paste -s -d, -)
+        run: ct install --config ct.yaml --charts $(awk '{print $1}' /tmp/layer-0-kind-ci | paste -s -d, -)
 
       - name: Install layer-0 list (kind)
         if: steps.list-changed.outputs.kind-ci == 'true'
@@ -106,7 +106,7 @@ jobs:
           done
       - name: Run chart-testing on Kind (install)
         if: steps.list-changed.outputs.kind-ci == 'true'
-        run: ct install --debug --config ct.yaml --charts $(awk '{print $1}' /tmp/kind-ci | paste -s -d, -)
+        run: ct install --config ct.yaml --charts $(awk '{print $1}' /tmp/kind-ci | paste -s -d, -)
 
       - name: Set up Google Cloud SDK
         if: steps.list-changed.outputs.gke-ci == 'true' || steps.list-changed.outputs.layer-0-gke-ci == 'true'
@@ -131,7 +131,7 @@ jobs:
 
       - name: Run chart-testing on Layer-0 gke (install)
         if: steps.list-changed.outputs.layer-0-gke-ci == 'true'
-        run: ct install --debug --config ct.yaml --charts $(awk '{print $1}' /tmp/layer-0-gke-ci | paste -s -d, -)
+        run: ct install --config ct.yaml --charts $(awk '{print $1}' /tmp/layer-0-gke-ci | paste -s -d, -)
 
       - name: Install layer-0 list (gke)
         if: steps.list-changed.outputs.gke-ci == 'true'
