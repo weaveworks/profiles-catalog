@@ -51,7 +51,6 @@ jobs:
               echo $dir >> /tmp/layer-0-ci
             fi
           done
-          cat /tmp/layer-0-ci 
 
       - name: Add helm dependencies
         shell: bash
@@ -81,6 +80,10 @@ jobs:
         if: steps.list-changed.outputs.kind-ci == 'true'
         run: kubectl create namespace wego-system
 
+      - name: Run layer-0 chart-testing on kind (install)
+        if: steps.list-changed.outputs.kind-ci == 'true'
+        run: ct install --namespace wego-system --config ct.yaml --charts $(awk '{print $1}' /tmp/layer-0-ci | paste -s -d, -)
+
       - name: Run chart-testing on Kind (install)
         if: steps.list-changed.outputs.kind-ci == 'true'
         run: ct install --config ct.yaml --charts $(awk '{print $1}' /tmp/kind-ci | paste -s -d, -)
@@ -105,6 +108,10 @@ jobs:
       - name: Create wego-system namespace (gke)
         if: steps.list-changed.outputs.gke-ci == 'true'
         run: kubectl create namespace wego-system
+
+      - name: Run layer-0 chart-testing on gke (install)
+        if: steps.list-changed.outputs.gke-ci == 'true'
+        run: ct install --namespace wego-system --config ct.yaml --charts $(awk '{print $1}' /tmp/layer-0-ci | paste -s -d, -)
 
       - name: Run chart-testing on gke (install)
         if: steps.list-changed.outputs.gke-ci == 'true'
