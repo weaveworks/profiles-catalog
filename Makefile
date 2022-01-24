@@ -29,7 +29,7 @@ EKS_K8S_VERSION="1.21"
 GKE_CLUSTER_NAME?="weave-profiles-test-cluster"
 GCP_REGION="us-west1"
 GCP_PROJECT_NAME="weave-profiles"
-GCP_NUM_NODES=6
+GCP_NUM_NODES=1
 
 PROFILE?=gitops-enterprise-mgmt-kind
 
@@ -183,7 +183,8 @@ create-cluster:
 			--kubeconfig ${CONFDIR}/eks-cluster.kubeconfig
 	elif [ ${INFRASTRUCTURE} = "gke" ]; then\
 		echo "Creating gke cluster ..."
-		gcloud container clusters create ${GKE_CLUSTER_NAME} --region ${GCP_REGION} --num-nodes=${GCP_NUM_NODES} --project ${GCP_PROJECT_NAME}
+		gcloud container clusters create ${GKE_CLUSTER_NAME} --region ${GCP_REGION} --project ${GCP_PROJECT_NAME} --enable-autoprovisioning --no-enable-autoprovisioning-autorepair --no-enable-autoprovisioning-autoupgrade
+
 	fi
 
 delete-cluster: 
