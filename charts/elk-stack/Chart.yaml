@@ -43,4 +43,4 @@ annotations:
     - name: Upstream Project
       url: https://github.com/elastic/helm-charts
   "weave.works/profile-ci": |
-    - "kind"
+    - "gke"

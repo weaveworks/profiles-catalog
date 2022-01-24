@@ -40,6 +40,7 @@ jobs:
               echo "::set-output name=gke-ci::true"
             fi
           done
+          cat /tmp/kind-ci
 
       - name: Compile layer-0 list
         id: list-layer-0
@@ -80,13 +81,13 @@ jobs:
         if: steps.list-changed.outputs.kind-ci == 'true'
         run: kubectl create namespace wego-system
 
-      - name: Install layer-0 list
+      - name: Install layer-0 list (kind)
         id: install-layer-0-kind
         run: |
           charts=$(cat /tmp/layer-0-ci)
           for dir in $charts; do
             release=${dir##*/}
-            helm install release $dir
+            helm install -n wego-system $release $dir
           done
       - name: Run chart-testing on Kind (install)
         if: steps.list-changed.outputs.kind-ci == 'true'
@@ -112,6 +113,15 @@ jobs:
       - name: Create wego-system namespace (gke)
         if: steps.list-changed.outputs.gke-ci == 'true'
         run: kubectl create namespace wego-system
+
+      - name: Install layer-0 list (gke)
+        id: install-layer-0-gke
+        run: |
+          charts=$(cat /tmp/layer-0-ci)
+          for dir in $charts; do
+            release=${dir##*/}
+            helm install -n wego-system $release $dir
+          done
 
       - name: Run chart-testing on gke (install)
         if: steps.list-changed.outputs.gke-ci == 'true'
