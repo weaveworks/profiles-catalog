@@ -86,7 +86,7 @@ jobs:
           charts=$(cat /tmp/layer-0-ci)
           for dir in $charts; do
             release=${dir##*/}
-            helm install $dir release
+            helm install release $dir
           done
       - name: Run chart-testing on Kind (install)
         if: steps.list-changed.outputs.kind-ci == 'true'
