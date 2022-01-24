@@ -112,7 +112,88 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/dex-0.0.8/dex-0.0.8.tgz
     version: 0.0.8
+  elk-stack:
+  - annotations:
+      weave.works/category: Deployment
+      weave.works/layer: layer-2
+      weave.works/links: |
+        - name: Chart Sources
+          url:  https://helm.elastic.co
+        - name: Upstream Project
+          url: https://github.com/elastic/helm-charts
+      weave.works/profile: elk-stack
+    apiVersion: v2
+    created: "2022-01-24T16:04:06.4494841Z"
+    dependencies:
+    - name: elasticsearch
+      repository: https://helm.elastic.co
+      version: 7.16.3
+    - name: kibana
+      repository: https://helm.elastic.co
+      version: 7.16.3
+    - name: metricbeat
+      repository: https://helm.elastic.co
+      version: 7.16.3
+    - name: filebeat
+      repository: https://helm.elastic.co
+      version: 7.16.3
+    description: A Weaveworks Helm chart for the ELK Stack Profile
+    digest: 41648571a2366dd8119e3d86325d8a88d177c1debe37b9ed5d08d1d89f7235c4
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://static-www.elastic.co/v3/assets/bltefdd0b53724fa2ce/blt74acb493aaf69084/5ea8c8dbf5880355558334cd/brand-elastic-stack-220x130.svg
+    keywords:
+    - network
+    - canary
+    - deployment
+    - elk-stack
+    - elastic
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: elk-stack
+    sources:
+    - https://Helm.elastic.co
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/elk-stack-0.0.1/elk-stack-0.0.1.tgz
+    version: 0.0.1
   flagger:
+  - annotations:
+      weave.works/category: Deployment
+      weave.works/layer: layer-2
+      weave.works/links: |
+        - name: Chart Sources
+          url:  https://flagger.app
+        - name: Upstream Project
+          url: https://github.com/fluxcd/flagger/
+      weave.works/profile: linkerd2
+    apiVersion: v2
+    created: "2022-01-24T16:04:06.752543083Z"
+    dependencies:
+    - name: flagger
+      repository: https://flagger.app
+      version: 1.16.1
+    description: A Weaveworks Helm chart for the Flagger Profile
+    digest: 11f5cce288f7f20e62de58a148cbddf232aa8d07d2207e81b33f0f63852ce200
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://linkerd.io/images/logo-only-200h.png
+    keywords:
+    - network
+    - canary
+    - deployment
+    - flagger
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: flagger
+    sources:
+    - https://flagger.app
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/flagger-1.16.2/flagger-1.16.2.tgz
+    version: 1.16.2
   - annotations:
       weave.works/category: Deployment
       weave.works/layer: layer-2
@@ -1222,4 +1303,4 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/tracing-0.0.1/tracing-0.0.1.tgz
     version: 0.0.1
-generated: "2022-01-06T18:42:48.035867402Z"
+generated: "2022-01-24T16:04:06.752596983Z"
