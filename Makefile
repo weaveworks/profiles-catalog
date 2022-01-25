@@ -29,7 +29,8 @@ EKS_K8S_VERSION="1.21"
 GKE_CLUSTER_NAME?="weave-profiles-test-cluster"
 GCP_REGION="us-west1"
 GCP_PROJECT_NAME="weave-profiles"
-
+GCP_NUM_NODES=1
+GCP_MACHINE_TYPE=e2-standard-4
 PROFILE?=gitops-enterprise-mgmt-kind
 
 TEST_REPO_USER?=weaveworks
@@ -64,7 +65,6 @@ deploy-profile-kind: check-requirements check-kind create-cluster check-config-d
 deploy-profile-gke: check-requirements check-gcloud create-cluster get-gke-kubeconfig install-profile-and-sync delete-cluster
 
 PROFILE_VERSION_ANNOTATION="profiles.weave.works/version"
-PROFILE_FILES := $(shell ls */profile.yaml)
 
 ##@ This really needs to be taken out of make into bash for the long term.
 ##@ It seems like this is forcing make to do something it was not designed for.
@@ -183,7 +183,7 @@ create-cluster:
 			--kubeconfig ${CONFDIR}/eks-cluster.kubeconfig
 	elif [ ${INFRASTRUCTURE} = "gke" ]; then\
 		echo "Creating gke cluster ..."
-		gcloud container clusters create ${GKE_CLUSTER_NAME} --region ${GCP_REGION} --project ${GCP_PROJECT_NAME}
+		gcloud container clusters create ${GKE_CLUSTER_NAME} --region ${GCP_REGION} -m ${GCP_MACHINE_TYPE}  --num-nodes=${GCP_NUM_NODES} --project ${GCP_PROJECT_NAME}
 	fi
 
 delete-cluster: 

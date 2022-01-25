@@ -18,7 +18,7 @@ kibana:
           name: weaveworks-elasticsearch-credentials
           key: password
   ingress:
-    enabled: false
+    enabled: true
     className: "nginx"
     pathtype: ImplementationSpecific
     hosts:

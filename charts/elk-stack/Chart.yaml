@@ -3,7 +3,7 @@ name: elk-stack
 icon: https://static-www.elastic.co/v3/assets/bltefdd0b53724fa2ce/blt74acb493aaf69084/5ea8c8dbf5880355558334cd/brand-elastic-stack-220x130.svg
 description: A Weaveworks Helm chart for the ELK Stack Profile
 type: application
-version: 0.0.1
+version: 0.0.2
 dependencies:
 - name: elasticsearch
   version: "7.16.3"
@@ -42,3 +42,5 @@ annotations:
       url:  https://helm.elastic.co
     - name: Upstream Project
       url: https://github.com/elastic/helm-charts
+  "weave.works/profile-ci": |
+    - "gke"
