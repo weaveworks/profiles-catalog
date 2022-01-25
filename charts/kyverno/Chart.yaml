@@ -3,7 +3,7 @@ name: kyverno
 icon: https://repository-images.githubusercontent.com/169108858/35923880-823a-11e9-9089-0c9c102f9e6f
 description: A Weaveworks Helm chart for the Kyverno Profile
 type: application
-version: 0.0.1
+version: 0.0.2
 dependencies:
 - name: kyverno
   version: "2.1.3"
@@ -26,9 +26,12 @@ maintainers:
 annotations:
   "weave.works/profile": kyverno
   "weave.works/category": Deployment
-  "weave.works/layer": layer-1
+  "weave.works/layer": layer-0
   "weave.works/links": |
     - name: Chart Sources
       url:  https://kyverno.github.io/kyverno/
     - name: Upstream Project
       url: https://github.com/kyverno/kyverno
+  "weave.works/profile-ci": |
+    - "gke"
+    - "kind"
