@@ -1,1 +1,1 @@
-The External Secrets Operator has been installed.
+The External Secrets Operator Configuration has been installed.
