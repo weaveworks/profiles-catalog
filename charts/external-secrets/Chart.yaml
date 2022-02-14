@@ -1,0 +1,39 @@
+apiVersion: v2
+name: external-secrets
+icon: https://raw.githubusercontent.com/external-secrets/external-secrets/main/assets/round_eso_logo.png
+description: A Weaveworks Helm chart for the External Secrets Operator
+type: application
+version: 0.0.1
+dependencies:
+- name: external-secrets
+  version: "0.4.1"
+  repository: "https://charts.external-secrets.io"
+kubeVersion: ">=1.16.0-0"
+home: https://github.com/weaveworks/profiles-catalog
+sources:
+- https://charts.external-secrets.io
+
+keywords:
+- external-secrets
+- secrets-manager
+- parameter-store
+- azure-key-vault
+- vault
+
+maintainers:
+  - name: Weaveworks
+    email: support@weave.works
+
+annotations:
+  "weave.works/profile": external-secrets
+  "weave.works/category": Secrets Management
+  "weave.works/layer": layer-0
+  "weave.works/operator": "true"
+  "weave.works/links": |
+    - name: Chart Sources
+      url: https://charts.external-secrets.io
+    - name: Upstream Project
+      url: https://github.com/external-secrets/external-secrets
+  "weave.works/profile-ci": |
+    - "gke"
+    - "kind"
