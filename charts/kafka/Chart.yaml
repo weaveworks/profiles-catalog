@@ -3,7 +3,7 @@ name: kafka
 icon: https://bitnami.com/assets/stacks/kafka/img/kafka-stack-220x234.png
 description: A Weaveworks Helm chart for Bitnami Kafka
 type: application
-version: 0.0.1
+version: 0.0.2
 kubeVersion: ">=1.16.0-0"
 home: https://github.com/weaveworks/profiles-catalog
 sources:

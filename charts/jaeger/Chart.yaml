@@ -3,7 +3,7 @@ name: jaeger
 icon: https://www.jaegertracing.io/img/jaeger-icon-reverse-color.svg
 description: A Weaveworks Helm chart for tracing
 type: application
-version: 0.0.1
+version: 0.0.2
 dependencies:
   - name: jaeger-operator
     version: "2.26.0"

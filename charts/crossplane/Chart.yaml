@@ -3,7 +3,7 @@ name: crossplane
 icon: https://crossplane.io/images/favicon_192x192.png
 description: A Weaveworks Helm chart for the Crossplane Profile
 type: application
-version: 0.0.2
+version: 0.0.3
 dependencies:
   - name: crossplane
     version: "~1.2.5"
