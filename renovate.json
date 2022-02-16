@@ -6,7 +6,7 @@
     "gitAuthor": "Renovate Bot <bot@renovateapp.com>",
     "onboarding": false,
     "platform": "github",
-    "repositories": ["steve-fraser/profiles-catalog"],
+    "repositories": ["weaveworks/profiles-catalog"],
     "extends": [
       "config:base",
       ":disableDependencyDashboard"
