@@ -1,11 +1,12 @@
 {
-    "autodiscover": "true",
+    "autodiscover": "false",
     "branchPrefix": "test-renovate/",
     "dryRun": true,
     "username": "renovate-release",
     "gitAuthor": "Renovate Bot <bot@renovateapp.com>",
     "onboarding": false,
     "platform": "github",
+    "repositories": ["weaveworks/profiles-catalog"],
     "extends": [
       "config:base",
       ":disableDependencyDashboard"
