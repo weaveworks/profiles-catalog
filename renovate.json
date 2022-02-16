@@ -1,5 +1,5 @@
 {
-    "autodiscover": "false",
+    "autodiscover": "true",
     "branchPrefix": "test-renovate/",
     "dryRun": true,
     "username": "renovate-release",
