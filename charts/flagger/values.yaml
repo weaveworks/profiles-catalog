@@ -1,5 +1,7 @@
 flagger:
   metricsServer: http://weaveworks-prometheus-prometheus:9090
+
+#If enabled please configure skipCRD in the HelmRelease yaml
   crd:
     create: false
   meshProvider: linkerd
