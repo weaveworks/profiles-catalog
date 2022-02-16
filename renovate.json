@@ -1,0 +1,19 @@
+{
+    "autodiscover": "false",
+    "branchPrefix": "test-renovate/",
+    "dryRun": true,
+    "username": "renovate-release",
+    "gitAuthor": "Renovate Bot <bot@renovateapp.com>",
+    "onboarding": false,
+    "platform": "github",
+    "repositories": ["steve-fraser/profiles-catalog"],
+    "extends": [
+      "config:base",
+      ":disableDependencyDashboard"
+    ],
+    "labels": [
+      "dependencies"
+    ],
+    "assigneesFromCodeOwners": false
+  }
+  
