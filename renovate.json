@@ -1,5 +1,5 @@
 {
-    "autodiscoverFilter": "charts/*"
+    "autodiscoverFilter": "charts/*",
     "branchPrefix": "test-renovate/",
     "dryRun": true,
     "username": "renovate-release",
