@@ -10,9 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.0.0
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - name: Self-hosted Renovate
         uses: renovatebot/github-action@v31.81.2
         with:
-          configurationFile: ../renovate.json
+          configurationFile: renovate.json
           token:  ${{secrets.WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
