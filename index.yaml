@@ -255,6 +255,44 @@ entries:
           url:  https://flagger.app
         - name: Upstream Project
           url: https://github.com/fluxcd/flagger/
+      weave.works/profile: flagger
+      weave.works/profile-ci: |
+        - "gke"
+        - "kind"
+    apiVersion: v2
+    created: "2022-02-16T19:22:30.694582788Z"
+    dependencies:
+    - name: flagger
+      repository: https://flagger.app
+      version: 1.18.0
+    description: A Weaveworks Helm chart for the Flagger Profile
+    digest: 77cf228d8340ad2d4dd5b2994290cbcd16c166c93d54362538fc829c02e2871e
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://linkerd.io/images/logo-only-200h.png
+    keywords:
+    - network
+    - canary
+    - deployment
+    - flagger
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: flagger
+    sources:
+    - https://flagger.app
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/flagger-1.18.0/flagger-1.18.0.tgz
+    version: 1.18.0
+  - annotations:
+      weave.works/category: Deployment
+      weave.works/layer: layer-2
+      weave.works/links: |
+        - name: Chart Sources
+          url:  https://flagger.app
+        - name: Upstream Project
+          url: https://github.com/fluxcd/flagger/
       weave.works/profile: linkerd2
     apiVersion: v2
     created: "2022-01-24T16:04:06.752543083Z"
@@ -1578,4 +1616,4 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/tracing-0.0.1/tracing-0.0.1.tgz
     version: 0.0.1
-generated: "2022-02-14T12:39:33.089228799Z"
+generated: "2022-02-16T19:22:30.694700719Z"
