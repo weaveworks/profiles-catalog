@@ -14,5 +14,5 @@ jobs:
       - name: Self-hosted Renovate
         uses: renovatebot/github-action@v31.81.2
         with:
-          configurationFile: renovate.json
+          configurationFile: ./renovate.json
           token:  ${{secrets.WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
