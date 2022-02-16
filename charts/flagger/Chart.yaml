@@ -3,10 +3,10 @@ name: flagger
 icon: https://linkerd.io/images/logo-only-200h.png
 description: A Weaveworks Helm chart for the Flagger Profile
 type: application
-version: 1.16.2
+version: 1.18.0
 dependencies:
 - name: flagger
-  version: "1.16.1"
+  version: "1.18.0"
   repository: "https://flagger.app"
 kubeVersion: ">=1.16.0-0"
 home: https://github.com/weaveworks/profiles-catalog
@@ -24,7 +24,7 @@ maintainers:
     email: support@weave.works
 
 annotations:
-  "weave.works/profile": linkerd2
+  "weave.works/profile": flagger
   "weave.works/category": Deployment
   "weave.works/layer": layer-2
   "weave.works/links": |
@@ -32,3 +32,6 @@ annotations:
       url:  https://flagger.app
     - name: Upstream Project
       url: https://github.com/fluxcd/flagger/
+  "weave.works/profile-ci": |
+    - "gke"
+    - "kind"

@@ -1,5 +1,3 @@
 flagger:
   metricsServer: http://weaveworks-prometheus-prometheus:9090
-  crd:
-    create: true
   meshProvider: linkerd
