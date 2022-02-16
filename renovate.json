@@ -12,6 +12,76 @@
     "labels": [
       "dependencies"
     ],
-    "assigneesFromCodeOwners": true
+    "assigneesFromCodeOwners": false,
+    "regexManagers": [
+      {
+        "description": "Update renovate docker image references",
+        "fileMatch": ["^charts\\/renovate\\/Chart\\.yaml$"],
+        "matchStrings": [
+          "appVersion: '(?<currentValue>.*?)'\\s+",
+          "version: '(?<currentValue>.*?)'\\s+"
+        ],
+        "depNameTemplate": "renovate/renovate",
+        "datasourceTemplate": "docker"
+      },
+      {
+        "description": "Update docker image references",
+        "fileMatch": ["^charts\\/renovate\\/Chart\\.yaml$"],
+        "matchStrings": ["image: (?<depName>.*?):(?<currentValue>.*?)\\s+"],
+        "datasourceTemplate": "docker"
+      },
+      {
+        "description": "Update renovate docker image references",
+        "fileMatch": ["^charts\\/renovate\\/README\\.md$"],
+        "matchStrings": [
+          "\\|\\s+image.tag\\s+\\|\\s+string\\s+\\|\\s+`\"(?<currentValue>.*?)\"`\\s+\\|\\s+\\|\\s+",
+          "(:\\s|-)(?<currentValue>\\d+\\.\\d+\\.\\d+(?:\\+\\d+)?)"
+        ],
+        "depNameTemplate": "renovate/renovate",
+        "datasourceTemplate": "docker"
+      },
+      {
+        "description": "Update dind docker image references",
+        "fileMatch": ["^charts\\/renovate\\/README\\.md$"],
+        "matchStrings": [
+          "\\|\\s+dind.image.repository\\s+\\|\\s+string\\s+\\|\\s+`\"(?<depName>.*?)\"`\\s+\\|\\s+\\|\\s+\\|\\s+dind.image.tag\\s+\\|\\s+string\\s+\\|\\s+`\"(?<currentValue>.*?)\"`\\s+\\|\\s+\\|\\s+"
+        ],
+        "datasourceTemplate": "docker"
+      },
+      {
+        "description": "Update kindest kubernetes references",
+        "fileMatch": ["^\\.github\\/workflows\\/[^/]+\\.ya?ml$"],
+        "matchStrings": [
+          "\\s+- (?<currentValue>v\\d+\\.\\d+\\.\\d+) # renovate: kindest\\s+"
+        ],
+        "depNameTemplate": "kindest/node",
+        "datasourceTemplate": "docker"
+      }
+    ],
+    "packageRules": [
+      {
+        "matchFiles": ["charts/renovate/README.md"],
+        "schedule": null,
+        "semanticCommitType": "chore",
+        "semanticCommitScope": "deps",
+        "additionalBranchPrefix": ""
+      },
+      {
+        "description": "Separate minor and patch updates for kindest",
+        "matchPackageNames": ["kindest/node"],
+        "separateMinorPatch": true
+      },
+      {
+        "description": "Require approval for kindest major and minor updates",
+        "matchPackageNames": ["kindest/node"],
+        "matchUpdateTypes": ["major", "minor"],
+        "dependencyDashboardApproval": true
+      },
+      {
+        "description": "Trim leading v from version for helm-docs",
+        "matchPackageNames": ["helm-docs"],
+        "extractVersion": "^v(?<version>\\d+\\.\\d+\\.\\d+)$"
+      }
+    ]
   }
   
