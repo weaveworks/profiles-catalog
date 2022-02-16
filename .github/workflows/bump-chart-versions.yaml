@@ -1,9 +1,5 @@
 name: Bump Chart Versions CI
 
-# on:
-#   schedule:
-#     - cron: '0 0 * * 6'
-#   workflow_dispatch:
 on:
   push:
     branches:
