@@ -1,9 +1,9 @@
 name: Bump Chart Versions CI
 
 on:
-  push:
-    branches:
-      - dep-bump-automation
+  schedule:
+    - cron: '0 0 * * 6'
+  workflow_dispatch:
 
 jobs:
   renovate:
