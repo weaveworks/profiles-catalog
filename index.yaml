@@ -161,6 +161,42 @@ entries:
         - "gke"
         - "kind"
     apiVersion: v2
+    created: "2022-02-17T16:55:08.01192702Z"
+    dependencies:
+    - condition: dex.enabled
+      name: dex
+      repository: https://charts.dexidp.io
+      version: 0.6.5
+    description: A Weaveworks Helm chart for OpenID Connect (OIDC)
+    digest: 793df4c97d0b08a6fd99f4faa29c8381bf60d3939faa115400fe9b050a7a6c53
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://dexidp.io/img/logos/dex-horizontal-color.png
+    keywords:
+    - dex
+    - oidc
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: dex
+    sources:
+    - https://github.com/dexidp/helm-charts
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/dex-0.0.10-0/dex-0.0.10-0.tgz
+    version: 0.0.10-0
+  - annotations:
+      weave.works/links: |
+        - name: Chart Sources
+          url: https://github.com/dexidp/helm-charts
+        - name: Upstream Project
+          url: https://github.com/dexidp/dex
+      weave.works/operator: "true"
+      weave.works/profile: dex
+      weave.works/profile-ci: |
+        - "gke"
+        - "kind"
+    apiVersion: v2
     created: "2022-02-17T14:57:41.509161461Z"
     dependencies:
     - condition: dex.enabled
@@ -2332,4 +2368,4 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/tracing-0.0.1/tracing-0.0.1.tgz
     version: 0.0.1
-generated: "2022-02-17T16:16:15.924081972Z"
+generated: "2022-02-17T16:55:08.01203371Z"
