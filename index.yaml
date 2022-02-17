@@ -234,6 +234,53 @@ entries:
       weave.works/profile-ci: |
         - "gke"
     apiVersion: v2
+    created: "2022-02-17T16:16:15.923863774Z"
+    dependencies:
+    - name: elasticsearch
+      repository: https://helm.elastic.co
+      version: 7.16.3
+    - name: kibana
+      repository: https://helm.elastic.co
+      version: 7.16.3
+    - name: metricbeat
+      repository: https://helm.elastic.co
+      version: 7.16.3
+    - name: filebeat
+      repository: https://helm.elastic.co
+      version: 7.16.3
+    description: A Weaveworks Helm chart for the ELK Stack Profile
+    digest: de8c7f89343bc2a2cdeffbf5b09fa44773657fb3285288c32fe7b007950dd429
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://static-www.elastic.co/v3/assets/bltefdd0b53724fa2ce/blt74acb493aaf69084/5ea8c8dbf5880355558334cd/brand-elastic-stack-220x130.svg
+    keywords:
+    - network
+    - canary
+    - deployment
+    - elk-stack
+    - elastic
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: elk-stack
+    sources:
+    - https://Helm.elastic.co
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/elk-stack-0.0.4-0/elk-stack-0.0.4-0.tgz
+    version: 0.0.4-0
+  - annotations:
+      weave.works/category: Deployment
+      weave.works/layer: layer-2
+      weave.works/links: |
+        - name: Chart Sources
+          url:  https://helm.elastic.co
+        - name: Upstream Project
+          url: https://github.com/elastic/helm-charts
+      weave.works/profile: elk-stack
+      weave.works/profile-ci: |
+        - "gke"
+    apiVersion: v2
     created: "2022-02-17T14:57:41.712735191Z"
     dependencies:
     - name: elasticsearch
@@ -2285,4 +2332,4 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/tracing-0.0.1/tracing-0.0.1.tgz
     version: 0.0.1
-generated: "2022-02-17T14:57:44.079347837Z"
+generated: "2022-02-17T16:16:15.924081972Z"
