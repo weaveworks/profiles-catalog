@@ -6,7 +6,7 @@ type: application
 version: 0.0.12-0
 dependencies:
 - name: linkerd2
-  version: "2.11.0"
+  version: "2.11.1"
   repository: "https://helm.linkerd.io/stable"
 kubeVersion: ">=1.16.0-0"
 home: https://github.com/weaveworks/profiles-catalog
