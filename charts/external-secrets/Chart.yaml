@@ -3,7 +3,7 @@ name: external-secrets
 icon: https://raw.githubusercontent.com/external-secrets/external-secrets/main/assets/round_eso_logo.png
 description: A Weaveworks Helm chart for the External Secrets Operator
 type: application
-version: 0.0.2-0
+version: 0.0.2-1
 dependencies:
 - name: external-secrets
   version: "0.4.1"
