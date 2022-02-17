@@ -179,6 +179,7 @@ jobs:
             charts=$(cat /tmp/layer-0-ci)
             for dir in $charts; do
               release=${dir##*/}
+              helm dependency build  $dir
               helm install -n wego-system $release $dir
             done
 
