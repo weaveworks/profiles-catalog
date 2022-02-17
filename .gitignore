@@ -2,3 +2,5 @@
 .repo
 .repo/**
 .DS_Store
+*.tgz
+*.tar
