@@ -6,7 +6,7 @@ type: application
 version: 0.0.3-0
 dependencies:
   - name: crossplane
-    version: "~1.2.5"
+    version: "~1.6.0"
     repository: "https://charts.crossplane.io/stable"
 kubeVersion: ">=1.16.0-0"
 home: https://github.com/weaveworks/profiles-catalog
