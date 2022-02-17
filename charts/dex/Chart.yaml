@@ -31,6 +31,6 @@ annotations:
 
 dependencies:
 - name: dex
-  version: "0.6.3"
+  version: "0.6.5"
   repository: "https://charts.dexidp.io"
   condition: dex.enabled
