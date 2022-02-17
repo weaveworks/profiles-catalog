@@ -3,7 +3,7 @@ name: secrets-store-config
 icon: https://raw.githubusercontent.com/external-secrets/external-secrets/main/assets/round_eso_logo.png
 description: A Weaveworks Helm chart to configure secret stores and secrets using External Secrets Operator
 type: application
-version: 0.0.1
+version: 0.0.1-0
 kubeVersion: ">=1.16.0-0"
 home: https://github.com/weaveworks/profiles-catalog
 
