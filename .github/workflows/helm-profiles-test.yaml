@@ -24,44 +24,6 @@ jobs:
       - name: Set up chart-testing
         uses: helm/chart-testing-action@v2.1.0
 
-      - name: Run chart-testing (list-changed)
-        id: list-changed
-        run: |
-          changed=$(ct list-changed --config ct.yaml)
-          touch /tmp/layer-0-kind-ci
-          touch /tmp/kind-ci
-          touch /tmp/layer-0-gke-ci
-          touch /tmp/gke-ci
-          for dir in $changed; do
-            if [[ $(yq e '.annotations."weave.works/profile-ci"|contains("kind")' $dir/Chart.yaml) = "true" ]] && [[ $(yq e '.annotations."weave.works/layer"|contains("layer-0")' $dir/Chart.yaml) = "false" ]]; then
-              echo $dir >> /tmp/kind-ci
-              echo "::set-output name=kind-ci::true"
-            fi
-            if [[ $(yq e '.annotations."weave.works/profile-ci"|contains("gke")' $dir/Chart.yaml) = "true" ]] && [[ $(yq e '.annotations."weave.works/layer"|contains("layer-0")' $dir/Chart.yaml) = "false" ]]; then
-              echo $dir >> /tmp/gke-ci
-              echo "::set-output name=gke-ci::true"
-            fi
-            if [[ $(yq e '.annotations."weave.works/profile-ci"|contains("kind")' $dir/Chart.yaml) = "true" ]] && [[ $(yq e '.annotations."weave.works/layer"|contains("layer-0")' $dir/Chart.yaml) = "true" ]]; then
-              echo $dir >> /tmp/layer-0-kind-ci
-              echo "::set-output name=layer-0-kind-ci::true"
-            fi
-            if [[ $(yq e '.annotations."weave.works/profile-ci"|contains("gke")' $dir/Chart.yaml) = "true" ]] && [[ $(yq e '.annotations."weave.works/layer"|contains("layer-0")' $dir/Chart.yaml) = "true" ]]; then
-              echo $dir >> /tmp/layer-0-gke-ci
-              echo "::set-output name=layer-0-gke-ci::true"
-            fi
-          done
-          cat /tmp/kind-ci
-
-      - name: Compile layer-0 list
-        id: list-layer-0
-        run: |
-          charts=$(ls -d charts/*)
-          touch /tmp/layer-0-ci
-          for dir in $charts; do
-            if [[ $(yq e '.annotations."weave.works/layer"|contains("layer-0")' $dir/Chart.yaml) = "true" ]]; then
-              echo $dir >> /tmp/layer-0-ci
-            fi
-          done
 
       - name: Add helm dependencies
         shell: bash
@@ -178,6 +140,7 @@ jobs:
             charts=$(cat /tmp/layer-0-ci)
             for dir in $charts; do
               release=${dir##*/}
+              helm dependency build  $dir
               helm install -n wego-system $release $dir
             done
         - name: Run chart-testing on Kind (install)
@@ -216,6 +179,7 @@ jobs:
             charts=$(cat /tmp/layer-0-ci)
             for dir in $charts; do
               release=${dir##*/}
+              helm dependency build  $dir
               helm install -n wego-system $release $dir
             done
 
