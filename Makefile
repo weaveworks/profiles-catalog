@@ -104,7 +104,7 @@ remove-all-installed-profiles:
 
 
 ##@ Requirements
-check-requirements: check-gitops check-clusterctl check-pctl
+check-requirements: check-gitops check-clusterctl
 
 
 check-gitops:
@@ -121,12 +121,6 @@ check-clusterctl:
 	sudo mv ./clusterctl /usr/local/bin/clusterctl && \
 	clusterctl version)
 
-check-pctl:
-	@which pctl >/dev/null 2>&1 || (echo "pctl binary not found, installing ..." && \
-	wget "https://github.com/weaveworks/pctl/releases/download/v${PCTL_VERSION}/pctl_${OS}_amd64.tar.gz" && \
-	tar xvfz pctl_${OS}_amd64.tar.gz && \
-	sudo mv ./pctl /usr/local/bin/pctl && \
-	pctl --version )
 
 check-kind:
 	@which kind  >/dev/null 2>&1 || (echo "kind binary not found, installing ..." && \
@@ -330,10 +324,6 @@ test-single-profile:
 ##@ Update Helm chart versions for profile references
 update-chart-versions: check-repo-dir clone-profiles-repo bump-versions commit-versions
 
-bump-versions:
-	@echo "Bumping helm chart versions ..."
-	cd ${REPODIR} && bash .bin/update-chart-versions.sh ${PROFILE_VERSION_ANNOTATION}
-
 clone-profiles-repo:
 	@echo "Clone profiles repo ..."
 	git clone -b main git@github.com:weaveworks/profiles-catalog.git ${REPODIR} 
@@ -341,3 +331,8 @@ clone-profiles-repo:
 commit-versions:
 	@echo "Committing version changes to repo"
 	cd ${REPODIR} && git add . && git checkout -b bump-versions-${BUILD_NUM} && git commit -m "bump versions" && git push --set-upstream origin bump-versions-${BUILD_NUM}
+
+
+layers-sort:
+	@echo "Bumping helm chart versions ..."
+	cd ${REPODIR} && bash .bin/layers-sort.sh

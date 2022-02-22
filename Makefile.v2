@@ -1,0 +1,12 @@
+SHELL: /bin/bash
+.ONESHELL:
+
+
+OS := $(shell uname | tr '[:upper:]' '[:lower:]')
+CONFDIR="${PWD}/.conf"
+BINDIR="${PWD}/.bin"
+REPODIR="${PWD}/charts"
+
+sort-layers:
+	@echo "Sorting charts by layers"
+	cd ${REPODIR} && bash ../.bin/layers-sort.sh
