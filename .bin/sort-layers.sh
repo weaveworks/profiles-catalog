@@ -38,9 +38,13 @@ do
       top=$(cat /tmp/$platform-top-layer-changed)
       echo $dir >> /tmp/$layer-$platform-changed
       echo "::set-output name=$platform-ci::true"
-      if [[ $top = "" || "$top" < "$layer" ]]; then
-          echo "$layer is lexicographically greater then $top."
-          echo $layer > /tmp/$platform-top-layer-changed
+
+      # checks if the layer is not set and skips if it is not
+      if [[ "$layer" != "null" ]]; then
+        if [[ $top = "" || "$top" < "$layer" ]]; then
+            echo "$layer is lexicographically greater then $top."
+            echo $layer > /tmp/$platform-top-layer-changed
+        fi
       fi
     fi
   done
