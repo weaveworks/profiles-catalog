@@ -8,12 +8,10 @@ BINDIR="${PWD}/.bin"
 REPODIR="${PWD}/charts"
 INFRASTRUCTURE?="kind"
 
+test:
+	@echo "Testing platform"
+	bash .bin/test-platform.sh
 
 sort-layers:
 	@echo "Sorting charts by layers"
 	bash .bin/sort-layers.sh
-
-
-test: 
-	@echo "Testing platform"
-	bash .bin/test-platform.sh
