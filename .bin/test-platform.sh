@@ -1,8 +1,16 @@
 #!/bin/bash
-# Script to sort the layers and classify profiles by layers
+# Scripts tests layer by layer
 #
 CHART_DIR=./charts/
-INFRASTRUCTURE?=kind
+
+if [ "$1" != "" ]; then
+    INFRASTRUCTURE=$1
+    echo testing platform: $INFRASTRUCTURE
+else
+    echo please pass infrastructure variable
+    echo example: test-platform.sh kind
+    exit 1
+fi
 
 cat /tmp/layers-sorted | while read layer || [[ -n $layer ]];
 do

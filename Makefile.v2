@@ -14,4 +14,4 @@ test:
 
 sort-layers:
 	@echo "Sorting charts by layers"
-	bash .bin/sort-layers.sh
+	bash .bin/sort-layers.sh ${INFRASTRUCTURE}
