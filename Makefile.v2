@@ -10,8 +10,8 @@ INFRASTRUCTURE?="kind"
 
 test:
 	@echo "Testing platform"
-	bash .bin/test-platform.sh
+	bash .bin/test-platform.sh ${INFRASTRUCTURE}
 
 sort-layers:
 	@echo "Sorting charts by layers"
-	bash .bin/sort-layers.sh ${INFRASTRUCTURE}
+	bash .bin/sort-layers.sh
