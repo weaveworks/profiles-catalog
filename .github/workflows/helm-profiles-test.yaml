@@ -92,10 +92,10 @@ jobs:
             done
             cat /tmp/kind-ci
 
-        - name: Compile layer-0 list
-          id: list-layer-0
+        - name: Compile and Sort layers 
+          id: compile-and-sort-layers
           run: |
-            make -f Makefile.v2 layers-sort
+            make -f Makefile.v2 sort-layers
 
         - name: Add helm dependencies
           shell: bash
