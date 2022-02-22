@@ -15,9 +15,9 @@ sort-layers:
 
 test: 
 	@if [ ${INFRASTRUCTURE} = "kind" ]; then\
-		echo "Deleting kind cluster ..."
-		bash .bin/sort-layers.sh
+		echo "Testing kind platform..."
+		bash .bin/test-platform.sh
 	elif [ ${INFRASTRUCTURE} = "gke" ]; then\
-		echo "Deleting gke cluster ..."
-		bash .bin/sort-layers.sh
+		echo "Testing gke platform..."
+		bash .bin/test-platform.sh
 	fi
