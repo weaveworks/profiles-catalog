@@ -2,7 +2,6 @@
 # Script to sort the layers and classify profiles by layers
 #
 CHART_DIR=./charts/
-INFRASTRUCTURE?="kind"
 
 cat /tmp/layers-sorted | while read layer || [[ -n $layer ]];
 do
