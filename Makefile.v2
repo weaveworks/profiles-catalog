@@ -6,8 +6,21 @@ OS := $(shell uname | tr '[:upper:]' '[:lower:]')
 CONFDIR="${PWD}/.conf"
 BINDIR="${PWD}/.bin"
 REPODIR="${PWD}/charts"
+INFRASTRUCTURE?="kind"
+
 
 sort-layers:
 	@echo "Sorting charts by layers"
-	cd ${REPODIR} && bash ../.bin/layers-sort.sh
+	bash .bin/sort-layers.sh
+
+test:
+	@echo "Testing charts layer by layers"
+	cd ${REPODIR} && bash ../.bin/test-platform.sh
+	@if [ ${INFRASTRUCTURE} = "kind" ]; then\
+		echo "Testing the kind platform ...";
+		bash .bin/test-platform.sh
+	elif [ ${INFRASTRUCTURE} = "gke" ]; then\
+		echo "Testing the gke platform ...";
+		bash .bin/test-platform.sh
+	fi
 	exit 15
