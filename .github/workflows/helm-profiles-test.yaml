@@ -88,22 +88,22 @@ jobs:
             done
 
         - name: Create kind cluster
-          if: steps.list-changed.outputs.kind-ci == 'true'
+          if: steps.compile-and-sort-layers.outputs.kind-ci == 'true'
           uses: helm/kind-action@v1.2.0
 
         - name: Create wego-system namespace (kind)
-          if: steps.list-changed.outputs.kind-ci == 'true' 
+          if: steps.compile-and-sort-layers.outputs.kind-ci == 'true' 
           run: kubectl create namespace wego-system
 
         - name: Test kind platform (kind)
-          if: steps.list-changed.outputs.kind-ci == 'true' 
+          if: steps.compile-and-sort-layers.outputs.kind-ci == 'true' 
           env:
             INFRASTRUCTURE: "kind"
           run:  make -f Makefile.v2 test
 
 
         - name: Set up Google Cloud SDK
-          if: steps.list-changed.outputs.gke-ci == 'true'
+          if: steps.compile-and-sort-layers.outputs.gke-ci == 'true'
           uses: google-github-actions/setup-gcloud@master
           with:
             project_id: ${{ secrets.GCP_PROJECT_ID }}
@@ -111,7 +111,7 @@ jobs:
             export_default_credentials: true
 
         - name: Create gke cluster
-          if: steps.list-changed.outputs.gke-ci == 'true'
+          if: steps.compile-and-sort-layers.outputs.gke-ci == 'true'
           shell: bash
           env:
             GKE_CLUSTER_NAME: profiles-${{ github.run_number }}
@@ -120,17 +120,17 @@ jobs:
             make create-cluster
 
         - name: Create wego-system namespace (gke)
-          if: steps.list-changed.outputs.gke-ci == 'true'
+          if: steps.compile-and-sort-layers.outputs.gke-ci == 'true'
           run: kubectl create namespace wego-system
 
         - name: Run chart-testing on gke (install)
-          if: steps.list-changed.outputs.gke-ci == 'true'
+          if: steps.compile-and-sort-layers.outputs.gke-ci == 'true'
           env:
             INFRASTRUCTURE: "gke"
           run: make -f Makefile.v2 test
 
         - name: Delete gke cluster
-          if: ${{ always() && steps.list-changed.outputs.gke-ci == 'true' }}
+          if: ${{ always() && steps.compile-and-sort-layers.outputs.gke-ci == 'true' }}
           shell: bash
           env:
             GKE_CLUSTER_NAME: profiles-${{ github.run_number }}

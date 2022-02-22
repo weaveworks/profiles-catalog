@@ -23,4 +23,3 @@ test:
 		echo "Testing the gke platform ...";
 		bash .bin/test-platform.sh
 	fi
-	exit 15
