@@ -9,7 +9,7 @@ do
   charts_in_layer=$(cat /tmp/$layer-$PLATFORM)
   [ -f /tmp/$layer-$PLATFORM-changed ] && charts_changed_in_layer=$(cat /tmp/$layer-$PLATFORM-changed)
   if [ -f /tmp/$layer-$PLATFORM-changed ]; then
-    echo Testing changed in layer: $layer
+    echo Testing changed on $PLATFORM in layer: $layer
     ct install --config ct.yaml --charts $(awk '{print $1}' /tmp/$layer-$PLATFORM-changed | paste -s -d, -)
     if [[ $layer < $top ]]; then
       echo Installing layer: $layer
