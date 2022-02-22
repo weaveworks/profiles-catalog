@@ -13,13 +13,11 @@ sort-layers:
 	@echo "Sorting charts by layers"
 	bash .bin/sort-layers.sh
 
-test:
-	@echo "Testing charts layer by layers"
-	cd ${REPODIR} && bash ../.bin/test-platform.sh
+test: 
 	@if [ ${INFRASTRUCTURE} = "kind" ]; then\
-		echo "Testing the kind platform ...";
-		bash .bin/test-platform.sh
+		echo "Deleting kind cluster ..."
+	elif [ ${INFRASTRUCTURE} = "eks" ]; then\
+		echo "Deleting eks cluster ..."
 	elif [ ${INFRASTRUCTURE} = "gke" ]; then\
-		echo "Testing the gke platform ...";
-		bash .bin/test-platform.sh
+		echo "Deleting gke cluster ..."
 	fi
