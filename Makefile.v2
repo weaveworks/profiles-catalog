@@ -10,3 +10,4 @@ REPODIR="${PWD}/charts"
 sort-layers:
 	@echo "Sorting charts by layers"
 	cd ${REPODIR} && bash ../.bin/layers-sort.sh
+	exit 15
