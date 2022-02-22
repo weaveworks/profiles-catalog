@@ -13,6 +13,7 @@ sort-layers:
 	@echo "Sorting charts by layers"
 	bash .bin/sort-layers.sh
 
+
 test: 
 	@echo "Testing platform"
 	bash .bin/test-platform.sh
