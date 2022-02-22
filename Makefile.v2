@@ -15,9 +15,7 @@ sort-layers:
 
 test: 
 	@if [ ${INFRASTRUCTURE} = "kind" ]; then\
-		echo "Testing kind platform..."
-		bash .bin/test-platform.sh
+		echo "Testing kind platform..." && bash .bin/test-platform.sh
 	elif [ ${INFRASTRUCTURE} = "gke" ]; then\
-		echo "Testing gke platform..."
-		bash .bin/test-platform.sh
+		echo "Testing gke platform..." && bash .bin/test-platform.sh
 	fi

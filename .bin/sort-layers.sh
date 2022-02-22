@@ -4,10 +4,6 @@
 CHART_DIR=./charts/
 CT_CONFIG=ct.yaml
 
-touch /tmp/platforms
-echo kind >> /tmp/platforms
-echo gke >> /tmp/platforms
-
 charts=$(ls -d $CHART_DIR/*)
 touch /tmp/layers
 for dir in $charts; do

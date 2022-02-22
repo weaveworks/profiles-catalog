@@ -64,6 +64,12 @@ jobs:
         - name: Set up chart-testing
           uses: helm/chart-testing-action@v2.1.0
 
+        - name: Adding platforms
+          run: |
+            touch /tmp/platforms
+            echo kind >> /tmp/platforms
+            echo gke >> /tmp/platforms
+
         - name: Compile and Sort layers alphabetically
           id: compile-and-sort-layers
           run: |
