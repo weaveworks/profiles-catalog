@@ -11,11 +11,12 @@ do
   if [ -f /tmp/$layer-$PLATFORM-changed ]; then
     echo Testing changed on $PLATFORM in layer: $layer
     ct install --config ct.yaml --charts $(awk '{print $1}' /tmp/$layer-$PLATFORM-changed | paste -s -d, -)
-    if [[ $layer < $top ]]; then
+    if [[ $layer > $top ]]; then
       echo Installing layer: $layer
       for dir in $charts_in_layer; do
         release=${dir##*/}
         helm dependency build  $dir
+        echo Helm install: $release
         helm install -n wego-system $release $dir
       done
     fi
