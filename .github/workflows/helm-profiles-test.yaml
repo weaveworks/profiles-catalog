@@ -92,7 +92,7 @@ jobs:
             done
             cat /tmp/kind-ci
 
-        - name: Compile and Sort layers 
+        - name: Compile and Sort layers alphabetically
           id: compile-and-sort-layers
           run: |
             make -f Makefile.v2 sort-layers
