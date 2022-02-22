@@ -7,7 +7,7 @@ dex:
     # See https://dexidp.io/docs/storage/ for more options
     storage:
       type: memory
-    ## test
+
     # Enable at least one connector
     # See https://dexidp.io/docs/connectors/ for more options
     enablePasswordDB: true
