@@ -1,5 +1,8 @@
 linkerd2:
   namespace: wego-system
+  ## Step 1 Generate a trust anchor: 
+  ## step certificate create root.linkerd.cluster.local ca.crt ca.key \
+  ##   --profile root-ca --no-password --insecure && cat ca.crt
   identityTrustAnchorsPEM: |
     -----BEGIN CERTIFICATE-----
     MIIBjjCCATSgAwIBAgIRAP4unbUH3MgLBZYV9N26knQwCgYIKoZIzj0EAwIwJTEj
@@ -15,7 +18,13 @@ linkerd2:
   installNamespace: false
   identity:
     issuer:
+      ## Step 2 Generate the Issuer certificate and key
+      ## step certificate create identity.linkerd.cluster.local issuer.crt issuer.key \
+      ## --profile intermediate-ca --not-after 8760h --no-password --insecure \
+      ## --ca ca.crt --ca-key ca.key
       tls:
+        ## Step 3 Input the Issuer cert
+        ## cat issuer.crt
         crtPEM: |
           -----BEGIN CERTIFICATE-----
           MIIBszCCAVmgAwIBAgIRAKsrRqbIWS0rMDntiSnPdxUwCgYIKoZIzj0EAwIwJTEj
@@ -29,6 +38,8 @@ linkerd2:
           fRImIaQR8UhbYTf/WtLJBJHV4AYCIQCND41V7jfKcML9WCd/7IW2Zf5kKLuyrF+w
           uS5CqsPYRw==
           -----END CERTIFICATE-----
+        ## Step 4 Input the Issuer pem
+        ## cat issuer.key
         keyPEM:
           -----BEGIN EC PRIVATE KEY-----
           MHcCAQEEIBcok67FaND/J/KKOdx+oQLcWB4bIEZxY3ihTrLRcXlgoAoGCCqGSM49
