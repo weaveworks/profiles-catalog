@@ -64,44 +64,16 @@ jobs:
         - name: Set up chart-testing
           uses: helm/chart-testing-action@v2.1.0
 
-        - name: Run chart-testing (list-changed)
-          id: list-changed
+        - name: Adding platforms
           run: |
-            changed=$(ct list-changed --config ct.yaml)
-            touch /tmp/layer-0-kind-ci
-            touch /tmp/kind-ci
-            touch /tmp/layer-0-gke-ci
-            touch /tmp/gke-ci
-            for dir in $changed; do
-              if [[ $(yq e '.annotations."weave.works/profile-ci"|contains("kind")' $dir/Chart.yaml) = "true" ]] && [[ $(yq e '.annotations."weave.works/layer"|contains("layer-0")' $dir/Chart.yaml) = "false" ]]; then
-                echo $dir >> /tmp/kind-ci
-                echo "::set-output name=kind-ci::true"
-              fi
-              if [[ $(yq e '.annotations."weave.works/profile-ci"|contains("gke")' $dir/Chart.yaml) = "true" ]] && [[ $(yq e '.annotations."weave.works/layer"|contains("layer-0")' $dir/Chart.yaml) = "false" ]]; then
-                echo $dir >> /tmp/gke-ci
-                echo "::set-output name=gke-ci::true"
-              fi
-              if [[ $(yq e '.annotations."weave.works/profile-ci"|contains("kind")' $dir/Chart.yaml) = "true" ]] && [[ $(yq e '.annotations."weave.works/layer"|contains("layer-0")' $dir/Chart.yaml) = "true" ]]; then
-                echo $dir >> /tmp/layer-0-kind-ci
-                echo "::set-output name=layer-0-kind-ci::true"
-              fi
-              if [[ $(yq e '.annotations."weave.works/profile-ci"|contains("gke")' $dir/Chart.yaml) = "true" ]] && [[ $(yq e '.annotations."weave.works/layer"|contains("layer-0")' $dir/Chart.yaml) = "true" ]]; then
-                echo $dir >> /tmp/layer-0-gke-ci
-                echo "::set-output name=layer-0-gke-ci::true"
-              fi
-            done
-            cat /tmp/kind-ci
+            touch /tmp/platforms
+            echo kind >> /tmp/platforms
+            echo gke >> /tmp/platforms
 
-        - name: Compile layer-0 list
-          id: list-layer-0
+        - name: Compile and Sort layers alphabetically
+          id: compile-and-sort-layers
           run: |
-            charts=$(ls -d charts/*)
-            touch /tmp/layer-0-ci
-            for dir in $charts; do
-              if [[ $(yq e '.annotations."weave.works/layer"|contains("layer-0")' $dir/Chart.yaml) = "true" ]]; then
-                echo $dir >> /tmp/layer-0-ci
-              fi
-            done
+            make -f Makefile.v2 sort-layers
 
         - name: Add helm dependencies
           shell: bash
@@ -122,33 +94,22 @@ jobs:
             done
 
         - name: Create kind cluster
-          if: steps.list-changed.outputs.kind-ci == 'true' || steps.list-changed.outputs.layer-0-kind-ci == 'true'
+          if: steps.compile-and-sort-layers.outputs.kind-ci == 'true'
           uses: helm/kind-action@v1.2.0
 
         - name: Create wego-system namespace (kind)
-          if: steps.list-changed.outputs.kind-ci == 'true' || steps.list-changed.outputs.layer-0-kind-ci == 'true'
+          if: steps.compile-and-sort-layers.outputs.kind-ci == 'true' 
           run: kubectl create namespace wego-system
 
-        - name: Run chart-testing on Layer-0 Kind (install)
-          if: steps.list-changed.outputs.layer-0-kind-ci == 'true'
-          run: ct install --config ct.yaml --charts $(awk '{print $1}' /tmp/layer-0-kind-ci | paste -s -d, -)
+        - name: Test kind platform (kind)
+          if: steps.compile-and-sort-layers.outputs.kind-ci == 'true' 
+          env:
+            INFRASTRUCTURE: "kind"
+          run:  make -f Makefile.v2 test
 
-        - name: Install layer-0 list (kind)
-          if: steps.list-changed.outputs.kind-ci == 'true'
-          id: install-layer-0-kind
-          run: |
-            charts=$(cat /tmp/layer-0-ci)
-            for dir in $charts; do
-              release=${dir##*/}
-              helm dependency build  $dir
-              helm install -n wego-system $release $dir
-            done
-        - name: Run chart-testing on Kind (install)
-          if: steps.list-changed.outputs.kind-ci == 'true'
-          run: ct install --config ct.yaml --charts $(awk '{print $1}' /tmp/kind-ci | paste -s -d, -)
 
         - name: Set up Google Cloud SDK
-          if: steps.list-changed.outputs.gke-ci == 'true' || steps.list-changed.outputs.layer-0-gke-ci == 'true'
+          if: steps.compile-and-sort-layers.outputs.gke-ci == 'true'
           uses: google-github-actions/setup-gcloud@master
           with:
             project_id: ${{ secrets.GCP_PROJECT_ID }}
@@ -156,7 +117,7 @@ jobs:
             export_default_credentials: true
 
         - name: Create gke cluster
-          if: steps.list-changed.outputs.gke-ci == 'true' || steps.list-changed.outputs.layer-0-gke-ci == 'true'
+          if: steps.compile-and-sort-layers.outputs.gke-ci == 'true'
           shell: bash
           env:
             GKE_CLUSTER_NAME: profiles-${{ github.run_number }}
@@ -165,30 +126,17 @@ jobs:
             make create-cluster
 
         - name: Create wego-system namespace (gke)
-          if: steps.list-changed.outputs.gke-ci == 'true' || steps.list-changed.outputs.layer-0-gke-ci == 'true'
+          if: steps.compile-and-sort-layers.outputs.gke-ci == 'true'
           run: kubectl create namespace wego-system
 
-        - name: Run chart-testing on Layer-0 gke (install)
-          if: steps.list-changed.outputs.layer-0-gke-ci == 'true'
-          run: ct install --config ct.yaml --charts $(awk '{print $1}' /tmp/layer-0-gke-ci | paste -s -d, -)
-
-        - name: Install layer-0 list (gke)
-          if: steps.list-changed.outputs.gke-ci == 'true'
-          id: install-layer-0-gke
-          run: |
-            charts=$(cat /tmp/layer-0-ci)
-            for dir in $charts; do
-              release=${dir##*/}
-              helm dependency build  $dir
-              helm install -n wego-system $release $dir
-            done
-
         - name: Run chart-testing on gke (install)
-          if: steps.list-changed.outputs.gke-ci == 'true'
-          run: ct install --config ct.yaml --charts $(awk '{print $1}' /tmp/gke-ci | paste -s -d, -)
+          if: steps.compile-and-sort-layers.outputs.gke-ci == 'true'
+          env:
+            INFRASTRUCTURE: "gke"
+          run: make -f Makefile.v2 test
 
         - name: Delete gke cluster
-          if: ${{ always() && steps.list-changed.outputs.gke-ci == 'true' }}
+          if: ${{ always() && steps.compile-and-sort-layers.outputs.gke-ci == 'true' }}
           shell: bash
           env:
             GKE_CLUSTER_NAME: profiles-${{ github.run_number }}
