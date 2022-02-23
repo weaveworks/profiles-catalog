@@ -1,29 +1,52 @@
-servicemesh:
-  enableControlPlaneAutoRotatingCerts: true
-  installCRDs: true
-  createTrustAnchorSecret: true
-  identityTrustAnchorsPrivatePEM: |
-    -----BEGIN EC PRIVATE KEY-----
-    MHcCAQEEIM3kx3y0M8DIFZA3fgooSD412sM6THLrOYUcnXBof5OtoAoGCCqGSM49
-    AwEHoUQDQgAE83QCdHTs5IKgcXmAu7IH6zlf+Dmd7m/USrmbg37D96TmaRUMZ7/s
-    yiKC9f7uujdHCUlOdsibnuiKutzrzGmv6w==
-    -----END EC PRIVATE KEY-----
-
 linkerd2:
   namespace: wego-system
+  ## Please review: https://linkerd.io/2.10/tasks/generate-certificates/#issuer-certificate-and-key
+  ## Step 1 Generate a trust anchor:
+  # step certificate create root.linkerd.cluster.local ca.crt ca.key \
+  #   --profile root-ca --no-password --insecure && cat ca.crt
   identityTrustAnchorsPEM: |
     -----BEGIN CERTIFICATE-----
-    MIIBjDCCATOgAwIBAgIQcl9znxwFCwaaIsKngFjdRjAKBggqhkjOPQQDAjAlMSMw
-    IQYDVQQDExpyb290LmxpbmtlcmQuY2x1c3Rlci5sb2NhbDAeFw0yMTEwMjkxNjU0
-    NDRaFw0zMTEwMjcxNjU0NDRaMCUxIzAhBgNVBAMTGnJvb3QubGlua2VyZC5jbHVz
-    dGVyLmxvY2FsMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE83QCdHTs5IKgcXmA
-    u7IH6zlf+Dmd7m/USrmbg37D96TmaRUMZ7/syiKC9f7uujdHCUlOdsibnuiKutzr
-    zGmv66NFMEMwDgYDVR0PAQH/BAQDAgEGMBIGA1UdEwEB/wQIMAYBAf8CAQEwHQYD
-    VR0OBBYEFG30eZzQblreSbBaHRYyKelv56lBMAoGCCqGSM49BAMCA0cAMEQCIAmn
-    MdDSrNLrQa1eF87QlaLVgxMnqTF3OHDl2sfGRQ6hAiA+QKrADWz0lSd6QfYuQCOt
-    HLWeQ4kP5m83ZGuSzHwecQ==
+    MIIBjDCCATOgAwIBAgIQEANoGT8jzANh9Y/y6IP65zAKBggqhkjOPQQDAjAlMSMw
+    IQYDVQQDExpyb290LmxpbmtlcmQuY2x1c3Rlci5sb2NhbDAeFw0yMjAyMjMyMTQz
+    MTJaFw0zMjAyMjEyMTQzMTJaMCUxIzAhBgNVBAMTGnJvb3QubGlua2VyZC5jbHVz
+    dGVyLmxvY2FsMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE8/T21yb4kCMI3rVJ
+    3lWwf1h+chSEv2Pg0kFs4KXKBwdNL2W0tjYmTEN0P+U8ofgWWcZzcG/NRNUrRfVV
+    fR3wU6NFMEMwDgYDVR0PAQH/BAQDAgEGMBIGA1UdEwEB/wQIMAYBAf8CAQEwHQYD
+    VR0OBBYEFDafMRvDvse+r3PJpHVnqDLZl2S4MAoGCCqGSM49BAMCA0cAMEQCIFmj
+    kuwbyVKUGaRzToc6g5pnaXsmplBbjJiEE3TdITBTAiBNBU+MkXDuZa7bhdwMhUeW
+    jySC7CPyapW8BbOp5wyMQg==
     -----END CERTIFICATE-----
   installNamespace: false
   identity:
     issuer:
-      scheme: kubernetes.io/tls
+      ## Step 2 Generate the Issuer certificate and key
+      # step certificate create identity.linkerd.cluster.local issuer.crt issuer.key \
+      # --profile intermediate-ca --not-after 8760h --no-password --insecure \
+      # --ca ca.crt --ca-key ca.key
+      tls:
+        ## Step 3 Input the Issuer cert
+        # cat issuer.crt
+        crtPEM: |
+          -----BEGIN CERTIFICATE-----
+          MIIBszCCAVigAwIBAgIQPWKHAgopMyzGeMsQVP4przAKBggqhkjOPQQDAjAlMSMw
+          IQYDVQQDExpyb290LmxpbmtlcmQuY2x1c3Rlci5sb2NhbDAeFw0yMjAyMjMyMTQ0
+          NTZaFw0yMzAyMjMyMTQ0NTZaMCkxJzAlBgNVBAMTHmlkZW50aXR5LmxpbmtlcmQu
+          Y2x1c3Rlci5sb2NhbDBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABFo/XIfkUH7e
+          OZ8FTflp1GyqiMw+0P8uzpTM8Hv5Sn942nRGkzyCXW4Q7T9unXxQ3qXx7189Aru6
+          TSiYEZkVmaqjZjBkMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMBAf8ECDAGAQH/AgEA
+          MB0GA1UdDgQWBBSLvvD/WDGFUJGdYYvKwnT6bsk83TAfBgNVHSMEGDAWgBQ2nzEb
+          w77Hvq9zyaR1Z6gy2ZdkuDAKBggqhkjOPQQDAgNJADBGAiEAww8Sl5z8SGOxqYfV
+          hxDs9mar++R2SRcg30/K3SmcDRACIQCAgJddQwAi7atjuHUQ0gnt1MMvrZuwEq2d
+          hGwLdYqn+A==
+          -----END CERTIFICATE-----
+        ## Step 4 Input the Issuer pem
+        # cat issuer.key
+        keyPEM: |
+          -----BEGIN EC PRIVATE KEY-----
+          MHcCAQEEIE/SknWqQCElVqYSdo5hhiY8ePkP6Bdi4SXGwW2OJ46zoAoGCCqGSM49
+          AwEHoUQDQgAEWj9ch+RQft45nwVN+WnUbKqIzD7Q/y7OlMzwe/lKf3jadEaTPIJd
+          bhDtP26dfFDepfHvXz0Cu7pNKJgRmRWZqg==
+          -----END EC PRIVATE KEY-----
+      ## Step 5 Input the cert expiration date
+      # $(date -d '+8760 hour' +"%Y-%m-%dT%H:%M:%SZ")
+      crtExpiry: 2023-02-23T16:46:19Z

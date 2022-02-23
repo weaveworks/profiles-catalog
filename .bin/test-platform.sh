@@ -1,6 +1,10 @@
 #!/bin/bash
 # Scripts tests layer by layer
 #
+
+set -eu
+set -o pipefail
+
 CHART_DIR=./charts/
 
 if [ "$1" != "" ]; then
