@@ -23,7 +23,7 @@ do
   fi
   top=$(cat /tmp/$INFRASTRUCTURE-top-layer-changed)
   echo the top layer is $top
-  if [[ "$top" < "$layer" ]]; then
+  if [[ "$top" > "$layer" ]]; then
     echo Installing layer: $layer
     for dir in $charts_in_layer; do
       release=${dir##*/}
