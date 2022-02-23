@@ -1,6 +1,10 @@
 #!/bin/bash
 # Script to sort the layers and classify profiles by layers
 #
+
+set -eu
+set -o pipefail
+
 CHART_DIR=./charts/
 CT_CONFIG=ct.yaml
 
