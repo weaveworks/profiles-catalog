@@ -1,6 +1,6 @@
 linkerd2:
   namespace: wego-system
-  ## Step 1 Generate a trust anchor: 
+  ## Step 1 Generate a trust anchor:
   ## step certificate create root.linkerd.cluster.local ca.crt ca.key \
   ##   --profile root-ca --no-password --insecure && cat ca.crt
   identityTrustAnchorsPEM: |
