@@ -796,6 +796,43 @@ entries:
       weave.works/profile-ci: |
         - "gke"
     apiVersion: v2
+    created: "2022-02-23T17:57:32.962792902Z"
+    dependencies:
+    - name: ingress-nginx
+      repository: https://kubernetes.github.io/ingress-nginx
+      version: 4.0.17
+    description: A Weaveworks Helm chart for ingress-nginx
+    digest: 03733dd3d8a7adca2b25243cf37c66d62ed5f878f509d363064f31d7ff29830d
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://raw.githubusercontent.com/prometheus/prometheus.github.io/master/assets/prometheus_logo-cb55bb5c346.png
+    keywords:
+    - network
+    - ingress
+    - nginx
+    - nginx-ingress
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: ingress-nginx
+    sources:
+    - https://kubernetes.github.io/ingress-nginx
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/ingress-nginx-0.0.9-0/ingress-nginx-0.0.9-0.tgz
+    version: 0.0.9-0
+  - annotations:
+      weave.works/category: Ingress
+      weave.works/layer: layer-1
+      weave.works/links: |
+        - name: Chart Sources
+          url:  https://kubernetes.github.io/ingress-nginx
+        - name: Upstream Project
+          url: https://github.com/kubernetes/ingress-nginx/tree/main/charts/ingress-nginx
+      weave.works/profile: ingress-nginx
+      weave.works/profile-ci: |
+        - "gke"
+    apiVersion: v2
     created: "2022-02-17T14:57:42.248694036Z"
     dependencies:
     - name: ingress-nginx
@@ -2444,4 +2481,4 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/tracing-0.0.1/tracing-0.0.1.tgz
     version: 0.0.1
-generated: "2022-02-23T17:20:06.228549908Z"
+generated: "2022-02-23T17:57:32.962898302Z"
