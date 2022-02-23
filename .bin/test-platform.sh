@@ -14,22 +14,25 @@ fi
 
 cat /tmp/layers-sorted | while read layer || [[ -n $layer ]];
 do
+  echo current layer is $layer
   charts_in_layer=$(cat /tmp/$layer-$INFRASTRUCTURE)
   [ -f /tmp/$layer-$INFRASTRUCTURE-changed ] && charts_changed_in_layer=$(cat /tmp/$layer-$INFRASTRUCTURE-changed)
   if [ -f /tmp/$layer-$INFRASTRUCTURE-changed ]; then
     echo Testing changed on $INFRASTRUCTURE in layer: $layer
     ct install --config ct.yaml --charts $(awk '{print $1}' /tmp/$layer-$INFRASTRUCTURE-changed | paste -s -d, -)
-    
-    top=$(cat /tmp/$INFRASTRUCTURE-top-layer-changed)
-    if [[ $layer > $top ]]; then
-      echo Installing layer: $layer
-      for dir in $charts_in_layer; do
-        release=${dir##*/}
-        helm dependency build  $dir
-        echo Helm install: $release
-        helm install -n wego-system $release $dir
-      done
-    fi
+  fi
+  top=$(cat /tmp/$INFRASTRUCTURE-top-layer-changed)
+  echo the top layer is $top
+  if [[ "$top" > "$layer" ]]; then
+    echo Installing layer: $layer
+    for dir in $charts_in_layer; do
+      release=${dir##*/}
+      helm dependency build  $dir
+      echo Helm install: $release
+      helm install -n wego-system $release $dir
+    done
+  else
+    echo $layer is after $top
   fi
 
 done
