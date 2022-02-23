@@ -31,6 +31,8 @@ do
       echo Helm install: $release
       helm install -n wego-system $release $dir
     done
+  else
+    echo $layer is after $top
   fi
 
 done
