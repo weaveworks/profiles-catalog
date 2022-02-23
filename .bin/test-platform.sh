@@ -19,6 +19,8 @@ do
   if [ -f /tmp/$layer-$INFRASTRUCTURE-changed ]; then
     echo Testing changed on $INFRASTRUCTURE in layer: $layer
     ct install --config ct.yaml --charts $(awk '{print $1}' /tmp/$layer-$INFRASTRUCTURE-changed | paste -s -d, -)
+    
+    top=$(cat /tmp/$INFRASTRUCTURE-top-layer-changed)
     if [[ $layer > $top ]]; then
       echo Installing layer: $layer
       for dir in $charts_in_layer; do
@@ -32,4 +34,6 @@ do
 
 done
 # Tests profiles without a layer
-[ -f /tmp/null-$INFRASTRUCTURE-changed ] && ct install --config ct.yaml --charts $(awk '{print $1}' /tmp/null-$INFRASTRUCTURE-changed | paste -s -d, -)
+if [[ -f "/tmp/null-$INFRASTRUCTURE-changed" ]]; then
+  ct install --config ct.yaml --charts $(awk '{print $1}' /tmp/null-$INFRASTRUCTURE-changed | paste -s -d, -)
+fi
