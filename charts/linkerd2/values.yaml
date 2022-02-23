@@ -1,29 +1,38 @@
-servicemesh:
-  enableControlPlaneAutoRotatingCerts: true
-  installCRDs: true
-  createTrustAnchorSecret: true
-  identityTrustAnchorsPrivatePEM: |
-    -----BEGIN EC PRIVATE KEY-----
-    MHcCAQEEIM3kx3y0M8DIFZA3fgooSD412sM6THLrOYUcnXBof5OtoAoGCCqGSM49
-    AwEHoUQDQgAE83QCdHTs5IKgcXmAu7IH6zlf+Dmd7m/USrmbg37D96TmaRUMZ7/s
-    yiKC9f7uujdHCUlOdsibnuiKutzrzGmv6w==
-    -----END EC PRIVATE KEY-----
-
 linkerd2:
   namespace: wego-system
   identityTrustAnchorsPEM: |
     -----BEGIN CERTIFICATE-----
-    MIIBjDCCATOgAwIBAgIQcl9znxwFCwaaIsKngFjdRjAKBggqhkjOPQQDAjAlMSMw
-    IQYDVQQDExpyb290LmxpbmtlcmQuY2x1c3Rlci5sb2NhbDAeFw0yMTEwMjkxNjU0
-    NDRaFw0zMTEwMjcxNjU0NDRaMCUxIzAhBgNVBAMTGnJvb3QubGlua2VyZC5jbHVz
-    dGVyLmxvY2FsMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE83QCdHTs5IKgcXmA
-    u7IH6zlf+Dmd7m/USrmbg37D96TmaRUMZ7/syiKC9f7uujdHCUlOdsibnuiKutzr
-    zGmv66NFMEMwDgYDVR0PAQH/BAQDAgEGMBIGA1UdEwEB/wQIMAYBAf8CAQEwHQYD
-    VR0OBBYEFG30eZzQblreSbBaHRYyKelv56lBMAoGCCqGSM49BAMCA0cAMEQCIAmn
-    MdDSrNLrQa1eF87QlaLVgxMnqTF3OHDl2sfGRQ6hAiA+QKrADWz0lSd6QfYuQCOt
-    HLWeQ4kP5m83ZGuSzHwecQ==
+    MIIBjjCCATSgAwIBAgIRAP4unbUH3MgLBZYV9N26knQwCgYIKoZIzj0EAwIwJTEj
+    MCEGA1UEAxMacm9vdC5saW5rZXJkLmNsdXN0ZXIubG9jYWwwHhcNMjIwMjIzMjEw
+    MTI4WhcNMzIwMjIxMjEwMTI4WjAlMSMwIQYDVQQDExpyb290LmxpbmtlcmQuY2x1
+    c3Rlci5sb2NhbDBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABHv4z2kiKX85o6HP
+    oPBmPOgRSq5eqwTUZE7GGYlfgky/UiC8pUQo+LD0oaDIHCja2b2aQ2KoTdsywbVd
+    jPu5XqOjRTBDMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMBAf8ECDAGAQH/AgEBMB0G
+    A1UdDgQWBBQ1TqhRfI8SQ4XajF/f3mTUB21bsDAKBggqhkjOPQQDAgNIADBFAiB7
+    vgalvWDUiu42OKZEMTpeX8lLsWGqD0dDX8uFv3BTjQIhAMmLYe6VjEnejtsIkhCJ
+    zWyLuqeffAMkOohNWi4Hqgrq
     -----END CERTIFICATE-----
   installNamespace: false
   identity:
     issuer:
-      scheme: kubernetes.io/tls
+      tls:
+        crtPEM: |
+          -----BEGIN CERTIFICATE-----
+          MIIBszCCAVmgAwIBAgIRAKsrRqbIWS0rMDntiSnPdxUwCgYIKoZIzj0EAwIwJTEj
+          MCEGA1UEAxMacm9vdC5saW5rZXJkLmNsdXN0ZXIubG9jYWwwHhcNMjIwMjIzMjEw
+          MTM1WhcNMjMwMjIzMjEwMTM1WjApMScwJQYDVQQDEx5pZGVudGl0eS5saW5rZXJk
+          LmNsdXN0ZXIubG9jYWwwWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAATbwWu48nks
+          PifISzO+pGRjlp/Vx6k7LnAAVxOYvfGydJvvu2md/+Pq2t1/zhoQbqnlzUQKwEms
+          Jase8r9Nzpp8o2YwZDAOBgNVHQ8BAf8EBAMCAQYwEgYDVR0TAQH/BAgwBgEB/wIB
+          ADAdBgNVHQ4EFgQU8S4T8v5+zpTG0DpogwcBI8cEgUQwHwYDVR0jBBgwFoAUNU6o
+          UXyPEkOF2oxf395k1AdtW7AwCgYIKoZIzj0EAwIDSAAwRQIgYL2/A+aT6AEoAE4o
+          fRImIaQR8UhbYTf/WtLJBJHV4AYCIQCND41V7jfKcML9WCd/7IW2Zf5kKLuyrF+w
+          uS5CqsPYRw==
+          -----END CERTIFICATE-----
+        keyPEM:
+          -----BEGIN EC PRIVATE KEY-----
+          MHcCAQEEIBcok67FaND/J/KKOdx+oQLcWB4bIEZxY3ihTrLRcXlgoAoGCCqGSM49
+          AwEHoUQDQgAE28FruPJ5LD4nyEszvqRkY5af1cepOy5wAFcTmL3xsnSb77tpnf/j
+          6trdf84aEG6p5c1ECsBJrCWrHvK/Tc6afA==
+          -----END EC PRIVATE KEY-----
+        crtExpiry: 2023-02-23T16:11:13Z
