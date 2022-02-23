@@ -1424,6 +1424,43 @@ entries:
         - "gke"
         - "kind"
     apiVersion: v2
+    created: "2022-02-23T22:26:44.292036891Z"
+    dependencies:
+    - name: linkerd2
+      repository: https://helm.linkerd.io/stable
+      version: 2.11.0
+    description: A Weaveworks Helm chart for the Service Mesh Profile
+    digest: 3883bc1ce54bf3e28147e2428b8678c717ab2957ab038ece324fc0fa289a2945
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://linkerd.io/images/logo-only-200h.png
+    keywords:
+    - network
+    - servicemesh
+    - linkerd2
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: linkerd2
+    sources:
+    - https://helm.linkerd.io/stable
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/linkerd2-0.0.13-0/linkerd2-0.0.13-0.tgz
+    version: 0.0.13-0
+  - annotations:
+      weave.works/category: Service Mesh
+      weave.works/layer: layer-1
+      weave.works/links: |
+        - name: Chart Sources
+          url:  https://helm.linkerd.io/stable
+        - name: Upstream Project
+          url: https://github.com/linkerd/linkerd2
+      weave.works/profile: linkerd2
+      weave.works/profile-ci: |
+        - "gke"
+        - "kind"
+    apiVersion: v2
     created: "2022-02-17T14:57:43.357017249Z"
     dependencies:
     - name: linkerd2
@@ -2481,4 +2518,4 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/tracing-0.0.1/tracing-0.0.1.tgz
     version: 0.0.1
-generated: "2022-02-23T17:57:32.962898302Z"
+generated: "2022-02-23T22:26:44.292353389Z"
