@@ -34,4 +34,6 @@ do
 
 done
 # Tests profiles without a layer
-[ -f /tmp/null-$INFRASTRUCTURE-changed ] && ct install --config ct.yaml --charts $(awk '{print $1}' /tmp/null-$INFRASTRUCTURE-changed | paste -s -d, -)
+if [[ -f "/tmp/null-$INFRASTRUCTURE-changed" ]]; then
+  ct install --config ct.yaml --charts $(awk '{print $1}' /tmp/null-$INFRASTRUCTURE-changed | paste -s -d, -)
+fi
