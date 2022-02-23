@@ -1,49 +1,52 @@
 linkerd2:
+  clusterNetworks: 10.0.0.0/8,100.64.0.0/10,172.16.0.0/12,192.168.0.0/16,169.254.0.0/16
   namespace: wego-system
   ## Step 1 Generate a trust anchor:
-  ## step certificate create root.linkerd.cluster.local ca.crt ca.key \
-  ##   --profile root-ca --no-password --insecure && cat ca.crt
+  # step certificate create root.linkerd.cluster.local ca.crt ca.key \
+  #   --profile root-ca --no-password --insecure && cat ca.crt
   identityTrustAnchorsPEM: |
     -----BEGIN CERTIFICATE-----
-    MIIBjjCCATSgAwIBAgIRAP4unbUH3MgLBZYV9N26knQwCgYIKoZIzj0EAwIwJTEj
-    MCEGA1UEAxMacm9vdC5saW5rZXJkLmNsdXN0ZXIubG9jYWwwHhcNMjIwMjIzMjEw
-    MTI4WhcNMzIwMjIxMjEwMTI4WjAlMSMwIQYDVQQDExpyb290LmxpbmtlcmQuY2x1
-    c3Rlci5sb2NhbDBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABHv4z2kiKX85o6HP
-    oPBmPOgRSq5eqwTUZE7GGYlfgky/UiC8pUQo+LD0oaDIHCja2b2aQ2KoTdsywbVd
-    jPu5XqOjRTBDMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMBAf8ECDAGAQH/AgEBMB0G
-    A1UdDgQWBBQ1TqhRfI8SQ4XajF/f3mTUB21bsDAKBggqhkjOPQQDAgNIADBFAiB7
-    vgalvWDUiu42OKZEMTpeX8lLsWGqD0dDX8uFv3BTjQIhAMmLYe6VjEnejtsIkhCJ
-    zWyLuqeffAMkOohNWi4Hqgrq
+    MIIBjDCCATOgAwIBAgIQEANoGT8jzANh9Y/y6IP65zAKBggqhkjOPQQDAjAlMSMw
+    IQYDVQQDExpyb290LmxpbmtlcmQuY2x1c3Rlci5sb2NhbDAeFw0yMjAyMjMyMTQz
+    MTJaFw0zMjAyMjEyMTQzMTJaMCUxIzAhBgNVBAMTGnJvb3QubGlua2VyZC5jbHVz
+    dGVyLmxvY2FsMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE8/T21yb4kCMI3rVJ
+    3lWwf1h+chSEv2Pg0kFs4KXKBwdNL2W0tjYmTEN0P+U8ofgWWcZzcG/NRNUrRfVV
+    fR3wU6NFMEMwDgYDVR0PAQH/BAQDAgEGMBIGA1UdEwEB/wQIMAYBAf8CAQEwHQYD
+    VR0OBBYEFDafMRvDvse+r3PJpHVnqDLZl2S4MAoGCCqGSM49BAMCA0cAMEQCIFmj
+    kuwbyVKUGaRzToc6g5pnaXsmplBbjJiEE3TdITBTAiBNBU+MkXDuZa7bhdwMhUeW
+    jySC7CPyapW8BbOp5wyMQg==
     -----END CERTIFICATE-----
   installNamespace: false
   identity:
     issuer:
       ## Step 2 Generate the Issuer certificate and key
-      ## step certificate create identity.linkerd.cluster.local issuer.crt issuer.key \
-      ## --profile intermediate-ca --not-after 8760h --no-password --insecure \
-      ## --ca ca.crt --ca-key ca.key
+      # step certificate create identity.linkerd.cluster.local issuer.crt issuer.key \
+      # --profile intermediate-ca --not-after 8760h --no-password --insecure \
+      # --ca ca.crt --ca-key ca.key
       tls:
         ## Step 3 Input the Issuer cert
-        ## cat issuer.crt
+        # cat issuer.crt
         crtPEM: |
           -----BEGIN CERTIFICATE-----
-          MIIBszCCAVmgAwIBAgIRAKsrRqbIWS0rMDntiSnPdxUwCgYIKoZIzj0EAwIwJTEj
-          MCEGA1UEAxMacm9vdC5saW5rZXJkLmNsdXN0ZXIubG9jYWwwHhcNMjIwMjIzMjEw
-          MTM1WhcNMjMwMjIzMjEwMTM1WjApMScwJQYDVQQDEx5pZGVudGl0eS5saW5rZXJk
-          LmNsdXN0ZXIubG9jYWwwWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAATbwWu48nks
-          PifISzO+pGRjlp/Vx6k7LnAAVxOYvfGydJvvu2md/+Pq2t1/zhoQbqnlzUQKwEms
-          Jase8r9Nzpp8o2YwZDAOBgNVHQ8BAf8EBAMCAQYwEgYDVR0TAQH/BAgwBgEB/wIB
-          ADAdBgNVHQ4EFgQU8S4T8v5+zpTG0DpogwcBI8cEgUQwHwYDVR0jBBgwFoAUNU6o
-          UXyPEkOF2oxf395k1AdtW7AwCgYIKoZIzj0EAwIDSAAwRQIgYL2/A+aT6AEoAE4o
-          fRImIaQR8UhbYTf/WtLJBJHV4AYCIQCND41V7jfKcML9WCd/7IW2Zf5kKLuyrF+w
-          uS5CqsPYRw==
+          MIIBszCCAVigAwIBAgIQPWKHAgopMyzGeMsQVP4przAKBggqhkjOPQQDAjAlMSMw
+          IQYDVQQDExpyb290LmxpbmtlcmQuY2x1c3Rlci5sb2NhbDAeFw0yMjAyMjMyMTQ0
+          NTZaFw0yMzAyMjMyMTQ0NTZaMCkxJzAlBgNVBAMTHmlkZW50aXR5LmxpbmtlcmQu
+          Y2x1c3Rlci5sb2NhbDBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABFo/XIfkUH7e
+          OZ8FTflp1GyqiMw+0P8uzpTM8Hv5Sn942nRGkzyCXW4Q7T9unXxQ3qXx7189Aru6
+          TSiYEZkVmaqjZjBkMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMBAf8ECDAGAQH/AgEA
+          MB0GA1UdDgQWBBSLvvD/WDGFUJGdYYvKwnT6bsk83TAfBgNVHSMEGDAWgBQ2nzEb
+          w77Hvq9zyaR1Z6gy2ZdkuDAKBggqhkjOPQQDAgNJADBGAiEAww8Sl5z8SGOxqYfV
+          hxDs9mar++R2SRcg30/K3SmcDRACIQCAgJddQwAi7atjuHUQ0gnt1MMvrZuwEq2d
+          hGwLdYqn+A==
           -----END CERTIFICATE-----
         ## Step 4 Input the Issuer pem
-        ## cat issuer.key
-        keyPEM:
+        # cat issuer.key
+        keyPEM: |
           -----BEGIN EC PRIVATE KEY-----
-          MHcCAQEEIBcok67FaND/J/KKOdx+oQLcWB4bIEZxY3ihTrLRcXlgoAoGCCqGSM49
-          AwEHoUQDQgAE28FruPJ5LD4nyEszvqRkY5af1cepOy5wAFcTmL3xsnSb77tpnf/j
-          6trdf84aEG6p5c1ECsBJrCWrHvK/Tc6afA==
+          MHcCAQEEIE/SknWqQCElVqYSdo5hhiY8ePkP6Bdi4SXGwW2OJ46zoAoGCCqGSM49
+          AwEHoUQDQgAEWj9ch+RQft45nwVN+WnUbKqIzD7Q/y7OlMzwe/lKf3jadEaTPIJd
+          bhDtP26dfFDepfHvXz0Cu7pNKJgRmRWZqg==
           -----END EC PRIVATE KEY-----
-        crtExpiry: 2023-02-23T16:11:13Z
+      ## Step 5 Input the cert expiration date
+      # $(date -d '+8760 hour' +"%Y-%m-%dT%H:%M:%SZ")
+      crtExpiry: 2023-02-23T16:46:19Z
