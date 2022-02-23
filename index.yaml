@@ -2369,6 +2369,42 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/sockshop-0.0.1/sockshop-0.0.1.tgz
     version: 0.0.1
+  tf-controller:
+  - annotations:
+      weave.works/links: |
+        - name: Chart Sources
+          url: https://github.com/weaveworks/tf-controller
+        - name: Upstream Project
+          url: https://github.com/weaveworks/tf-controller
+      weave.works/operator: "true"
+      weave.works/profile: tf-controller
+      weave.works/profile-ci: |
+        - "gke"
+        - "kind"
+    apiVersion: v2
+    created: "2022-02-23T17:20:06.22820161Z"
+    dependencies:
+    - condition: tf-controller.enabled
+      name: tf-controller
+      repository: https://weaveworks.github.io/tf-controller/
+      version: 0.1.3
+    description: A Weaveworks Helm chart for tf-controller
+    digest: e32ab2d66ae5072f2c5979e5060e38571b72c0139916d4765d670d2a48445fbd
+    home: https://github.com/weaveworks/profiles-catalog
+    keywords:
+    - terraform
+    - gitops
+    kubeVersion: '>=1.17.0-0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: tf-controller
+    sources:
+    - https://github.com/weaveworks/tf-controller
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/tf-controller-0.0.1-0/tf-controller-0.0.1-0.tgz
+    version: 0.0.1-0
   tracing:
   - annotations:
       weave.works/links: |
@@ -2408,4 +2444,4 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/tracing-0.0.1/tracing-0.0.1.tgz
     version: 0.0.1
-generated: "2022-02-23T16:12:35.310866317Z"
+generated: "2022-02-23T17:20:06.228549908Z"
