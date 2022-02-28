@@ -1,4 +1,5 @@
 linkerd2:
+  clusterNetworks: 10.0.0.0/8,100.64.0.0/10,172.16.0.0/12,192.168.0.0/16,169.254.0.0/16
   namespace: wego-system
   ## Please review: https://linkerd.io/2.10/tasks/generate-certificates/#issuer-certificate-and-key
   ## Step 1 Generate a trust anchor:
