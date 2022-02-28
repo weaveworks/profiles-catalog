@@ -123,7 +123,7 @@ jobs:
             GKE_CLUSTER_NAME: profiles-${{ github.run_number }}
             INFRASTRUCTURE: "gke"
           run: |
-            make -f makefiles/legacy/Makefile create-cluster
+            make create-cluster
 
         - name: Create wego-system namespace (gke)
           if: steps.compile-and-sort-layers.outputs.gke-ci == 'true'
