@@ -69,11 +69,12 @@ jobs:
             touch /tmp/platforms
             echo kind >> /tmp/platforms
             echo gke >> /tmp/platforms
+            echo mvm >> /tmp/platforms
 
         - name: Compile and Sort layers alphabetically
           id: compile-and-sort-layers
           run: |
-            make -f Makefile.v2 sort-layers
+            make -f makefiles/v2/Makefile sort-layers
 
         - name: Add helm dependencies
           shell: bash
@@ -105,7 +106,7 @@ jobs:
           if: steps.compile-and-sort-layers.outputs.kind-ci == 'true' 
           env:
             INFRASTRUCTURE: "kind"
-          run:  make -f Makefile.v2 test
+          run:  make -f makefiles/v2/Makefile test
 
 
         - name: Set up Google Cloud SDK
@@ -141,5 +142,33 @@ jobs:
           env:
             GKE_CLUSTER_NAME: profiles-${{ github.run_number }}
             INFRASTRUCTURE: "gke"
+          run: |
+            make delete-cluster
+
+        - name: Create mvm cluster
+          if: steps.compile-and-sort-layers.outputs.mvm-ci == 'true'
+          shell: bash
+          env:
+            MVM_CLUSTER_NAME: profiles-${{ github.run_number }}
+            INFRASTRUCTURE: "mvm"
+          run: |
+            make create-cluster
+
+        - name: Create wego-system namespace (mvm)
+          if: steps.compile-and-sort-layers.outputs.mvm-ci == 'true'
+          run: kubectl create namespace wego-system
+
+        - name: Run chart-testing on mvm (install)
+          if: steps.compile-and-sort-layers.outputs.mvm-ci == 'true'
+          env:
+            INFRASTRUCTURE: "mvm"
+          run: make -f makefiles/v2/Makefile test
+
+        - name: Delete mvm cluster
+          if: ${{ always() && steps.compile-and-sort-layers.outputs.mvm-ci == 'true' }}
+          shell: bash
+          env:
+            GKE_CLUSTER_NAME: profiles-${{ github.run_number }}
+            INFRASTRUCTURE: "mvm"
           run: |
             make delete-cluster
