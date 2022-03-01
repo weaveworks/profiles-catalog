@@ -155,6 +155,7 @@ jobs:
           env:
             MVM_CLUSTER_NAME: profiles-${{ github.run_number }}
             INFRASTRUCTURE: "mvm"
+            MVM_MGMT_KUBECONFIG: ${{ secrets.MVM_MGMT_KUBECONFIG }}
           run: |
             make -f makefiles/Makefile create-cluster
 
