@@ -90,6 +90,7 @@ create-namespace:
 
 set-kubeconfig:
 	@echo "Setting kubeconfig ..."
-	printenv MVM_MGMT_KUBECONFIG > /tmp/config.yaml
+	printenv MVM_MGMT_KUBECONFIG > /tmp/config.yaml &&
+	export KUBECONFIG=/tmp/config.yaml
 
 create-test-cluster: set-kubeconfig
