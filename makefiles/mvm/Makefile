@@ -100,9 +100,14 @@ set-kubeconfig:
 	printenv MVM_MGMT_KUBECONFIG > /tmp/config.yaml &&
 	export KUBECONFIG=/tmp/config.yaml
 
-check-requirements:
-	@echo "Getting requirements..."
-	cd $(PWD)/../capi && $(MAKE) check-clusterctl
+check-requirements: check-clusterctl
+
+check-clusterctl:
+	@which clusterctl >/dev/null 2>&1 || (echo "clusterctl binary not found, installing ..." && \
+	curl -s -L "https://github.com/kubernetes-sigs/cluster-api/releases/download/v${CLUSTERCTL_VERSION}/clusterctl-${OS}-amd64" -o clusterctl && \
+	chmod +x clusterctl && \
+	sudo mv ./clusterctl /usr/local/bin/clusterctl && \
+	clusterctl version)
 
 
 create-test-cluster: check-requirements set-kubeconfig generate-test-cluster-config apply-test-cluster-config
