@@ -95,6 +95,13 @@ install-cert-manager:
 get-mvm-mgmt-config:
 	kubectl get secret ${MVM_MGMT_CLUSTER}-kubeconfig -o json | jq -r .data.value | base64 -d > config.yaml
 
+
+get-testing-config:
+	kubectl get secret $(MVM_CLUSTER_NAME)-kubeconfig -o json | jq -r .data.value | base64 -d > config.yaml && \
+	mv config.yaml ${HOME}/.kube/config && \
+	kubectl get nodes
+
+
 create-mvm-bootstrap-cluster:
 	kind get clusters | grep ${MVM_KIND_CLUSTER} || kind create cluster --name ${MVM_KIND_CLUSTER}
 
@@ -124,4 +131,4 @@ delete-test-cluster:
 	kubectl delete -n $(MVM_CLUSTER_NAME) --wait=true --timeout=900s configmap/cilium-addon
 	kubectl delete ns --wait=true --timeout=900s $(MVM_CLUSTER_NAME) 
 
-create-test-cluster: check-requirements add-provider-to-clusterctl generate-test-cluster-config apply-test-cluster-config wait-until-master-is-ready
+create-test-cluster: check-requirements add-provider-to-clusterctl generate-test-cluster-config apply-test-cluster-config wait-until-master-is-ready get-testing-config
