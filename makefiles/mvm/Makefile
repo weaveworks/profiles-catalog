@@ -132,6 +132,8 @@ delete-test-cluster:
 install-calico:
 	@echo "Installing Calico..."
 	kubectl create  -f https://docs.projectcalico.org/v3.18/manifests/calico.yaml
+	kubectl wait -n kube-system --for=condition=ready pod -l k8s-app=calico-kube-controllers 
+	kubectl wait -n kube-system --for=condition=ready pod -l k8s-app=calico-node 
 
 ##TEMP: Currently required because each microvm is not getting a DNS config currently
 patch-coredns-config:
