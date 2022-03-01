@@ -91,7 +91,6 @@ create-namespace:
 set-kubeconfig:
 	@echo "Setting kubeconfig ..."
 	echo ${MVM_MGMT_KUBECONFIG} > /tmp/config.yaml && \
-	export KUBECONFIG=/tmp/config.yaml &&\
 	cat /tmp/config.yaml
 
 
