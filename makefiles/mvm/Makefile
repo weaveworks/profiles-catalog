@@ -54,6 +54,7 @@ apply-mgmt-cluster-config:
 
 apply-test-cluster-config:
 	@echo "Applying mvm mgmt config..."
+	cat /tmp/config.yaml && \
 	kubectl apply -f /tmp/mvm-test-cluster.yaml
 
 initialize-mvm-provider:
