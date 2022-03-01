@@ -52,11 +52,11 @@ check-metal-cli:
 
 generate-mgmt-cluster-config:
 	@echo "Generating mvm mgmt config..."
-	clusterctl generate cluster -i microvm:$(CAPMVM_VERSION) -f cilium $(MVM_MGMT_CLUSTER) > $(CONFDIR)/mvm-mgmt-cluster.yaml
+	clusterctl generate cluster -i microvm:$(CAPMVM_VERSION) $(MVM_MGMT_CLUSTER) > $(CONFDIR)/mvm-mgmt-cluster.yaml
 
 generate-test-cluster-config:
 	@echo "Generating mvm test config..."
-	clusterctl generate cluster -n $(MVM_CLUSTER_NAME) -i microvm:$(CAPMVM_VERSION) -f cilium $(MVM_CLUSTER_NAME) > /tmp/mvm-test-cluster.yaml
+	clusterctl generate cluster -n $(MVM_CLUSTER_NAME) -i microvm:$(CAPMVM_VERSION) $(MVM_CLUSTER_NAME) > /tmp/mvm-test-cluster.yaml
 
 apply-mgmt-cluster-config:
 	@echo "Applying mvm mgmt config..."
@@ -131,4 +131,10 @@ delete-test-cluster:
 	kubectl delete -n $(MVM_CLUSTER_NAME) --wait=true --timeout=900s configmap/cilium-addon
 	kubectl delete ns --wait=true --timeout=900s $(MVM_CLUSTER_NAME) 
 
-create-test-cluster: check-requirements add-provider-to-clusterctl generate-test-cluster-config apply-test-cluster-config wait-until-master-is-ready get-testing-config
+##Currently required because a calico template is not included in micovm-capi and linkerd is having issues with cilium
+install-calico:
+	@echo "Installing Calico..."
+	kubectl create  -f https://docs.projectcalico.org/v3.18/manifests/calico.yaml
+
+
+create-test-cluster: check-requirements add-provider-to-clusterctl generate-test-cluster-config apply-test-cluster-config wait-until-master-is-ready get-testing-config install-calico

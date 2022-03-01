@@ -150,6 +150,7 @@ jobs:
           with:
             authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
         - name: Create kubeconfig
+          if: steps.compile-and-sort-layers.outputs.mvm-ci == 'true'
           run: |
             mkdir ${HOME}/.kube
             echo ${{ secrets.MVM_MGMT_KUBECONFIG }} | base64 --decode > ${HOME}/.kube/config
@@ -174,6 +175,12 @@ jobs:
           env:
             INFRASTRUCTURE: "mvm"
           run: make -f makefiles/Makefile test
+
+        - name: Create kubeconfig
+          if: ${{ always() && steps.compile-and-sort-layers.outputs.mvm-ci == 'true' }}
+          run: |
+            mkdir ${HOME}/.kube
+            echo ${{ secrets.MVM_MGMT_KUBECONFIG }} | base64 --decode > ${HOME}/.kube/config
 
         - name: Delete mvm cluster
           if: ${{ always() && steps.compile-and-sort-layers.outputs.mvm-ci == 'true' }}
