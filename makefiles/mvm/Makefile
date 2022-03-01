@@ -102,7 +102,8 @@ check-requirements:
 
 
 wait-until-master-is-ready:
-	kubectl wait --for=condition=ready --timeout=2m Kubeadmcontrolplanes -l cluster.x-k8s.io/cluster-name=$(MVM_CLUSTER_NAME) -n  $(MVM_CLUSTER_NAME)
+	kubectl wait --for=condition=ready --timeout=2m Clusters -n $(MVM_CLUSTER_NAME) $(MVM_CLUSTER_NAME)
+	kubectl wait --for=condition=ready --timeout=2m Kubeadmcontrolplanes -l cluster.x-k8s.io/cluster-name=$(MVM_CLUSTER_NAME) -n  $(MVM_CLUSTER_NAME) 
 
 
 delete-test-cluster:
