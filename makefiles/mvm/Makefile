@@ -20,7 +20,7 @@ export MVM_ROOT_IMAGE=ghcr.io/weaveworks/capmvm-kubernetes:1.21.8
 export MVM_KERNEL_IMAGE=ghcr.io/weaveworks/flintlock-kernel:5.10.77
 
 ##@ https://github.com/weaveworks/cluster-api-provider-microvm/blob/main/docs/compatibility.md
-CONFDIR="$(PWD)/../../../.conf"
+CONFDIR="$(PWD)/../../.conf"
 GITHUB_USERNAME=steve-fraser
 
 MVM_MGMT_CLUSTER=mvm-mgmt-profiles-cluster
@@ -63,10 +63,6 @@ initialize-mvm-provider:
 add-provider-to-clusterctl:
 	@echo "Replacing clusterctl config..."
 	mkdir -p ~/.cluster-api && \
-	ls -ltr $(PWD)/../  && \
-	ls -ltr $(PWD)/../../  && \
-	ls -ltr $(PWD)/../../../  && \
-	ls -ltr $(PWD)/../../../../  && \
 	cp $(CONFDIR)/clusterctl.config ~/.cluster-api/clusterctl.yaml
 
 create-image-pull-secret:
