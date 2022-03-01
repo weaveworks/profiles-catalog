@@ -92,6 +92,4 @@ set-kubeconfig:
 	@echo "Setting kubeconfig ..."
 	printenv MVM_MGMT_KUBECONFIG > /tmp/config.yaml
 
-
-
 create-test-cluster: set-kubeconfig
