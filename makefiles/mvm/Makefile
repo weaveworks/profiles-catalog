@@ -45,7 +45,7 @@ generate-mgmt-cluster-config:
 	clusterctl generate cluster -n $(MVM_CLUSTER_NAMESPACE) -i microvm:$(CAPMVM_VERSION) -f cilium $(MVM_MGMT_CLUSTER) > $(CONFDIR)/mvm-mgmt-cluster.yaml
 
 generate-test-cluster-config:
-	@echo "Generating mvm mgmt config..."
+	@echo "Generating mvm test config..."
 	clusterctl generate cluster -n $(MVM_CLUSTER_NAMESPACE) -i microvm:$(CAPMVM_VERSION) -f cilium $(CLUSTER_NAME) > /tmp/mvm-test-cluster.yaml
 
 apply-mgmt-cluster-config:
@@ -53,7 +53,7 @@ apply-mgmt-cluster-config:
 	kubectl apply -f $(CONFDIR)/mvm-mgmt-cluster.yaml
 
 apply-test-cluster-config:
-	@echo "Applying mvm mgmt config..."
+	@echo "Applying mvm test config..."
 	cat /tmp/config.yaml && \
 	kubectl apply -f /tmp/mvm-test-cluster.yaml
 
