@@ -88,5 +88,13 @@ delete-bootstrap-cluster:
 create-namespace:
 	kubectl create ns $(MVM_CLUSTER_NAMESPACE)
 
+set-kubeconfig:
+	@echo "Setting kubeconfig ..."
+	echo $(MVM_MGMT_KUBECONFIG) > /tmp/config.yaml && \
+	export KUBECONFIG=/tmp/config.yaml &&\
+	kubectl get pods -A
+
+
+
 create-test-cluster:
 	@echo "Creating test mvm cluster..."
