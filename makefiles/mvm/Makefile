@@ -101,6 +101,10 @@ check-requirements:
 	cd $(PWD)/../capi && $(MAKE) check-clusterctl
 
 
+wait-until-master-is-ready:
+	kubectl wait --for=condition=ready --timeout=2m Kubeadmcontrolplanes -l cluster.x-k8s.io/cluster-name=$(MVM_CLUSTER_NAME) -n  $(MVM_CLUSTER_NAME)
+
+
 delete-test-cluster:
 	@echo "Deleting mvm test cluster..."
 	kubectl delete -n $(MVM_CLUSTER_NAME) --wait=true --timeout=900s clusters.cluster.x-k8s.io $(MVM_CLUSTER_NAME)
@@ -108,4 +112,4 @@ delete-test-cluster:
 	kubectl delete -n $(MVM_CLUSTER_NAME) --wait=true --timeout=900s configmap/cilium-addon
 	kubectl delete ns --wait=true --timeout=900s $(MVM_CLUSTER_NAME) 
 
-create-test-cluster: check-requirements add-provider-to-clusterctl generate-test-cluster-config apply-test-cluster-config
+create-test-cluster: check-requirements add-provider-to-clusterctl generate-test-cluster-config apply-test-cluster-config wait-until-master-is-ready
