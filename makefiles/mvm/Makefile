@@ -106,4 +106,4 @@ check-requirements:
 	cd $(PWD)/../capi && $(MAKE) check-clusterctl
 
 
-create-test-cluster: check-requirements add-provider-to-clusterctl set-kubeconfig generate-test-cluster-config apply-test-cluster-config
+create-test-cluster: check-requirements add-provider-to-clusterctl generate-test-cluster-config apply-test-cluster-config
