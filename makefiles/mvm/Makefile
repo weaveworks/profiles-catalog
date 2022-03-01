@@ -54,7 +54,6 @@ apply-mgmt-cluster-config:
 
 apply-test-cluster-config:
 	@echo "Applying mvm test config..."
-	cat /tmp/config.yaml && \
 	kubectl apply -f /tmp/mvm-test-cluster.yaml
 
 initialize-mvm-provider:
@@ -96,10 +95,6 @@ delete-bootstrap-cluster:
 create-namespace:
 	kubectl create ns $(MVM_CLUSTER_NAMESPACE)
 
-set-kubeconfig:
-	@echo "Setting kubeconfig ..."
-	printenv MVM_MGMT_KUBECONFIG > /tmp/config.yaml &&
-	export KUBECONFIG=/tmp/config.yaml
 
 check-requirements:
 	@echo "Getting requirements..."
