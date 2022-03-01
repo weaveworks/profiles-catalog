@@ -61,6 +61,6 @@ delete-cluster:
 		eksctl delete cluster --region ${AWS_REGION} --name ${EKS_CLUSTER_NAME} --wait || \
 		aws cloudformation delete-stack --region ${AWS_REGION} --stack-name eksctl-${EKS_CLUSTER_NAME}-cluster
 	elif [ ${INFRASTRUCTURE} = "mvm" ]; then\
-		echo "Creating mvm cluster ..."
+		echo "Deleting mvm cluster ..."
 		cd $(PWD)/makefiles/mvm && $(MAKE) delete-test-cluster
 	fi

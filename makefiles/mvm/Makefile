@@ -8,7 +8,7 @@ OS := $(shell uname | tr '[:upper:]' '[:lower:]')
 
 
 
-export CLUSTER_NAME=mvm-test
+export MVM_CLUSTER_NAME?=mvm-test
 export CONTROL_PLANE_MACHINE_COUNT=1
 export WORKER_MACHINE_COUNT=1
 export CONTROL_PLANE_VIP=192.168.1.25
@@ -46,7 +46,7 @@ generate-mgmt-cluster-config:
 
 generate-test-cluster-config:
 	@echo "Generating mvm test config..."
-	clusterctl generate cluster -n $(MVM_CLUSTER_NAMESPACE) -i microvm:$(CAPMVM_VERSION) -f cilium $(CLUSTER_NAME) > /tmp/mvm-test-cluster.yaml
+	clusterctl generate cluster -n $(MVM_CLUSTER_NAMESPACE) -i microvm:$(CAPMVM_VERSION) -f cilium $(MVM_CLUSTER_NAME) > /tmp/mvm-test-cluster.yaml
 
 apply-mgmt-cluster-config:
 	@echo "Applying mvm mgmt config..."
@@ -103,7 +103,7 @@ check-requirements:
 
 delete-test-cluster:
 	@echo "Deleting mvm test cluster..."
-	kubectl delete -n $(MVM_CLUSTER_NAMESPACE) --wait=true --timeout=900s clusters.cluster.x-k8s.io $(MVM_KIND_CLUSTER)
+	kubectl delete -n $(MVM_CLUSTER_NAMESPACE) --wait=true --timeout=900s clusters.cluster.x-k8s.io $(MVM_CLUSTER_NAME)
 	kubectl delete -n $(MVM_CLUSTER_NAMESPACE) --wait=true --timeout=900s clusterresourceset.addons.cluster.x-k8s.io/crs-cilium
 	kubectl delete -n $(MVM_CLUSTER_NAMESPACE) --wait=true --timeout=900s configmap/cilium-addon
 create-test-cluster: check-requirements add-provider-to-clusterctl generate-test-cluster-config apply-test-cluster-config
