@@ -88,5 +88,5 @@ delete-bootstrap-cluster:
 create-namespace:
 	kubectl create ns $(MVM_CLUSTER_NAMESPACE)
 
-create-mvm-cluster:
-	@echo "Creating mvm cluster..."
+create-test-cluster:
+	@echo "Creating test mvm cluster..."

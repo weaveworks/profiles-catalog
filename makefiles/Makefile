@@ -49,4 +49,5 @@ create-cluster:
 		gcloud container clusters create ${GKE_CLUSTER_NAME} --region ${GCP_REGION} -m ${GCP_MACHINE_TYPE}  --num-nodes=${GCP_NUM_NODES} --project ${GCP_PROJECT_NAME}
 	elif [ ${INFRASTRUCTURE} = "mvm" ]; then\
 		echo "Creating mvm cluster ..."
+		$(MAKE) -f liquidmetal.mk create-test-cluster
 	fi
