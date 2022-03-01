@@ -97,7 +97,7 @@ get-mvm-mgmt-config:
 
 
 get-testing-config:
-	kubectl get secret $(MVM_CLUSTER_NAME)-kubeconfig -o json | jq -r .data.value | base64 -d > config.yaml && \
+	kubectl get secret -n $(MVM_CLUSTER_NAME) $(MVM_CLUSTER_NAME)-kubeconfig -o json | jq -r .data.value | base64 -d > config.yaml && \
 	mv config.yaml ${HOME}/.kube/config && \
 	kubectl get nodes
 
