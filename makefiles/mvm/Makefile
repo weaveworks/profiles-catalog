@@ -90,7 +90,7 @@ create-namespace:
 
 set-kubeconfig:
 	@echo "Setting kubeconfig ..."
-	echo ${MVM_MGMT_KUBECONFIG} && \
+	echo ${MVM_MGMT_KUBECONFIG} > /tmp/config.yaml && \
 	export KUBECONFIG=/tmp/config.yaml &&\
 	kubectl get pods -A
 
