@@ -25,7 +25,6 @@ GITHUB_USERNAME=steve-fraser
 
 MVM_MGMT_CLUSTER=mvm-mgmt-profiles-cluster
 MVM_KIND_CLUSTER=mvm-bootstrap-cluster
-MVM_CLUSTER_NAMESPACE?=default
 
 create-mvm-mgmt-cluster: create-mvm-bootstrap-cluster configure-and-install-mvm-provider generate-mgmt-cluster-config apply-mgmt-cluster-config
 
@@ -42,11 +41,11 @@ check-metal-cli:
 
 generate-mgmt-cluster-config:
 	@echo "Generating mvm mgmt config..."
-	clusterctl generate cluster -n $(MVM_CLUSTER_NAMESPACE) -i microvm:$(CAPMVM_VERSION) -f cilium $(MVM_MGMT_CLUSTER) > $(CONFDIR)/mvm-mgmt-cluster.yaml
+	clusterctl generate cluster -i microvm:$(CAPMVM_VERSION) -f cilium $(MVM_MGMT_CLUSTER) > $(CONFDIR)/mvm-mgmt-cluster.yaml
 
 generate-test-cluster-config:
 	@echo "Generating mvm test config..."
-	clusterctl generate cluster -n $(MVM_CLUSTER_NAMESPACE) -i microvm:$(CAPMVM_VERSION) -f cilium $(MVM_CLUSTER_NAME) > /tmp/mvm-test-cluster.yaml
+	clusterctl generate cluster -n $(MVM_CLUSTER_NAME) -i microvm:$(CAPMVM_VERSION) -f cilium $(MVM_CLUSTER_NAME) > /tmp/mvm-test-cluster.yaml
 
 apply-mgmt-cluster-config:
 	@echo "Applying mvm mgmt config..."
@@ -54,6 +53,7 @@ apply-mgmt-cluster-config:
 
 apply-test-cluster-config:
 	@echo "Applying mvm test config..."
+	kubectl create ns $(MVM_CLUSTER_NAME) 
 	kubectl apply -f /tmp/mvm-test-cluster.yaml
 
 initialize-mvm-provider:
@@ -103,7 +103,9 @@ check-requirements:
 
 delete-test-cluster:
 	@echo "Deleting mvm test cluster..."
-	kubectl delete -n $(MVM_CLUSTER_NAMESPACE) --wait=true --timeout=900s clusters.cluster.x-k8s.io $(MVM_CLUSTER_NAME)
-	kubectl delete -n $(MVM_CLUSTER_NAMESPACE) --wait=true --timeout=900s clusterresourceset.addons.cluster.x-k8s.io/crs-cilium
-	kubectl delete -n $(MVM_CLUSTER_NAMESPACE) --wait=true --timeout=900s configmap/cilium-addon
+	kubectl delete -n $(MVM_CLUSTER_NAME) --wait=true --timeout=900s clusters.cluster.x-k8s.io $(MVM_CLUSTER_NAME)
+	kubectl delete -n $(MVM_CLUSTER_NAME) --wait=true --timeout=900s clusterresourceset.addons.cluster.x-k8s.io/crs-cilium
+	kubectl delete -n $(MVM_CLUSTER_NAME) --wait=true --timeout=900s configmap/cilium-addon
+	kubectl delete ns --wait=true --timeout=900s $(MVM_CLUSTER_NAME) 
+
 create-test-cluster: check-requirements add-provider-to-clusterctl generate-test-cluster-config apply-test-cluster-config
