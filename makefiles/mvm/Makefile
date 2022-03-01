@@ -63,7 +63,7 @@ initialize-mvm-provider:
 add-provider-to-clusterctl:
 	@echo "Replacing clusterctl config..."
 	mkdir -p ~/.cluster-api && \
-	cp $(CONFDIR)/clusterctl.config ~/.cluster-api/clusterctl.yaml
+	cp clusterctl.config ~/.cluster-api/clusterctl.yaml
 
 create-image-pull-secret:
 	@echo "Create image pull secrets" 
