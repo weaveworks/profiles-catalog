@@ -124,7 +124,7 @@ jobs:
             GKE_CLUSTER_NAME: profiles-${{ github.run_number }}
             INFRASTRUCTURE: "gke"
           run: |
-            make create-cluster
+            make -f makefiles/Makefile create-cluster
 
         - name: Create wego-system namespace (gke)
           if: steps.compile-and-sort-layers.outputs.gke-ci == 'true'
@@ -143,7 +143,7 @@ jobs:
             GKE_CLUSTER_NAME: profiles-${{ github.run_number }}
             INFRASTRUCTURE: "gke"
           run: |
-            make delete-cluster
+            make -f makefiles/Makefile delete-cluster
 
         - name: Create mvm cluster
           if: steps.compile-and-sort-layers.outputs.mvm-ci == 'true'
@@ -152,23 +152,23 @@ jobs:
             MVM_CLUSTER_NAME: profiles-${{ github.run_number }}
             INFRASTRUCTURE: "mvm"
           run: |
-            make create-cluster
+            make -f makefiles/Makefile create-cluster
 
-        - name: Create wego-system namespace (mvm)
-          if: steps.compile-and-sort-layers.outputs.mvm-ci == 'true'
-          run: kubectl create namespace wego-system
+        # - name: Create wego-system namespace (mvm)
+        #   if: steps.compile-and-sort-layers.outputs.mvm-ci == 'true'
+        #   run: kubectl create namespace wego-system
 
-        - name: Run chart-testing on mvm (install)
-          if: steps.compile-and-sort-layers.outputs.mvm-ci == 'true'
-          env:
-            INFRASTRUCTURE: "mvm"
-          run: make -f makefiles/Makefile test
+        # - name: Run chart-testing on mvm (install)
+        #   if: steps.compile-and-sort-layers.outputs.mvm-ci == 'true'
+        #   env:
+        #     INFRASTRUCTURE: "mvm"
+        #   run: make -f makefiles/Makefile test
 
-        - name: Delete mvm cluster
-          if: ${{ always() && steps.compile-and-sort-layers.outputs.mvm-ci == 'true' }}
-          shell: bash
-          env:
-            GKE_CLUSTER_NAME: profiles-${{ github.run_number }}
-            INFRASTRUCTURE: "mvm"
-          run: |
-            make delete-cluster
+        # - name: Delete mvm cluster
+        #   if: ${{ always() && steps.compile-and-sort-layers.outputs.mvm-ci == 'true' }}
+        #   shell: bash
+        #   env:
+        #     GKE_CLUSTER_NAME: profiles-${{ github.run_number }}
+        #     INFRASTRUCTURE: "mvm"
+        #   run: |
+        #     make -f makefiles/Makefile delete-cluster
