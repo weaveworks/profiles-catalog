@@ -96,5 +96,4 @@ set-kubeconfig:
 
 
 
-create-test-cluster:
-	@echo "Creating test mvm cluster..."
+create-test-cluster: set-kubeconfig
