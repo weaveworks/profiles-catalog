@@ -44,10 +44,17 @@ generate-mgmt-cluster-config:
 	@echo "Generating mvm mgmt config..."
 	clusterctl generate cluster -n $(MVM_CLUSTER_NAMESPACE) -i microvm:$(CAPMVM_VERSION) -f cilium $(MVM_MGMT_CLUSTER) > $(CONFDIR)/mvm-mgmt-cluster.yaml
 
+generate-test-cluster-config:
+	@echo "Generating mvm mgmt config..."
+	clusterctl generate cluster -n $(MVM_CLUSTER_NAMESPACE) -i microvm:$(CAPMVM_VERSION) -f cilium $(CLUSTER_NAME) > $(CONFDIR)/mvm-test-cluster.yaml
+
 apply-mgmt-cluster-config:
 	@echo "Applying mvm mgmt config..."
 	kubectl apply -f $(CONFDIR)/mvm-mgmt-cluster.yaml
 
+apply-test-cluster-config:
+	@echo "Applying mvm mgmt config..."
+	kubectl apply -f $(CONFDIR)/mvm-test-cluster.yaml
 
 initialize-mvm-provider:
 	@echo "Initialize mvm provider in kind management cluster ..."
@@ -93,4 +100,4 @@ set-kubeconfig:
 	printenv MVM_MGMT_KUBECONFIG > /tmp/config.yaml &&
 	export KUBECONFIG=/tmp/config.yaml
 
-create-test-cluster: set-kubeconfig
+create-test-cluster: set-kubeconfig generate-test-cluster-config apply-test-cluster-config
