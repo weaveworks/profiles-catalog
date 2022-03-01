@@ -101,4 +101,9 @@ check-requirements:
 	cd $(PWD)/../capi && $(MAKE) check-clusterctl
 
 
+delete-test-cluster:
+	@echo "Deleting mvm test cluster..."
+	kubectl delete -n $(MVM_CLUSTER_NAMESPACE) --wait=true --timeout=900s clusters.cluster.x-k8s.io $(MVM_KIND_CLUSTER)
+	kubectl delete -n $(MVM_CLUSTER_NAMESPACE) --wait=true --timeout=900s clusterresourceset.addons.cluster.x-k8s.io/crs-cilium
+	kubectl delete -n $(MVM_CLUSTER_NAMESPACE) --wait=true --timeout=900s configmap/cilium-addon
 create-test-cluster: check-requirements add-provider-to-clusterctl generate-test-cluster-config apply-test-cluster-config
