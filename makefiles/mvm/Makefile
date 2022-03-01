@@ -100,4 +100,9 @@ set-kubeconfig:
 	printenv MVM_MGMT_KUBECONFIG > /tmp/config.yaml &&
 	export KUBECONFIG=/tmp/config.yaml
 
-create-test-cluster: set-kubeconfig generate-test-cluster-config apply-test-cluster-config
+check-requirements:
+	@echo "Getting requirements..."
+	cd $(PWD)/../capi && $(MAKE) check-clusterctl
+
+
+create-test-cluster: check-requirements set-kubeconfig generate-test-cluster-config apply-test-cluster-config
