@@ -50,18 +50,3 @@ create-cluster:
 	elif [ ${INFRASTRUCTURE} = "mvm" ]; then\
 		echo "Creating mvm cluster ..."
 	fi
-
-delete-cluster: 
-	@if [ ${INFRASTRUCTURE} = "kind" ]; then\
-		echo "Deleting kind cluster ..."
-		kind delete cluster --name ${KIND_CLUSTER}
-	elif [ ${INFRASTRUCTURE} = "eks" ]; then\
-		echo "Deleting eks cluster ..."
-		eksctl delete cluster --region ${AWS_REGION} --name ${EKS_CLUSTER_NAME} --wait || \
-		aws cloudformation delete-stack --region ${AWS_REGION} --stack-name eksctl-${EKS_CLUSTER_NAME}-cluster
-	elif [ ${INFRASTRUCTURE} = "gke" ]; then\
-		echo "Deleting gke cluster ..."
-		gcloud container clusters delete ${GKE_CLUSTER_NAME} --region ${GCP_REGION} --project ${GCP_PROJECT_NAME} -q
-	elif [ ${INFRASTRUCTURE} = "mvm" ]; then\
-		echo "Deleting mvm cluster ..."
-	fi
