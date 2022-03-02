@@ -55,7 +55,8 @@ generate-mgmt-cluster-config:
 	clusterctl generate cluster -i microvm:$(CAPMVM_VERSION) $(MVM_MGMT_CLUSTER) > $(CONFDIR)/mvm-mgmt-cluster.yaml
 
 generate-test-cluster-config:
-	@echo "Generating mvm test config..."
+	@echo "Generating mvm test config..." 
+	printf "%d.%d.%d.%d\n" "$((RANDOM % 256))" "$((RANDOM % 256))" "$((RANDOM % 256))" "$((RANDOM % 256))" && \
 	clusterctl generate cluster -n $(MVM_CLUSTER_NAME) -i microvm:$(CAPMVM_VERSION) $(MVM_CLUSTER_NAME) > /tmp/mvm-test-cluster.yaml
 
 apply-mgmt-cluster-config:
@@ -135,15 +136,12 @@ install-calico:
 	kubectl wait --timeout=60s  -n kube-system --for=condition=ready pod -l k8s-app=calico-kube-controllers 
 	kubectl wait --timeout=60s -n kube-system --for=condition=ready pod -l k8s-app=calico-node 
 
-##TEMP: Currently required because each microvm is not getting a DNS config currently
-patch-coredns-config:
+#Currently required because the cni is not installed yet when the inital dns pods are installed, so they need to be restarted for them to be created with sni
+restart-coredns:
 	@echo "Patching CoreDNS..."
-	kubectl apply -f coredns.yaml
-	kubectl -n kube-system scale deployment coredns --replicas=0
-	kubectl -n kube-system scale deployment coredns --replicas=1
 	kubectl rollout restart deployment/coredns -n kube-system	
 
 
-create-test-cluster: check-requirements add-provider-to-clusterctl generate-test-cluster-config apply-test-cluster-config wait-until-master-is-ready get-testing-config install-calico patch-coredns-config
+create-test-cluster: check-requirements add-provider-to-clusterctl generate-test-cluster-config apply-test-cluster-config wait-until-master-is-ready get-testing-config install-calico restart-coredns
 
-create-test-without-generating-a-config-cluster: check-requirements add-provider-to-clusterctl apply-test-cluster-config wait-until-master-is-ready get-testing-config patch-coredns-config install-calico
+create-test-without-generating-a-config-cluster: check-requirements add-provider-to-clusterctl apply-test-cluster-config wait-until-master-is-ready get-testing-config install-calico restart-coredns
