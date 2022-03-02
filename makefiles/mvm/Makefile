@@ -140,9 +140,7 @@ patch-coredns-config:
 	@echo "Patching CoreDNS..."
 	kubectl wait --for=condition=ready pods --namespace=kube-system -l k8s-app=kube-dns
 	kubectl apply -f coredns.yaml
-	kubectl rollout restart deployment/coredns -n kube-system
-	kubectl wait --for=condition=ready pods --namespace=kube-system -l k8s-app=kube-dns
-	
+	kubectl rollout restart deployment/coredns -n kube-system	
 
 
 create-test-cluster: check-requirements add-provider-to-clusterctl generate-test-cluster-config apply-test-cluster-config wait-until-master-is-ready get-testing-config patch-coredns-config install-calico
