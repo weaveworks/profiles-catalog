@@ -10,9 +10,8 @@ lastAvailableIP=23
 ipAvailableStartingAt=3
 
 highest=$ipAvailableStartingAt
-for cluster in $(kubectl get MicrovmCluster --output=jsonpath={.items..spec.controlPlaneEndpoint.host}); do 
+for cluster in $(kubectl get MicrovmCluster --output=jsonpath={.items..spec.controlPlaneEndpoint.host} -A); do 
     oc4=$(echo $cluster | awk -F. '{print $4}')
-    echo $oc4
     if [ $oc4 -gt $highest ]
         then
             echo "$oc4 is greater than $highest"
