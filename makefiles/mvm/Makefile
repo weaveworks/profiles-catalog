@@ -56,7 +56,6 @@ generate-mgmt-cluster-config:
 
 generate-test-cluster-config:
 	@echo "Generating mvm test config..." 
-	printf "%d.%d.%d.%d\n" "$((RANDOM % 256))" "$((RANDOM % 256))" "$((RANDOM % 256))" "$((RANDOM % 256))" && \
 	clusterctl generate cluster -n $(MVM_CLUSTER_NAME) -i microvm:$(CAPMVM_VERSION) $(MVM_CLUSTER_NAME) > /tmp/mvm-test-cluster.yaml
 
 apply-mgmt-cluster-config:
