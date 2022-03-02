@@ -132,8 +132,8 @@ delete-test-cluster:
 install-calico:
 	@echo "Installing Calico..."
 	kubectl create  -f https://docs.projectcalico.org/v3.18/manifests/calico.yaml
-	kubectl wait --timeout=60s  -n kube-system --for=condition=ready pod -l k8s-app=calico-kube-controllers 
-	kubectl wait --timeout=60s -n kube-system --for=condition=ready pod -l k8s-app=calico-node 
+	kubectl wait --timeout=3m  -n kube-system --for=condition=ready pod -l k8s-app=calico-kube-controllers 
+	kubectl wait --timeout=3m -n kube-system --for=condition=ready pod -l k8s-app=calico-node 
 
 #Currently required because the cni is not installed yet when the inital dns pods are installed, so they need to be restarted for them to be created with sni
 restart-coredns:
@@ -145,4 +145,3 @@ create-test-cluster: check-requirements add-provider-to-clusterctl pick-vip-addr
 
 create-test-without-generating-a-config-cluster: check-requirements add-provider-to-clusterctl apply-test-cluster-config wait-until-master-is-ready get-testing-config install-calico restart-coredns
 
-#bump bump bump bumping
