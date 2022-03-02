@@ -120,8 +120,8 @@ check-requirements:
 
 
 wait-until-master-is-ready:
-	kubectl wait --for=condition=ready --timeout=2m Clusters -n $(MVM_CLUSTER_NAME) $(MVM_CLUSTER_NAME)
-	kubectl wait --for=condition=ready --timeout=2m Kubeadmcontrolplanes -l cluster.x-k8s.io/cluster-name=$(MVM_CLUSTER_NAME) -n  $(MVM_CLUSTER_NAME) 
+	kubectl wait --for=condition=ready --timeout=3m Clusters -n $(MVM_CLUSTER_NAME) $(MVM_CLUSTER_NAME)
+	kubectl wait --for=condition=ready --timeout=3m Kubeadmcontrolplanes -l cluster.x-k8s.io/cluster-name=$(MVM_CLUSTER_NAME) -n  $(MVM_CLUSTER_NAME) 
 
 delete-test-cluster:
 	@echo "Deleting mvm test cluster..."
@@ -138,9 +138,12 @@ install-calico:
 ##TEMP: Currently required because each microvm is not getting a DNS config currently
 patch-coredns-config:
 	@echo "Patching CoreDNS..."
-	kubectl wait --timeout=60s --for=condition=ready pods --namespace=kube-system -l k8s-app=kube-dns
 	kubectl apply -f coredns.yaml
+	kubectl -n kube-system scale deployment coredns --replicas=0
+	kubectl -n kube-system scale deployment coredns --replicas=1
 	kubectl rollout restart deployment/coredns -n kube-system	
 
 
 create-test-cluster: check-requirements add-provider-to-clusterctl generate-test-cluster-config apply-test-cluster-config wait-until-master-is-ready get-testing-config patch-coredns-config install-calico
+
+create-test-without-generating-a-config-cluster: check-requirements add-provider-to-clusterctl apply-test-cluster-config wait-until-master-is-ready get-testing-config patch-coredns-config install-calico
