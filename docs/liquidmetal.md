@@ -22,3 +22,14 @@ cat config.yaml | base64
 
 ### Step 4: Update tailscale auth key in  weaveworks/profiles-catalog
 https://tailscale.com/kb/1085/auth-keys/
+
+
+### Output
+
+1. DHCP/NAT Host
+2. Host-0
+    1. Containerd
+    2. Flintlock
+    3. Firecracker
+    4. MVM Management Cluster
+

@@ -12,16 +12,9 @@ export MVM_CLUSTER_NAME?=mvm-test
 export CONTROL_PLANE_MACHINE_COUNT=1
 export WORKER_MACHINE_COUNT=1
 
-##MGMT CREATING VIP
-#export CONTROL_PLANE_VIP=192.168.1.25
 
-##TESTING VIP
-export CONTROL_PLANE_VIP=192.168.1.24
+CONTROL_PLANE_VIP_MGMT=192.168.1.25
 
-##MGMT CREATING ENDPOINT
-# export HOST_ENDPOINT=192.168.1.3:9090
-
-##TESTING CREATING ENDPOINT
 export HOST_ENDPOINT=10.68.184.131:9090
 
 export CAPMVM_VERSION=v0.2.2
@@ -32,6 +25,9 @@ export MVM_KERNEL_IMAGE=ghcr.io/weaveworks/flintlock-kernel:5.10.77
 
 ##@ https://github.com/weaveworks/cluster-api-provider-microvm/blob/main/docs/compatibility.md
 CONFDIR="$(PWD)/../../.conf"
+BINDIR="${PWD}/../../.bin"
+
+
 GITHUB_USERNAME=steve-fraser
 
 MVM_MGMT_CLUSTER=mvm-mgmt-profiles-cluster
@@ -52,11 +48,15 @@ check-metal-cli:
 
 generate-mgmt-cluster-config:
 	@echo "Generating mvm mgmt config..."
-	clusterctl generate cluster -i microvm:$(CAPMVM_VERSION) $(MVM_MGMT_CLUSTER) > $(CONFDIR)/mvm-mgmt-cluster.yaml
+	CONTROL_PLANE_VIP=${CONTROL_PLANE_VIP_MGMT} clusterctl generate cluster -i microvm:$(CAPMVM_VERSION) $(MVM_MGMT_CLUSTER) > $(CONFDIR)/mvm-mgmt-cluster.yaml
+
+pick-vip-address:
+	bash ${BINDIR}/select-vip-for-mvm.sh
+
 
 generate-test-cluster-config:
 	@echo "Generating mvm test config..." 
-	clusterctl generate cluster -n $(MVM_CLUSTER_NAME) -i microvm:$(CAPMVM_VERSION) $(MVM_CLUSTER_NAME) > /tmp/mvm-test-cluster.yaml
+	CONTROL_PLANE_VIP=$(shell cat /tmp/mvm-vip) clusterctl generate cluster -n $(MVM_CLUSTER_NAME) -i microvm:$(CAPMVM_VERSION) $(MVM_CLUSTER_NAME) > /tmp/mvm-test-cluster.yaml
 
 apply-mgmt-cluster-config:
 	@echo "Applying mvm mgmt config..."
@@ -141,6 +141,6 @@ restart-coredns:
 	kubectl rollout restart deployment/coredns -n kube-system	
 
 
-create-test-cluster: check-requirements add-provider-to-clusterctl generate-test-cluster-config apply-test-cluster-config wait-until-master-is-ready get-testing-config install-calico restart-coredns
+create-test-cluster: check-requirements add-provider-to-clusterctl pick-vip-address generate-test-cluster-config apply-test-cluster-config wait-until-master-is-ready get-testing-config install-calico restart-coredns
 
 create-test-without-generating-a-config-cluster: check-requirements add-provider-to-clusterctl apply-test-cluster-config wait-until-master-is-ready get-testing-config install-calico restart-coredns
