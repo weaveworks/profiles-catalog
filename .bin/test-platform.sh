@@ -20,6 +20,7 @@ cat /tmp/layers-sorted | while read layer || [[ -n $layer ]];
 do
   echo current layer is $layer
   if [ -f /tmp/$layer-$INFRASTRUCTURE ]; then 
+    charts_in_layer=$(cat /tmp/$layer-$INFRASTRUCTURE)
     [ -f /tmp/$layer-$INFRASTRUCTURE-changed ] && charts_changed_in_layer=$(cat /tmp/$layer-$INFRASTRUCTURE-changed)
     if [ -f /tmp/$layer-$INFRASTRUCTURE-changed ]; then
       echo Testing changed on $INFRASTRUCTURE in layer: $layer
