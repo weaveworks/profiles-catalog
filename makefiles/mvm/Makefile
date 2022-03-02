@@ -132,6 +132,7 @@ delete-test-cluster:
 install-calico:
 	@echo "Installing Calico..."
 	kubectl create  -f https://docs.projectcalico.org/v3.18/manifests/calico.yaml
+	kubectl wait --for=condition=Ready nodes --all --timeout=600s
 	kubectl wait --timeout=3m  -n kube-system --for=condition=ready pod -l k8s-app=calico-kube-controllers 
 	kubectl wait --timeout=3m -n kube-system --for=condition=ready pod -l k8s-app=calico-node 
 
