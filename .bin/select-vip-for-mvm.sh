@@ -6,8 +6,8 @@ set -eu
 set -o pipefail
 
 subnet=192.168.1.
-lastAvailableIP=24
-ipAvailableStartingAt=4
+lastAvailableIP=23
+ipAvailableStartingAt=3
 
 highest=$ipAvailableStartingAt
 for cluster in $(kubectl get MicrovmCluster --output=jsonpath={.items..spec.controlPlaneEndpoint.host}); do 
@@ -27,5 +27,6 @@ if [ $highest -gt $lastAvailableIP ]
         
 
 fi
+highest=$((highest+1))
 echo "IP Selected is"  $subnet$highest
 echo $subnet$highest > /tmp/mvm-vip
