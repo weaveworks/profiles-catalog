@@ -69,11 +69,12 @@ jobs:
             touch /tmp/platforms
             echo kind >> /tmp/platforms
             echo gke >> /tmp/platforms
+            echo mvm >> /tmp/platforms
 
         - name: Compile and Sort layers alphabetically
           id: compile-and-sort-layers
           run: |
-            make -f Makefile.v2 sort-layers
+            make -f makefiles/Makefile sort-layers
 
         - name: Add helm dependencies
           shell: bash
@@ -105,7 +106,7 @@ jobs:
           if: steps.compile-and-sort-layers.outputs.kind-ci == 'true' 
           env:
             INFRASTRUCTURE: "kind"
-          run:  make -f Makefile.v2 test
+          run:  make -f makefiles/Makefile test
 
 
         - name: Set up Google Cloud SDK
@@ -123,7 +124,7 @@ jobs:
             GKE_CLUSTER_NAME: profiles-${{ github.run_number }}
             INFRASTRUCTURE: "gke"
           run: |
-            make create-cluster
+            make -f makefiles/Makefile create-cluster
 
         - name: Create wego-system namespace (gke)
           if: steps.compile-and-sort-layers.outputs.gke-ci == 'true'
@@ -133,7 +134,8 @@ jobs:
           if: steps.compile-and-sort-layers.outputs.gke-ci == 'true'
           env:
             INFRASTRUCTURE: "gke"
-          run: make -f Makefile.v2 test
+          run: |
+            make -f makefiles/Makefile test
 
         - name: Delete gke cluster
           if: ${{ always() && steps.compile-and-sort-layers.outputs.gke-ci == 'true' }}
@@ -142,4 +144,50 @@ jobs:
             GKE_CLUSTER_NAME: profiles-${{ github.run_number }}
             INFRASTRUCTURE: "gke"
           run: |
-            make delete-cluster
+            make -f makefiles/Makefile delete-cluster
+        
+        - name: Tailscale
+          uses: tailscale/github-action@v1
+          with:
+            authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
+        - name: Create kubeconfig
+          if: steps.compile-and-sort-layers.outputs.mvm-ci == 'true'
+          run: |
+            mkdir -p ${HOME}/.kube
+            echo ${{ secrets.MVM_MGMT_KUBECONFIG }} | base64 --decode > ${HOME}/.kube/config
+
+        - name: Create mvm cluster
+          if: steps.compile-and-sort-layers.outputs.mvm-ci == 'true'
+          shell: bash
+          env:
+            MVM_CLUSTER_NAME: profiles-${{ github.run_number }}
+            INFRASTRUCTURE: "mvm"
+            MVM_MGMT_KUBECONFIG: ${{ secrets.MVM_MGMT_KUBECONFIG }}
+            GITHUB_TOKEN: ${{secrets.WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
+          run: |
+            make -f makefiles/Makefile create-cluster
+
+        - name: Create wego-system namespace (mvm)
+          if: steps.compile-and-sort-layers.outputs.mvm-ci == 'true'
+          run: kubectl create namespace wego-system
+
+        - name: Run chart-testing on mvm (install)
+          if: steps.compile-and-sort-layers.outputs.mvm-ci == 'true'
+          env:
+            INFRASTRUCTURE: "mvm"
+          run: make -f makefiles/Makefile test
+
+        - name: Create kubeconfig
+          if: ${{ always() && steps.compile-and-sort-layers.outputs.mvm-ci == 'true' }}
+          run: |
+            mkdir -p ${HOME}/.kube
+            echo ${{ secrets.MVM_MGMT_KUBECONFIG }} | base64 --decode > ${HOME}/.kube/config
+
+        - name: Delete mvm cluster
+          if: ${{ always() && steps.compile-and-sort-layers.outputs.mvm-ci == 'true' }}
+          shell: bash
+          env:
+            MVM_CLUSTER_NAME: profiles-${{ github.run_number }}
+            INFRASTRUCTURE: "mvm"
+          run: |
+            make -f makefiles/Makefile delete-cluster
