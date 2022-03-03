@@ -28,5 +28,3 @@ check-clusterctl:
 	chmod +x clusterctl && \
 	sudo mv ./clusterctl /usr/local/bin/clusterctl && \
 	clusterctl version)
-
-#bump bump
