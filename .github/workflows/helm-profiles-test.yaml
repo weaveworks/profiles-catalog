@@ -145,11 +145,56 @@ jobs:
             INFRASTRUCTURE: "gke"
           run: |
             make -f makefiles/Makefile delete-cluster
-        
-        - name: Tailscale
-          uses: tailscale/github-action@v1
+  test-mvm:
+    runs-on: self-hosted
+    steps:
+        - name: Checkout
+          uses: actions/checkout@v2
           with:
-            authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
+            fetch-depth: 0
+
+        - name: Set up Helm
+          uses: azure/setup-helm@v1
+          with:
+            version: 3.*
+
+        - uses: actions/setup-python@v2
+          with:
+            python-version: 3.7
+
+        - name: Set up chart-testing
+          uses: helm/chart-testing-action@v2.1.0
+
+        - name: Adding platforms
+          run: |
+            rm -rf /tmp/*
+            touch /tmp/platforms
+            echo kind >> /tmp/platforms
+            echo gke >> /tmp/platforms
+            echo mvm >> /tmp/platforms
+
+        - name: Compile and Sort layers alphabetically
+          id: compile-and-sort-layers
+          run: |
+            make -f makefiles/Makefile sort-layers
+
+        - name: Add helm dependencies
+          shell: bash
+          run: |
+            for dir in $(ls -d charts/*/ | cut -f2 -d'/'); do
+              repo_urls=$(helm dependency list charts/"$dir" | grep -Eo "(http|https)://[a-zA-Z0-9./?=_%:-]*" || true)
+              i=0
+              echo $repo_urls | while read urls; do
+                for u in $urls; do
+                  if [ ! -z "$u" ] 
+                  then
+                    echo $u
+                    helm repo add $dir$i $u
+                    ((i=i+1))
+                  fi
+                done
+              done
+            done
         - name: Create kubeconfig
           if: steps.compile-and-sort-layers.outputs.mvm-ci == 'true'
           run: |

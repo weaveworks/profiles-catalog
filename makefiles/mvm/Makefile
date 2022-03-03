@@ -38,11 +38,20 @@ create-mvm-mgmt-cluster: create-mvm-bootstrap-cluster configure-and-install-mvm-
 ##@ Purpose: Post cluster creations with kubeconfig already configured to install mvm provider
 configure-and-install-mvm-provider: add-provider-to-clusterctl create-image-pull-secret install-cert-manager initialize-mvm-provider
 
+##@ Purpose: to install the github runner
+install-github-runner:
+	helm repo add actions-runner-controller https://actions-runner-controller.github.io/actions-runner-controller
+	kubectl create secret generic controller-manager \
+    -n actions-runner-system \
+    --from-literal=github_token=${GITHUB_TOKEN} || true && \
+	helm upgrade --install --namespace actions-runner-system --create-namespace \
+	--wait actions-runner-controller actions-runner-controller/actions-runner-controller &&\
+	kubectl apply -f runner.yaml
 
 check-metal-cli:
 	@which metal >/dev/null 2>&1 || (echo "metal binary not found, installing ..." && \
 	curl -s -L "https://github.com/equinix/metal-cli/releases/download/v0.7.3/metal-${OS}-amd64" -o metal && \
-	chmod +x metal && \
+	chmod +x metal && \ 
 	sudo mv ./metal /usr/local/bin/metal && \
 	metal -v)
 
@@ -144,5 +153,3 @@ restart-coredns:
 
 
 create-test-cluster: check-requirements add-provider-to-clusterctl pick-vip-address generate-test-cluster-config apply-test-cluster-config wait-until-master-is-ready get-testing-config install-calico restart-coredns
-
-create-test-without-generating-a-config-cluster: check-requirements add-provider-to-clusterctl apply-test-cluster-config wait-until-master-is-ready get-testing-config install-calico restart-coredns

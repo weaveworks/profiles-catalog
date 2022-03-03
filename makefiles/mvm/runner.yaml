@@ -1,0 +1,7 @@
+# runner.yaml
+apiVersion: actions.summerwind.dev/v1alpha1
+kind: Runner
+metadata:
+  name: mvm-runner
+spec:
+    repository: weaveworks/profiles-catalog 
