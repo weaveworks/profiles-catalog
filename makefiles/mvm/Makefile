@@ -131,8 +131,9 @@ delete-test-cluster:
 ##TEMP: Currently required because a calico template is not included in micovm-capi releases and linkerd is having issues with cilium
 install-calico:
 	@echo "Installing Calico..."
-	kubectl create  -f https://docs.projectcalico.org/v3.22/manifests/calico.yaml
+	kubectl create  -f calico.yaml
 	kubectl wait --for=condition=Ready nodes --all --timeout=600s
+	kubectl wait --timeout=3m  -n kube-system --for=condition=ready ds calico-node 
 	kubectl wait --timeout=3m  -n kube-system --for=condition=ready pod -l k8s-app=calico-kube-controllers 
 	kubectl wait --timeout=3m -n kube-system --for=condition=ready pod -l k8s-app=calico-node 
 
