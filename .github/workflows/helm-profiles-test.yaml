@@ -135,7 +135,6 @@ jobs:
           env:
             INFRASTRUCTURE: "gke"
           run: |
-            ls -ltr
             make -f makefiles/Makefile test
 
         - name: Delete gke cluster
@@ -154,7 +153,7 @@ jobs:
         - name: Create kubeconfig
           if: steps.compile-and-sort-layers.outputs.mvm-ci == 'true'
           run: |
-            mkdir ${HOME}/.kube
+            mkdir -p ${HOME}/.kube
             echo ${{ secrets.MVM_MGMT_KUBECONFIG }} | base64 --decode > ${HOME}/.kube/config
 
         - name: Create mvm cluster
