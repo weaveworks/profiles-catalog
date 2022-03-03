@@ -9,6 +9,10 @@ CHART_DIR=./charts/
 CT_CONFIG=ct.yaml
 
 charts=$(ls -d $CHART_DIR/*)
+
+#Added to clear config for runner
+rm -rf /tmp/layer*
+
 touch /tmp/layers
 for dir in $charts; do
   if [[ $(yq e '.annotations."weave.works/layer"' $dir/Chart.yaml) != "null" ]]; then
@@ -19,6 +23,9 @@ sort /tmp/layers | uniq > /tmp/layers-sorted
 
 cat /tmp/platforms | while read platform || [[ -n $platform ]];
 do
+  #Added to clear config for runner
+  rm -rf /tmp/$platform*
+  
   cat /tmp/layers-sorted | while read layer || [[ -n $layer ]];
   do
      echo Platform: $platform Layer: $layer

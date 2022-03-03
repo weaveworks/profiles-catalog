@@ -167,7 +167,7 @@ jobs:
 
         - name: Adding platforms
           run: |
-            rm -rf /tmp/*
+            rm /tmp/platforms
             touch /tmp/platforms
             echo kind >> /tmp/platforms
             echo gke >> /tmp/platforms
