@@ -74,6 +74,8 @@ jobs:
         - name: Compile and Sort layers alphabetically
           id: compile-and-sort-layers
           run: |
+            wget https://github.com/mikefarah/yq/releases/download/${VERSION}/${BINARY} -O /usr/bin/yq &&\
+            chmod +x /usr/bin/yq && \
             make -f makefiles/Makefile sort-layers
 
         - name: Add helm dependencies
@@ -169,8 +171,6 @@ jobs:
           run: |
             rm -f /tmp/platforms
             touch /tmp/platforms
-            echo kind >> /tmp/platforms
-            echo gke >> /tmp/platforms
             echo mvm >> /tmp/platforms
 
         - name: Compile and Sort layers alphabetically
