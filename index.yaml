@@ -14,6 +14,46 @@ entries:
       weave.works/profile-ci: |
         - "gke"
         - "kind"
+        - "mvm"
+    apiVersion: v2
+    created: "2022-03-03T17:00:18.273978775Z"
+    dependencies:
+    - name: cert-manager
+      repository: https://charts.jetstack.io
+      version: 1.6.0
+    description: A Weaveworks Helm chart for the Certificate Profile
+    digest: 63a94413440bcfd43d120fda082ae4d99fed0620b2dd919d019d882612267797
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://raw.githubusercontent.com/jetstack/cert-manager/master/logo/logo.png
+    keywords:
+    - cert-manager
+    - kube-lego
+    - letsencrypt
+    - tls
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: cert-manager
+    sources:
+    - https://charts.jetstack.io
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/cert-manager-0.0.3-0/cert-manager-0.0.3-0.tgz
+    version: 0.0.3-0
+  - annotations:
+      weave.works/category: Certificate
+      weave.works/layer: layer-0
+      weave.works/links: |
+        - name: Chart Sources
+          url: https://charts.jetstack.io
+        - name: Upstream Project
+          url: https://github.com/jetstack/cert-manager
+      weave.works/operator: "true"
+      weave.works/profile: cert-manager
+      weave.works/profile-ci: |
+        - "gke"
+        - "kind"
     apiVersion: v2
     created: "2022-02-17T14:57:41.10993984Z"
     dependencies:
@@ -1423,6 +1463,44 @@ entries:
       weave.works/profile-ci: |
         - "gke"
         - "kind"
+        - "mvm"
+    apiVersion: v2
+    created: "2022-03-03T17:00:18.440757222Z"
+    dependencies:
+    - name: linkerd2
+      repository: https://helm.linkerd.io/stable
+      version: 2.11.0
+    description: A Weaveworks Helm chart for the Service Mesh Profile
+    digest: ef8cf84b28d61cbdac9968bc6654fa23bdb8ddf5e525a3d83af69ad6fb65a3f1
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://linkerd.io/images/logo-only-200h.png
+    keywords:
+    - network
+    - servicemesh
+    - linkerd2
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: linkerd2
+    sources:
+    - https://helm.linkerd.io/stable
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/linkerd2-0.0.14/linkerd2-0.0.14.tgz
+    version: 0.0.14
+  - annotations:
+      weave.works/category: Service Mesh
+      weave.works/layer: layer-1
+      weave.works/links: |
+        - name: Chart Sources
+          url:  https://helm.linkerd.io/stable
+        - name: Upstream Project
+          url: https://github.com/linkerd/linkerd2
+      weave.works/profile: linkerd2
+      weave.works/profile-ci: |
+        - "gke"
+        - "kind"
     apiVersion: v2
     created: "2022-02-23T22:26:44.292036891Z"
     dependencies:
@@ -2518,4 +2596,4 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/tracing-0.0.1/tracing-0.0.1.tgz
     version: 0.0.1
-generated: "2022-02-23T22:26:44.292353389Z"
+generated: "2022-03-03T17:00:18.440907825Z"
