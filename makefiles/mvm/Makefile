@@ -10,7 +10,7 @@ OS := $(shell uname | tr '[:upper:]' '[:lower:]')
 
 export MVM_CLUSTER_NAME?=mvm-test
 export CONTROL_PLANE_MACHINE_COUNT=1
-export WORKER_MACHINE_COUNT=1
+export WORKER_MACHINE_COUNT=0
 
 
 CONTROL_PLANE_VIP_MGMT=192.168.1.25
@@ -143,5 +143,8 @@ restart-coredns:
 	@echo "Patching CoreDNS..."
 	kubectl rollout restart deployment/coredns -n kube-system	
 
+unlabel-master:
+	kubectl taint nodes --all node-role.kubernetes.io/master-
 
-create-test-cluster: check-requirements add-provider-to-clusterctl pick-vip-address generate-test-cluster-config apply-test-cluster-config wait-until-master-is-ready get-testing-config install-calico restart-coredns
+#create-test-cluster: check-requirements add-provider-to-clusterctl pick-vip-address generate-test-cluster-config apply-test-cluster-config wait-until-master-is-ready get-testing-config install-calico restart-coredns
+create-test-cluster: check-requirements add-provider-to-clusterctl pick-vip-address generate-test-cluster-config apply-test-cluster-config wait-until-master-is-ready unlabel-master get-testing-config install-calico restart-coredns
