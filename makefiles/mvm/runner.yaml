@@ -15,7 +15,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: mvm-runner
-  namespace: default
+  namespace: kube-system
 ---
 apiVersion: actions.summerwind.dev/v1alpha1
 kind: Runner
