@@ -48,13 +48,6 @@ install-github-runner:
 	--wait actions-runner-controller actions-runner-controller/actions-runner-controller &&\
 	kubectl apply -f runner.yaml
 
-check-metal-cli:
-	@which metal >/dev/null 2>&1 || (echo "metal binary not found, installing ..." && \
-	curl -s -L "https://github.com/equinix/metal-cli/releases/download/v0.7.3/metal-${OS}-amd64" -o metal && \
-	chmod +x metal && \ 
-	sudo mv ./metal /usr/local/bin/metal && \
-	metal -v)
-
 generate-mgmt-cluster-config:
 	@echo "Generating mvm mgmt config..."
 	CONTROL_PLANE_VIP=${CONTROL_PLANE_VIP_MGMT} clusterctl generate cluster -i microvm:$(CAPMVM_VERSION) $(MVM_MGMT_CLUSTER) > $(CONFDIR)/mvm-mgmt-cluster.yaml
