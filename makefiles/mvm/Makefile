@@ -66,7 +66,6 @@ apply-mgmt-cluster-config:
 
 apply-test-cluster-config:
 	@echo "Applying mvm test config..."
-	export KUBECONFIG=$(pwd)/config.yaml 
 	kubectl create ns $(MVM_CLUSTER_NAME) 
 	kubectl apply -f /tmp/mvm-test-cluster.yaml
 
