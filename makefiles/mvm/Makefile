@@ -148,5 +148,4 @@ unlabel-master:
 	export KUBECONFIG=/tmp/mvm-testing-config.yaml
 	kubectl taint nodes --all node-role.kubernetes.io/master-
 
-#create-test-cluster: check-requirements add-provider-to-clusterctl pick-vip-address generate-test-cluster-config apply-test-cluster-config wait-until-master-is-ready get-testing-config install-calico restart-coredns
 create-test-cluster: check-requirements add-provider-to-clusterctl pick-vip-address generate-test-cluster-config apply-test-cluster-config wait-until-master-is-ready get-testing-config unlabel-master install-calico restart-coredns
