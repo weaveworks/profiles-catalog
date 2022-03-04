@@ -95,11 +95,12 @@ install-cert-manager:
   	--version v1.5.3
 
 get-mvm-mgmt-config:
-	kubectl get secret ${MVM_MGMT_CLUSTER}-kubeconfig -o json | jq -r .data.value | base64 -d > config.yaml
-	export KUBECONFIG=$(pwd)/config.yaml
+	kubectl get secret ${MVM_MGMT_CLUSTER}-kubeconfig -o json | jq -r .data.value | base64 -d > /tmp/config.yaml
 
 get-testing-config:
-	kubectl get secret -n $(MVM_CLUSTER_NAME) $(MVM_CLUSTER_NAME)-kubeconfig -o json | jq -r .data.value | base64 -d > config.yaml
+	kubectl get secret -n $(MVM_CLUSTER_NAME) $(MVM_CLUSTER_NAME)-kubeconfig -o json | jq -r .data.value | base64 -d > /tmp/mvm-testing-config.yaml
+	export KUBECONFIG=/tmp/mvm-testing-config.yaml
+
 
 
 create-mvm-bootstrap-cluster:
