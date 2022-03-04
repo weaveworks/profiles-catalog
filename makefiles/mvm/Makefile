@@ -144,6 +144,7 @@ restart-coredns:
 	kubectl rollout restart deployment/coredns -n kube-system	
 
 unlabel-master:
+	@echo "Removing taint of masters..."
 	kubectl taint nodes --all node-role.kubernetes.io/master-
 
 #create-test-cluster: check-requirements add-provider-to-clusterctl pick-vip-address generate-test-cluster-config apply-test-cluster-config wait-until-master-is-ready get-testing-config install-calico restart-coredns
