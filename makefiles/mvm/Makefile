@@ -97,7 +97,7 @@ install-cert-manager:
 
 get-mvm-mgmt-config:
 	kubectl get secret ${MVM_MGMT_CLUSTER}-kubeconfig -o json | jq -r .data.value | base64 -d > config.yaml
-
+	export KUBECONFIG=$(pwd)/config.yaml
 
 get-testing-config:
 	kubectl get secret -n $(MVM_CLUSTER_NAME) $(MVM_CLUSTER_NAME)-kubeconfig -o json | jq -r .data.value | base64 -d > config.yaml
@@ -132,21 +132,18 @@ delete-test-cluster:
 ##TEMP: Currently required because a calico template is not included in micovm-capi releases and linkerd is having issues with cilium
 install-calico:
 	@echo "Installing Calico..."
-	export KUBECONFIG=$(pwd)/config.yaml && \
-	kubectl create  -f calico.yaml && \
-	kubectl wait --for=condition=Ready nodes --all --timeout=600s l && \
-	kubectl wait --timeout=3m  -n kube-system --for=condition=ready pod -l k8s-app=calico-kube-controllers l && \
+	kubectl create  -f calico.yaml
+	kubectl wait --for=condition=Ready nodes --all --timeout=600s
+	kubectl wait --timeout=3m  -n kube-system --for=condition=ready pod -l k8s-app=calico-kube-controllers 
 	kubectl wait --timeout=3m -n kube-system --for=condition=ready pod -l k8s-app=calico-node 
 
 #Currently required because the cni is not installed yet when the inital dns pods are installed, so they need to be restarted for them to be created with sni
 restart-coredns:
 	@echo "Patching CoreDNS..."
-	export KUBECONFIG=$(pwd)/config.yaml && \
 	kubectl rollout restart deployment/coredns -n kube-system	
 
 unlabel-master:
 	@echo "Removing taint of masters..."
-	export KUBECONFIG=$(pwd)/config.yaml && \
 	kubectl taint nodes --all node-role.kubernetes.io/master-
 
 #create-test-cluster: check-requirements add-provider-to-clusterctl pick-vip-address generate-test-cluster-config apply-test-cluster-config wait-until-master-is-ready get-testing-config install-calico restart-coredns
