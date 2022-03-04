@@ -10,7 +10,7 @@ OS := $(shell uname | tr '[:upper:]' '[:lower:]')
 
 export MVM_CLUSTER_NAME?=mvm-test
 export CONTROL_PLANE_MACHINE_COUNT=1
-export WORKER_MACHINE_COUNT=3
+export WORKER_MACHINE_COUNT=1
 
 
 CONTROL_PLANE_VIP_MGMT=192.168.1.25
@@ -134,6 +134,7 @@ delete-test-cluster:
 install-calico:
 	@echo "Installing Calico..."
 	kubectl create  -f calico.yaml
+	kubectl wait --for=condition=Ready nodes --all --timeout=600s
 	kubectl wait --timeout=3m  -n kube-system --for=condition=ready pod -l k8s-app=calico-kube-controllers 
 	kubectl wait --timeout=3m -n kube-system --for=condition=ready pod -l k8s-app=calico-node 
 
