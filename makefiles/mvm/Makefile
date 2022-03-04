@@ -17,13 +17,13 @@ CONTROL_PLANE_VIP_MGMT=192.168.1.25
 
 export HOST_ENDPOINT=10.68.184.131:9090
 
+##@ https://github.com/weaveworks/cluster-api-provider-microvm/blob/main/docs/compatibility.md
 export CAPMVM_VERSION=v0.2.2
 export EXP_CLUSTER_RESOURCE_SET=true
 export KUBERNETES_VERSION=v1.21.8
 export MVM_ROOT_IMAGE=ghcr.io/weaveworks/capmvm-kubernetes:1.21.8
 export MVM_KERNEL_IMAGE=ghcr.io/weaveworks/flintlock-kernel:5.10.77
 
-##@ https://github.com/weaveworks/cluster-api-provider-microvm/blob/main/docs/compatibility.md
 CONFDIR="$(PWD)/../../.conf"
 BINDIR="${PWD}/../../.bin"
 
@@ -100,7 +100,8 @@ get-mvm-mgmt-config:
 
 get-testing-config:
 	kubectl get secret -n $(MVM_CLUSTER_NAME) $(MVM_CLUSTER_NAME)-kubeconfig -o json | jq -r .data.value | base64 -d > config.yaml && \
-	mv config.yaml ${HOME}/.kube/config
+	export KUBECONFIG=$(pwd)/config.yaml \&&
+	kubectl get nodes
 
 
 create-mvm-bootstrap-cluster:
@@ -147,4 +148,5 @@ unlabel-master:
 	kubectl taint nodes --all node-role.kubernetes.io/master-
 
 #create-test-cluster: check-requirements add-provider-to-clusterctl pick-vip-address generate-test-cluster-config apply-test-cluster-config wait-until-master-is-ready get-testing-config install-calico restart-coredns
-create-test-cluster: check-requirements add-provider-to-clusterctl pick-vip-address generate-test-cluster-config apply-test-cluster-config wait-until-master-is-ready get-testing-config unlabel-master install-calico restart-coredns
+create-test-cluster: check-requirements add-provider-to-clusterctl pick-vip-address generate-test-cluster-config apply-test-cluster-config wait-until-master-is-ready get-testing-config
+# create-test-cluster: check-requirements add-provider-to-clusterctl pick-vip-address generate-test-cluster-config apply-test-cluster-config wait-until-master-is-ready get-testing-config unlabel-master install-calico restart-coredns
