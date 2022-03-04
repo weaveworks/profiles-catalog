@@ -174,7 +174,7 @@ jobs:
         - name: Compile and Sort layers alphabetically
           id: compile-and-sort-layers
           env:
-            YQ_VERSION: v4.2.0 
+            YQ_VERSION: v4.20.2
             YQ_BINARY: yq_linux_amd64
           run: |
             sudo wget https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/${YQ_BINARY} -O /usr/bin/yq
