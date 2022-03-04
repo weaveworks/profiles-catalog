@@ -177,6 +177,7 @@ jobs:
             YQ_VERSION: v4.20.2
             YQ_BINARY: yq_linux_amd64
           run: |
+            sudo curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
             sudo wget https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/${YQ_BINARY} -O /usr/bin/yq
             sudo chmod +x  /usr/bin/yq
             make -f makefiles/Makefile sort-layers
