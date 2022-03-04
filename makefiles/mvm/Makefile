@@ -134,7 +134,6 @@ install-calico:
 	@echo "Installing Calico..."
 	export KUBECONFIG=/tmp/mvm-testing-config.yaml
 	kubectl create  -f calico.yaml
-	kubectl wait --for=condition=Ready nodes --all --timeout=600s
 	kubectl wait --timeout=3m  -n kube-system --for=condition=ready pod -l k8s-app=calico-kube-controllers 
 	kubectl wait --timeout=3m -n kube-system --for=condition=ready pod -l k8s-app=calico-node 
 
