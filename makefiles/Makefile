@@ -63,4 +63,7 @@ delete-cluster:
 	elif [ ${INFRASTRUCTURE} = "mvm" ]; then\
 		echo "Deleting mvm cluster ..."
 		cd $(PWD)/makefiles/mvm && $(MAKE) delete-test-cluster
+	elif [ ${INFRASTRUCTURE} = "gke" ]; then\
+		echo "Deleting gke cluster ..."
+		gcloud container clusters delete ${GKE_CLUSTER_NAME} --region ${GCP_REGION} --project ${GCP_PROJECT_NAME} -q
 	fi

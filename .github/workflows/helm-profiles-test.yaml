@@ -44,7 +44,7 @@ jobs:
           done
       - name: Run chart-testing (lint)
         run: ct lint --config ct.yaml
-  test:
+  test-kind:
       runs-on: ubuntu-latest
       steps:
         - name: Checkout
@@ -68,8 +68,6 @@ jobs:
           run: |
             touch /tmp/platforms
             echo kind >> /tmp/platforms
-            echo gke >> /tmp/platforms
-            echo mvm >> /tmp/platforms
 
         - name: Compile and Sort layers alphabetically
           id: compile-and-sort-layers
@@ -107,8 +105,53 @@ jobs:
           env:
             INFRASTRUCTURE: "kind"
           run:  make -f makefiles/Makefile test
+  test-gke:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v2
+          with:
+            fetch-depth: 0
 
+        - name: Set up Helm
+          uses: azure/setup-helm@v1
+          with:
+            version: 3.*
 
+        - uses: actions/setup-python@v2
+          with:
+            python-version: 3.7
+
+        - name: Set up chart-testing
+          uses: helm/chart-testing-action@v2.1.0
+
+        - name: Adding platforms
+          run: |
+            touch /tmp/platforms
+            echo gke >> /tmp/platforms
+
+        - name: Compile and Sort layers alphabetically
+          id: compile-and-sort-layers
+          run: |
+            make -f makefiles/Makefile sort-layers
+
+        - name: Add helm dependencies
+          shell: bash
+          run: |
+            for dir in $(ls -d charts/*/ | cut -f2 -d'/'); do
+              repo_urls=$(helm dependency list charts/"$dir" | grep -Eo "(http|https)://[a-zA-Z0-9./?=_%:-]*" || true)
+              i=0
+              echo $repo_urls | while read urls; do
+                for u in $urls; do
+                  if [ ! -z "$u" ] 
+                  then
+                    echo $u
+                    helm repo add $dir$i $u
+                    ((i=i+1))
+                  fi
+                done
+              done
+            done
         - name: Set up Google Cloud SDK
           if: steps.compile-and-sort-layers.outputs.gke-ci == 'true'
           uses: google-github-actions/setup-gcloud@master
@@ -145,17 +188,63 @@ jobs:
             INFRASTRUCTURE: "gke"
           run: |
             make -f makefiles/Makefile delete-cluster
-        
-        - name: Tailscale
-          uses: tailscale/github-action@v1
+  test-mvm:
+    runs-on: self-hosted
+    steps:
+        - name: Checkout
+          uses: actions/checkout@v2
           with:
-            authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
-        - name: Create kubeconfig
-          if: steps.compile-and-sort-layers.outputs.mvm-ci == 'true'
-          run: |
-            mkdir -p ${HOME}/.kube
-            echo ${{ secrets.MVM_MGMT_KUBECONFIG }} | base64 --decode > ${HOME}/.kube/config
+            fetch-depth: 0
 
+        - name: Set up Helm
+          uses: azure/setup-helm@v1
+          with:
+            version: 3.*
+
+        - uses: actions/setup-python@v2
+          with:
+            python-version: 3.7
+
+        - name: Set up chart-testing
+          uses: helm/chart-testing-action@v2.1.0
+
+        - name: Adding platforms
+          run: |
+            rm -f /tmp/platforms
+            touch /tmp/platforms
+            echo mvm >> /tmp/platforms
+
+        - name: Compile and Sort layers alphabetically
+          id: compile-and-sort-layers
+          env:
+            YQ_VERSION: v4.20.2
+            YQ_BINARY: yq_linux_amd64
+          run: |
+            sudo curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+            sudo mv kubectl /usr/bin/kubectl
+            sudo chmod +x /usr/bin/kubectl
+            sudo wget https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/${YQ_BINARY} -O /usr/bin/yq
+            sudo chmod +x  /usr/bin/yq
+            make -f makefiles/Makefile sort-layers
+
+        - name: Add helm dependencies
+          shell: bash
+          run: |
+            for dir in $(ls -d charts/*/ | cut -f2 -d'/'); do
+              repo_urls=$(helm dependency list charts/"$dir" | grep -Eo "(http|https)://[a-zA-Z0-9./?=_%:-]*" || true)
+              i=0
+              echo $repo_urls | while read urls; do
+                for u in $urls; do
+                  if [ ! -z "$u" ] 
+                  then
+                    echo $u
+                    helm repo add $dir$i $u
+                    ((i=i+1))
+                  fi
+                done
+              done
+            done
+            
         - name: Create mvm cluster
           if: steps.compile-and-sort-layers.outputs.mvm-ci == 'true'
           shell: bash
@@ -169,19 +258,16 @@ jobs:
 
         - name: Create wego-system namespace (mvm)
           if: steps.compile-and-sort-layers.outputs.mvm-ci == 'true'
+          env:
+             KUBECONFIG: /tmp/mvm-testing-config.yaml
           run: kubectl create namespace wego-system
 
         - name: Run chart-testing on mvm (install)
           if: steps.compile-and-sort-layers.outputs.mvm-ci == 'true'
           env:
             INFRASTRUCTURE: "mvm"
+            KUBECONFIG: /tmp/mvm-testing-config.yaml
           run: make -f makefiles/Makefile test
-
-        - name: Create kubeconfig
-          if: ${{ always() && steps.compile-and-sort-layers.outputs.mvm-ci == 'true' }}
-          run: |
-            mkdir -p ${HOME}/.kube
-            echo ${{ secrets.MVM_MGMT_KUBECONFIG }} | base64 --decode > ${HOME}/.kube/config
 
         - name: Delete mvm cluster
           if: ${{ always() && steps.compile-and-sort-layers.outputs.mvm-ci == 'true' }}

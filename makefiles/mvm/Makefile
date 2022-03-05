@@ -10,20 +10,20 @@ OS := $(shell uname | tr '[:upper:]' '[:lower:]')
 
 export MVM_CLUSTER_NAME?=mvm-test
 export CONTROL_PLANE_MACHINE_COUNT=1
-export WORKER_MACHINE_COUNT=1
+export WORKER_MACHINE_COUNT=0
 
 
 CONTROL_PLANE_VIP_MGMT=192.168.1.25
 
 export HOST_ENDPOINT=10.68.184.131:9090
 
+##@ https://github.com/weaveworks/cluster-api-provider-microvm/blob/main/docs/compatibility.md
 export CAPMVM_VERSION=v0.2.2
 export EXP_CLUSTER_RESOURCE_SET=true
 export KUBERNETES_VERSION=v1.21.8
 export MVM_ROOT_IMAGE=ghcr.io/weaveworks/capmvm-kubernetes:1.21.8
 export MVM_KERNEL_IMAGE=ghcr.io/weaveworks/flintlock-kernel:5.10.77
 
-##@ https://github.com/weaveworks/cluster-api-provider-microvm/blob/main/docs/compatibility.md
 CONFDIR="$(PWD)/../../.conf"
 BINDIR="${PWD}/../../.bin"
 
@@ -38,13 +38,15 @@ create-mvm-mgmt-cluster: create-mvm-bootstrap-cluster configure-and-install-mvm-
 ##@ Purpose: Post cluster creations with kubeconfig already configured to install mvm provider
 configure-and-install-mvm-provider: add-provider-to-clusterctl create-image-pull-secret install-cert-manager initialize-mvm-provider
 
-
-check-metal-cli:
-	@which metal >/dev/null 2>&1 || (echo "metal binary not found, installing ..." && \
-	curl -s -L "https://github.com/equinix/metal-cli/releases/download/v0.7.3/metal-${OS}-amd64" -o metal && \
-	chmod +x metal && \
-	sudo mv ./metal /usr/local/bin/metal && \
-	metal -v)
+##@ Purpose: to install the github runner
+install-github-runner:
+	helm repo add actions-runner-controller https://actions-runner-controller.github.io/actions-runner-controller
+	kubectl create secret generic controller-manager \
+    -n actions-runner-system \
+    --from-literal=github_token=${GITHUB_TOKEN} || true && \
+	helm upgrade --install --namespace actions-runner-system --create-namespace \
+	--wait actions-runner-controller actions-runner-controller/actions-runner-controller &&\
+	kubectl apply -f runner.yaml
 
 generate-mgmt-cluster-config:
 	@echo "Generating mvm mgmt config..."
@@ -93,13 +95,12 @@ install-cert-manager:
   	--version v1.5.3
 
 get-mvm-mgmt-config:
-	kubectl get secret ${MVM_MGMT_CLUSTER}-kubeconfig -o json | jq -r .data.value | base64 -d > config.yaml
-
+	kubectl get secret ${MVM_MGMT_CLUSTER}-kubeconfig -o json | jq -r .data.value | base64 -d > /tmp/config.yaml
 
 get-testing-config:
-	kubectl get secret -n $(MVM_CLUSTER_NAME) $(MVM_CLUSTER_NAME)-kubeconfig -o json | jq -r .data.value | base64 -d > config.yaml && \
-	mv config.yaml ${HOME}/.kube/config && \
-	kubectl get nodes
+	kubectl get secret -n $(MVM_CLUSTER_NAME) $(MVM_CLUSTER_NAME)-kubeconfig -o json | jq -r .data.value | base64 -d > /tmp/mvm-testing-config.yaml
+	export KUBECONFIG=/tmp/mvm-testing-config.yaml
+
 
 
 create-mvm-bootstrap-cluster:
@@ -131,18 +132,20 @@ delete-test-cluster:
 ##TEMP: Currently required because a calico template is not included in micovm-capi releases and linkerd is having issues with cilium
 install-calico:
 	@echo "Installing Calico..."
+	export KUBECONFIG=/tmp/mvm-testing-config.yaml
 	kubectl create  -f calico.yaml
-	kubectl wait --for=condition=Ready nodes --all --timeout=600s
-	kubectl wait --timeout=3m  -n kube-system --for=condition=ready ds calico-node 
 	kubectl wait --timeout=3m  -n kube-system --for=condition=ready pod -l k8s-app=calico-kube-controllers 
 	kubectl wait --timeout=3m -n kube-system --for=condition=ready pod -l k8s-app=calico-node 
 
 #Currently required because the cni is not installed yet when the inital dns pods are installed, so they need to be restarted for them to be created with sni
 restart-coredns:
 	@echo "Patching CoreDNS..."
+	export KUBECONFIG=/tmp/mvm-testing-config.yaml
 	kubectl rollout restart deployment/coredns -n kube-system	
 
+unlabel-master:
+	@echo "Removing taint of masters..."
+	export KUBECONFIG=/tmp/mvm-testing-config.yaml
+	kubectl taint nodes --all node-role.kubernetes.io/master-
 
-create-test-cluster: check-requirements add-provider-to-clusterctl pick-vip-address generate-test-cluster-config apply-test-cluster-config wait-until-master-is-ready get-testing-config install-calico restart-coredns
-
-create-test-without-generating-a-config-cluster: check-requirements add-provider-to-clusterctl apply-test-cluster-config wait-until-master-is-ready get-testing-config install-calico restart-coredns
+create-test-cluster: check-requirements add-provider-to-clusterctl pick-vip-address generate-test-cluster-config apply-test-cluster-config wait-until-master-is-ready get-testing-config unlabel-master install-calico restart-coredns
