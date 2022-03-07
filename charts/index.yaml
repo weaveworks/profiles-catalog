@@ -1,0 +1,31 @@
+apiVersion: v1
+entries:
+  policy-agent:
+  - annotations:
+      weave.works/category: Policy
+      weave.works/links: |
+        - name: Upstream Project
+          url: https://github.com/MagalixCorp/magalix-policy-agent
+      weave.works/operator: "true"
+      weave.works/profile: magalix
+    apiVersion: v2
+    created: "2022-03-07T15:12:33.209965477+02:00"
+    description: A Weaveworks Helm chart for the new Magalix Policy agent
+    digest: 74b16c4a8d854f8f9913ccf47db79ed8b88b1a3ee7edcdf390a0b308123db662
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://www.magalix.com/hubfs/Imported%20images/logo-02.png%3Fwidth=560%26name=logo-02-Dec-18-2020-11-24-41-75-AM.png
+    keywords:
+    - magalix
+    - policy
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: policy-agent
+    sources:
+    - https://github.com/MagalixCorp/magalix-policy-agent
+    type: application
+    urls:
+    - policy-agent-0.0.12-0.tgz
+    version: 0.0.12-0
+generated: "2022-03-07T15:12:33.209384119+02:00"
