@@ -1,0 +1,17 @@
+
+image: magalixcorp/magalix-policy-agent:dev
+
+failurePolicy: Fail
+
+sinkDir: /tmp
+
+usePersistence: false
+storageClassName: standard
+claimStorage: 10Gi
+
+accountId: ""
+clusterId: ""
+
+certificate: ""
+key: ""
+caCertificate: ""
