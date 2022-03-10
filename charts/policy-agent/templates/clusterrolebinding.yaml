@@ -3,8 +3,8 @@ kind: ClusterRoleBinding
 metadata:
   name: {{ include "policy-agent.fullname" . }}
   labels:
+    {{ include "policy-agent.labels" . | nindent 4}}
     app.kubernetes.io/component: "cluster-role-binding"
-    {{ include "policy-agent.labels" . }}
 subjects:
 - kind: ServiceAccount
   name: {{ include "policy-agent.fullname" . }}

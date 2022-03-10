@@ -3,8 +3,8 @@ kind: ClusterRole
 metadata:
   name: {{ include "policy-agent.fullname" . }}
   labels:
+    {{ include "policy-agent.labels" . | nindent 4}}
     app.kubernetes.io/component: "cluster-role"
-    {{ include "policy-agent.labels" . }}
 rules:
 - apiGroups:
   - 'magalix.com'

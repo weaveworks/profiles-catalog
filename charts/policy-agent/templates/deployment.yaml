@@ -4,8 +4,8 @@ metadata:
   name: {{ include "policy-agent.fullname" . }}
   namespace: magalix-system
   labels:
+    {{ include "policy-agent.labels" . | nindent 4}}
     app.kubernetes.io/component: "magalix-policy-agent"
-    {{ include "policy-agent.labels" . }}
 spec:
   replicas: 1
   selector:
