@@ -42,8 +42,8 @@ apply-test-cluster-config:
 initialize-provider:
 	cd $(PWD)/../${INFRASTRUCTURE} && $(MAKE) initialize-provider
 
-check-requirement:
-	cd $(PWD)/../${INFRASTRUCTURE} && $(MAKE) check-requirement
+check-requirements:
+	cd $(PWD)/../${INFRASTRUCTURE} && $(MAKE) check-requirements
 
 pick-vip-address:
 	bash ${BINDIR}/select-vip-for-clusterapi.sh
