@@ -1,0 +1,14 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "policy-agent.fullname" . }}
+  labels:
+    app.kubernetes.io/component: "cluster-role"
+    {{ include "policy-agent.labels" . }}
+rules:
+- apiGroups:
+  - 'magalix.com'
+  resources:
+  - 'policies'
+  verbs:
+  - '*'

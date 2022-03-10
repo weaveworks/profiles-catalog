@@ -1,0 +1,74 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: {{ include "policy-agent.fullname" . }}
+  namespace: magalix-system
+  labels:
+    app.kubernetes.io/component: "magalix-policy-agent"
+    {{ include "policy-agent.labels" . }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: {{ include "policy-agent.fullname" . }}
+  template:
+    metadata:
+      labels:
+        name: {{ include "policy-agent.fullname" . }}
+    spec:
+      serviceAccountName: {{ include "policy-agent.fullname" . }}
+      restartPolicy: Always
+      containers:
+        - image: {{.Values.image}}
+          imagePullPolicy: Always
+          name: policy-agent
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            privileged: false
+            procMount: Default
+            runAsGroup: 1000
+            runAsUser: 1000
+          resources:
+            limits:
+              memory: 750Mi
+              cpu: 1
+            requests:
+              memory: 200Mi
+              cpu: 100m
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 9000
+            initialDelaySeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 9000
+            initialDelaySeconds: 5
+          ports:
+          - containerPort: 8443
+            name: webhook
+            protocol: TCP
+          envFrom:
+          - configMapRef:
+              name: {{ include "policy-agent.fullname" . }}
+          volumeMounts:
+          - name: cert
+            mountPath: /certs
+            readOnly: true
+          {{- if eq .Values.usePersistence true }}
+          - name: validation-results
+            mountPath: {{.Values.sinkDir}}
+          {{- end}}
+      volumes:
+      - name: cert
+        secret:
+          secretName: {{ include "policy-agent.fullname" . }}
+      {{- if eq .Values.usePersistence true }}
+      - name: validation-results
+        persistentVolumeClaim:
+          claimName: {{ include "policy-agent.fullname" . }}
+      {{- end}}
