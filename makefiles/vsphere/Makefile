@@ -37,7 +37,6 @@ generate-test-cluster-config:
 	CONTROL_PLANE_VIP=$(shell cat /tmp/vip) clusterctl generate cluster $(TEST_CLUSTER_NAME) \
     --infrastructure vsphere \
 	-n $(TEST_CLUSTER_NAME) \
-	--kubeconfig \
     --control-plane-machine-count 1 \
     --worker-machine-count 0 > /tmp/vsphere-test-cluster.yaml
 
