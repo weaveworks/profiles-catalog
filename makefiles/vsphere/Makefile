@@ -38,5 +38,5 @@ generate-test-cluster-config:
     --control-plane-machine-count 1 \
     --worker-machine-count 0 > /tmp/vsphere-test-cluster.yaml
 
-check-requirements
+check-requirements:
 	@echo "No Requirements for vsphere"
