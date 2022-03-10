@@ -1,8 +1,0 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: magalix-system
-  labels:
-    {{ include "policy-agent.labels" . | nindent 4}}
-    app.kubernetes.io/component: "namespace"
-    agent-admission: ignore

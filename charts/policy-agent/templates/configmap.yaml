@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: {{ include "policy-agent.fullname" . }}
-  namespace: magalix-system
-data:
-  AGENT_ACCOUNT_ID: {{ .Values.accountId }}
-  AGENT_CLUSTER_ID: {{ .Values.clusterId }}
-  AGENT_SINK_FILE_PATH: {{.Values.sinkDir}}/results.json
