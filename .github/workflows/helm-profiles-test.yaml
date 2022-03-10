@@ -340,6 +340,7 @@ jobs:
             TEST_CLUSTER_NAME: profiles-vsphere-${{ github.run_number }}
             INFRASTRUCTURE: "vsphere"
             GITHUB_TOKEN: ${{secrets.WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
+            VSPHERE_PASSWORD: ${{secrets.VSPHERE_PASSWORD}}
           run: |
             make -f makefiles/Makefile create-cluster
 

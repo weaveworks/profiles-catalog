@@ -7,9 +7,9 @@ OS := $(shell uname | tr '[:upper:]' '[:lower:]')
 TEST_CLUSTER_NAME?=test-cluster
 
 # ## -- Controller settings -- ##
+VSPHERE_PROVIDER_VERSION=v1.1.0
 
 export VSPHERE_USERNAME=administrator@vsphere.local
-export VSPHERE_PASSWORD=test
 ## -- Required workload cluster default settings -- ##
 export VSPHERE_SERVER=192.168.1.77
 export VSPHERE_DATACENTER=dc1
@@ -34,7 +34,7 @@ initialize-provider:
 generate-test-cluster-config:
 	@echo "Generating mvm test config..."
 	CONTROL_PLANE_VIP=$(shell cat /tmp/vip) clusterctl generate cluster $(TEST_CLUSTER_NAME) \
-    --infrastructure vsphere:v1.1.0 \
+    --infrastructure vsphere:$(VSPHERE_PROVIDER_VERSION) \
 	-n $(TEST_CLUSTER_NAME) \
     --control-plane-machine-count 1 \
     --worker-machine-count 0 > /tmp/vsphere-test-cluster.yaml
