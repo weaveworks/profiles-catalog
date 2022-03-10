@@ -2,7 +2,7 @@ apiVersion: source.toolkit.fluxcd.io/v1beta1
 kind: GitRepository
 metadata:
   name: policy-library
-  namespace: magalix-system
+  namespace: wego-system
 spec:
   interval: 10s
   url: ssh://git@github.com/MagalixTechnologies/policy-library
@@ -15,13 +15,13 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
   name: policy-library
-  namespace: magalix-system
+  namespace: wego-system
 spec:
   interval: 10m0s
   sourceRef:
     kind: GitRepository
     name: policy-library
-    namespace: flux-system
+    namespace: wego-system
   path: ./
   prune: true
   validation: client
