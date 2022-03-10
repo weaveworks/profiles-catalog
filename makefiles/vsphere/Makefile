@@ -6,11 +6,9 @@ OS := $(shell uname | tr '[:upper:]' '[:lower:]')
 
 TEST_CLUSTER_NAME?=test-cluster
 
-# ## -- Controller settings -- ##
 VSPHERE_PROVIDER_VERSION=v1.0.2
 
 export VSPHERE_USERNAME=administrator@vsphere.local
-## -- Required workload cluster default settings -- ##
 export VSPHERE_SERVER=192.168.1.77
 export VSPHERE_DATACENTER=dc1
 export VSPHERE_DATASTORE=datastore1
