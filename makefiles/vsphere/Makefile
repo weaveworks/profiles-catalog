@@ -34,11 +34,14 @@ initialize-provider:
 generate-test-cluster-config:
 	@echo "Generating mvm test config..."
 	kubectl get nodes
-	CONTROL_PLANE_VIP=$(shell cat /tmp/vip) clusterctl generate cluster $(TEST_CLUSTER_NAME) \
+	CONTROL_PLANE_VIP=$(shell cat /tmp/vip) ./clusterctl generate cluster test \
     --infrastructure vsphere \
-	-n $(TEST_CLUSTER_NAME) \
     --control-plane-machine-count 1 \
     --worker-machine-count 0 > /tmp/vsphere-test-cluster.yaml
 
-check-requirements:
-	@echo "No Requirements for vsphere"
+add-provider-to-clusterctl:
+	@echo "Replacing clusterctl config..."
+	mkdir -p ~/.cluster-api && \
+	cp clusterctl.config ~/.cluster-api/clusterctl.yaml
+
+check-requirements: add-provider-to-clusterctl
