@@ -27,6 +27,7 @@ export KUBERNETES_VERSION=v1.17.3
 
 initialize-provider:
 	@echo "Initialize mvm provider in kind management cluster ..."
+	kubectl get nodes
 	clusterctl init --infrastructure vsphere --wait-providers || true
 
 
