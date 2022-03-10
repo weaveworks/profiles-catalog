@@ -1,0 +1,27 @@
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: GitRepository
+metadata:
+  name: policy-library
+  namespace: magalix-system
+spec:
+  interval: 10s
+  url: ssh://git@github.com/MagalixTechnologies/policy-library
+  ref:
+    branch: flux-demo
+  secretRef:
+    name: ssh-creds
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: policy-library
+  namespace: magalix-system
+spec:
+  interval: 10m0s
+  sourceRef:
+    kind: GitRepository
+    name: policy-library
+    namespace: flux-system
+  path: ./
+  prune: true
+  validation: client
