@@ -69,6 +69,8 @@ unlabel-master:
 	@echo "Removing taint of masters..."
 	kubectl --kubeconfig=/tmp/${INFRASTRUCTURE}-testing-config.yaml wait --for=condition=Ready nodes --all --timeout=600s
 	kubectl --kubeconfig=/tmp/${INFRASTRUCTURE}-testing-config.yaml taint nodes --all node-role.kubernetes.io/master-
+	kubectl taint nodes --all node.cloudprovider.kubernetes.io/uninitialized- || true
+
 
 get-testing-config:
 	kubectl get secret -n $(TEST_CLUSTER_NAME) $(TEST_CLUSTER_NAME)-kubeconfig -o json | jq -r .data.value | base64 -d > /tmp/${INFRASTRUCTURE}-testing-config.yaml
