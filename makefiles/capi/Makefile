@@ -35,7 +35,7 @@ generate-test-cluster-config:
 	cd $(PWD)/../${INFRASTRUCTURE} && $(MAKE) generate-test-cluster-config
 
 apply-test-cluster-config:
-	@echo "Applying mvm test config..."
+	@echo "Applying test config..."
 	kubectl create ns $(TEST_CLUSTER_NAME) 
 	kubectl apply -f /tmp/${INFRASTRUCTURE}-test-cluster.yaml
 
@@ -74,7 +74,7 @@ get-testing-config:
 	kubectl get secret -n $(TEST_CLUSTER_NAME) $(TEST_CLUSTER_NAME)-kubeconfig -o json | jq -r .data.value | base64 -d > /tmp/${INFRASTRUCTURE}-testing-config.yaml
 
 delete-test-cluster:
-	@echo "Deleting mvm test cluster..."
+	@echo "Deleting test cluster..."
 	kubectl delete -n $(TEST_CLUSTER_NAME) --wait=true --timeout=900s clusters.cluster.x-k8s.io $(TEST_CLUSTER_NAME)
 	kubectl delete ns --wait=true --timeout=900s $(TEST_CLUSTER_NAME) 
 
