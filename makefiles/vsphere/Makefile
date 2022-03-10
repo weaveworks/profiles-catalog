@@ -27,12 +27,12 @@ export KUBERNETES_VERSION=v1.17.3
 
 initialize-provider:
 	@echo "Initialize mvm provider in kind management cluster ..."
-	kubectl get nodes
 	clusterctl init --infrastructure vsphere --wait-providers || true
 
 
 generate-test-cluster-config:
 	@echo "Generating mvm test config..."
+	kubectl get nodes
 	CONTROL_PLANE_VIP=$(shell cat /tmp/vip) clusterctl generate cluster $(TEST_CLUSTER_NAME) \
     --infrastructure vsphere \
 	-n $(TEST_CLUSTER_NAME) \
