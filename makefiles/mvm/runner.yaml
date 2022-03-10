@@ -23,12 +23,4 @@ metadata:
   name: mvm-runner-1
 spec:
     serviceAccountName: mvm-runner
-    repository: weaveworks/profiles-catalog 
----
-apiVersion: actions.summerwind.dev/v1alpha1
-kind: Runner
-metadata:
-  name: mvm-runner-2
-spec:
-    serviceAccountName: mvm-runner
-    repository: weaveworks/profiles-catalog 
+    repository: weaveworks/profiles-catalog

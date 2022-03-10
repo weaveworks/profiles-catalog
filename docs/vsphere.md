@@ -17,3 +17,7 @@ VMware vCenter Server Appliance
 
 ## Upload OVF 
 https://github.com/kubernetes-sigs/cluster-api-provider-vsphere/blob/main/docs/getting_started.md
+
+## Update vsphere variables inside makefile/vsphere
+
+## Update vsphere password in the repo under VSPHERE_PASSWORD
