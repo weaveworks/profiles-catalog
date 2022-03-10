@@ -4,7 +4,7 @@ SHELL: /bin/bash
 
 OS := $(shell uname | tr '[:upper:]' '[:lower:]')
 CONFDIR="${PWD}/../.conf"
-BINDIR="${PWD}/../.bin"
+BINDIR="${PWD}/../../.bin"
 REPODIR="${PWD}/../charts"
 
 GKE_CLUSTER_NAME?="weave-profiles-capi"
