@@ -6,7 +6,7 @@ OS := $(shell uname | tr '[:upper:]' '[:lower:]')
 CONFDIR="${PWD}/../.conf"
 BINDIR="${PWD}/.bin"
 REPODIR="${PWD}/charts"
-INFRASTRUCTURE?="kind"
+INFRASTRUCTURE?="vsphere"
 
 EKS_CLUSTER_NAME?="profiles-cluster"
 AWS_REGION="us-west-1"
@@ -50,6 +50,9 @@ create-cluster:
 	elif [ ${INFRASTRUCTURE} = "mvm" ]; then\
 		echo "Creating mvm cluster ..."
 		cd $(PWD)/makefiles/mvm && $(MAKE) create-test-cluster
+	elif [ ${INFRASTRUCTURE} = "vsphere" ]; then\
+		echo "Creating mvm cluster ..."
+		cd $(PWD)/makefiles/capi && $(MAKE) create-test-cluster
 	fi
 
 delete-cluster: 
@@ -63,6 +66,9 @@ delete-cluster:
 	elif [ ${INFRASTRUCTURE} = "mvm" ]; then\
 		echo "Deleting mvm cluster ..."
 		cd $(PWD)/makefiles/mvm && $(MAKE) delete-test-cluster
+	elif [ ${INFRASTRUCTURE} = "vsphere" ]; then\
+		echo "Deleting vsphere cluster ..."
+		cd $(PWD)/makefiles/capi && $(MAKE) delete-test-cluster
 	elif [ ${INFRASTRUCTURE} = "gke" ]; then\
 		echo "Deleting gke cluster ..."
 		gcloud container clusters delete ${GKE_CLUSTER_NAME} --region ${GCP_REGION} --project ${GCP_PROJECT_NAME} -q

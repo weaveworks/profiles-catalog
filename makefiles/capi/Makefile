@@ -3,9 +3,9 @@ SHELL: /bin/bash
 
 
 OS := $(shell uname | tr '[:upper:]' '[:lower:]')
-CONFDIR="${PWD}/.conf"
-BINDIR="${PWD}/.bin"
-REPODIR="${PWD}/charts"
+CONFDIR="${PWD}/../.conf"
+BINDIR="${PWD}/../.bin"
+REPODIR="${PWD}/../charts"
 
 GKE_CLUSTER_NAME?="weave-profiles-capi"
 GCP_REGION="us-west1"
@@ -13,6 +13,8 @@ GCP_PROJECT_NAME="weave-profiles"
 GCP_NUM_NODES=1
 GCP_MACHINE_TYPE=e2-standard-4
 
+INFRASTRUCTURE?="vsphere"
+TEST_CLUSTER_NAME?=test-cluster
 
 CLUSTERCTL_VERSION=1.0.2
 
@@ -28,3 +30,52 @@ check-clusterctl:
 	chmod +x clusterctl && \
 	sudo mv ./clusterctl /usr/local/bin/clusterctl && \
 	clusterctl version)
+
+generate-test-cluster-config: 
+	cd $(PWD)/../${INFRASTRUCTURE} && $(MAKE) generate-test-cluster-config
+
+apply-test-cluster-config:
+	@echo "Applying mvm test config..."
+	kubectl create ns $(TEST_CLUSTER_NAME) 
+	kubectl apply -f /tmp/${INFRASTRUCTURE}-test-cluster.yaml
+
+initialize-provider:
+	cd $(PWD)/../${INFRASTRUCTURE} && $(MAKE) initialize-provider
+
+check-requirement:
+	cd $(PWD)/../${INFRASTRUCTURE} && $(MAKE) check-requirement
+
+pick-vip-address:
+	bash ${BINDIR}/select-vip-for-clusterapi.sh
+
+
+wait-until-master-is-ready:
+	kubectl wait --for=condition=ready --timeout=15m Clusters -n $(TEST_CLUSTER_NAME) $(TEST_CLUSTER_NAME)
+	kubectl wait --for=condition=ready --timeout=15m Kubeadmcontrolplanes -l cluster.x-k8s.io/cluster-name=$(TEST_CLUSTER_NAME) -n  $(TEST_CLUSTER_NAME) 
+
+##TEMP: Currently required because a calico template is not included in micovm-capi releases and linkerd is having issues with cilium
+install-calico:
+	@echo "Installing Calico..."
+	kubectl --kubeconfig=/tmp/testing-config.yaml create  -f calico.yaml
+	kubectl --kubeconfig=/tmp/testing-config.yaml wait --for=jsonpath='{.status.numberReady}'=1 ds --timeout=900s -n kube-system calico-node
+	kubectl --kubeconfig=/tmp/testing-config.yaml wait --timeout=3m -n kube-system --for=condition=ready pod -l k8s-app=calico-node 
+
+#Currently required because the cni is not installed yet when the inital dns pods are installed, so they need to be restarted for them to be created with cni
+restart-coredns:
+	@echo "Patching CoreDNS..."
+	kubectl --kubeconfig=/tmp/testing-config.yaml rollout restart deployment/coredns -n kube-system	
+
+unlabel-master:
+	@echo "Removing taint of masters..."
+	kubectl --kubeconfig=/tmp/testing-config.yaml wait --for=condition=Ready nodes --all --timeout=600s
+	kubectl --kubeconfig=/tmp/testing-config.yaml taint nodes --all node-role.kubernetes.io/master-
+
+get-testing-config:
+	kubectl get secret -n $(TEST_CLUSTER_NAME) $(TEST_CLUSTER_NAME)-kubeconfig -o json | jq -r .data.value | base64 -d > /tmp/testing-config.yaml
+
+delete-test-cluster:
+	@echo "Deleting mvm test cluster..."
+	kubectl delete -n $(TEST_CLUSTER_NAME) --wait=true --timeout=900s clusters.cluster.x-k8s.io $(TEST_CLUSTER_NAME)
+	kubectl delete ns --wait=true --timeout=900s $(TEST_CLUSTER_NAME) 
+
+create-test-cluster: check-clusterctl check-requirements generate-test-cluster-config apply-test-cluster-config wait-until-master-is-ready get-testing-config install-calico unlabel-master restart-coredns

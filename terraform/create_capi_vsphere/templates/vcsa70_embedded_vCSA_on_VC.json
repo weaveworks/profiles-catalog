@@ -2,7 +2,7 @@
     "__version": "2.13.0",
     "__comments": "Sample template to deploy a vCenter Server Appliance with an embedded Platform Services Controller on a vCenter Server instance.",
     "new_vcsa": {
-        "vc": {
+        "esxi": {
             "__comments": [
                 "'datacenter' must end with a datacenter name, and only with a datacenter name. ",
                 "'target' must end with an ESXi hostname, a cluster name, or a resource pool name. ",
@@ -14,13 +14,7 @@
             "username": "${vc_user}",
             "password": "${vc_user_pass}",
             "deployment_network": "VM Network",
-            "datacenter": [
-                "${vdc}"
-            ],
-            "datastore": "datastore1",
-            "target": [
-                "${vc_fqdn}"
-            ]
+            "datastore": "datastore1"
         },
         "appliance": {
             "__comments": [
