@@ -35,15 +35,10 @@ Common labels
 */}}
 {{- define "policy-agent.labels" -}}
 helm.sh/chart: {{ include "policy-agent.chart" . }}
-app.kubernetes.io/name: {{ include "policy-agent.chart" . }}
-app.kubernetes.io/instance: {{ include "policy-agent.chart" . }}
+{{ include "policy-agent.selectorLabels" . }}
 app.kubernetes.io/part-of: {{ include "policy-agent.chart" . }}
 app.kubernetes.io/version: "1"
 app.kubernetes.io/tier: "backend"
-{{ include "policy-agent.selectorLabels" . }}
-{{- if .Chart.AppVersion }}
-app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-{{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
