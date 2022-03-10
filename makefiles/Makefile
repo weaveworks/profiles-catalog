@@ -49,10 +49,10 @@ create-cluster:
 		gcloud container clusters create ${GKE_CLUSTER_NAME} --region ${GCP_REGION} -m ${GCP_MACHINE_TYPE}  --num-nodes=${GCP_NUM_NODES} --project ${GCP_PROJECT_NAME}
 	elif [ ${INFRASTRUCTURE} = "mvm" ]; then\
 		echo "Creating mvm cluster ..."
-		cd $(PWD)/makefiles/capi && $(MAKE) create-test-cluster
+		cd $(PWD)/makefiles/capi && INFRASTRUCTURE=${INFRASTRUCTURE} $(MAKE) create-test-cluster
 	elif [ ${INFRASTRUCTURE} = "vsphere" ]; then\
 		echo "Creating mvm cluster ..."
-		cd $(PWD)/makefiles/capi && $(MAKE) create-test-cluster
+		cd $(PWD)/makefiles/capi && INFRASTRUCTURE=${INFRASTRUCTURE} $(MAKE) create-test-cluster
 	fi
 
 delete-cluster: 
