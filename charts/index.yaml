@@ -26,6 +26,6 @@ entries:
     - https://github.com/MagalixCorp/magalix-policy-agent
     type: application
     urls:
-    - policy-agent-0.0.12-0.tgz
+    - https://raw.githubusercontent.com/weaveworks/profiles-catalog/policy-agent/charts/policy-agent-0.0.12-0.tgz?token=GHSAT0AAAAAABQXJDLLDFIDYIJKBX3FCPZ4YRTJVJA
     version: 0.0.12-0
 generated: "2022-03-10T17:01:13.669602912+02:00"
