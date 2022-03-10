@@ -33,7 +33,7 @@ initialize-provider:
 
 generate-test-cluster-config:
 	@echo "Generating mvm test config..."
-	CONTROL_PLANE_VIP=$(shell cat /tmp/vip) clusterctl generate cluster $(TEST_CLUSTER_NAME) \
+	clusterctl generate cluster $(TEST_CLUSTER_NAME) \
     --infrastructure vsphere:$(VSPHERE_PROVIDER_VERSION) \
 	-n $(TEST_CLUSTER_NAME) \
     --control-plane-machine-count 1 \
