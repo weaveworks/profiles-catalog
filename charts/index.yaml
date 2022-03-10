@@ -9,9 +9,9 @@ entries:
       weave.works/operator: "true"
       weave.works/profile: magalix
     apiVersion: v2
-    created: "2022-03-07T15:12:33.209965477+02:00"
+    created: "2022-03-10T14:06:52.066658318+02:00"
     description: A Weaveworks Helm chart for the new Magalix Policy agent
-    digest: 74b16c4a8d854f8f9913ccf47db79ed8b88b1a3ee7edcdf390a0b308123db662
+    digest: 69d90dc735cb8050d94f4cc46348ac074f4f855869e3c2db9affe25d9007c61f
     home: https://github.com/weaveworks/profiles-catalog
     icon: https://www.magalix.com/hubfs/Imported%20images/logo-02.png%3Fwidth=560%26name=logo-02-Dec-18-2020-11-24-41-75-AM.png
     keywords:
@@ -26,6 +26,6 @@ entries:
     - https://github.com/MagalixCorp/magalix-policy-agent
     type: application
     urls:
-      - https://raw.githubusercontent.com/weaveworks/profiles-catalog/policy-agent/charts/policy-agent-0.0.12-0.tgz?token=GHSAT0AAAAAABQXJDLLAOHOUTQQIFSIQDOQYRPRMLQ
+    - https://raw.githubusercontent.com/weaveworks/profiles-catalog/policy-agent/charts/policy-agent-0.0.12-0.tgz?token=GHSAT0AAAAAABQXJDLLAOHOUTQQIFSIQDOQYRPRMLQ
     version: 0.0.12-0
-generated: "2022-03-07T15:12:33.209384119+02:00"
+generated: "2022-03-10T14:06:52.065883344+02:00"
