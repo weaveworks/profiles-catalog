@@ -4,7 +4,7 @@ SHELL: /bin/bash
 
 OS := $(shell uname | tr '[:upper:]' '[:lower:]')
 
-TEST_CLUSTER_NAME?=test-cluster
+CLUSTER_NAME?=test-cluster
 
 VSPHERE_PROVIDER_VERSION=v1.0.2
 
@@ -31,9 +31,9 @@ initialize-provider:
 
 generate-test-cluster-config:
 	@echo "Generating mvm test config..."
-	clusterctl generate cluster $(TEST_CLUSTER_NAME) \
+	clusterctl generate cluster $(CLUSTER_NAME) \
     --infrastructure vsphere:$(VSPHERE_PROVIDER_VERSION) \
-	-n $(TEST_CLUSTER_NAME) \
+	-n $(CLUSTER_NAME) \
     --control-plane-machine-count 1 \
     --worker-machine-count 0 > /tmp/vsphere-test-cluster.yaml
 

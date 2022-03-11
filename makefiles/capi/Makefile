@@ -7,22 +7,11 @@ CONFDIR="${PWD}/../.conf"
 BINDIR="${PWD}/../../.bin"
 REPODIR="${PWD}/../charts"
 
-GKE_CLUSTER_NAME?="weave-profiles-capi"
-GCP_REGION="us-west1"
-GCP_PROJECT_NAME="weave-profiles"
-GCP_NUM_NODES=1
-GCP_MACHINE_TYPE=e2-standard-4
-
 INFRASTRUCTURE?="kind"
-TEST_CLUSTER_NAME?=test-cluster
+CLUSTER_NAME?=test-cluster
 
 CLUSTERCTL_VERSION=1.0.2
 
-
-provision-capi-cluster: check-clusterctl create-capi-cluster
-
-create-capi-cluster:
-	gcloud container clusters create ${GKE_CLUSTER_NAME} --region ${GCP_REGION} -m ${GCP_MACHINE_TYPE}  --num-nodes=${GCP_NUM_NODES} --project ${GCP_PROJECT_NAME}
 
 check-clusterctl:
 	@which clusterctl >/dev/null 2>&1 || (echo "clusterctl binary not found, installing ..." && \
@@ -36,7 +25,7 @@ generate-test-cluster-config:
 
 apply-test-cluster-config:
 	@echo "Applying test config..."
-	kubectl create ns $(TEST_CLUSTER_NAME) 
+	kubectl create ns $(CLUSTER_NAME) 
 	kubectl apply -f /tmp/${INFRASTRUCTURE}-test-cluster.yaml
 
 initialize-provider:
@@ -50,8 +39,8 @@ pick-vip-address:
 
 
 wait-until-master-is-ready:
-	kubectl wait --for=condition=ready --timeout=15m Clusters -n $(TEST_CLUSTER_NAME) $(TEST_CLUSTER_NAME)
-	kubectl wait --for=condition=ready --timeout=15m Kubeadmcontrolplanes -l cluster.x-k8s.io/cluster-name=$(TEST_CLUSTER_NAME) -n  $(TEST_CLUSTER_NAME) 
+	kubectl wait --for=condition=ready --timeout=15m Clusters -n $(CLUSTER_NAME) $(CLUSTER_NAME)
+	kubectl wait --for=condition=ready --timeout=15m Kubeadmcontrolplanes -l cluster.x-k8s.io/cluster-name=$(CLUSTER_NAME) -n  $(CLUSTER_NAME) 
 
 ##TEMP: Currently required because a calico template is not included in micovm-capi releases and linkerd is having issues with cilium
 install-calico:
@@ -73,11 +62,11 @@ unlabel-master:
 
 
 get-testing-config:
-	kubectl get secret -n $(TEST_CLUSTER_NAME) $(TEST_CLUSTER_NAME)-kubeconfig -o json | jq -r .data.value | base64 -d > /tmp/${INFRASTRUCTURE}-testing-config.yaml
+	kubectl get secret -n $(CLUSTER_NAME) $(CLUSTER_NAME)-kubeconfig -o json | jq -r .data.value | base64 -d > /tmp/${INFRASTRUCTURE}-testing-config.yaml
 
 delete-test-cluster:
 	@echo "Deleting test cluster..."
-	kubectl delete -n $(TEST_CLUSTER_NAME) --wait=true --timeout=900s clusters.cluster.x-k8s.io $(TEST_CLUSTER_NAME)
-	kubectl delete ns --wait=true --timeout=900s $(TEST_CLUSTER_NAME) 
+	kubectl delete -n $(CLUSTER_NAME) --wait=true --timeout=900s clusters.cluster.x-k8s.io $(CLUSTER_NAME)
+	kubectl delete ns --wait=true --timeout=900s $(CLUSTER_NAME) 
 
 create-test-cluster: check-clusterctl check-requirements pick-vip-address generate-test-cluster-config apply-test-cluster-config wait-until-master-is-ready get-testing-config install-calico unlabel-master restart-coredns
