@@ -16,6 +16,46 @@ entries:
         - "gke"
         - "kind"
     apiVersion: v2
+    created: "2022-03-11T14:19:20.569537156Z"
+    dependencies:
+    - name: cert-manager
+      repository: https://charts.jetstack.io
+      version: 1.6.0
+    description: A Weaveworks Helm chart for the Certificate Profile
+    digest: c92b2371a9dfe926d481b319c3bc4ddd84f721d3b63e6d8266650b07756469a7
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://raw.githubusercontent.com/jetstack/cert-manager/master/logo/logo.png
+    keywords:
+    - cert-manager
+    - kube-lego
+    - letsencrypt
+    - tls
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: cert-manager
+    sources:
+    - https://charts.jetstack.io
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/cert-manager-0.0.5/cert-manager-0.0.5.tgz
+    version: 0.0.5
+  - annotations:
+      weave.works/category: Certificate
+      weave.works/layer: layer-0
+      weave.works/links: |
+        - name: Chart Sources
+          url: https://charts.jetstack.io
+        - name: Upstream Project
+          url: https://github.com/jetstack/cert-manager
+      weave.works/operator: "true"
+      weave.works/profile: cert-manager
+      weave.works/profile-ci: |
+        - "mvm"
+        - "gke"
+        - "kind"
+    apiVersion: v2
     created: "2022-03-05T13:09:01.296376609Z"
     dependencies:
     - name: cert-manager
@@ -2636,4 +2676,4 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/tracing-0.0.1/tracing-0.0.1.tgz
     version: 0.0.1
-generated: "2022-03-05T13:09:01.296617018Z"
+generated: "2022-03-11T14:19:20.569689129Z"
