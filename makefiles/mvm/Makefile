@@ -8,7 +8,7 @@ OS := $(shell uname | tr '[:upper:]' '[:lower:]')
 
 
 
-export MVM_CLUSTER_NAME?=mvm-test
+export CLUSTER_NAME?=mvm-test
 export CONTROL_PLANE_MACHINE_COUNT=1
 export WORKER_MACHINE_COUNT=0
 
@@ -52,22 +52,13 @@ generate-mgmt-cluster-config:
 	@echo "Generating mvm mgmt config..."
 	CONTROL_PLANE_VIP=${CONTROL_PLANE_VIP_MGMT} clusterctl generate cluster -i microvm:$(CAPMVM_VERSION) $(MVM_MGMT_CLUSTER) > $(CONFDIR)/mvm-mgmt-cluster.yaml
 
-pick-vip-address:
-	bash ${BINDIR}/select-vip-for-mvm.sh
-
-
 generate-test-cluster-config:
 	@echo "Generating mvm test config..." 
-	CONTROL_PLANE_VIP=$(shell cat /tmp/mvm-vip) clusterctl generate cluster -n $(MVM_CLUSTER_NAME) -i microvm:$(CAPMVM_VERSION) $(MVM_CLUSTER_NAME) > /tmp/mvm-test-cluster.yaml
+	CONTROL_PLANE_VIP=$(shell cat /tmp/vip) clusterctl generate cluster -n $(CLUSTER_NAME) -i microvm:$(CAPMVM_VERSION) $(CLUSTER_NAME) > /tmp/mvm-test-cluster.yaml
 
 apply-mgmt-cluster-config:
 	@echo "Applying mvm mgmt config..."
 	kubectl apply -f $(CONFDIR)/mvm-mgmt-cluster.yaml
-
-apply-test-cluster-config:
-	@echo "Applying mvm test config..."
-	kubectl create ns $(MVM_CLUSTER_NAME) 
-	kubectl apply -f /tmp/mvm-test-cluster.yaml
 
 initialize-mvm-provider:
 	@echo "Initialize mvm provider in kind management cluster ..."
@@ -97,12 +88,6 @@ install-cert-manager:
 get-mvm-mgmt-config:
 	kubectl get secret ${MVM_MGMT_CLUSTER}-kubeconfig -o json | jq -r .data.value | base64 -d > /tmp/config.yaml
 
-get-testing-config:
-	kubectl get secret -n $(MVM_CLUSTER_NAME) $(MVM_CLUSTER_NAME)-kubeconfig -o json | jq -r .data.value | base64 -d > /tmp/mvm-testing-config.yaml
-	export KUBECONFIG=/tmp/mvm-testing-config.yaml
-
-
-
 create-mvm-bootstrap-cluster:
 	kind get clusters | grep ${MVM_KIND_CLUSTER} || kind create cluster --name ${MVM_KIND_CLUSTER}
 
@@ -111,41 +96,4 @@ delete-bootstrap-cluster:
 	kubectl delete -n $(MVM_CLUSTER_NAMESPACE) --wait=true --timeout=900s clusterresourceset.addons.cluster.x-k8s.io/crs-cilium
 	kubectl delete -n $(MVM_CLUSTER_NAMESPACE) --wait=true --timeout=900s configmap/cilium-addon
 
-create-namespace:
-	kubectl create ns $(MVM_CLUSTER_NAMESPACE)
-
-
-check-requirements:
-	@echo "Getting requirements..."
-	cd $(PWD)/../capi && $(MAKE) check-clusterctl
-
-
-wait-until-master-is-ready:
-	kubectl wait --for=condition=ready --timeout=15m Clusters -n $(MVM_CLUSTER_NAME) $(MVM_CLUSTER_NAME)
-	kubectl wait --for=condition=ready --timeout=15m Kubeadmcontrolplanes -l cluster.x-k8s.io/cluster-name=$(MVM_CLUSTER_NAME) -n  $(MVM_CLUSTER_NAME) 
-
-delete-test-cluster:
-	@echo "Deleting mvm test cluster..."
-	kubectl delete -n $(MVM_CLUSTER_NAME) --wait=true --timeout=900s clusters.cluster.x-k8s.io $(MVM_CLUSTER_NAME)
-	kubectl delete ns --wait=true --timeout=900s $(MVM_CLUSTER_NAME) 
-
-##TEMP: Currently required because a calico template is not included in micovm-capi releases and linkerd is having issues with cilium
-install-calico:
-	@echo "Installing Calico..."
-	export KUBECONFIG=/tmp/mvm-testing-config.yaml
-	kubectl create  -f calico.yaml
-	kubectl wait --timeout=3m  -n kube-system --for=condition=ready pod -l k8s-app=calico-kube-controllers 
-	kubectl wait --timeout=3m -n kube-system --for=condition=ready pod -l k8s-app=calico-node 
-
-#Currently required because the cni is not installed yet when the inital dns pods are installed, so they need to be restarted for them to be created with sni
-restart-coredns:
-	@echo "Patching CoreDNS..."
-	export KUBECONFIG=/tmp/mvm-testing-config.yaml
-	kubectl rollout restart deployment/coredns -n kube-system	
-
-unlabel-master:
-	@echo "Removing taint of masters..."
-	export KUBECONFIG=/tmp/mvm-testing-config.yaml
-	kubectl taint nodes --all node-role.kubernetes.io/master-
-
-create-test-cluster: check-requirements add-provider-to-clusterctl pick-vip-address generate-test-cluster-config apply-test-cluster-config wait-until-master-is-ready get-testing-config unlabel-master install-calico restart-coredns
+check-requirements: add-provider-to-clusterctl
