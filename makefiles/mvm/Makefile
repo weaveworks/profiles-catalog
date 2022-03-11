@@ -8,7 +8,7 @@ OS := $(shell uname | tr '[:upper:]' '[:lower:]')
 
 
 
-export TEST_CLUSTER_NAME?=mvm-test
+export CLUSTER_NAME?=mvm-test
 export CONTROL_PLANE_MACHINE_COUNT=1
 export WORKER_MACHINE_COUNT=0
 
@@ -54,7 +54,7 @@ generate-mgmt-cluster-config:
 
 generate-test-cluster-config:
 	@echo "Generating mvm test config..." 
-	CONTROL_PLANE_VIP=$(shell cat /tmp/vip) clusterctl generate cluster -n $(TEST_CLUSTER_NAME) -i microvm:$(CAPMVM_VERSION) $(TEST_CLUSTER_NAME) > /tmp/mvm-test-cluster.yaml
+	CONTROL_PLANE_VIP=$(shell cat /tmp/vip) clusterctl generate cluster -n $(CLUSTER_NAME) -i microvm:$(CAPMVM_VERSION) $(CLUSTER_NAME) > /tmp/mvm-test-cluster.yaml
 
 apply-mgmt-cluster-config:
 	@echo "Applying mvm mgmt config..."
