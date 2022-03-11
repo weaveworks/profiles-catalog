@@ -6,7 +6,7 @@ OS := $(shell uname | tr '[:upper:]' '[:lower:]')
 CONFDIR="${PWD}/../.conf"
 BINDIR="${PWD}/.bin"
 REPODIR="${PWD}/charts"
-INFRASTRUCTURE?="vsphere"
+INFRASTRUCTURE?="kind"
 
 EKS_CLUSTER_NAME?="profiles-cluster"
 AWS_REGION="us-west-1"
