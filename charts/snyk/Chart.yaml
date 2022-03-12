@@ -31,5 +31,5 @@ annotations:
 
 dependencies:
 - name: snyk-monitor
-  version: "1.70.4"
+  version: "1.85.2"
   repository: "https://snyk.github.io/kubernetes-monitor/"

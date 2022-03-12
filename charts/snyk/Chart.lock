@@ -1,6 +1,6 @@
 dependencies:
 - name: snyk-monitor
   repository: https://snyk.github.io/kubernetes-monitor/
-  version: 1.70.4
-digest: sha256:bedbefb24096a3ac340682ec28fe7e097a0eca0cb7c176c28c0cff9152cf91b5
-generated: "2021-11-19T14:36:11.987727-05:00"
+  version: 1.85.2
+digest: sha256:1d29d82f3c249a36d1286758552813f2ac955c45caf492f994d33aedecb3e1b0
+generated: "2022-03-12T00:02:33.311819177Z"
