@@ -38,7 +38,6 @@ create-cluster:
 		kind get clusters | grep ${KIND_CLUSTER} || kind create cluster --config ${BINDIR}/kind-cluster-with-extramounts.yaml --name ${KIND_CLUSTER}
 	elif [ ${INFRASTRUCTURE} = "eks" ]; then\
 		echo "Creating eks cluster ..."
-		check-eksctl
 		eksctl create cluster --name ${CLUSTER_NAME} \
 			--region ${AWS_REGION} \
 			--version ${EKS_K8S_VERSION} \
@@ -62,7 +61,6 @@ delete-cluster:
 		kind delete cluster --name ${KIND_CLUSTER}
 	elif [ ${INFRASTRUCTURE} = "eks" ]; then\
 		echo "Deleting eks cluster ..."
-		check-eksctl
 		eksctl delete cluster --region ${AWS_REGION} --name ${CLUSTER_NAME} --wait || \
 		aws cloudformation delete-stack --region ${AWS_REGION} --stack-name eksctl-${CLUSTER_NAME}-cluster
 	elif [ ${INFRASTRUCTURE} = "mvm" ]; then\
