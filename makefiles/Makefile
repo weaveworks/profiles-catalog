@@ -8,7 +8,8 @@ BINDIR="${PWD}/.bin"
 REPODIR="${PWD}/charts"
 INFRASTRUCTURE?="kind"
 
-EKS_CLUSTER_NAME?="profiles-cluster"
+CLUSTER_NAME?=test-cluster
+
 AWS_REGION="us-west-1"
 NODEGROUP_NAME="ng-1"
 NODE_INSTANCE_TYPE="m5.large"
@@ -37,13 +38,12 @@ create-cluster:
 		kind get clusters | grep ${KIND_CLUSTER} || kind create cluster --config ${BINDIR}/kind-cluster-with-extramounts.yaml --name ${KIND_CLUSTER}
 	elif [ ${INFRASTRUCTURE} = "eks" ]; then\
 		echo "Creating eks cluster ..."
-		eksctl delete cluster --region ${AWS_REGION} --name ${EKS_CLUSTER_NAME} --wait || eksctl create cluster --name ${EKS_CLUSTER_NAME} \
+		eksctl create cluster --name ${CLUSTER_NAME} \
 			--region ${AWS_REGION} \
 			--version ${EKS_K8S_VERSION} \
 			--nodegroup-name ${NODEGROUP_NAME} \
 			--node-type ${NODE_INSTANCE_TYPE} \
-			--nodes ${NUM_OF_NODES} \
-			--kubeconfig ${CONFDIR}/eks-cluster.kubeconfig
+			--nodes ${NUM_OF_NODES}
 	elif [ ${INFRASTRUCTURE} = "gke" ]; then\
 		echo "Creating gke cluster ..."
 		gcloud container clusters create ${GKE_CLUSTER_NAME} --region ${GCP_REGION} -m ${GCP_MACHINE_TYPE}  --num-nodes=${GCP_NUM_NODES} --project ${GCP_PROJECT_NAME}
@@ -61,8 +61,8 @@ delete-cluster:
 		kind delete cluster --name ${KIND_CLUSTER}
 	elif [ ${INFRASTRUCTURE} = "eks" ]; then\
 		echo "Deleting eks cluster ..."
-		eksctl delete cluster --region ${AWS_REGION} --name ${EKS_CLUSTER_NAME} --wait || \
-		aws cloudformation delete-stack --region ${AWS_REGION} --stack-name eksctl-${EKS_CLUSTER_NAME}-cluster
+		eksctl delete cluster --region ${AWS_REGION} --name ${CLUSTER_NAME} --wait || \
+		aws cloudformation delete-stack --region ${AWS_REGION} --stack-name eksctl-${CLUSTER_NAME}-cluster
 	elif [ ${INFRASTRUCTURE} = "mvm" ]; then\
 		echo "Deleting mvm cluster ..."
 		cd $(PWD)/makefiles/capi && $(MAKE) delete-test-cluster
