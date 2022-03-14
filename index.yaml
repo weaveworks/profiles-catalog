@@ -2654,6 +2654,41 @@ entries:
         - "gke"
         - "kind"
     apiVersion: v2
+    created: "2022-03-14T19:48:38.687887535Z"
+    dependencies:
+    - condition: tf-controller.enabled
+      name: tf-controller
+      repository: https://weaveworks.github.io/tf-controller/
+      version: 0.1.7
+    description: A Weaveworks Helm chart for tf-controller
+    digest: 209576e7833c3b65191e9e1cc23a1f7e00ee2bdca1669d2c5930be47129c91d0
+    home: https://github.com/weaveworks/profiles-catalog
+    keywords:
+    - terraform
+    - gitops
+    kubeVersion: '>=1.17.0-0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: tf-controller
+    sources:
+    - https://github.com/weaveworks/tf-controller
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/tf-controller-0.0.2/tf-controller-0.0.2.tgz
+    version: 0.0.2
+  - annotations:
+      weave.works/links: |
+        - name: Chart Sources
+          url: https://github.com/weaveworks/tf-controller
+        - name: Upstream Project
+          url: https://github.com/weaveworks/tf-controller
+      weave.works/operator: "true"
+      weave.works/profile: tf-controller
+      weave.works/profile-ci: |
+        - "gke"
+        - "kind"
+    apiVersion: v2
     created: "2022-02-23T17:20:06.22820161Z"
     dependencies:
     - condition: tf-controller.enabled
@@ -2716,4 +2751,4 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/tracing-0.0.1/tracing-0.0.1.tgz
     version: 0.0.1
-generated: "2022-03-14T16:16:31.545427476Z"
+generated: "2022-03-14T19:48:38.688066035Z"
