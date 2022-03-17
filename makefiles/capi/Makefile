@@ -56,9 +56,13 @@ restart-coredns:
 
 unlabel-master:
 	@echo "Removing taint of masters..."
-	kubectl --kubeconfig=/tmp/${INFRASTRUCTURE}-testing-config.yaml wait --for=condition=Ready nodes --all --timeout=600s
 	kubectl --kubeconfig=/tmp/${INFRASTRUCTURE}-testing-config.yaml taint nodes --all node-role.kubernetes.io/master-
 	kubectl --kubeconfig=/tmp/${INFRASTRUCTURE}-testing-config.yaml taint nodes --all node.cloudprovider.kubernetes.io/uninitialized- || true
+
+wait-for-nodes:
+	@echo "Waiting for nodes to be ready..."
+	kubectl --kubeconfig=/tmp/${INFRASTRUCTURE}-testing-config.yaml wait --for=condition=Ready nodes --all --timeout=600s
+
 
 
 get-testing-config:
@@ -69,4 +73,8 @@ delete-test-cluster:
 	kubectl delete -n $(CLUSTER_NAME) --wait=true --timeout=900s clusters.cluster.x-k8s.io $(CLUSTER_NAME)
 	kubectl delete ns --wait=true --timeout=900s $(CLUSTER_NAME) 
 
-create-test-cluster: check-clusterctl check-requirements pick-vip-address generate-test-cluster-config apply-test-cluster-config wait-until-master-is-ready get-testing-config install-calico unlabel-master restart-coredns
+create-test-cluster: create-ha-test-cluster
+
+create-single-node-test-cluster: check-clusterctl check-requirements pick-vip-address generate-test-cluster-config apply-test-cluster-config wait-until-master-is-ready get-testing-config install-calico wait-for-nodes unlabel-master restart-coredns
+
+create-ha-test-cluster: check-clusterctl check-requirements pick-vip-address generate-test-cluster-config apply-test-cluster-config wait-until-master-is-ready get-testing-config install-calico wait-for-nodes restart-coredns

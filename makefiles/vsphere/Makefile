@@ -24,6 +24,9 @@ export VSPHERE_SSH_AUTHORIZED_KEY=
 export VSPHERE_STORAGE_POLICY=
 export KUBERNETES_VERSION=v1.17.3
 
+NUMBER_OF_WORKERS=3
+NUMBER_OF_MGMT=3
+
 initialize-provider:
 	@echo "Initialize mvm provider in kind management cluster ..."
 	clusterctl init --infrastructure vsphere --wait-providers || true
@@ -34,8 +37,8 @@ generate-test-cluster-config:
 	clusterctl generate cluster $(CLUSTER_NAME) \
     --infrastructure vsphere:$(VSPHERE_PROVIDER_VERSION) \
 	-n $(CLUSTER_NAME) \
-    --control-plane-machine-count 1 \
-    --worker-machine-count 0 > /tmp/vsphere-test-cluster.yaml
+    --control-plane-machine-count $(NUMBER_OF_MGMT)\
+    --worker-machine-count  $(NUMBER_OF_WORKERS) > /tmp/vsphere-test-cluster.yaml
 
 add-provider-to-clusterctl:
 	@echo "Replacing clusterctl config..."

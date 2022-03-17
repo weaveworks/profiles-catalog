@@ -9,8 +9,8 @@ OS := $(shell uname | tr '[:upper:]' '[:lower:]')
 
 
 export CLUSTER_NAME?=mvm-test
-export CONTROL_PLANE_MACHINE_COUNT=1
-export WORKER_MACHINE_COUNT=0
+export CONTROL_PLANE_MACHINE_COUNT=3
+export WORKER_MACHINE_COUNT=3
 
 
 CONTROL_PLANE_VIP_MGMT=192.168.1.25
