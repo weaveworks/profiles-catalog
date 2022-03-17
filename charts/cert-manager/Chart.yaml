@@ -37,3 +37,4 @@ annotations:
     - "mvm"
     - "gke"
     - "kind"
+    - "vsphere"
