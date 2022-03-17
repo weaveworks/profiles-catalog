@@ -39,7 +39,7 @@ pick-vip-address:
 
 wait-until-master-is-ready:
 	kubectl wait --for=jsonpath='{.status.phase}'=Provisioned --timeout=15m Clusters -n $(CLUSTER_NAME) $(CLUSTER_NAME)
-	kubectl wait --for=condition=ready --timeout=15m Kubeadmcontrolplanes -l cluster.x-k8s.io/cluster-name=$(CLUSTER_NAME) -n  $(CLUSTER_NAME) 
+	kubectl wait --for=condition=ready --timeout=15m machines -l cluster.x-k8s.io/cluster-name=$(CLUSTER_NAME) -n $(CLUSTER_NAME)
 	
 # kubectl wait --for=jsonpath='{.status.infrastructureReady}'=true --timeout=15m Clusters -n profiles-vsphere-418 profiles-vsphere-418
 
