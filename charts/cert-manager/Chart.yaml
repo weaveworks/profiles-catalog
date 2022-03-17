@@ -36,5 +36,6 @@ annotations:
   "weave.works/profile-ci": |
     - "mvm"
     - "gke"
-    - "vsphere"
     - "kind"
+    - "vsphere"
+    - "vsphere-eks"
