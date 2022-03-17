@@ -39,9 +39,8 @@ pick-vip-address:
 
 wait-until-master-is-ready:
 	kubectl wait --for=jsonpath='{.status.phase}'=Provisioned --timeout=15m Clusters -n $(CLUSTER_NAME) $(CLUSTER_NAME)
-	kubectl wait --for=condition=ready --timeout=15m machines -l cluster.x-k8s.io/cluster-name=$(CLUSTER_NAME) -n $(CLUSTER_NAME)
+	kubectl wait --for=condition=ready --timeout=15m machines -l cluster.x-k8s.io/cluster-name=$(CLUSTER_NAME),cluster.x-k8s.io/control-plane -n $(CLUSTER_NAME)
 	
-# kubectl wait --for=jsonpath='{.status.infrastructureReady}'=true --timeout=15m Clusters -n profiles-vsphere-418 profiles-vsphere-418
 
 ##TEMP: Currently required because a calico template is not included in micovm-capi releases and linkerd is having issues with cilium
 install-single-node-calico:
@@ -53,7 +52,6 @@ install-single-node-calico:
 install-ha-calico:
 	@echo "Installing Calico..."
 	kubectl --kubeconfig=/tmp/${INFRASTRUCTURE}-testing-config.yaml create  -f calico.yaml
-	kubectl --kubeconfig=/tmp/${INFRASTRUCTURE}-testing-config.yaml wait --for=jsonpath='{.status.numberReady}'=6 ds --timeout=900s -n kube-system calico-node
 	kubectl --kubeconfig=/tmp/${INFRASTRUCTURE}-testing-config.yaml wait --timeout=3m -n kube-system --for=condition=ready pod -l k8s-app=calico-node 
 
 #Currently required because the cni is not installed yet when the inital dns pods are installed, so they need to be restarted for them to be created with cni
