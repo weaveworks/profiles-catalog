@@ -40,7 +40,6 @@ pick-vip-address:
 
 wait-until-master-is-ready:
 	kubectl wait --for=condition=ready --timeout=15m Clusters -n $(CLUSTER_NAME) $(CLUSTER_NAME)
-	kubectl wait --for=condition=ready --timeout=15m Kubeadmcontrolplanes -l cluster.x-k8s.io/cluster-name=$(CLUSTER_NAME) -n  $(CLUSTER_NAME) 
 
 ##TEMP: Currently required because a calico template is not included in micovm-capi releases and linkerd is having issues with cilium
 install-calico:

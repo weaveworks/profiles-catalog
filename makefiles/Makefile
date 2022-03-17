@@ -80,3 +80,7 @@ check-eksctl:
 	chmod +x /tmp/eksctl && \
 	sudo mv /tmp/eksctl /usr/local/bin && \
 	eksctl version)
+
+create-eks-anywhere:
+	@echo "Sorting charts by layers"
+	bash ${BINDIR}/sort-layers.sh
