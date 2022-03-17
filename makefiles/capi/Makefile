@@ -12,7 +12,6 @@ CLUSTER_NAME?=test-cluster
 
 CLUSTERCTL_VERSION=1.0.2
 
-
 check-clusterctl:
 	@which clusterctl >/dev/null 2>&1 || (echo "clusterctl binary not found, installing ..." && \
 	curl -s -L "https://github.com/kubernetes-sigs/cluster-api/releases/download/v${CLUSTERCTL_VERSION}/clusterctl-${OS}-amd64" -o clusterctl && \
@@ -42,10 +41,16 @@ wait-until-master-is-ready:
 	kubectl wait --for=condition=ready --timeout=15m Clusters -n $(CLUSTER_NAME) $(CLUSTER_NAME)
 
 ##TEMP: Currently required because a calico template is not included in micovm-capi releases and linkerd is having issues with cilium
-install-calico:
+install-single-node-calico:
 	@echo "Installing Calico..."
 	kubectl --kubeconfig=/tmp/${INFRASTRUCTURE}-testing-config.yaml create  -f calico.yaml
 	kubectl --kubeconfig=/tmp/${INFRASTRUCTURE}-testing-config.yaml wait --for=jsonpath='{.status.numberReady}'=1 ds --timeout=900s -n kube-system calico-node
+	kubectl --kubeconfig=/tmp/${INFRASTRUCTURE}-testing-config.yaml wait --timeout=3m -n kube-system --for=condition=ready pod -l k8s-app=calico-node 
+
+install-ha-calico:
+	@echo "Installing Calico..."
+	kubectl --kubeconfig=/tmp/${INFRASTRUCTURE}-testing-config.yaml create  -f calico.yaml
+	kubectl --kubeconfig=/tmp/${INFRASTRUCTURE}-testing-config.yaml wait --for=jsonpath='{.status.numberReady}'=6 ds --timeout=900s -n kube-system calico-node
 	kubectl --kubeconfig=/tmp/${INFRASTRUCTURE}-testing-config.yaml wait --timeout=3m -n kube-system --for=condition=ready pod -l k8s-app=calico-node 
 
 #Currently required because the cni is not installed yet when the inital dns pods are installed, so they need to be restarted for them to be created with cni
@@ -74,6 +79,6 @@ delete-test-cluster:
 
 create-test-cluster: create-ha-test-cluster
 
-create-single-node-test-cluster: check-clusterctl check-requirements pick-vip-address generate-test-cluster-config apply-test-cluster-config wait-until-master-is-ready get-testing-config install-calico wait-for-nodes unlabel-master restart-coredns
+create-single-node-test-cluster: check-clusterctl check-requirements pick-vip-address generate-test-cluster-config apply-test-cluster-config wait-until-master-is-ready get-testing-config install-single-node-calico wait-for-nodes unlabel-master restart-coredns
 
-create-ha-test-cluster: check-clusterctl check-requirements pick-vip-address generate-test-cluster-config apply-test-cluster-config wait-until-master-is-ready get-testing-config install-calico wait-for-nodes restart-coredns
+create-ha-test-cluster: check-clusterctl check-requirements pick-vip-address generate-test-cluster-config apply-test-cluster-config wait-until-master-is-ready get-testing-config install-ha-calico wait-for-nodes restart-coredns

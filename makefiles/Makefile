@@ -82,5 +82,5 @@ check-eksctl:
 	eksctl version)
 
 create-eks-anywhere:
-	@echo "Sorting charts by layers"
-	bash ${BINDIR}/sort-layers.sh
+	@echo "Creating vsphere eks anywhere"
+	eksctl anywhere create cluster -f vsphere-eks-anywhere/cluster.yaml
