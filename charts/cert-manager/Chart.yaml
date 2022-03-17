@@ -34,8 +34,6 @@ annotations:
     - name: Upstream Project
       url: https://github.com/jetstack/cert-manager
   "weave.works/profile-ci": |
-    - "mvm"
     - "gke"
     - "kind"
     - "vsphere"
-    - "vsphere-eks"
