@@ -39,6 +39,7 @@ pick-vip-address:
 
 wait-until-master-is-ready:
 	kubectl wait --for=jsonpath='{.status.phase}'=Provisioned --timeout=15m Clusters -n $(CLUSTER_NAME) $(CLUSTER_NAME)
+	kubectl wait --for=jsonpath='{.status.updatedReplicas}'=1  --timeout=15m Kubeadmcontrolplanes -l cluster.x-k8s.io/cluster-name=$(CLUSTER_NAME) -n  $(CLUSTER_NAME) 
 	
 # kubectl wait --for=jsonpath='{.status.infrastructureReady}'=true --timeout=15m Clusters -n profiles-vsphere-418 profiles-vsphere-418
 
@@ -80,7 +81,6 @@ delete-test-cluster:
 	kubectl delete ns --wait=true --timeout=900s $(CLUSTER_NAME) 
 
 create-test-cluster: create-ha-test-cluster
-
 create-single-node-test-cluster: check-clusterctl check-requirements pick-vip-address generate-test-cluster-config apply-test-cluster-config wait-until-master-is-ready get-testing-config install-single-node-calico wait-for-nodes unlabel-master restart-coredns
 
 create-ha-test-cluster: check-clusterctl check-requirements pick-vip-address generate-test-cluster-config apply-test-cluster-config wait-until-master-is-ready get-testing-config install-ha-calico wait-for-nodes restart-coredns
