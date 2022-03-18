@@ -10,10 +10,11 @@ VMware vCenter Server Appliance
 
 ## Step 2 Mount vCenter Server Appliance IOS disk on MAC/Windows
 
-
 ## Step 3 Run terraform/provision_vsphere
 
 ## Step 4 Run terraform/create_capi_vsphere
+
+## Step 5 install provider to management cluster 
 
 ## Upload OVF 
 https://github.com/kubernetes-sigs/cluster-api-provider-vsphere/blob/main/docs/getting_started.md

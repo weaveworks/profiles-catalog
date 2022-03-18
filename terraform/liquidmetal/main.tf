@@ -71,12 +71,6 @@ provider "metal" {
 }
 
 
-# Create VLAN in project
-resource "metal_vlan" "vlan" {
-  description = "VLAN for liquid-metal-demo"
-  metro       = var.metro
-  project_id  = var.project_id
-}
 
 # Create device for dhcp, nat routing, vpn etc
 resource "metal_device" "dhcp_nat" {
@@ -94,7 +88,7 @@ resource "metal_port" "bond0_dhcp" {
   port_id  = [for p in metal_device.dhcp_nat.ports : p.id if p.name == "bond0"][0]
   layer2   = false
   bonded   = true
-  vlan_ids = [metal_vlan.vlan.id]
+  vlan_ids = [1000]
 }
 
 # Create N devices to act as flintlock hosts
@@ -115,7 +109,7 @@ resource "metal_port" "bond0_host" {
   port_id  = [for p in metal_device.host[count.index].ports : p.id if p.name == "bond0"][0]
   layer2   = false
   bonded   = true
-  vlan_ids = [metal_vlan.vlan.id]
+  vlan_ids = [1000]
 }
 
 # Set up the vlan, dhcp server, nat routing and the vpn on the dhcp_nat device
@@ -154,9 +148,9 @@ resource "null_resource" "setup_dhcp_nat" {
       "chmod +x /root/dhcp.sh",
       "chmod +x /root/nat.sh",
       "chmod +x /root/tailscale.sh",
-      "VLAN_ID=${metal_vlan.vlan.vxlan} ADDR=2 /root/vlan.sh",
-      "VLAN_ID=${metal_vlan.vlan.vxlan} /root/dhcp.sh",
-      "VLAN_ID=${metal_vlan.vlan.vxlan} /root/nat.sh",
+      "VLAN_ID=1000 ADDR=2 /root/vlan.sh",
+      "VLAN_ID=1000 /root/dhcp.sh",
+      "VLAN_ID=1000 /root/nat.sh",
       "AUTH_KEY=${var.ts_auth_key} /root/tailscale.sh",
     ]
   }
@@ -187,8 +181,8 @@ resource "null_resource" "setup_hosts" {
     inline = [
       "chmod +x /root/vlan.sh",
       "chmod +x /root/flintlock.sh",
-      "VLAN_ID=${metal_vlan.vlan.vxlan} ADDR=${count.index + 3} /root/vlan.sh",
-      "VLAN_ID=${metal_vlan.vlan.vxlan} FLINTLOCK=${var.flintlock_version} FIRECRACKER=${var.firecracker_version} /root/flintlock.sh",
+      "VLAN_ID=1000 ADDR=${count.index + 3} /root/vlan.sh",
+      "VLAN_ID=1000 FLINTLOCK=${var.flintlock_version} FIRECRACKER=${var.firecracker_version} /root/flintlock.sh",
     ]
   }
 }

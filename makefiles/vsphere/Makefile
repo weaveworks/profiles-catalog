@@ -29,7 +29,7 @@ NUMBER_OF_MGMT=1
 
 initialize-provider:
 	@echo "Initialize mvm provider in kind management cluster ..."
-	clusterctl init --infrastructure vsphere --wait-providers || true
+	clusterctl init --infrastructure vsphere:$(VSPHERE_PROVIDER_VERSION) --wait-providers || true
 
 
 generate-test-cluster-config:

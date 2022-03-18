@@ -15,7 +15,7 @@ export WORKER_MACHINE_COUNT=3
 
 CONTROL_PLANE_VIP_MGMT=192.168.1.25
 
-export HOST_ENDPOINT=10.68.184.131:9090
+export HOST_ENDPOINT=192.168.1.3:9090
 
 ##@ https://github.com/weaveworks/cluster-api-provider-microvm/blob/main/docs/compatibility.md
 export CAPMVM_VERSION=v0.2.2
@@ -40,6 +40,7 @@ configure-and-install-mvm-provider: add-provider-to-clusterctl create-image-pull
 
 ##@ Purpose: to install the github runner
 install-github-runner:
+
 	helm repo add actions-runner-controller https://actions-runner-controller.github.io/actions-runner-controller
 	kubectl create secret generic controller-manager \
     -n actions-runner-system \
@@ -50,7 +51,7 @@ install-github-runner:
 
 generate-mgmt-cluster-config:
 	@echo "Generating mvm mgmt config..."
-	CONTROL_PLANE_VIP=${CONTROL_PLANE_VIP_MGMT} clusterctl generate cluster -i microvm:$(CAPMVM_VERSION) $(MVM_MGMT_CLUSTER) > $(CONFDIR)/mvm-mgmt-cluster.yaml
+	CONTROL_PLANE_VIP=${CONTROL_PLANE_VIP_MGMT} clusterctl generate cluster -i microvm:$(CAPMVM_VERSION) $(MVM_MGMT_CLUSTER) > /tmp/mvm-mgmt-cluster.yaml
 
 generate-test-cluster-config:
 	@echo "Generating mvm test config..." 
@@ -58,7 +59,7 @@ generate-test-cluster-config:
 
 apply-mgmt-cluster-config:
 	@echo "Applying mvm mgmt config..."
-	kubectl apply -f $(CONFDIR)/mvm-mgmt-cluster.yaml
+	kubectl apply -f /tmp/mvm-mgmt-cluster.yaml
 
 initialize-mvm-provider:
 	@echo "Initialize mvm provider in kind management cluster ..."
