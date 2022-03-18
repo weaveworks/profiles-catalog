@@ -51,11 +51,8 @@ install-single-node-calico:
 
 install-ha-calico:
 	@echo "Installing Calico..."
-	kubectl --kubeconfig=/tmp/${INFRASTRUCTURE}-testing-config.yaml create  -f calico.yaml
-	kubectl wait --for=condition=ready --timeout=15m Kubeadmcontrolplanes -l cluster.x-k8s.io/cluster-name=$(CLUSTER_NAME) -n  $(CLUSTER_NAME) 
-	kubectl wait --for=condition=ready --timeout=15m Clusters -n $(CLUSTER_NAME) $(CLUSTER_NAME)
-	sleep 60
-	kubectl --kubeconfig=/tmp/${INFRASTRUCTURE}-testing-config.yaml wait --timeout=10m -n kube-system --for=condition=ready pod -l k8s-app=calico-node 
+	kubectl create -f https://raw.githubusercontent.com/cilium/cilium/v1.9/install/kubernetes/quick-install.yaml
+	kubectl wait --for=condition=Ready nodes --all --timeout=15m
 
 #Currently required because the cni is not installed yet when the inital dns pods are installed, so they need to be restarted for them to be created with cni
 restart-coredns:
