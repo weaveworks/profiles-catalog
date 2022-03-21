@@ -51,7 +51,7 @@ install-single-node-calico:
 	kubectl --kubeconfig=/tmp/${INFRASTRUCTURE}-testing-config.yaml wait --for=jsonpath='{.status.numberReady}'=1 ds --timeout=900s -n kube-system calico-node
 	kubectl --kubeconfig=/tmp/${INFRASTRUCTURE}-testing-config.yaml wait --timeout=3m -n kube-system --for=condition=ready pod -l k8s-app=calico-node 
 
-install-ha-calico:
+install-cilium:
 	@echo "Installing Calico..."
 	kubectl --kubeconfig=/tmp/${INFRASTRUCTURE}-testing-config.yaml create  -f https://raw.githubusercontent.com/cilium/cilium/v1.9/install/kubernetes/quick-install.yaml
 	kubectl --kubeconfig=/tmp/${INFRASTRUCTURE}-testing-config.yaml wait --for=condition=Ready nodes --all --timeout=15m
@@ -76,6 +76,10 @@ wait-for-nodes:
 	@echo "Waiting for nodes to be ready..."
 	kubectl --kubeconfig=/tmp/${INFRASTRUCTURE}-testing-config.yaml wait --for=condition=Ready nodes --all --timeout=600s
 
+wait-for-ha-nodes:
+	@echo "Waiting for nodes to be ready..."
+	kubectl wait --for=jsonpath='{.status.Replicas}'=3 --for=condition=Ready Kubeadmcontrolplanes --all --timeout=15m
+	kubectl --kubeconfig=/tmp/${INFRASTRUCTURE}-testing-config.yaml wait --for=condition=Ready nodes --all --timeout=600s
 
 
 get-testing-config:
@@ -89,4 +93,4 @@ delete-test-cluster:
 create-test-cluster: create-ha-test-cluster
 create-single-node-test-cluster: check-clusterctl check-requirements pick-vip-address generate-test-cluster-config apply-test-cluster-config wait-until-master-is-ready get-testing-config install-single-node-calico wait-for-nodes unlabel-master restart-coredns
 
-create-ha-test-cluster: check-clusterctl check-requirements pick-vip-address generate-test-cluster-config apply-test-cluster-config wait-until-master-is-ready get-testing-config install-ha-calico unlabel-ha-config wait-for-nodes restart-coredns
+create-ha-test-cluster: check-clusterctl check-requirements pick-vip-address generate-test-cluster-config apply-test-cluster-config wait-until-master-is-ready get-testing-config install-cilium unlabel-ha-config wait-for-ha-nodes restart-coredns
