@@ -41,7 +41,6 @@ wait-until-master-is-ready:
 	kubectl wait --for=jsonpath='{.status.phase}'=Provisioned --timeout=15m Clusters -n $(CLUSTER_NAME) $(CLUSTER_NAME)
 	sleep 2
 	kubectl wait --for=jsonpath='{.status.phase}'=Provisioned --timeout=15m machines -l cluster.x-k8s.io/cluster-name=$(CLUSTER_NAME),cluster.x-k8s.io/control-plane="" -n $(CLUSTER_NAME)
-	kubectl wait --for=condition=ready --timeout=15m machines -l cluster.x-k8s.io/cluster-name=$(CLUSTER_NAME) -n $(CLUSTER_NAME)
 	
 install-calico:
 	kubectl create  -f calico.yaml
