@@ -10,7 +10,7 @@ REPODIR="${PWD}/../charts"
 INFRASTRUCTURE?="kind"
 CLUSTER_NAME?=test-cluster
 
-CLUSTERCTL_VERSION=1.0.2
+CLUSTERCTL_VERSION=1.1.3
 
 check-clusterctl:
 	@which clusterctl >/dev/null 2>&1 || (echo "clusterctl binary not found, installing ..." && \
