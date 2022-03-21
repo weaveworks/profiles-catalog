@@ -39,7 +39,7 @@ pick-vip-address:
 
 wait-until-master-is-ready:
 	kubectl wait --for=jsonpath='{.status.phase}'=Provisioned --timeout=15m Clusters -n $(CLUSTER_NAME) $(CLUSTER_NAME)
-	kubectl wait --for=jsonpath='{.status.phase}'=Provisioned --timeout=15m machines -l cluster.x-k8s.io/cluster-name=profiles-vsphere-455,cluster.x-k8s.io/control-plane="" -n profiles-vsphere-455
+	kubectl wait --for=jsonpath='{.status.phase}'=Provisioned --timeout=15m machines -l cluster.x-k8s.io/cluster-name=$(CLUSTER_NAME),cluster.x-k8s.io/control-plane="" -n $(CLUSTER_NAME)
 	kubectl wait --for=condition=ready --timeout=15m machines -l cluster.x-k8s.io/cluster-name=$(CLUSTER_NAME) -n $(CLUSTER_NAME)
 	
 install-calico:
