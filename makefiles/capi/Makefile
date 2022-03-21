@@ -78,9 +78,8 @@ wait-for-nodes:
 
 wait-for-ha-nodes:
 	@echo "Waiting for nodes to be ready..."
-	kubectl wait --for=jsonpath='{.status.Replicas}'=3 --for=condition=Ready Kubeadmcontrolplanes --all --timeout=15m
-	kubectl --kubeconfig=/tmp/${INFRASTRUCTURE}-testing-config.yaml wait --for=condition=Ready nodes --all --timeout=600s
-
+	kubectl wait --for=jsonpath='{.status.Replicas}'=3 --for=condition=Ready Kubeadmcontrolplanes -n $(CLUSTER_NAME) -l cluster.x-k8s.io/cluster-name=$(CLUSTER_NAME) --timeout=15m 
+	kubectl --kubeconfig=/tmp/${INFRASTRUCTURE}-testing-config.yaml wait --for=condition=Ready nodes --all --timeout=600s 
 
 get-testing-config:
 	kubectl get secret -n $(CLUSTER_NAME) $(CLUSTER_NAME)-kubeconfig -o json | jq -r .data.value | base64 -d > /tmp/${INFRASTRUCTURE}-testing-config.yaml
