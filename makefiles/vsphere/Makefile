@@ -10,6 +10,7 @@ VSPHERE_PROVIDER_VERSION=v1.1.1
 
 export VSPHERE_USERNAME=administrator@vsphere.local
 export VSPHERE_PASSWORD=M-:8r}3cxO
+
 export VSPHERE_SERVER=192.168.1.77
 export VSPHERE_DATACENTER=dc1
 export VSPHERE_DATASTORE=datastore1

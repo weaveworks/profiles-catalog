@@ -40,7 +40,6 @@ configure-and-install-mvm-provider: add-provider-to-clusterctl create-image-pull
 
 ##@ Purpose: to install the github runner
 install-github-runner:
-
 	helm repo add actions-runner-controller https://actions-runner-controller.github.io/actions-runner-controller
 	kubectl create secret generic controller-manager \
     -n actions-runner-system \
