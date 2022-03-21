@@ -54,7 +54,7 @@ install-single-node-calico:
 
 install-cilium:
 	@echo "Installing Calico..."
-	sleep 60
+	sleep 600
 	kubectl --kubeconfig=/tmp/${INFRASTRUCTURE}-testing-config.yaml create  -f https://raw.githubusercontent.com/cilium/cilium/v1.9/install/kubernetes/quick-install.yaml
 	kubectl --kubeconfig=/tmp/${INFRASTRUCTURE}-testing-config.yaml wait --for=condition=Ready nodes --all --timeout=15m
 
