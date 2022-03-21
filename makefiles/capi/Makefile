@@ -92,4 +92,4 @@ delete-test-cluster:
 create-test-cluster: create-ha-test-cluster
 create-single-node-test-cluster: check-clusterctl check-requirements pick-vip-address generate-test-cluster-config apply-test-cluster-config wait-until-master-is-ready get-testing-config install-single-node-calico wait-for-nodes unlabel-master restart-coredns
 
-create-ha-test-cluster: check-clusterctl check-requirements pick-vip-address generate-test-cluster-config apply-test-cluster-config wait-until-master-is-ready get-testing-config install-cilium unlabel-ha-config wait-for-ha-nodes restart-coredns
+create-ha-test-cluster: check-clusterctl check-requirements pick-vip-address generate-test-cluster-config apply-test-cluster-config wait-until-master-is-ready get-testing-config install-cilium wait-for-ha-nodes restart-coredns
