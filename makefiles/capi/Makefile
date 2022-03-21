@@ -48,13 +48,13 @@ install-calico:
 ##TEMP: Currently required because a calico template is not included in micovm-capi releases and linkerd is having issues with cilium
 install-single-node-calico:
 	@echo "Installing Calico..."
-	sleep 15
 	kubectl --kubeconfig=/tmp/${INFRASTRUCTURE}-testing-config.yaml create  -f calico.yaml
 	kubectl --kubeconfig=/tmp/${INFRASTRUCTURE}-testing-config.yaml wait --for=jsonpath='{.status.numberReady}'=1 ds --timeout=900s -n kube-system calico-node
 	kubectl --kubeconfig=/tmp/${INFRASTRUCTURE}-testing-config.yaml wait --timeout=3m -n kube-system --for=condition=ready pod -l k8s-app=calico-node 
 
 install-cilium:
 	@echo "Installing Calico..."
+	sleep 15
 	kubectl --kubeconfig=/tmp/${INFRASTRUCTURE}-testing-config.yaml create  -f https://raw.githubusercontent.com/cilium/cilium/v1.9/install/kubernetes/quick-install.yaml
 	kubectl --kubeconfig=/tmp/${INFRASTRUCTURE}-testing-config.yaml wait --for=condition=Ready nodes --all --timeout=15m
 
