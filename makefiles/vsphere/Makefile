@@ -35,8 +35,8 @@ initialize-provider:
 generate-test-cluster-config:
 	@echo "Generating mvm test config..."
 	clusterctl generate cluster $(CLUSTER_NAME) \
-    --infrastructure vsphere:$(VSPHERE_PROVIDER_VERSION) \
 	-n $(CLUSTER_NAME) \
+	--from ./template.yaml \
     --control-plane-machine-count $(NUMBER_OF_MGMT) \
     --worker-machine-count  $(NUMBER_OF_WORKERS) > /tmp/vsphere-test-cluster.yaml
 

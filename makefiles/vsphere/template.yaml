@@ -68,12 +68,12 @@ metadata:
 spec:
   kubeadmConfigSpec:
     clusterConfiguration:
-      apiServer:
-        extraArgs:
-          cloud-provider: external
-      controllerManager:
-        extraArgs:
-          cloud-provider: external
+      apiServer: {}
+      controllerManager: {}
+      dns: {}
+      etcd: {}
+      networking: {}
+      scheduler: {}
     files:
     - content: |
         apiVersion: v1
@@ -134,7 +134,7 @@ spec:
       nodeRegistration:
         criSocket: /var/run/containerd/containerd.sock
         kubeletExtraArgs:
-          cloud-provider: external
+          provider-id: PROVIDER_ID
         name: '{{ ds.meta_data.hostname }}'
     joinConfiguration:
       nodeRegistration:
@@ -174,7 +174,7 @@ spec:
         nodeRegistration:
           criSocket: /var/run/containerd/containerd.sock
           kubeletExtraArgs:
-            cloud-provider: external
+            provider-id: PROVIDER_ID
           name: '{{ ds.meta_data.hostname }}'
       preKubeadmCommands:
       - hostname "{{ ds.meta_data.hostname }}"
@@ -216,39 +216,6 @@ spec:
         kind: VSphereMachineTemplate
         name: '${CLUSTER_NAME}'
       version: '${KUBERNETES_VERSION}'
----
-apiVersion: addons.cluster.x-k8s.io/v1beta1
-kind: ClusterResourceSet
-metadata:
-  labels:
-    cluster.x-k8s.io/cluster-name: '${CLUSTER_NAME}'
-  name: ${CLUSTER_NAME}-crs-0
-  namespace: '${NAMESPACE}'
-spec:
-  clusterSelector:
-    matchLabels:
-      cluster.x-k8s.io/cluster-name: '${CLUSTER_NAME}'
-  resources:
-  - kind: Secret
-    name: vsphere-csi-controller
-  - kind: ConfigMap
-    name: vsphere-csi-controller-role
-  - kind: ConfigMap
-    name: vsphere-csi-controller-binding
-  - kind: Secret
-    name: csi-vsphere-config
-  - kind: ConfigMap
-    name: csi.vsphere.vmware.com
-  - kind: ConfigMap
-    name: vsphere-csi-node
-  - kind: ConfigMap
-    name: vsphere-csi-controller
-  - kind: Secret
-    name: cloud-controller-manager
-  - kind: Secret
-    name: cloud-provider-vsphere-credentials
-  - kind: ConfigMap
-    name: cpi-manifests
 ---
 apiVersion: v1
 kind: Secret
