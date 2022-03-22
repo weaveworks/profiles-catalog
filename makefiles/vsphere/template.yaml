@@ -48,7 +48,7 @@ spec:
       datastore: '${VSPHERE_DATASTORE}'
       diskGiB: 25
       folder: '${VSPHERE_FOLDER}'
-      memoryMiB: 6144
+      memoryMiB: 8192
       network:
         devices:
         - dhcp4: true

@@ -41,10 +41,11 @@ configure-and-install-mvm-provider: add-provider-to-clusterctl create-image-pull
 ##@ Purpose: to install the github runner
 install-github-runner:
 	helm repo add actions-runner-controller https://actions-runner-controller.github.io/actions-runner-controller
+	kubectl create ns actions-runner-system
 	kubectl create secret generic controller-manager \
     -n actions-runner-system \
     --from-literal=github_token=${GITHUB_TOKEN} || true && \
-	helm upgrade --install --namespace actions-runner-system --create-namespace \
+	helm upgrade --install --namespace actions-runner-system \
 	--wait actions-runner-controller actions-runner-controller/actions-runner-controller &&\
 	kubectl apply -f runner.yaml
 
