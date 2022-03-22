@@ -25,7 +25,7 @@ export VSPHERE_STORAGE_POLICY=
 export KUBERNETES_VERSION=v1.17.3
 
 NUMBER_OF_WORKERS=3
-NUMBER_OF_MGMT=3
+NUMBER_OF_MGMT=1
 
 initialize-provider:
 	@echo "Initialize mvm provider in kind management cluster ..."
