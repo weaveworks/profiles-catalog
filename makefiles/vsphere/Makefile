@@ -9,7 +9,7 @@ CLUSTER_NAME?=test-cluster
 VSPHERE_PROVIDER_VERSION=v1.1.1
 
 export VSPHERE_USERNAME=administrator@vsphere.local
-export VSPHERE_SERVER=192.168.1.77
+export VSPHERE_SERVER=192.168.1.93
 export VSPHERE_DATACENTER=dc1
 export VSPHERE_DATASTORE=datastore1
 export VSPHERE_NETWORK=VM Network
@@ -24,7 +24,7 @@ export VSPHERE_SSH_AUTHORIZED_KEY=ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDkfU6iwJ
 export VSPHERE_STORAGE_POLICY=
 export KUBERNETES_VERSION=v1.17.3
 
-NUMBER_OF_WORKERS=1
+NUMBER_OF_WORKERS=3
 NUMBER_OF_MGMT=3
 
 initialize-provider:
@@ -35,9 +35,9 @@ initialize-provider:
 generate-test-cluster-config:
 	@echo "Generating mvm test config..."
 	clusterctl generate cluster $(CLUSTER_NAME) \
+    --infrastructure vsphere:$(VSPHERE_PROVIDER_VERSION) \
 	-n $(CLUSTER_NAME) \
     --control-plane-machine-count $(NUMBER_OF_MGMT) \
-	--from ./template.yaml \
     --worker-machine-count  $(NUMBER_OF_WORKERS) > /tmp/vsphere-test-cluster.yaml
 
 add-provider-to-clusterctl:
