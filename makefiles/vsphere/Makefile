@@ -38,6 +38,7 @@ generate-test-cluster-config:
     --infrastructure vsphere:$(VSPHERE_PROVIDER_VERSION) \
 	-n $(CLUSTER_NAME) \
     --control-plane-machine-count $(NUMBER_OF_MGMT)\
+	--from ./template.yaml \
     --worker-machine-count  $(NUMBER_OF_WORKERS) > /tmp/vsphere-test-cluster.yaml
 
 add-provider-to-clusterctl:
