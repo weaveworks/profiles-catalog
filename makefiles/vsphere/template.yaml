@@ -140,7 +140,7 @@ spec:
       nodeRegistration:
         criSocket: /var/run/containerd/containerd.sock
         kubeletExtraArgs:
-          cloud-provider: external
+          provider-id: PROVIDER_ID
         name: '{{ ds.meta_data.hostname }}'
     preKubeadmCommands:
     - hostname "{{ ds.meta_data.hostname }}"
