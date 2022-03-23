@@ -154,7 +154,7 @@ jobs:
             done
         - name: Set up Google Cloud SDK
           if: steps.compile-and-sort-layers.outputs.gke-ci == 'true'
-          uses: google-github-actions/setup-gcloud@master
+          uses: google-github-actions/setup-gcloud@v0
           with:
             project_id: ${{ secrets.GCP_PROJECT_ID }}
             service_account_key: ${{ secrets.GCP_SA_KEY }}
@@ -188,183 +188,183 @@ jobs:
             INFRASTRUCTURE: "gke"
           run: |
             make -f makefiles/Makefile delete-cluster
-  test-mvm:
-    runs-on: self-hosted
-    steps:
-        - name: Checkout
-          uses: actions/checkout@v2
-          with:
-            fetch-depth: 0
+  # test-mvm:
+  #   runs-on: self-hosted
+  #   steps:
+  #       - name: Checkout
+  #         uses: actions/checkout@v2
+  #         with:
+  #           fetch-depth: 0
 
-        - name: Set up Helm
-          uses: azure/setup-helm@v1
-          with:
-            version: 3.*
+  #       - name: Set up Helm
+  #         uses: azure/setup-helm@v1
+  #         with:
+  #           version: 3.*
 
-        - uses: actions/setup-python@v2
-          with:
-            python-version: 3.7
+  #       - uses: actions/setup-python@v2
+  #         with:
+  #           python-version: 3.7
 
-        - name: Set up chart-testing
-          uses: helm/chart-testing-action@v2.1.0
+  #       - name: Set up chart-testing
+  #         uses: helm/chart-testing-action@v2.1.0
 
-        - name: Adding platforms
-          run: |
-            rm -f /tmp/platforms
-            touch /tmp/platforms
-            echo mvm >> /tmp/platforms
+  #       - name: Adding platforms
+  #         run: |
+  #           rm -f /tmp/platforms
+  #           touch /tmp/platforms
+  #           echo mvm >> /tmp/platforms
 
-        - name: Compile and Sort layers alphabetically
-          id: compile-and-sort-layers
-          env:
-            YQ_VERSION: v4.20.2
-            YQ_BINARY: yq_linux_amd64
-          run: |
-            sudo curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-            sudo mv kubectl /usr/bin/kubectl
-            sudo chmod +x /usr/bin/kubectl
-            sudo wget https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/${YQ_BINARY} -O /usr/bin/yq
-            sudo chmod +x  /usr/bin/yq
-            make -f makefiles/Makefile sort-layers
+  #       - name: Compile and Sort layers alphabetically
+  #         id: compile-and-sort-layers
+  #         env:
+  #           YQ_VERSION: v4.20.2
+  #           YQ_BINARY: yq_linux_amd64
+  #         run: |
+  #           sudo curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+  #           sudo mv kubectl /usr/bin/kubectl
+  #           sudo chmod +x /usr/bin/kubectl
+  #           sudo wget https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/${YQ_BINARY} -O /usr/bin/yq
+  #           sudo chmod +x  /usr/bin/yq
+  #           make -f makefiles/Makefile sort-layers
 
-        - name: Add helm dependencies
-          shell: bash
-          run: |
-            for dir in $(ls -d charts/*/ | cut -f2 -d'/'); do
-              repo_urls=$(helm dependency list charts/"$dir" | grep -Eo "(http|https)://[a-zA-Z0-9./?=_%:-]*" || true)
-              i=0
-              echo $repo_urls | while read urls; do
-                for u in $urls; do
-                  if [ ! -z "$u" ] 
-                  then
-                    echo $u
-                    helm repo add $dir$i $u
-                    ((i=i+1))
-                  fi
-                done
-              done
-            done
+  #       - name: Add helm dependencies
+  #         shell: bash
+  #         run: |
+  #           for dir in $(ls -d charts/*/ | cut -f2 -d'/'); do
+  #             repo_urls=$(helm dependency list charts/"$dir" | grep -Eo "(http|https)://[a-zA-Z0-9./?=_%:-]*" || true)
+  #             i=0
+  #             echo $repo_urls | while read urls; do
+  #               for u in $urls; do
+  #                 if [ ! -z "$u" ] 
+  #                 then
+  #                   echo $u
+  #                   helm repo add $dir$i $u
+  #                   ((i=i+1))
+  #                 fi
+  #               done
+  #             done
+  #           done
             
-        - name: Create mvm cluster
-          if: steps.compile-and-sort-layers.outputs.mvm-ci == 'true'
-          shell: bash
-          env:
-            CLUSTER_NAME: profiles-mvm-${{ github.run_number }}
-            INFRASTRUCTURE: "mvm"
-            GITHUB_TOKEN: ${{secrets.WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
-          run: |
-            make -f makefiles/Makefile create-cluster
+  #       - name: Create mvm cluster
+  #         if: steps.compile-and-sort-layers.outputs.mvm-ci == 'true'
+  #         shell: bash
+  #         env:
+  #           CLUSTER_NAME: profiles-mvm-${{ github.run_number }}
+  #           INFRASTRUCTURE: "mvm"
+  #           GITHUB_TOKEN: ${{secrets.WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
+  #         run: |
+  #           make -f makefiles/Makefile create-cluster
 
-        - name: Create wego-system namespace (mvm)
-          if: steps.compile-and-sort-layers.outputs.mvm-ci == 'true'
-          env:
-             KUBECONFIG: /tmp/mvm-testing-config.yaml
-          run: kubectl create namespace wego-system
+  #       - name: Create wego-system namespace (mvm)
+  #         if: steps.compile-and-sort-layers.outputs.mvm-ci == 'true'
+  #         env:
+  #            KUBECONFIG: /tmp/mvm-testing-config.yaml
+  #         run: kubectl create namespace wego-system
 
-        - name: Run chart-testing on mvm (install)
-          if: steps.compile-and-sort-layers.outputs.mvm-ci == 'true'
-          env:
-            INFRASTRUCTURE: "mvm"
-            KUBECONFIG: /tmp/mvm-testing-config.yaml
-          run: make -f makefiles/Makefile test
+  #       - name: Run chart-testing on mvm (install)
+  #         if: steps.compile-and-sort-layers.outputs.mvm-ci == 'true'
+  #         env:
+  #           INFRASTRUCTURE: "mvm"
+  #           KUBECONFIG: /tmp/mvm-testing-config.yaml
+  #         run: make -f makefiles/Makefile test
 
-        - name: Delete mvm cluster
-          if: ${{ always() && steps.compile-and-sort-layers.outputs.mvm-ci == 'true' }}
-          shell: bash
-          env:
-            CLUSTER_NAME: profiles-mvm-${{ github.run_number }}
-            INFRASTRUCTURE: "mvm"
-          run: |
-            make -f makefiles/Makefile delete-cluster
-  test-vsphere:
-    runs-on: self-hosted
-    steps:
-        - name: Checkout
-          uses: actions/checkout@v2
-          with:
-            fetch-depth: 0
+  #       - name: Delete mvm cluster
+  #         if: ${{ always() && steps.compile-and-sort-layers.outputs.mvm-ci == 'true' }}
+  #         shell: bash
+  #         env:
+  #           CLUSTER_NAME: profiles-mvm-${{ github.run_number }}
+  #           INFRASTRUCTURE: "mvm"
+  #         run: |
+  #           make -f makefiles/Makefile delete-cluster
+  # test-vsphere:
+  #   runs-on: self-hosted
+  #   steps:
+  #       - name: Checkout
+  #         uses: actions/checkout@v2
+  #         with:
+  #           fetch-depth: 0
 
-        - name: Set up Helm
-          uses: azure/setup-helm@v1
-          with:
-            version: 3.*
+  #       - name: Set up Helm
+  #         uses: azure/setup-helm@v1
+  #         with:
+  #           version: 3.*
 
-        - uses: actions/setup-python@v2
-          with:
-            python-version: 3.7
+  #       - uses: actions/setup-python@v2
+  #         with:
+  #           python-version: 3.7
 
-        - name: Set up chart-testing
-          uses: helm/chart-testing-action@v2.1.0
+  #       - name: Set up chart-testing
+  #         uses: helm/chart-testing-action@v2.1.0
 
-        - name: Adding platforms
-          run: |
-            rm -f /tmp/platforms
-            touch /tmp/platforms
-            echo vsphere >> /tmp/platforms
+  #       - name: Adding platforms
+  #         run: |
+  #           rm -f /tmp/platforms
+  #           touch /tmp/platforms
+  #           echo vsphere >> /tmp/platforms
 
-        - name: Compile and Sort layers alphabetically
-          id: compile-and-sort-layers
-          env:
-            YQ_VERSION: v4.20.2
-            YQ_BINARY: yq_linux_amd64
-          run: |
-            sudo curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-            sudo mv kubectl /usr/bin/kubectl
-            sudo chmod +x /usr/bin/kubectl
-            sudo wget https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/${YQ_BINARY} -O /usr/bin/yq
-            sudo chmod +x  /usr/bin/yq
-            make -f makefiles/Makefile sort-layers
+  #       - name: Compile and Sort layers alphabetically
+  #         id: compile-and-sort-layers
+  #         env:
+  #           YQ_VERSION: v4.20.2
+  #           YQ_BINARY: yq_linux_amd64
+  #         run: |
+  #           sudo curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+  #           sudo mv kubectl /usr/bin/kubectl
+  #           sudo chmod +x /usr/bin/kubectl
+  #           sudo wget https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/${YQ_BINARY} -O /usr/bin/yq
+  #           sudo chmod +x  /usr/bin/yq
+  #           make -f makefiles/Makefile sort-layers
 
-        - name: Add helm dependencies
-          shell: bash
-          run: |
-            for dir in $(ls -d charts/*/ | cut -f2 -d'/'); do
-              repo_urls=$(helm dependency list charts/"$dir" | grep -Eo "(http|https)://[a-zA-Z0-9./?=_%:-]*" || true)
-              i=0
-              echo $repo_urls | while read urls; do
-                for u in $urls; do
-                  if [ ! -z "$u" ] 
-                  then
-                    echo $u
-                    helm repo add $dir$i $u
-                    ((i=i+1))
-                  fi
-                done
-              done
-            done
+  #       - name: Add helm dependencies
+  #         shell: bash
+  #         run: |
+  #           for dir in $(ls -d charts/*/ | cut -f2 -d'/'); do
+  #             repo_urls=$(helm dependency list charts/"$dir" | grep -Eo "(http|https)://[a-zA-Z0-9./?=_%:-]*" || true)
+  #             i=0
+  #             echo $repo_urls | while read urls; do
+  #               for u in $urls; do
+  #                 if [ ! -z "$u" ] 
+  #                 then
+  #                   echo $u
+  #                   helm repo add $dir$i $u
+  #                   ((i=i+1))
+  #                 fi
+  #               done
+  #             done
+  #           done
             
-        - name: Create vsphere cluster
-          if: steps.compile-and-sort-layers.outputs.vsphere-ci == 'true'
-          shell: bash
-          env:
-            CLUSTER_NAME: profiles-vsphere-${{ github.run_number }}
-            INFRASTRUCTURE: "vsphere"
-            GITHUB_TOKEN: ${{secrets.WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
-            VSPHERE_PASSWORD: ${{secrets.VSPHERE_PASSWORD}}
-          run: |
-            make -f makefiles/Makefile create-cluster
+  #       - name: Create vsphere cluster
+  #         if: steps.compile-and-sort-layers.outputs.vsphere-ci == 'true'
+  #         shell: bash
+  #         env:
+  #           CLUSTER_NAME: profiles-vsphere-${{ github.run_number }}
+  #           INFRASTRUCTURE: "vsphere"
+  #           GITHUB_TOKEN: ${{secrets.WEAVEWORKSBOT_PROFILES_CATALOG_RELEASE_TOKEN}}
+  #           VSPHERE_PASSWORD: ${{secrets.VSPHERE_PASSWORD}}
+  #         run: |
+  #           make -f makefiles/Makefile create-cluster
 
-        - name: Create wego-system namespace (vsphere)
-          if: steps.compile-and-sort-layers.outputs.vsphere-ci == 'true'
-          env:
-             KUBECONFIG: /tmp/vsphere-testing-config.yaml
-          run: kubectl create namespace wego-system
+  #       - name: Create wego-system namespace (vsphere)
+  #         if: steps.compile-and-sort-layers.outputs.vsphere-ci == 'true'
+  #         env:
+  #            KUBECONFIG: /tmp/vsphere-testing-config.yaml
+  #         run: kubectl create namespace wego-system
 
-        - name: Run chart-testing on vsphere (install)
-          if: steps.compile-and-sort-layers.outputs.vsphere-ci == 'true'
-          env:
-            INFRASTRUCTURE: "vsphere"
-            KUBECONFIG: /tmp/vsphere-testing-config.yaml
-          run: make -f makefiles/Makefile test
+  #       - name: Run chart-testing on vsphere (install)
+  #         if: steps.compile-and-sort-layers.outputs.vsphere-ci == 'true'
+  #         env:
+  #           INFRASTRUCTURE: "vsphere"
+  #           KUBECONFIG: /tmp/vsphere-testing-config.yaml
+  #         run: make -f makefiles/Makefile test
 
-        - name: Delete vsphere cluster
-          if: ${{ always() && steps.compile-and-sort-layers.outputs.vsphere-ci == 'true' }}
-          shell: bash
-          env:
-            CLUSTER_NAME: profiles-vsphere-${{ github.run_number }}
-            INFRASTRUCTURE: "vsphere"
-          run: |
-            make -f makefiles/Makefile delete-cluster
+  #       - name: Delete vsphere cluster
+  #         if: ${{ always() && steps.compile-and-sort-layers.outputs.vsphere-ci == 'true' }}
+  #         shell: bash
+  #         env:
+  #           CLUSTER_NAME: profiles-vsphere-${{ github.run_number }}
+  #           INFRASTRUCTURE: "vsphere"
+  #         run: |
+  #           make -f makefiles/Makefile delete-cluster
   test-eks:
       runs-on: ubuntu-latest
       steps:
