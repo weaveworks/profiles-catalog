@@ -31,5 +31,5 @@ annotations:
 
 dependencies:
 - name: keycloak
-  version: "5.2.4"
+  version: "5.2.8"
   repository: "https://charts.bitnami.com/bitnami"
