@@ -1,5 +1,5 @@
 
-image: magalixcorp/policy-agent:master
+image: magalixcorp/policy-agent:latest
 namespace: policy-system
 failurePolicy: Fail
 
