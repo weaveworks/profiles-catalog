@@ -1,4 +1,2 @@
 {{ $.Chart.Name }} has been installed. Check its status by running:
   kubectl --namespace {{ .Release.Namespace }} get pods -l "app.kubernetes.io/name={{ include "policy-agent.name" . }}"
-
-Go to https://console.magalix.com/ to view policy checks on this cluster.
