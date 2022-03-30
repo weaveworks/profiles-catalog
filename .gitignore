@@ -2,7 +2,7 @@
 .repo
 .repo/**
 .DS_Store
-*.tgz
+# *.tgz
 *.tar
 team-quick-silver
 terraform.tfvars.json

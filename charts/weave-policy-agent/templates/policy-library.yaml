@@ -1,0 +1,29 @@
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: GitRepository
+metadata:
+  name: policy-library
+  namespace: wego-system
+spec:
+  interval: 10s
+  url: {{ .Values.policyLibraryConfig.url }}
+  ref:
+    branch: {{ .Values.policyLibraryConfig.branch }}
+  {{- if .Values.policyLibraryConfig.private }}
+  secretRef:
+    name: {{ .Values.policyLibraryConfig.secretRef }}
+  {{- end }}
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: policy-library
+  namespace: wego-system
+spec:
+  interval: 10m0s
+  sourceRef:
+    kind: GitRepository
+    name: policy-library
+    namespace: wego-system
+  path: {{ .Values.policyLibraryConfig.kustomizationPath }}
+  prune: true
+  validation: client
