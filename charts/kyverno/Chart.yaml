@@ -3,7 +3,7 @@ name: kyverno
 icon: https://repository-images.githubusercontent.com/169108858/35923880-823a-11e9-9089-0c9c102f9e6f
 description: A Weaveworks Helm chart for the Kyverno Profile
 type: application
-version: 0.0.3-0
+version: 0.0.4
 dependencies:
 - name: kyverno
   version: "2.1.3"

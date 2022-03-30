@@ -28,4 +28,4 @@ if [ $highest -gt $lastAvailableIP ]
 fi
 highest=$((highest+1))
 echo "IP Selected is"  $subnet$highest
-echo $subnet$highest > /tmp/mvm-vip
+echo $subnet$highest > /tmp/vip

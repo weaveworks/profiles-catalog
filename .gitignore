@@ -11,3 +11,4 @@ terraform.tfstate*
 .terraform*
 cluster.yaml
 config.yaml
+embedded_vCSA_on_ESXi.json
