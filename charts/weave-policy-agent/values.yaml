@@ -18,7 +18,7 @@ policyLibraryConfig:
   branch: wge-profile
   kustomizationPath: ./
   private: true
-  secretRef: ssh-creds
+  secretRef: policy-library-auth
 
 accountId: ""
 clusterId: ""
