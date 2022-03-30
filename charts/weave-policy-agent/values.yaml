@@ -16,7 +16,7 @@ config:
 
 policyLibraryConfig:
   url: ssh://git@github.com/MagalixTechnologies/policy-library
-  branch: flux-demo
+  branch: wge-profile
   kustomizationPath: ./
   private: true
   secretRef: ssh-creds
