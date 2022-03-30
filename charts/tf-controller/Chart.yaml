@@ -30,6 +30,6 @@ annotations:
 
 dependencies:
 - name: tf-controller
-  version: "0.1.7"
+  version: "0.2.5"
   repository: "https://weaveworks.github.io/tf-controller/"
   condition: tf-controller.enabled
