@@ -4,9 +4,9 @@ namespace: policy-system
 failurePolicy: Fail
 
 persistence:
-  enabled: true
-  claimStorage: 1Gi
-  sinkDir: /tmp
+  enabled: false
+  # claimStorage: 1Gi
+  # sinkDir: /tmp
   # storageClassName: standard
 
 config:
