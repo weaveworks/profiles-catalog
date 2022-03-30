@@ -1,4 +1,3 @@
-
 image: magalixcorp/policy-agent:latest
 namespace: policy-system
 failurePolicy: Fail
@@ -11,8 +10,8 @@ persistence:
 
 config:
   AGENT_FILESYSTEM_SINK_FILE_PATH: "/tmp/result.json"
-  AGENT_ENABLE_K8S_EVENTS_SINK: "true" # Enable writing violations as K8s events
-  # AGENT_FLUX_NOTIFICATION_SINK_ADDR: <flux-notification-controller-svc> # Enable pushing violations to flux notification controller
+  AGENT_ENABLE_K8S_EVENTS_SINK: "true"  # Enable writing violations as K8s events
+  # AGENT_FLUX_NOTIFICATION_SINK_ADDR: <flux-notification-controller-svc>  # Enable pushing violations to flux notification controller
 
 policyLibraryConfig:
   url: ssh://git@github.com/MagalixTechnologies/policy-library
@@ -27,4 +26,3 @@ clusterId: ""
 certificate: ""
 key: ""
 caCertificate: ""
-
