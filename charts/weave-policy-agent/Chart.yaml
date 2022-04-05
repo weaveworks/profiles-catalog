@@ -1,16 +1,16 @@
 apiVersion: v2
-name: magalix-agent
-icon: https://www.magalix.com/hubfs/Imported%20images/logo-02.png%3Fwidth=560%26name=logo-02-Dec-18-2020-11-24-41-75-AM.png
-description: A Weaveworks Helm chart for Magalix policy agent
-type: application
-version: 0.0.13
+description: A Weaveworks Helm chart for Kubernetes to configure the policy agent
+name: weave-policy-agent
+appVersion: "1.0"
+version: 0.2.0
 kubeVersion: ">=1.16.0-0"
+icon: https://www.magalix.com/hubfs/Imported%20images/logo-02.png%3Fwidth=560%26name=logo-02-Dec-18-2020-11-24-41-75-AM.png
+type: application
 home: https://github.com/weaveworks/profiles-catalog
 sources:
-  - https://github.com/MagalixCorp/magalix-agent
+  - https://github.com/weaveworks/policy-agent
 
 keywords:
-- magalix
 - policy
 
 maintainers:
@@ -18,9 +18,10 @@ maintainers:
     email: support@weave.works
 
 annotations:
-  "weave.works/profile": magalix
+  "weave.works/profile": weave-policy
+  "weave.works/layer": layer-1
   "weave.works/category": Policy
   "weave.works/operator": "true"
   "weave.works/links": |
     - name: Upstream Project
-      url: https://github.com/MagalixCorp/magalix-agent
+      url: https://github.com/weaveworks/policy-agent
