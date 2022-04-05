@@ -19,6 +19,7 @@ maintainers:
 
 annotations:
   "weave.works/profile": weave-policy
+  "weave.works/layer": layer-1
   "weave.works/category": Policy
   "weave.works/operator": "true"
   "weave.works/links": |
