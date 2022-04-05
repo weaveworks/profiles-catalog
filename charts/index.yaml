@@ -26,6 +26,6 @@ entries:
     - https://github.com/weaveworks/policy-agent
     type: application
     urls:
-    - weave-policy-agent-0.2.0.tgz
+    - https://raw.githubusercontent.com/weaveworks/profiles-catalog/policy-agent/charts/weave-policy-agent-0.2.0.tgz?token=GHSAT0AAAAAABQXJDLLE5G4OD5P6K2LSOXSYSVLYCA
     version: 0.2.0
 generated: "2022-04-04T17:53:43.254401843+02:00"
