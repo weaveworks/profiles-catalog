@@ -14,6 +14,7 @@ In addition the default deployment values may not be properly secured.
 The purpose of publishing this repository is to provide an example of Weave Gitops Profiles to be used in demos and as a base for further customisation.
 
 Please read the documentation for how to set up a profiles-catalog repo of your own and how to consume it from Weave Gitops.
+
 [Profiles Documentation](https://docs.gitops.weave.works/docs/cluster-management/profiles)
 
 # Disclaimer
