@@ -2,7 +2,7 @@
 
 This repository is an example of how to buid Weave Gitops Profiles for a kubernetes cluster to be consumed by the Weave Gitops Profile controller.
 
-[Weave Gitops Project on Github] (https://github.com/weaveworks/weave-gitops)
+[Weave Gitops Project on Github](https://github.com/weaveworks/weave-gitops)
 
 # Usage
 
