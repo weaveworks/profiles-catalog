@@ -1,7 +1,7 @@
 dependencies:
 - name: elasticsearch
   repository: https://helm.elastic.co
-  version: 7.16.3
+  version: 7.17.3
 - name: kibana
   repository: https://helm.elastic.co
   version: 7.16.3
