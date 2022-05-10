@@ -173,11 +173,9 @@ jobs:
           run: |
             make -f makefiles/Makefile create-cluster
 
-        - name: Get GKE Cluster Credentials
-          env:
-            GKE_CLUSTER_NAME: profiles-${{ github.run_number }}
+        - name: Update GKE Kubectl Auth Plugin
           run: |
-            gcloud container clusters get-credentials $GKE_CLUSTER_NAME --region us-west1
+            gcloud components install gke-gcloud-auth-plugin
 
         - name: Create wego-system namespace (gke)
           if: steps.compile-and-sort-layers.outputs.gke-ci == 'true'
