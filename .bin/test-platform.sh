@@ -48,8 +48,11 @@ do
   fi
 done
 # Tests profiles without a layer
-if [[ -f "/tmp/null-$INFRASTRUCTURE-changed" ]]; then
+NO_LAYERS_FILE="/tmp/null-$INFRASTRUCTURE-changed"
+if [[ -f $NO_LAYERS_FILE ]]; then
   CHARTS_TO_TEST=$(awk '{print $1}' /tmp/null-$INFRASTRUCTURE-changed | paste -s -d, -)
   echo "Testing charts without layers ( $CHARTS_TO_TEST )"
   ct install --config ct.yaml --charts $CHARTS_TO_TEST
+else
+  echo "No charts without layers to test - file not found $NO_LAYERS_FILE"
 fi
