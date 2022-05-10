@@ -43,7 +43,7 @@ do
         helm install -n wego-system $release $dir
       done
     else
-      [-n "$top" ] && echo "$layer is after $top"
+      [ -n "$top" ] && echo "$layer is after $top"
     fi
   fi
 done
