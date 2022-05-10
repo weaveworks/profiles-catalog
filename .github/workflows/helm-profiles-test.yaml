@@ -164,6 +164,10 @@ jobs:
           if: steps.compile-and-sort-layers.outputs.gke-ci == 'true'
           uses: google-github-actions/setup-gcloud@v0
 
+        - name: Update GKE Kubectl Auth Plugin
+          run: |
+            gcloud components install gke-gcloud-auth-plugin
+
         - name: Create gke cluster
           if: steps.compile-and-sort-layers.outputs.gke-ci == 'true'
           shell: bash
@@ -173,9 +177,11 @@ jobs:
           run: |
             make -f makefiles/Makefile create-cluster
 
-        - name: Update GKE Kubectl Auth Plugin
+        - name: Spit the KUBECONFIG file
+          if: steps.compile-and-sort-layers.outputs.gke-ci == 'true'
+          shell: bash
           run: |
-            gcloud components install gke-gcloud-auth-plugin
+            cat ~/.kube/config
 
         - name: Create wego-system namespace (gke)
           if: steps.compile-and-sort-layers.outputs.gke-ci == 'true'
