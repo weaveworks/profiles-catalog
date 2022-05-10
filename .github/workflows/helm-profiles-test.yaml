@@ -163,8 +163,6 @@ jobs:
         - name: Set up Google Cloud SDK
           if: steps.compile-and-sort-layers.outputs.gke-ci == 'true'
           uses: google-github-actions/setup-gcloud@v0
-          with:
-            project_id: ${{ secrets.GCP_PROJECT_ID }}
 
         - name: Create gke cluster
           if: steps.compile-and-sort-layers.outputs.gke-ci == 'true'
@@ -174,6 +172,12 @@ jobs:
             INFRASTRUCTURE: "gke"
           run: |
             make -f makefiles/Makefile create-cluster
+
+        - name: Get GKE Cluster Credentials
+          env:
+            GKE_CLUSTER_NAME: profiles-${{ github.run_number }}
+          run: |
+            gcloud container clusters get-credentials --cluster $GKE_CLUSTER_NAME
 
         - name: Create wego-system namespace (gke)
           if: steps.compile-and-sort-layers.outputs.gke-ci == 'true'
