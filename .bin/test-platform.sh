@@ -44,12 +44,14 @@ do
       done
     else
       [ -n "$top" ] && echo "$layer is after $top"
+      echo "Skip installing layer $layer"
     fi
   fi
 done
 # Tests profiles without a layer
 NO_LAYERS_FILE="/tmp/null-$INFRASTRUCTURE-changed"
-if [[ -f $NO_LAYERS_FILE ]]; then
+echo "NO LAYERS FILE '$NO_LAYERS_FILE'"
+if [ -f $NO_LAYERS_FILE ]; then
   CHARTS_TO_TEST=$(awk '{print $1}' /tmp/null-$INFRASTRUCTURE-changed | paste -s -d, -)
   echo "Testing charts without layers ( $CHARTS_TO_TEST )"
   ct install --config ct.yaml --charts $CHARTS_TO_TEST
