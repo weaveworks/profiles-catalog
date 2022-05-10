@@ -177,7 +177,7 @@ jobs:
           env:
             GKE_CLUSTER_NAME: profiles-${{ github.run_number }}
           run: |
-            gcloud container clusters get-credentials --cluster $GKE_CLUSTER_NAME
+            gcloud container clusters get-credentials $GKE_CLUSTER_NAME
 
         - name: Create wego-system namespace (gke)
           if: steps.compile-and-sort-layers.outputs.gke-ci == 'true'
