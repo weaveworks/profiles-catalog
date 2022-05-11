@@ -2177,6 +2177,43 @@ entries:
         - "gke"
         - "kind"
     apiVersion: v2
+    created: "2022-05-11T19:08:43.75681381Z"
+    dependencies:
+    - name: linkerd2
+      repository: https://helm.linkerd.io/stable
+      version: 2.11.2
+    description: A Weaveworks Helm chart for the Service Mesh Profile
+    digest: 9fc49e8b82a226ca593f2285755b32487ce3f3a59006000c1a67c7feb64d5330
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://linkerd.io/images/logo-only-200h.png
+    keywords:
+    - network
+    - servicemesh
+    - linkerd2
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: linkerd2
+    sources:
+    - https://helm.linkerd.io/stable
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/linkerd2-0.0.16/linkerd2-0.0.16.tgz
+    version: 0.0.16
+  - annotations:
+      weave.works/category: Service Mesh
+      weave.works/layer: layer-1
+      weave.works/links: |
+        - name: Chart Sources
+          url:  https://helm.linkerd.io/stable
+        - name: Upstream Project
+          url: https://github.com/linkerd/linkerd2
+      weave.works/profile: linkerd2
+      weave.works/profile-ci: |
+        - "gke"
+        - "kind"
+    apiVersion: v2
     created: "2022-03-23T13:26:10.374078859Z"
     dependencies:
     - name: linkerd2
@@ -3548,4 +3585,4 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/weave-policy-agent-0.2.0/weave-policy-agent-0.2.0.tgz
     version: 0.2.0
-generated: "2022-05-11T17:39:49.905735663Z"
+generated: "2022-05-11T19:08:43.757013712Z"
