@@ -1262,6 +1262,45 @@ entries:
         - "gke"
         - "kind"
     apiVersion: v2
+    created: "2022-05-11T00:35:51.779959299Z"
+    dependencies:
+    - name: jaeger-operator
+      repository: https://jaegertracing.github.io/helm-charts/
+      version: 2.30.0
+    description: A Weaveworks Helm chart for tracing
+    digest: 61451c9b30d86eda7a9180b57689935095bcb98abce0401d89b78f85fde419d1
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://www.jaegertracing.io/img/jaeger-icon-reverse-color.svg
+    keywords:
+    - operator
+    - jaeger-operator
+    - jaeger
+    - tracing
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: jaeger
+    sources:
+    - https://jaegertracing.github.io/helm-charts
+    - https://github.com/jaegertracing/jaeger-operator
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/jaeger-0.0.4/jaeger-0.0.4.tgz
+    version: 0.0.4
+  - annotations:
+      weave.works/category: Tracing
+      weave.works/links: |
+        - name: Chart Sources
+          url: https://jaegertracing.github.io/helm-charts
+        - name: Upstream Project
+          url: https://github.com/jaegertracing/jaeger-operator
+      weave.works/operator: "true"
+      weave.works/profile: jaeger
+      weave.works/profile-ci: |
+        - "gke"
+        - "kind"
+    apiVersion: v2
     created: "2022-03-23T13:26:09.627255846Z"
     dependencies:
     - name: jaeger-operator
@@ -3302,4 +3341,4 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/weave-policy-agent-0.2.0/weave-policy-agent-0.2.0.tgz
     version: 0.2.0
-generated: "2022-05-11T00:24:01.621676612Z"
+generated: "2022-05-11T00:35:51.780143106Z"
