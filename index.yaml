@@ -539,6 +539,53 @@ entries:
       weave.works/profile-ci: |
         - "gke"
     apiVersion: v2
+    created: "2022-05-11T17:17:24.31735435Z"
+    dependencies:
+    - name: elasticsearch
+      repository: https://helm.elastic.co
+      version: 7.17.3
+    - name: kibana
+      repository: https://helm.elastic.co
+      version: 7.16.3
+    - name: metricbeat
+      repository: https://helm.elastic.co
+      version: 7.16.3
+    - name: filebeat
+      repository: https://helm.elastic.co
+      version: 7.17.3
+    description: A Weaveworks Helm chart for the ELK Stack Profile
+    digest: da64a30582ba29d5675fa45d973ce5a4b7ef457e1a9fe7b57581625a94c5a45f
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://static-www.elastic.co/v3/assets/bltefdd0b53724fa2ce/blt74acb493aaf69084/5ea8c8dbf5880355558334cd/brand-elastic-stack-220x130.svg
+    keywords:
+    - network
+    - canary
+    - deployment
+    - elk-stack
+    - elastic
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: elk-stack
+    sources:
+    - https://Helm.elastic.co
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/elk-stack-0.0.7/elk-stack-0.0.7.tgz
+    version: 0.0.7
+  - annotations:
+      weave.works/category: Deployment
+      weave.works/layer: layer-2
+      weave.works/links: |
+        - name: Chart Sources
+          url:  https://helm.elastic.co
+        - name: Upstream Project
+          url: https://github.com/elastic/helm-charts
+      weave.works/profile: elk-stack
+      weave.works/profile-ci: |
+        - "gke"
+    apiVersion: v2
     created: "2022-05-11T13:53:17.878127789Z"
     dependencies:
     - name: elasticsearch
@@ -3428,4 +3475,4 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/weave-policy-agent-0.2.0/weave-policy-agent-0.2.0.tgz
     version: 0.2.0
-generated: "2022-05-11T13:53:18.026954507Z"
+generated: "2022-05-11T17:17:24.317552954Z"
