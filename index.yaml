@@ -1379,6 +1379,42 @@ entries:
         - "gke"
         - "kind"
     apiVersion: v2
+    created: "2022-05-11T00:24:01.621479413Z"
+    dependencies:
+    - name: kafka
+      repository: https://charts.bitnami.com/bitnami
+      version: 14.9.3
+    description: A Weaveworks Helm chart for Bitnami Kafka
+    digest: 7a60c705d8dff1215e56924f06af6fc2796ae606314ae6419f3920404d094c48
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://bitnami.com/assets/stacks/kafka/img/kafka-stack-220x234.png
+    keywords:
+    - kafka
+    - zookeeper
+    - streaming
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: kafka
+    sources:
+    - https://github.com/bitnami/charts/tree/master/bitnami/kafka
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/kafka-0.0.4/kafka-0.0.4.tgz
+    version: 0.0.4
+  - annotations:
+      weave.works/category: Streaming
+      weave.works/links: |
+        - name: Chart Sources
+          url: https://charts.bitnami.com/bitnami
+        - name: Upstream Project
+          url: https://kafka.apache.org/
+      weave.works/profile: kafka
+      weave.works/profile-ci: |
+        - "gke"
+        - "kind"
+    apiVersion: v2
     created: "2022-03-23T13:26:09.781105476Z"
     dependencies:
     - name: kafka
@@ -3266,4 +3302,4 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/weave-policy-agent-0.2.0/weave-policy-agent-0.2.0.tgz
     version: 0.2.0
-generated: "2022-04-05T15:16:00.953633166Z"
+generated: "2022-05-11T00:24:01.621676612Z"
