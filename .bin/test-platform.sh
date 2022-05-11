@@ -16,20 +16,26 @@ else
     exit 1
 fi
 
+TLC_FILE="/tmp/$INFRASTRUCTURE-top-layer-changed"
+[ -f $TLC_FILE ] && top=$(cat $TLC_FILE) || echo "no top layer file '$TLC_FILE'"
+[ -n "$top" ] && echo "the top layer changed is $top"
+
 cat /tmp/layers-sorted | while read layer || [[ -n $layer ]];
 do
   echo current layer is $layer
   if [ -f /tmp/$layer-$INFRASTRUCTURE ]; then 
-    charts_in_layer=$(cat /tmp/$layer-$INFRASTRUCTURE)
-    [ -f /tmp/$layer-$INFRASTRUCTURE-changed ] && charts_changed_in_layer=$(cat /tmp/$layer-$INFRASTRUCTURE-changed)
+    CHARTS_CHANGED_FILE="/tmp/$layer-$INFRASTRUCTURE-changed "
     if [ -f /tmp/$layer-$INFRASTRUCTURE-changed ]; then
-      echo Testing changed on $INFRASTRUCTURE in layer: $layer
+      echo "Testing changes on $INFRASTRUCTURE in layer: $layer"
+      charts_changed_in_layer=$(cat /tmp/$layer-$INFRASTRUCTURE-changed)
       ct install --config ct.yaml --charts $(awk '{print $1}' /tmp/$layer-$INFRASTRUCTURE-changed | paste -s -d, -)
+    else
+      echo "No changes to test on $INFRASTRUCTURE in layer $layer"
     fi
-    top=$(cat /tmp/$INFRASTRUCTURE-top-layer-changed)
-    echo the top layer is $top
-    if [[ "$top" > "$layer" ]]; then
-      echo Installing layer: $layer
+    if [[ -n "$top" && "$top" > "$layer" ]]; then
+      echo "Installing layer: $layer"
+      charts_in_layer=$(cat /tmp/$layer-$INFRASTRUCTURE)
+      echo "Installing charts for layer $layer: ( $charts_in_layer )"
       for dir in $charts_in_layer; do
         release=${dir##*/}
         helm dependency build  $dir
@@ -37,11 +43,18 @@ do
         helm install -n wego-system $release $dir
       done
     else
-      echo $layer is after $top
+      [ -n "$top" ] && echo "$layer is after $top"
+      echo "Skip installing layer $layer"
     fi
   fi
 done
 # Tests profiles without a layer
-if [[ -f "/tmp/null-$INFRASTRUCTURE-changed" ]]; then
-  ct install --config ct.yaml --charts $(awk '{print $1}' /tmp/null-$INFRASTRUCTURE-changed | paste -s -d, -)
+NO_LAYERS_FILE="/tmp/null-$INFRASTRUCTURE-changed"
+echo "NO LAYERS FILE '$NO_LAYERS_FILE'"
+if [ -f $NO_LAYERS_FILE ]; then
+  CHARTS_TO_TEST=$(awk '{print $1}' /tmp/null-$INFRASTRUCTURE-changed | paste -s -d, -)
+  echo "Testing charts without layers ( $CHARTS_TO_TEST )"
+  ct install --config ct.yaml --charts $CHARTS_TO_TEST
+else
+  echo "No charts without layers to test - file not found $NO_LAYERS_FILE"
 fi
