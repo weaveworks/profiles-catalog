@@ -3,7 +3,7 @@ name: keycloak
 icon: https://bitnami.com/assets/stacks/keycloak/img/keycloak-stack-220x234.png
 description: A Weaveworks Helm chart for Bitnami Keycloak
 type: application
-version: 0.0.3
+version: 0.0.4
 kubeVersion: ">=1.16.0-0"
 home: https://github.com/weaveworks/profiles-catalog
 sources:
@@ -31,5 +31,5 @@ annotations:
 
 dependencies:
 - name: keycloak
-  version: "5.2.4"
+  version: "5.2.8"
   repository: "https://charts.bitnami.com/bitnami"
