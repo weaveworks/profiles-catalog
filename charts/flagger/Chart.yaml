@@ -3,7 +3,7 @@ name: flagger
 icon: https://linkerd.io/images/logo-only-200h.png
 description: A Weaveworks Helm chart for the Flagger Profile
 type: application
-version: 0.0.1
+version: 0.0.2
 dependencies:
 - name: flagger
   version: "1.21.0"
