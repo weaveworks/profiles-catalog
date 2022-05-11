@@ -1182,6 +1182,44 @@ entries:
         - "gke"
         - "kind"
     apiVersion: v2
+    created: "2022-05-11T20:07:26.643902778Z"
+    dependencies:
+    - name: flagger
+      repository: https://flagger.app
+      version: 1.21.0
+    description: A Weaveworks Helm chart for the Flagger Profile
+    digest: 292f364a60508b0c59f91f077534c50cc9a2ab52b30a9117c83e1ae2288fb8eb
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://linkerd.io/images/logo-only-200h.png
+    keywords:
+    - network
+    - canary
+    - deployment
+    - flagger
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: flagger
+    sources:
+    - https://flagger.app
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/flagger-0.0.2/flagger-0.0.2.tgz
+    version: 0.0.2
+  - annotations:
+      weave.works/category: Deployment
+      weave.works/layer: layer-2
+      weave.works/links: |
+        - name: Chart Sources
+          url:  https://flagger.app
+        - name: Upstream Project
+          url: https://github.com/fluxcd/flagger/
+      weave.works/profile: flagger
+      weave.works/profile-ci: |
+        - "gke"
+        - "kind"
+    apiVersion: v2
     created: "2022-03-23T13:26:09.328096061Z"
     dependencies:
     - name: flagger
@@ -3657,4 +3695,4 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/weave-policy-agent-0.2.0/weave-policy-agent-0.2.0.tgz
     version: 0.2.0
-generated: "2022-05-11T19:47:02.81038218Z"
+generated: "2022-05-11T20:07:26.644390387Z"
