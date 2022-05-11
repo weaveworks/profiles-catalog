@@ -3,10 +3,10 @@ name: cert-manager
 icon: https://raw.githubusercontent.com/jetstack/cert-manager/master/logo/logo.png
 description: A Weaveworks Helm chart for the Certificate Profile
 type: application
-version: 0.0.7
+version: 0.0.8
 dependencies:
   - name: cert-manager
-    version: "1.6.0"
+    version: "v1.8.0"
     repository: "https://charts.jetstack.io"
 kubeVersion: ">=1.16.0-0"
 home: https://github.com/weaveworks/profiles-catalog
