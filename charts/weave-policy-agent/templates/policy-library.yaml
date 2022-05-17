@@ -23,7 +23,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: policy-library
-    namespace: wego-system
+    namespace: flux-system
   path: {{ .Values.policyLibraryConfig.kustomizationPath }}
   prune: true
   validation: client
