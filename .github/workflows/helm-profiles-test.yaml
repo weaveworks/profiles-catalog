@@ -178,12 +178,6 @@ jobs:
           run: |
             make -f makefiles/Makefile create-cluster
 
-        - name: Spit the KUBECONFIG file
-          if: steps.compile-and-sort-layers.outputs.gke-ci == 'true'
-          shell: bash
-          run: |
-            cat ~/.kube/config
-
         - name: Create wego-system namespace (gke)
           if: steps.compile-and-sort-layers.outputs.gke-ci == 'true'
           env:
