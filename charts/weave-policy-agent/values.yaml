@@ -1,5 +1,6 @@
+
 image: magalixcorp/policy-agent:latest
-namespace: policy-system
+namespace: policy-system 
 failurePolicy: Fail
 
 # If you don't want to use cert-manager, set useCertManager to false and provide your own certs
@@ -20,13 +21,9 @@ config:
   AGENT_ENABLE_K8S_EVENTS_SINK: "true"
   # Enable pushing violations to flux notification controller
   # AGENT_FLUX_NOTIFICATION_SINK_ADDR: <flux-notification-controller-svc>
-
-policyLibraryConfig:
-  url: ssh://git@github.com/MagalixTechnologies/policy-library
-  branch: wge-profile
-  kustomizationPath: ./
-  private: true
-  secretRef: policy-library-auth
+  # enbales admission functionality
+  AGENT_ENABLE_ADMISSION: "1"
+  AGENT_ENABLE_AUDIT: "1"
 
 accountId: ""
 clusterId: ""
