@@ -3,7 +3,8 @@ name: consul
 icon: https://symbols.getvecta.com/stencil_77/63_consul-icon.c960aeea49.svg
 description: A Weaveworks Helm chart for the HashiCorp Consul Profile
 type: application
-version: 1.12.0
+# this is the Weave GitOps Profile version, not the Helm chart|app version
+version: 0.0.1
 dependencies:
   - name: consul
     version: "~0.44.0"
