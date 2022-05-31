@@ -3702,6 +3702,42 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/tracing-0.0.1/tracing-0.0.1.tgz
     version: 0.0.1
+  vault:
+  - annotations:
+      weave.works/category: Infrastructure
+      weave.works/links: |
+        - name: Chart Sources
+          url: https://helm.releases.hashicorp.com
+        - name: Upstream Project
+          url: https://github.com/hashicorp/vault-k8s
+      weave.works/profile: vault
+      weave.works/profile-ci: |
+        - "gke"
+        - "kind"
+    apiVersion: v2
+    created: "2022-05-31T15:29:18.191827884Z"
+    dependencies:
+    - name: vault
+      repository: https://helm.releases.hashicorp.com
+      version: ~0.20.1
+    description: A Weaveworks Helm chart for the HashiCorp Vault Profile
+    digest: c0d28e37c5f843b7b62915fd9dd06aeb98119a3ab12ad6d6bf0eabb31281e00c
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://www.datocms-assets.com/2885/1620155128-brandhcvaultverticalcolor.svg
+    keywords:
+    - hashicorp
+    - vault
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: vault
+    sources:
+    - https://helm.releases.hashicorp.com
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/vault-0.0.1/vault-0.0.1.tgz
+    version: 0.0.1
   weave-policy-agent:
   - annotations:
       weave.works/category: Policy
@@ -3843,4 +3879,4 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/weave-policy-agent-0.2.0/weave-policy-agent-0.2.0.tgz
     version: 0.2.0
-generated: "2022-05-31T15:27:42.830325445Z"
+generated: "2022-05-31T15:29:18.192128789Z"
