@@ -1,6 +1,5 @@
-
 image: magalixcorp/policy-agent:latest
-namespace: policy-system 
+namespace: policy-system
 failurePolicy: Fail
 
 # If you don't want to use cert-manager, set useCertManager to false and provide your own certs
@@ -24,6 +23,13 @@ config:
   # enbales admission functionality
   AGENT_ENABLE_ADMISSION: "1"
   AGENT_ENABLE_AUDIT: "1"
+
+policyLibraryConfig:
+  url: ssh://git@github.com/MagalixTechnologies/policy-library
+  branch: wge-profile
+  kustomizationPath: ./
+  private: true
+  secretRef: policy-library-auth
 
 accountId: ""
 clusterId: ""
