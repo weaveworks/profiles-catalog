@@ -1,0 +1,35 @@
+apiVersion: v2
+name: consul
+icon: https://symbols.getvecta.com/stencil_77/63_consul-icon.c960aeea49.svg
+description: A Weaveworks Helm chart for the HashiCorp Consul Profile
+type: application
+# this is the Weave GitOps Profile version, not the Helm chart|app version
+version: 0.0.1
+dependencies:
+  - name: consul
+    version: "~0.44.0"
+    repository: "https://helm.releases.hashicorp.com"
+kubeVersion: ">=1.16.0-0"
+home: https://github.com/weaveworks/profiles-catalog
+sources:
+  - https://helm.releases.hashicorp.com
+
+keywords:
+- hashicorp
+- consul
+
+maintainers:
+  - name: Weaveworks
+    email: support@weave.works
+
+annotations:
+  "weave.works/profile": consul
+  "weave.works/category": Infrastructure
+  "weave.works/links": |
+    - name: Chart Sources
+      url: https://helm.releases.hashicorp.com
+    - name: Upstream Project
+      url: https://github.com/hashicorp/consul-k8s
+  "weave.works/profile-ci": |
+    - "gke"
+    - "kind"
