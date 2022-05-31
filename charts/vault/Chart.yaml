@@ -3,7 +3,8 @@ name: vault
 icon: https://www.datocms-assets.com/2885/1620155128-brandhcvaultverticalcolor.svg
 description: A Weaveworks Helm chart for the HashiCorp Vault Profile
 type: application
-version: 1.10.3
+# this is the Weave GitOps Profile version, not the Helm chart|app version
+version: 0.0.1
 dependencies:
   - name: vault
     version: "~0.20.1"
