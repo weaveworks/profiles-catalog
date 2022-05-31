@@ -1,0 +1,35 @@
+apiVersion: v2
+name: vault
+icon: https://www.datocms-assets.com/2885/1620155128-brandhcvaultverticalcolor.svg
+description: A Weaveworks Helm chart for the HashiCorp Vault Profile
+type: application
+# this is the Weave GitOps Profile version, not the Helm chart|app version
+version: 0.0.1
+dependencies:
+  - name: vault
+    version: "~0.20.1"
+    repository: "https://helm.releases.hashicorp.com"
+kubeVersion: ">=1.16.0-0"
+home: https://github.com/weaveworks/profiles-catalog
+sources:
+  - https://helm.releases.hashicorp.com
+
+keywords:
+- hashicorp
+- vault
+
+maintainers:
+  - name: Weaveworks
+    email: support@weave.works
+
+annotations:
+  "weave.works/profile": vault
+  "weave.works/category": Infrastructure
+  "weave.works/links": |
+    - name: Chart Sources
+      url: https://helm.releases.hashicorp.com
+    - name: Upstream Project
+      url: https://github.com/hashicorp/vault-k8s
+  "weave.works/profile-ci": |
+    - "gke"
+    - "kind"
