@@ -317,6 +317,42 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/cert-manager-0.0.1/cert-manager-0.0.1.tgz
     version: 0.0.1
+  consul:
+  - annotations:
+      weave.works/category: Infrastructure
+      weave.works/links: |
+        - name: Chart Sources
+          url: https://helm.releases.hashicorp.com
+        - name: Upstream Project
+          url: https://github.com/hashicorp/consul-k8s
+      weave.works/profile: consul
+      weave.works/profile-ci: |
+        - "gke"
+        - "kind"
+    apiVersion: v2
+    created: "2022-05-31T15:27:42.829993438Z"
+    dependencies:
+    - name: consul
+      repository: https://helm.releases.hashicorp.com
+      version: ~0.44.0
+    description: A Weaveworks Helm chart for the HashiCorp Consul Profile
+    digest: c9510a1e5a4d6a54abe93d3ebe2790dd20f72b2803867d07222c68431e8a4dbb
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://symbols.getvecta.com/stencil_77/63_consul-icon.c960aeea49.svg
+    keywords:
+    - hashicorp
+    - consul
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: consul
+    sources:
+    - https://helm.releases.hashicorp.com
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/consul-0.0.1/consul-0.0.1.tgz
+    version: 0.0.1
   crossplane:
   - annotations:
       weave.works/category: Infrastructure
@@ -3807,4 +3843,4 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/weave-policy-agent-0.2.0/weave-policy-agent-0.2.0.tgz
     version: 0.2.0
-generated: "2022-05-31T15:06:56.44755415Z"
+generated: "2022-05-31T15:27:42.830325445Z"
