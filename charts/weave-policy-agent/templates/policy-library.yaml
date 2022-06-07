@@ -1,3 +1,20 @@
+{{- if .Values.policySource.enabled }}
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: GitRepository
+metadata:
+  name: policy-library
+  namespace: flux-system
+spec:
+  interval: 10s
+  url: {{ .Values.policySource.url }}
+  ref:
+    branch: {{ .Values.policySource.branch }}
+  {{- if .Values.policySource.secretRef }}
+  secretRef:
+    name: {{ .Values.policySource.secretRef }}
+  {{- end }}
+{{- end }}
+---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
@@ -7,8 +24,12 @@ spec:
   interval: 10m0s
   sourceRef:
     kind: GitRepository
-    name: flux-system
+    {{- if .Values.policySource.enabled }}
+    name: policy-library
+    {{- else }}
+    name: flux-system # config repo
+    {{- end }}
     namespace: flux-system
-  path: {{ .Values.policyLibraryConfig.kustomizationPath }}
+  path: {{ .Values.policySource.path }}
   prune: true
   validation: client
