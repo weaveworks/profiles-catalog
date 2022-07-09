@@ -1,6 +1,6 @@
 dependencies:
 - name: tf-controller
   repository: https://weaveworks.github.io/tf-controller/
-  version: 0.2.5
-digest: sha256:2e5da1e3def7cefbd25b98527037941c57ec7ffe2a813071d443a6d0d3745ca7
-generated: "2022-03-30T10:02:51.260350641+01:00"
+  version: 0.3.5
+digest: sha256:3b513c1acd61f4c6ef3d125960d6f9f8e2dd341b75d21c29f91918d0aaf0fb10
+generated: "2022-07-09T00:02:55.453819203Z"
