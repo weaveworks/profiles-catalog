@@ -1,5 +1,5 @@
 prometheus:
-  #Set the prometheus namespace if podMonitor is enabled
+  # Set the prometheus namespace if podMonitor is enabled
   namespace: ""
   podMonitor:
     enabled: false
@@ -9,7 +9,6 @@ configInline:
   address-pools:
     - name: default
       protocol: layer2
-      #replace the address with a subnet address range for your environment
+      # replace the address with a subnet address range for your environment
       addresses:
       - 192.168.168.0/24
-
