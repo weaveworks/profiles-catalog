@@ -5,3 +5,11 @@ prometheus:
     enabled: false
   prometheusRule:
     enabled: false
+configInline:
+  address-pools:
+    - name: default
+      protocol: layer2
+      #replace the address with a subnet address range for your environment
+      addresses:
+      - 192.168.168.0/24
+
