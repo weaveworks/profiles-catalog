@@ -166,7 +166,7 @@ jobs:
 
         - name: Update GKE Kubectl Auth Plugin
           run: |
-            gcloud components install gke-gcloud-auth-plugin
+            apt-get install google-cloud-sdk-gke-gcloud-auth-plugin
 
         - name: Create gke cluster
           if: steps.compile-and-sort-layers.outputs.gke-ci == 'true'
