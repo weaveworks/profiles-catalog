@@ -153,6 +153,13 @@ jobs:
               done
             done
 
+        - name: add Google Cloud SDK deb repository
+          uses: myci-actions/add-deb-repo@10
+          with:
+            repo: deb https://packages.cloud.google.com/apt cloud-sdk main
+            repo-name: google-cloud-sdk
+            keys-asc: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+
         - name: Authenticate to Google Cloud
           id: 'auth'
           if: steps.compile-and-sort-layers.outputs.gke-ci == 'true'
