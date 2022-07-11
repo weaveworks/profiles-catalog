@@ -1,0 +1,7 @@
+prometheus:
+  #Set the prometheus namespace if podMonitor is enabled
+  namespace: ""
+  podMonitor:
+    enabled: false
+  prometheusRule:
+    enabled: false

@@ -1,0 +1,36 @@
+apiVersion: v2
+name: metallb
+icon: https://metallb.universe.tf/images/logo/metallb-white.png
+description: A Weaveworks Helm chart for a network load-balancer implementation for Kubernetes using standard routing protocols
+type: application
+version: 0.0.1
+dependencies:
+  - name: metallb
+    version: "v0.13.3"
+    repository: "https://metallb.github.io/metallb"
+kubeVersion: ">=1.16.0-0"
+home: https://github.com/weaveworks/profiles-catalog
+sources:
+  - https://metallb.github.io/metallb
+
+keywords:
+- metallb
+- loadbalancer
+- kind
+
+maintainers:
+  - name: Weaveworks
+    email: support@weave.works
+
+annotations:
+  "weave.works/profile": metallb
+  "weave.works/category": Loadbalancer
+  "weave.works/layer": layer-0
+  "weave.works/operator": "false"
+  "weave.works/links": |
+    - name: Chart Sources
+      url: https://metallb.github.io/metallb
+    - name: Upstream Project
+      url: https://github.com/metallb/metallb
+  "weave.works/profile-ci": |
+    - "kind"
