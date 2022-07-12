@@ -163,10 +163,8 @@ jobs:
         - name: Set up Google Cloud SDK
           if: steps.compile-and-sort-layers.outputs.gke-ci == 'true'
           uses: google-github-actions/setup-gcloud@v0
-
-        - name: Update GKE Kubectl Auth Plugin
-          run: |
-            gcloud components install gke-gcloud-auth-plugin
+          with:
+            install_components: 'gke-gcloud-auth-plugin'
 
         - name: Create gke cluster
           if: steps.compile-and-sort-layers.outputs.gke-ci == 'true'
