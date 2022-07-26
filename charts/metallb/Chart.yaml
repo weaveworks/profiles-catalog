@@ -3,10 +3,10 @@ name: metallb
 icon: https://metallb.universe.tf/images/logo/metallb-white.png
 description: A Weaveworks Helm chart for a network load-balancer implementation for Kubernetes using standard routing protocols
 type: application
-version: 0.0.1
+version: 0.0.2
 dependencies:
   - name: metallb
-    version: "v0.13.3"
+    version: "v0.12.1"
     repository: "https://metallb.github.io/metallb"
 kubeVersion: ">=1.16.0-0"
 home: https://github.com/weaveworks/profiles-catalog
