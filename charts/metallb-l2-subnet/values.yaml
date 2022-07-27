@@ -1,0 +1,6 @@
+addresses:
+#Set the address space available for the load balancer
+#YOU MUST EDIT THIS FOR YOUR ENVIRONMENT
+- 192.168.168.0/24
+- 172.16.20.251/32
+- 172.16.30.251-172.16.30.252

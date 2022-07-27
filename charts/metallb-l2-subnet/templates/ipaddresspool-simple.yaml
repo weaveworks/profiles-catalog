@@ -1,0 +1,14 @@
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: loadbalancer-ipaddresspool
+  namespace: metallb-system
+spec:
+  addresses:
+    {{- toYaml .Values.addresses | nindent 2 }}
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: loadbalancer-advertise
+  namespace: metallb-system

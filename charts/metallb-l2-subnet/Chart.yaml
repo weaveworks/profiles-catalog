@@ -1,0 +1,27 @@
+apiVersion: v2
+name: metallb-l2-subnet
+icon: https://metallb.universe.tf/images/logo/metallb-white.png
+description: A Weaveworks Helm chart for a network load-balancer implementation for Kubernetes using standard routing protocols - configures an l2 subnet advertisment
+type: application
+version: 0.0.3
+kubeVersion: ">=1.16.0-0"
+home: https://github.com/weaveworks/profiles-catalog
+sources:
+  - https://metallb.github.io/metallb
+
+keywords:
+- metallb
+- loadbalancer
+- kind
+
+maintainers:
+  - name: Weaveworks
+    email: support@weave.works
+
+annotations:
+  "weave.works/profile": metallb-l2-subnet
+  "weave.works/category": Loadbalancer
+  "weave.works/layer": layer-1
+  "weave.works/operator": "false"
+  "weave.works/profile-ci": |
+    - "kind"
