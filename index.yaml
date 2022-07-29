@@ -2764,6 +2764,44 @@ entries:
       weave.works/profile-ci: |
         - "kind"
     apiVersion: v2
+    created: "2022-07-29T11:54:05.529501306Z"
+    dependencies:
+    - name: metallb
+      repository: https://metallb.github.io/metallb
+      version: v0.12.1
+    description: A Weaveworks Helm chart for a network load-balancer implementation
+      for Kubernetes using standard routing protocols
+    digest: cbf40548db5aaa4c44a4968a55f25a66ea1e9ed70c766ff8b61dc5945e459aff
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://metallb.universe.tf/images/logo/metallb-white.png
+    keywords:
+    - metallb
+    - loadbalancer
+    - kind
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: metallb
+    sources:
+    - https://metallb.github.io/metallb
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/metallb-0.0.2/metallb-0.0.2.tgz
+    version: 0.0.2
+  - annotations:
+      weave.works/category: Loadbalancer
+      weave.works/layer: layer-0
+      weave.works/links: |
+        - name: Chart Sources
+          url: https://metallb.github.io/metallb
+        - name: Upstream Project
+          url: https://github.com/metallb/metallb
+      weave.works/operator: "false"
+      weave.works/profile: metallb
+      weave.works/profile-ci: |
+        - "kind"
+    apiVersion: v2
     created: "2022-07-13T14:28:06.860761739Z"
     dependencies:
     - name: metallb
@@ -3520,4 +3558,4 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/weave-policy-agent-0.2.0/weave-policy-agent-0.2.0.tgz
     version: 0.2.0
-generated: "2022-07-13T14:28:06.861041533Z"
+generated: "2022-07-29T11:54:05.529661306Z"
