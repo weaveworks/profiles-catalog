@@ -1,6 +1,6 @@
 dependencies:
 - name: metallb
   repository: https://metallb.github.io/metallb
-  version: 0.13.3
-digest: sha256:f5075b9011e5b03dc7dc029a0ce2c2094cc85825d8f1ab0c5274db092d2a8e96
-generated: "2022-07-11T17:36:17.965016099+01:00"
+  version: 0.12.1
+digest: sha256:0a7f87330ea3707efd909f8160c5321517fed2d848d858232545283c2021d6e6
+generated: "2022-07-26T22:24:22.412723545+01:00"
