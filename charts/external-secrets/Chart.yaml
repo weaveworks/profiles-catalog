@@ -6,7 +6,7 @@ type: application
 version: 0.0.5
 dependencies:
 - name: external-secrets
-  version: "0.5.2"
+  version: "0.5.9"
   repository: "https://charts.external-secrets.io"
 kubeVersion: ">=1.16.0-0"
 home: https://github.com/weaveworks/profiles-catalog
