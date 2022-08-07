@@ -8,7 +8,7 @@ spec:
   interval: 10s
   url: {{ .Values.policySource.url }}
   ref:
-    branch: {{ .Values.policySource.branch }}
+    tag: {{ .Values.policySource.tag }}
   {{- if .Values.policySource.secretRef }}
   secretRef:
     name: {{ .Values.policySource.secretRef }}
