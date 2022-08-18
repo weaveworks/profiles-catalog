@@ -24,22 +24,18 @@ policy-agent:
       sinks:
         fileSystemSink:
           filePath: "/tmp/result.json"
-        
         # Enable pushing violations to flux notification controller
         # fluxNotificationSink:
-        #   address:  <flux-notification-controller-svc>
-        
+        #   address:  <flux-notification-controller-svc>  
     admission:
       # Enable admission functionality
       enabled: true
       sinks:
         fileSystemSink:
           filePath: "/tmp/result.json"
-        
         # Enable writing violations as K8s events
         k8sEventsSink:
           enabled: true
-
         # Enable pushing violations to flux notification controller
         # fluxNotificationSink:
         #   address:  <flux-notification-controller-svc>
