@@ -1,0 +1,23 @@
+{{- if and (index .Values "policy-agent" "config" "audit" "policySet") (.Values.auditPolicySet) }}
+apiVersion: pac.weave.works/v2beta1
+kind: PolicySet
+metadata:
+  name: {{ index .Values "policy-agent" "config" "audit" "policySet" }}
+spec:
+  id: {{ index .Values "policy-agent" "config" "audit" "policySet" }}
+  name: {{ index .Values "policy-agent" "config" "audit" "policySet" }}
+  filters: {{ toYaml .Values.auditPolicySet | nindent 4 }}
+{{- end }}
+
+
+{{- if and (index .Values "policy-agent" "config" "admission" "policySet") (.Values.admissionPolicySet) }}
+---
+apiVersion: pac.weave.works/v2beta1
+kind: PolicySet
+metadata:
+  name: {{ index .Values "policy-agent" "config" "admission" "policySet" }}
+spec:
+  id: {{ index .Values "policy-agent" "config" "admission" "policySet" }}
+  name: {{ index .Values "policy-agent" "config" "admission" "policySet" }}
+  filters: {{ toYaml .Values.admissionPolicySet | nindent 4  }}
+{{- end }}
