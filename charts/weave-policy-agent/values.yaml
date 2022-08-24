@@ -29,7 +29,7 @@ policy-agent:
           filePath: "/tmp/result.json"
       ## set audit policy set
       # policySet: audit-policy-set
-      
+
 
     admission:
       # Enable admission functionality
