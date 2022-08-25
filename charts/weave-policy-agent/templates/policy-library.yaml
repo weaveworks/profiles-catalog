@@ -13,7 +13,7 @@ spec:
   secretRef:
     name: {{ .Values.policySource.secretRef }}
   {{- end }}
-{{- end }}
+
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
@@ -24,12 +24,9 @@ spec:
   interval: 10m0s
   sourceRef:
     kind: GitRepository
-    {{- if .Values.policySource.enabled }}
     name: policy-library
-    {{- else }}
-    name: flux-system # config repo
-    {{- end }}
     namespace: flux-system
   path: {{ .Values.policySource.path }}
   prune: true
   validation: client
+{{- end }}
