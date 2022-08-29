@@ -15,22 +15,21 @@ policy-agent:
     # storageClassName: standard
 
   config:
-    AGENT_FILESYSTEM_SINK_FILE_PATH: "/tmp/result.json"
+    accountId: ""
+    clusterId: ""
 
-    # Enable writing violations as K8s events
-    AGENT_ENABLE_K8S_EVENTS_SINK: "true"
+    audit:
+      # Enable audit functionality
+      enabled: false
 
-    # Enable pushing violations to flux notification controller
-    # AGENT_FLUX_NOTIFICATION_SINK_ADDR: <flux-notification-controller-svc>
+    admission:
+      # Enable admission functionality
+      enabled: true
+      sinks:
+        # Enable writing violations as K8s events
+        k8sEventsSink:
+          enabled: true
 
-    # Enable admission functionality
-    AGENT_ENABLE_ADMISSION: "1"
-
-    # Enable audit functionality
-    AGENT_ENABLE_AUDIT: "1"
-
-  accountId: ""
-  clusterId: ""
 
 policySource:
   enabled: true
