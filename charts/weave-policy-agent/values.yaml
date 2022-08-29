@@ -20,13 +20,13 @@ policy-agent:
 
     audit:
       # Enable audit functionality
-      enabled: true
-      sinks:
+      enabled: false
+      # sinks:
         # Enable pushing violations to flux notification controller
         # fluxNotificationSink:
         # address:  <flux-notification-controller-svc>
-        fileSystemSink:
-          filePath: "/tmp/result.json"
+        # fileSystemSink:
+        #   filePath: "/tmp/result.json"
       ## set audit policy set
       # policySet: audit-policy-set
 
