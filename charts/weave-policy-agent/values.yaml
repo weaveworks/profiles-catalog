@@ -21,38 +21,15 @@ policy-agent:
     audit:
       # Enable audit functionality
       enabled: false
-      # sinks:
-        # Enable pushing violations to flux notification controller
-        # fluxNotificationSink:
-        # address:  <flux-notification-controller-svc>
-        # fileSystemSink:
-        #   filePath: "/tmp/result.json"
-      ## set audit policy set
-      # policySet: audit-policy-set
-
 
     admission:
       # Enable admission functionality
       enabled: true
       sinks:
-        # Enable pushing violations to flux notification controller
-        # fluxNotificationSink:
-        # address:  <flux-notification-controller-svc>
-        fileSystemSink:
-          filePath: "/tmp/result.json"
         # Enable writing violations as K8s events
         k8sEventsSink:
           enabled: true
-      ## set admission policy set
-      # policySet: admission-policy-set
 
-# define audit policy set
-# auditPolicySet:
-  # severities: [high, low]
-
-# define admission policy set
-# admissionPolicySet:
-#   severities: [high]
 
 policySource:
   enabled: true
