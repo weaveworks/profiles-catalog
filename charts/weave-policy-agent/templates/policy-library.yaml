@@ -7,8 +7,15 @@ metadata:
 spec:
   interval: 10s
   url: {{ .Values.policySource.url }}
+  {{- if or .Values.policySource.tag .Values.policySource.branch }}
   ref:
+    {{- if .Values.policySource.tag }}
     tag: {{ .Values.policySource.tag }}
+    {{- end }}
+    {{- if .Values.policySource.branch }}
+    branch: {{ .Values.policySource.branch }}
+    {{- end }}
+  {{- end }}
   {{- if .Values.policySource.secretRef }}
   secretRef:
     name: {{ .Values.policySource.secretRef }}
