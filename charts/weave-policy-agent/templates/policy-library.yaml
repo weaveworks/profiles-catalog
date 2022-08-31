@@ -13,7 +13,7 @@ spec:
     tag: {{ .Values.policySource.tag }}
     {{- end }}
     {{- if .Values.policySource.branch }}
-    tag: {{ .Values.policySource.branch }}
+    branch: {{ .Values.policySource.branch }}
     {{- end }}
   {{- end }}
   {{- if .Values.policySource.secretRef }}
