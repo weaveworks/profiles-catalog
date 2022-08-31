@@ -21,10 +21,10 @@ policy-agent:
     audit:
       # Enable audit functionality
       enabled: false
-      sinks:
-        # Enable writing violations as K8s events
-        k8sEventsSink:
-          enabled: true
+      # sinks:
+      #   # Enable writing violations as K8s events
+      #   k8sEventsSink:
+      #     enabled: true
 
     admission:
       # Enable admission functionality
