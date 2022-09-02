@@ -1,0 +1,31 @@
+apiVersion: v2
+description: Weaveworks profile for HostPath for persistent local storage with Kubernetes based on Rancher
+name: local-path-provisioner
+version: 0.0.3
+appVersion: "v0.0.22-dev"
+kubeVersion: ">=1.12.0-r0"
+home: https://github.com/weaveworks/profiles-catalog
+sources:
+  - https://github.com/rancher/local-path-provisioner.git
+dependencies:
+  - name: local-path-provisioner
+    version: "v0.0.22-dev"
+keywords:
+- local-path-provisioner
+- kind
+- storage
+- hostpath
+maintainers:
+  - name: Weaveworks
+    email: support@weave.works
+annotations:
+  "weave.works/profile": local-path-provisioner
+  "weave.works/category": Storage
+  "weave.works/layer": layer-0
+  "weave.works/links": |
+    - name: Chart Sources
+      url: https://github.com/weaveworks/profiles-catalog.git
+    - name: Upstream Project
+      url: https://github.com/rancher/local-path-provisioner.git
+  "weave.works/profile-ci": |
+    - "kind"
