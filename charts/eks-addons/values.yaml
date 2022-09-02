@@ -1,0 +1,13 @@
+cluster-autoscaler:
+  autoDiscovery:
+    clusterName: "test"
+    tags:
+      - k8s.io/cluster-autoscaler/enabled
+      - k8s.io/cluster-autoscaler/{{ .Values.autoDiscovery.clusterName }}
+      - kubernetes.io/cluster/{{ .Values.autoDiscovery.clusterName }}
+    roles:
+      - worker
+    labels: []
+  cloudProvider: aws
+aws-load-balancer-controller:
+   clusterName: "test"

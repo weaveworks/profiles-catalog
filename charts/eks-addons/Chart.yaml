@@ -1,0 +1,50 @@
+apiVersion: v2
+name: eks-addons
+icon: https://raw.githubusercontent.com/aws/eks-charts/master/docs/logo/aws.png
+description: A Weaveworks Helm chart for EKS add-ons
+type: application
+version: 0.0.1
+kubeVersion: ">=1.19.0-0"
+home: https://github.com/weaveworks/profiles-catalog
+sources:
+  - https://aws.github.io/eks-charts/
+  - https://kubernetes.github.io/autoscaler
+
+keywords:
+- autoscaler
+- aws-node-termination-handler
+- aws-load-balancer-controller
+- eks
+- alb
+- load balancer
+- ingress
+- nlb
+- aws
+- eks
+- ec2
+- node-termination
+- spot
+
+maintainers:
+  - name: Weaveworks
+    email: support@weave.works
+
+annotation:
+  "weave.works/profile": eks-addons
+  "weave.works/layer": layer-0
+  "weave.works/links": |
+    - name: Chart Sources
+      url:  https://aws.github.io/eks-charts/
+    - name: Upstream Project
+      url: https://github.com/aws/aws-node-termination-handler/tree/main/config/helm/aws-node-termination-handler
+  
+dependencies:
+- name: cluster-autoscaler
+  version: "9.20.1"
+  repository: "https://kubernetes.github.io/autoscaler"
+- name: aws-load-balancer-controller
+  version: "1.4.4"
+  repository: "https://aws.github.io/eks-charts"
+- name: aws-node-termination-handler
+  version: "0.19.2"
+  repository: "https://aws.github.io/eks-charts"
