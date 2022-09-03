@@ -6,7 +6,7 @@ type: application
 version: 0.0.4
 dependencies:
   - name: jaeger-operator
-    version: "2.30.0"
+    version: "2.35.0"
     repository: "https://jaegertracing.github.io/helm-charts/"
 kubeVersion: ">=1.16.0-0"
 home: https://github.com/weaveworks/profiles-catalog
