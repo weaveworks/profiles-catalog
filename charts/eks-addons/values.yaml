@@ -1,6 +1,6 @@
 cluster-autoscaler:
   autoDiscovery:
-    clusterName: "test"
+    clusterName: ClusterName
     tags:
       - k8s.io/cluster-autoscaler/enabled
       - k8s.io/cluster-autoscaler/{{ .Values.autoDiscovery.clusterName }}
@@ -9,5 +9,10 @@ cluster-autoscaler:
       - worker
     labels: []
   cloudProvider: aws
+  rbac:
+    serviceAccount:
+      # rbac.serviceAccount.annotations -- Additional Service Account annotations.
+      annotations:
+         - "eks.amazonaws.com/role-arn"=arn:aws:iam::123456789012:role/MyRoleName
 aws-load-balancer-controller:
-   clusterName: "test"
+   clusterName: ClusterName

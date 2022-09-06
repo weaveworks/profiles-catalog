@@ -31,10 +31,11 @@ maintainers:
 
 annotation:
   "weave.works/profile": eks-addons
+  "weave.works/category": Infrastructure 
   "weave.works/layer": layer-0
   "weave.works/links": |
     - name: Chart Sources
-      url:  https://aws.github.io/eks-charts/
+      url:  https://github.com/weaveworks/profiles-catalog
     - name: Upstream Project
       url: https://github.com/aws/aws-node-termination-handler/tree/main/config/helm/aws-node-termination-handler
   
