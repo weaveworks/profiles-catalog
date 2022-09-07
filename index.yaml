@@ -2570,6 +2570,44 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/linkerd2-0.0.9/linkerd2-0.0.9.tgz
     version: 0.0.9
+  local-path-provisioner:
+  - annotations:
+      weave.works/category: Storage
+      weave.works/layer: layer-0
+      weave.works/links: |
+        - name: Chart Sources
+          url: https://github.com/weaveworks/profiles-catalog.git
+        - name: Upstream Project
+          url: https://github.com/rancher/local-path-provisioner.git
+      weave.works/profile: local-path-provisioner
+      weave.works/profile-ci: |
+        - "kind"
+    apiVersion: v2
+    appVersion: v0.0.22-dev
+    created: "2022-09-07T16:38:03.708058429Z"
+    dependencies:
+    - name: local-path-provisioner
+      repository: ""
+      version: v0.0.22-dev
+    description: Weaveworks profile for HostPath for persistent local storage with
+      Kubernetes based on Rancher
+    digest: e1f406a4fac1d4cf7e3e060a55042aa732fd3871ba863d2e667b61a8862071df
+    home: https://github.com/weaveworks/profiles-catalog
+    keywords:
+    - local-path-provisioner
+    - kind
+    - storage
+    - hostpath
+    kubeVersion: '>=1.12.0-r0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: local-path-provisioner
+    sources:
+    - https://github.com/rancher/local-path-provisioner.git
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/local-path-provisioner-0.0.3/local-path-provisioner-0.0.3.tgz
+    version: 0.0.3
   magalix-agent:
   - annotations:
       weave.works/category: Policy
@@ -3686,4 +3724,4 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/weave-policy-agent-0.2.0/weave-policy-agent-0.2.0.tgz
     version: 0.2.0
-generated: "2022-09-06T14:39:38.929778629Z"
+generated: "2022-09-07T16:38:03.708318531Z"
