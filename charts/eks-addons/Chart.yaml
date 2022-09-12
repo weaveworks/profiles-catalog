@@ -11,9 +11,10 @@ sources:
   - https://kubernetes.github.io/autoscaler
 
 keywords:
-- autoscaler
 - aws-node-termination-handler
 - aws-load-balancer-controller
+- operator
+- aws-ebs-csi-driver
 - eks
 - alb
 - load balancer
@@ -31,21 +32,19 @@ maintainers:
 
 annotation:
   "weave.works/profile": eks-addons
-  "weave.works/category": Infrastructure 
+  "weave.works/category": Infrastructure
   "weave.works/layer": layer-0
   "weave.works/links": |
     - name: Chart Sources
-      url:  https://github.com/weaveworks/profiles-catalog
-    - name: Upstream Project
-      url: https://github.com/aws/aws-node-termination-handler/tree/main/config/helm/aws-node-termination-handler
+      url:  https://aws.github.io/eks-charts/
   
 dependencies:
-- name: cluster-autoscaler
-  version: "9.20.1"
-  repository: "https://kubernetes.github.io/autoscaler"
 - name: aws-load-balancer-controller
   version: "1.4.4"
   repository: "https://aws.github.io/eks-charts"
 - name: aws-node-termination-handler
   version: "0.19.2"
   repository: "https://aws.github.io/eks-charts"
+- name: aws-ebs-csi-driver
+  version: "2.6.7"
+  repository: "https://kubernetes-sigs.github.io/aws-ebs-csi-driver"

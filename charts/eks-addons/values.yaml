@@ -1,18 +1,11 @@
-cluster-autoscaler:
-  autoDiscovery:
-    clusterName: ClusterName
-    tags:
-      - k8s.io/cluster-autoscaler/enabled
-      - k8s.io/cluster-autoscaler/{{ .Values.autoDiscovery.clusterName }}
-      - kubernetes.io/cluster/{{ .Values.autoDiscovery.clusterName }}
-    roles:
-      - worker
-    labels: []
-  cloudProvider: aws
-  rbac:
-    serviceAccount:
-      # rbac.serviceAccount.annotations -- Additional Service Account annotations.
-      annotations:
-         - "eks.amazonaws.com/role-arn"=arn:aws:iam::123456789012:role/MyRoleName
 aws-load-balancer-controller:
-   clusterName: ClusterName
+  clusterName: ClusterName
+  serviceAccount:
+    # rbac.serviceAccount.annotations -- Additional Service Account annotations.
+    annotations:
+      eks.amazonaws.com/role-arn: 'arn:aws:iam::123456789012:role/MyRoleName'
+aws-ebs-csi-driver:
+  controller:
+    serviceAccount:
+      annotations:
+        eks.amazonaws.com/role-arn: 'arn:aws:iam::123456789012:role/MyRoleName'
