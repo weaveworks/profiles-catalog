@@ -1,12 +1,12 @@
 dependencies:
-- name: cluster-autoscaler
-  repository: https://kubernetes.github.io/autoscaler
-  version: 9.20.1
 - name: aws-load-balancer-controller
   repository: https://aws.github.io/eks-charts
   version: 1.4.4
 - name: aws-node-termination-handler
   repository: https://aws.github.io/eks-charts
   version: 0.19.2
-digest: sha256:b020a1310896b8aec0173d9858bc61b0372cb91f7ee38961ea5bfe5b55deba29
-generated: "2022-09-02T16:13:16.77832-04:00"
+- name: aws-ebs-csi-driver
+  repository: https://kubernetes-sigs.github.io/aws-ebs-csi-driver
+  version: 2.6.7
+digest: sha256:4ce4e399a91db6f2c2aec99ddb60bf6a13e01c585ecec274bfaf0f5129c510a4
+generated: "2022-09-12T13:00:39.676642-04:00"
