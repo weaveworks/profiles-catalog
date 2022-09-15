@@ -1,4 +1,5 @@
 {{- if .Values.policySource.enabled }}
+{{- if not .Values.policySource.sourceName }}
 apiVersion: source.toolkit.fluxcd.io/v1beta1
 kind: GitRepository
 metadata:
@@ -20,18 +21,26 @@ spec:
   secretRef:
     name: {{ .Values.policySource.secretRef }}
   {{- end }}
-
+{{- end }}
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
+  {{- if .Values.policySource.sourceName }}
+  name: {{ .Values.policySource.sourceName }}
+  {{- else }}
   name: policy-library
+  {{- end }}
   namespace: flux-system
 spec:
   interval: 10m0s
   sourceRef:
     kind: GitRepository
+    {{- if .Values.policySource.sourceName }}
+    name: {{ .Values.policySource.sourceName }}
+    {{- else }}
     name: policy-library
+    {{- end }}
     namespace: flux-system
   path: {{ .Values.policySource.path }}
   prune: true
