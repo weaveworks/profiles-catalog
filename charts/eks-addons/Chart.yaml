@@ -8,7 +8,6 @@ kubeVersion: ">=1.19.0-0"
 home: https://github.com/weaveworks/profiles-catalog
 sources:
   - https://aws.github.io/eks-charts/
-  - https://kubernetes.github.io/autoscaler
 
 keywords:
 - aws-node-termination-handler
@@ -33,7 +32,7 @@ maintainers:
 annotations:
   "weave.works/profile": eks-addons
   "weave.works/category": Infrastructure
-  "weave.works/layer": layer-0
+  "weave.works/layer": layer-1
   "weave.works/links": |
     - name: Chart Sources
       url:  https://aws.github.io/eks-charts/
@@ -42,9 +41,12 @@ dependencies:
 - name: aws-load-balancer-controller
   version: "1.4.4"
   repository: "https://aws.github.io/eks-charts"
+  condition: aws-load-balancer-controller.enabled
 - name: aws-node-termination-handler
   version: "0.19.2"
   repository: "https://aws.github.io/eks-charts"
+  condition: aws-node-termination-handler.enabled
 - name: aws-ebs-csi-driver
-  version: "2.6.7"
-  repository: "https://kubernetes-sigs.github.io/aws-ebs-csi-driver"
+  version: "0.0.1"
+  repository: "file://../aws-ebs-csi-driver/"
+  condition: aws-ebs-csi-driver.enabled
