@@ -42,4 +42,7 @@ policySource:
   # branch:
   # path: ./  # Could be a path to the policies dir or a kustomization.yaml file
   # secretRef: policy-library-auth  # (Optional): Name of the K8s secret with private repo auth credentials
-  # sourceName: policy-library # Could specify a name for an existing GitSource instead of creating a new one
+  # sourceRef: # Could specify a name for an existing GitSource reference instead of creating a new one
+  #   kind: GitRepository
+  #   name: policy-library
+  #   namespace: "{{ .Release.Namespace }}"
