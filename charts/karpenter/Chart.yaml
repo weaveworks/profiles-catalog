@@ -25,9 +25,6 @@ annotations:
       url: https://github.com/aws/karpenter/tree/main/charts/karpenter
     - name: Upstream Project
       url: https://github.com/aws/karpenter
-  "weave.works/profile-ci": |
-    - "gke"
-    - "kind"
 
 dependencies:
 - name: karpenter
