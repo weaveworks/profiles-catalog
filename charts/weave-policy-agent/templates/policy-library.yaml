@@ -37,7 +37,7 @@ spec:
     namespace: {{ .Release.Namespace }}
   {{- else }}
   sourceRef:
-{{- tpl (toYaml .Values.policySource.sourceRef) . | nindent 4 }}
+{{- toYaml .Values.policySource.sourceRef | nindent 4 }}
   {{- end }}
   path: {{ .Values.policySource.path }}
   prune: true

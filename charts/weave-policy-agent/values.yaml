@@ -45,4 +45,4 @@ policySource:
   # sourceRef: # Could specify a name for an existing GitSource reference instead of creating a new one
   #   kind: GitRepository
   #   name: policy-library
-  #   namespace: "{{ .Release.Namespace }}"
+  #   namespace: flux-system
