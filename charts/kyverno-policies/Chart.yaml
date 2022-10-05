@@ -3,10 +3,10 @@ name: kyverno-policies
 icon: https://repository-images.githubusercontent.com/169108858/35923880-823a-11e9-9089-0c9c102f9e6f
 description: A Weaveworks Helm chart for the Kyverno Profile
 type: application
-version: 0.0.4
+version: 0.0.5
 dependencies:
 - name: kyverno-policies
-  version: "v2.1.3"
+  version: "v2.5.5"
   repository: "https://kyverno.github.io/kyverno/"
 kubeVersion: ">=1.16.0-0"
 home: https://github.com/weaveworks/profiles-catalog
