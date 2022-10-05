@@ -2,6 +2,8 @@ kube-prometheus-stack:
   fullnameOverride: weaveworks-prometheus
   prometheus:
     prometheusSpec:
+      podMonitorSelector: {}
+      podMonitorSelectorNilUsesHelmValues: false
       additionalScrapeConfigs:
       - job_name: 'kubernetes-nodes-cadvisor'
         scheme: https
