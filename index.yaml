@@ -648,6 +648,53 @@ entries:
       weave.works/profile-ci: |
         - "gke"
     apiVersion: v2
+    created: "2022-10-05T10:51:41.106983721Z"
+    dependencies:
+    - name: elasticsearch
+      repository: https://helm.elastic.co
+      version: 7.17.3
+    - name: kibana
+      repository: https://helm.elastic.co
+      version: 7.17.3
+    - name: metricbeat
+      repository: https://helm.elastic.co
+      version: 7.17.3
+    - name: filebeat
+      repository: https://helm.elastic.co
+      version: 7.17.3
+    description: A Weaveworks Helm chart for the ELK Stack Profile
+    digest: f4b2bf096e3bfdb2536830341b483f8efdc7af7c491b06c6eed51645b8c5d35e
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://static-www.elastic.co/v3/assets/bltefdd0b53724fa2ce/blt74acb493aaf69084/5ea8c8dbf5880355558334cd/brand-elastic-stack-220x130.svg
+    keywords:
+    - network
+    - canary
+    - deployment
+    - elk-stack
+    - elastic
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: elk-stack
+    sources:
+    - https://Helm.elastic.co
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/elk-stack-0.0.9/elk-stack-0.0.9.tgz
+    version: 0.0.9
+  - annotations:
+      weave.works/category: Deployment
+      weave.works/layer: layer-2
+      weave.works/links: |
+        - name: Chart Sources
+          url:  https://helm.elastic.co
+        - name: Upstream Project
+          url: https://github.com/elastic/helm-charts
+      weave.works/profile: elk-stack
+      weave.works/profile-ci: |
+        - "gke"
+    apiVersion: v2
     created: "2022-05-11T17:17:24.31735435Z"
     dependencies:
     - name: elasticsearch
@@ -3866,4 +3913,4 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/weave-policy-agent-0.2.0/weave-policy-agent-0.2.0.tgz
     version: 0.2.0
-generated: "2022-10-05T10:06:20.8468035Z"
+generated: "2022-10-05T10:51:41.107661928Z"
