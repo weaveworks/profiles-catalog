@@ -366,6 +366,40 @@ entries:
         - "gke"
         - "kind"
     apiVersion: v2
+    created: "2022-10-05T10:03:21.423256745Z"
+    dependencies:
+    - name: crossplane
+      repository: https://charts.crossplane.io/stable
+      version: ~1.9.0
+    description: A Weaveworks Helm chart for the Crossplane Profile
+    digest: 18e8198b2589871de4b1c2629886a989eee48db1bfca8b856521e48bbc3e08ea
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://crossplane.io/images/favicon_192x192.png
+    keywords:
+    - crossplane
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: crossplane
+    sources:
+    - https://charts.crossplane.io/stable
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/crossplane-0.0.6/crossplane-0.0.6.tgz
+    version: 0.0.6
+  - annotations:
+      weave.works/category: Infrastructure
+      weave.works/links: |
+        - name: Chart Sources
+          url: https://charts.crossplane.io/stable
+        - name: Upstream Project
+          url: https://github.com/crossplane/crossplane
+      weave.works/profile: crossplane
+      weave.works/profile-ci: |
+        - "gke"
+        - "kind"
+    apiVersion: v2
     created: "2022-05-11T17:27:59.481837161Z"
     dependencies:
     - name: crossplane
@@ -3869,4 +3903,4 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/weave-policy-agent-0.2.0/weave-policy-agent-0.2.0.tgz
     version: 0.2.0
-generated: "2022-10-05T10:03:12.590940752Z"
+generated: "2022-10-05T10:03:21.423568948Z"
