@@ -2264,6 +2264,44 @@ entries:
         - "gke"
         - "kind"
     apiVersion: v2
+    created: "2022-10-05T10:52:28.307874144Z"
+    dependencies:
+    - name: kyverno-policies
+      repository: https://kyverno.github.io/kyverno/
+      version: v2.5.5
+    description: A Weaveworks Helm chart for the Kyverno Profile
+    digest: 05f9def0b87af3a9aed0d2bd5bea97ffe795771a4c2ad070a339e23706fca66d
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://repository-images.githubusercontent.com/169108858/35923880-823a-11e9-9089-0c9c102f9e6f
+    keywords:
+    - security
+    - kyverno
+    - kyverno-policies
+    - policies
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: kyverno-policies
+    sources:
+    - https://kyverno.github.io/kyverno/
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/kyverno-policies-0.0.5/kyverno-policies-0.0.5.tgz
+    version: 0.0.5
+  - annotations:
+      weave.works/category: Deployment
+      weave.works/layer: layer-1
+      weave.works/links: |
+        - name: Chart Sources
+          url:  https://kyverno.github.io/kyverno/
+        - name: Upstream Project
+          url: https://github.com/kyverno/kyverno
+      weave.works/profile: kyverno-policies
+      weave.works/profile-ci: |
+        - "gke"
+        - "kind"
+    apiVersion: v2
     created: "2022-03-23T13:26:10.225661427Z"
     dependencies:
     - name: kyverno-policies
@@ -3951,4 +3989,4 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/weave-policy-agent-0.2.0/weave-policy-agent-0.2.0.tgz
     version: 0.2.0
-generated: "2022-10-05T10:51:50.6097535Z"
+generated: "2022-10-05T10:52:28.308251344Z"
