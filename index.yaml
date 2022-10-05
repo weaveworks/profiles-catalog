@@ -3336,6 +3336,41 @@ entries:
         - "gke"
         - "kind"
     apiVersion: v2
+    created: "2022-10-05T10:02:21.402448952Z"
+    dependencies:
+    - condition: tf-controller.enabled
+      name: tf-controller
+      repository: https://weaveworks.github.io/tf-controller/
+      version: 0.8.0
+    description: A Weaveworks Helm chart for tf-controller
+    digest: d3eb8bfa1834033f97d62f6b6c9229d3e89fa4706a6cf4d3fc6c1694f3b689af
+    home: https://github.com/weaveworks/profiles-catalog
+    keywords:
+    - terraform
+    - gitops
+    kubeVersion: '>=1.17.0-0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: tf-controller
+    sources:
+    - https://github.com/weaveworks/tf-controller
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/tf-controller-0.0.4/tf-controller-0.0.4.tgz
+    version: 0.0.4
+  - annotations:
+      weave.works/links: |
+        - name: Chart Sources
+          url: https://github.com/weaveworks/tf-controller
+        - name: Upstream Project
+          url: https://github.com/weaveworks/tf-controller
+      weave.works/operator: "true"
+      weave.works/profile: tf-controller
+      weave.works/profile-ci: |
+        - "gke"
+        - "kind"
+    apiVersion: v2
     created: "2022-03-30T15:42:22.09322874Z"
     dependencies:
     - condition: tf-controller.enabled
@@ -3794,4 +3829,4 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/weave-policy-agent-0.2.0/weave-policy-agent-0.2.0.tgz
     version: 0.2.0
-generated: "2022-10-05T09:47:50.721971821Z"
+generated: "2022-10-05T10:02:21.402733752Z"
