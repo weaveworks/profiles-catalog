@@ -2,7 +2,7 @@ apiVersion: v2
 name: tf-controller
 description: A Weaveworks Helm chart for tf-controller
 type: application
-version: 0.0.3
+version: 0.0.4
 kubeVersion: ">=1.17.0-0"
 home: https://github.com/weaveworks/profiles-catalog
 sources:
