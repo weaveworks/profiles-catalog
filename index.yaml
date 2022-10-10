@@ -3078,6 +3078,47 @@ entries:
         - "gke"
         - "kind"
     apiVersion: v2
+    created: "2022-10-10T20:41:17.470149967Z"
+    dependencies:
+    - condition: kube-prometheus-stack.enabled
+      name: kube-prometheus-stack
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 40.3.1
+    description: A Weaveworks Helm chart for observability
+    digest: 414aa017bb6031a95add9061de23a3470665a8615a1ccb272756618d43da4a5b
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://raw.githubusercontent.com/prometheus/prometheus.github.io/master/assets/prometheus_logo-cb55bb5c346.png
+    keywords:
+    - operator
+    - prometheus
+    - kube-prometheus
+    - observability
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: prometheus
+    sources:
+    - https://github.com/prometheus-community/helm-charts
+    - https://github.com/prometheus-operator/kube-prometheus
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/prometheus-1.0.0/prometheus-1.0.0.tgz
+    version: 1.0.0
+  - annotations:
+      weave.works/category: Observability
+      weave.works/layer: layer-1
+      weave.works/links: |
+        - name: Chart Sources
+          url: https://github.com/prometheus-community/helm-charts
+        - name: Upstream Project
+          url: https://github.com/prometheus-operator/kube-prometheus
+      weave.works/operator: "true"
+      weave.works/profile: prometheus
+      weave.works/profile-ci: |
+        - "gke"
+        - "kind"
+    apiVersion: v2
     created: "2022-03-23T13:26:10.678579461Z"
     dependencies:
     - condition: kube-prometheus-stack.enabled
@@ -4053,4 +4094,4 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/weave-policy-agent-0.2.0/weave-policy-agent-0.2.0.tgz
     version: 0.2.0
-generated: "2022-10-10T14:41:27.889226106Z"
+generated: "2022-10-10T20:41:17.470609201Z"
