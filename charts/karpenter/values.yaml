@@ -9,4 +9,4 @@ karpenter:
     defaultInstanceProfile: KarpenterNodeInstanceProfile-${CLUSTER_NAME}
   serviceAccount:
     annotations:
-      #eks.amazonaws.com/role-arn: 'arn:aws:iam::123456789012:role/MyRoleName'
+      # eks.amazonaws.com/role-arn: 'arn:aws:iam::123456789012:role/MyRoleName'
