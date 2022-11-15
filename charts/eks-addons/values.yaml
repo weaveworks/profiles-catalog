@@ -4,7 +4,7 @@ aws-load-balancer-controller:
   serviceAccount:
     # rbac.serviceAccount.annotations -- Additional Service Account annotations.
     annotations:
-      eks.amazonaws.com/role-arn: 'arn:aws:iam::123456789012:role/MyRoleName'
+      #eks.amazonaws.com/role-arn: 'arn:aws:iam::123456789012:role/MyRoleName'
 aws-ebs-csi-driver:
   enabled: false
 aws-node-termination-handler:
