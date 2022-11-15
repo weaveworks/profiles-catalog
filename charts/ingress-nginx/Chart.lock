@@ -1,6 +1,6 @@
 dependencies:
 - name: ingress-nginx
   repository: https://kubernetes.github.io/ingress-nginx
-  version: 4.1.0
-digest: sha256:8b7073d6a936bbabe553db735ea45d0f50517dcbaafd96f1cbb6b97f1e93023d
-generated: "2022-04-23T00:02:38.992093991Z"
+  version: 4.2.5
+digest: sha256:063002e98b38e29cac8045d928be6df783c73faa07dc5805ce9b115029a43cb3
+generated: "2022-09-10T00:02:46.345820128Z"
