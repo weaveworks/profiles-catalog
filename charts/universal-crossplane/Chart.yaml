@@ -31,5 +31,4 @@ annotations:
     - name: Upstream Project
       url: https://github.com/upbound/universal-crossplane
   "weave.works/profile-ci": |
-    - "gke"
     - "kind"
