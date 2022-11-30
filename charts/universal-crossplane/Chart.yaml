@@ -23,7 +23,7 @@ maintainers:
     email: support@weave.works
 
 annotations:
-  "weave.works/profile": crossplane
+  "weave.works/profile": universal-crossplane
   "weave.works/category": Infrastructure
   "weave.works/links": |
     - name: Chart Sources
