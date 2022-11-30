@@ -1,0 +1,4 @@
+By proceeding, you are accepting to comply with terms and conditions in https://licenses.upbound.io/upbound-software-license.html
+
+✨ Thank you for installing Universal Crossplane!
+🚀 Install packages from https://marketplace.upbound.io to get started!
