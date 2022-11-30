@@ -1,38 +1,35 @@
-apiVersion: v1
-appVersion: 1.10.1-up.1
-description: 'Upbound Universal Crossplane (UXP) is Upbound''s official enterprise-grade
-  distribution of Crossplane. It''s fully compatible with upstream Crossplane, open
-  source, capable of connecting to Upbound Cloud for real-time dashboard visibility,
-  and maintained by Upbound. It''s the easiest way for both individual community members
-  and enterprises to build their production control planes. '
-home: https://upbound.io
-icon: https://raw.githubusercontent.com/upbound/universal-crossplane/66ce9eb2c5a0c3af8ed7d19551a2c4d743b933b9/docs/media/logo.png
-keywords:
-- cloud
-- infrastructure
-- services
-- application
-- database
-- cache
-- bucket
-- infra
-- app
-- ops
-- oam
-- gcp
-- azure
-- aws
-- alibaba
-- cloudsql
-- rds
-- s3
-- azuredatabase
-- asparadb
-- gke
-- aks
-- eks
-maintainers:
-- email: info@upbound.io
-  name: Upbound Inc.
+apiVersion: v2
 name: universal-crossplane
-version: 1.10.1-up.1
+icon: https://raw.githubusercontent.com/upbound/universal-crossplane/66ce9eb2c5a0c3af8ed7d19551a2c4d743b933b9/docs/media/logo.png
+description: A Weaveworks Helm chart for the Universal-Crossplane Profile
+type: application
+version: 0.0.1
+dependencies:
+  - name: universal-crossplane
+    version: "~1.10.1-up.1"
+    repository: "https://charts.upbound.io/stable"
+kubeVersion: ">=1.16.0-0"
+home: https://github.com/weaveworks/profiles-catalog
+sources:
+  - https://charts.upbound.io/stable
+
+keywords:
+- universal-crossplane
+- infrastructure
+- cloud-resources
+
+maintainers:
+  - name: Weaveworks
+    email: support@weave.works
+
+annotations:
+  "weave.works/profile": crossplane
+  "weave.works/category": Infrastructure
+  "weave.works/links": |
+    - name: Chart Sources
+      url: hhttps://charts.upbound.io/stable
+    - name: Upstream Project
+      url: https://github.com/upbound/universal-crossplane
+  "weave.works/profile-ci": |
+    - "gke"
+    - "kind"
