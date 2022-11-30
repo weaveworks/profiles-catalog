@@ -32,3 +32,4 @@ annotations:
       url: https://github.com/upbound/universal-crossplane
   "weave.works/profile-ci": |
     - "kind"
+    - "gke"
