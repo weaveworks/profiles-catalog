@@ -27,7 +27,7 @@ annotations:
   "weave.works/category": Infrastructure
   "weave.works/links": |
     - name: Chart Sources
-      url: hhttps://charts.upbound.io/stable
+      url: https://charts.upbound.io/stable
     - name: Upstream Project
       url: https://github.com/upbound/universal-crossplane
   "weave.works/profile-ci": |
