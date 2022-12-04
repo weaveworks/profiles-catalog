@@ -1,2 +1,14 @@
 external-secrets:
   installCRDs: true
+
+secretsSource:
+  enabled: true
+  url: ssh://git@github.com/owner/reponame
+  # tag: v1.0.0
+  branch: main
+  path: ./clusters/secrets/management/  # Could be a path to the secrets dir or a kustomization.yaml file
+  secretRef: my-pat  # (Optional): Name of the K8s secret with private repo auth credentials (private key, pub key, known hosts)
+  # sourceRef: # Could specify a name for an existing GitSource reference instead of creating a new one
+  #   kind: GitRepository
+  #   name: external-secrets
+  #   namespace: external-secrets

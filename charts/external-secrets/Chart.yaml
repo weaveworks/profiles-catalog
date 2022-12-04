@@ -1,12 +1,12 @@
 apiVersion: v2
 name: external-secrets
-icon: https://raw.githubusercontent.com/external-secrets/external-secrets/main/assets/round_eso_logo.png
+icon: https://raw.githubusercontent.com/external-secrets/external-secrets/main/assets/eso-round-logo.svg
 description: A Weaveworks Helm chart for the External Secrets Operator
 type: application
-version: 0.0.6
+version: 0.6.1
 dependencies:
 - name: external-secrets
-  version: "0.5.9"
+  version: "0.6.1"
   repository: "https://charts.external-secrets.io"
 kubeVersion: ">=1.16.0-0"
 home: https://github.com/weaveworks/profiles-catalog
@@ -16,9 +16,6 @@ sources:
 keywords:
 - external-secrets
 - secrets-manager
-- parameter-store
-- azure-key-vault
-- vault
 
 maintainers:
   - name: Weaveworks
