@@ -42,7 +42,7 @@ apiVersion: addons.cluster.x-k8s.io/v1alpha3
 kind: ClusterResourceSet
 metadata:
   name: my-pat
-  namespace: default
+  namespace: external-secrets
 spec:
   clusterSelector:
     matchLabels:
