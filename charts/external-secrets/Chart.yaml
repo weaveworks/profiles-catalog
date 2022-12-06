@@ -31,6 +31,3 @@ annotations:
       url: https://charts.external-secrets.io
     - name: Upstream Project
       url: https://github.com/external-secrets/external-secrets
-  "weave.works/profile-ci": |
-    - "gke"
-    - "kind"
