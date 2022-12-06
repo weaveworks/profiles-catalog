@@ -31,7 +31,7 @@ spec:
 ```bash
 kubectl create secret -n external-secrets generic my-pat --from-file=./identity --from-file=./identity.pub --from-file=./known_hosts --dry-run=client -o yaml > my-pat-data.yaml
 kubectl apply -f my-pat-data.yaml
-kubectl create secret generic my-pat --from-file=my-pat-data.yaml --type=addons.cluster.x-k8s.io/resource-set
+kubectl create secret generic my-pat-secret --from-file=my-pat-data.yaml --type=addons.cluster.x-k8s.io/resource-set
 rm my-pat-data.yaml
 ```
 
@@ -41,7 +41,7 @@ rm my-pat-data.yaml
 apiVersion: addons.cluster.x-k8s.io/v1alpha3
 kind: ClusterResourceSet
 metadata:
-  name: my-pat
+  name: my-pat-secret
   namespace: external-secrets
 spec:
   clusterSelector:
