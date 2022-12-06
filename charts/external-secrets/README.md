@@ -11,7 +11,7 @@ rm aws-sm-crs-data.yaml
 
 - Cluster Resource secret to be bootstrapped in the leaf cluster under bootstrap
 
-```bash
+```yaml
 apiVersion: addons.cluster.x-k8s.io/v1alpha3
 kind: ClusterResourceSet
 metadata:
@@ -31,17 +31,17 @@ spec:
 ```bash
 kubectl create secret -n external-secrets generic my-pat --from-file=./identity --from-file=./identity.pub --from-file=./known_hosts --dry-run=client -o yaml > my-pat-data.yaml
 kubectl apply -f my-pat-data.yaml
-kubectl create secret generic my-pat-secret --from-file=my-pat-data.yaml --type=addons.cluster.x-k8s.io/resource-set
+kubectl create secret generic my-pat-crs-secret --from-file=my-pat-data.yaml --type=addons.cluster.x-k8s.io/resource-set -n external-secrets
 rm my-pat-data.yaml
 ```
 
 - Cluster Resource secret to be bootstrapped in the leaf cluster under bootstrap
 
-```bash
+```yaml
 apiVersion: addons.cluster.x-k8s.io/v1alpha3
 kind: ClusterResourceSet
 metadata:
-  name: my-pat-secret
+  name: my-pat
   namespace: external-secrets
 spec:
   clusterSelector:
@@ -49,7 +49,7 @@ spec:
       secretmanager: aws
   resources:
   - kind: Secret
-    name: my-pat
+    name: my-pat-crs-secret
 ```
 
 - Edit values file to the secret ref and path
