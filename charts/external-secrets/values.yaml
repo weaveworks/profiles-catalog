@@ -3,8 +3,7 @@ external-secrets:
 
 secretsSource:
   enabled: true
-  url: ssh://git@github.com/owner/reponame # for the CRs (secret store, secrets)
-
+  url: ssh://git@github.com/owner/reponame    # for the CRs (secret store, secrets)
   # tag: v1.0.0
   branch: main
   path: ./clusters/secrets/management/  # Could be a path to the secrets dir or a kustomization.yaml file for the CRs (secret store, secrets)
