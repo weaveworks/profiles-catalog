@@ -29,10 +29,10 @@ spec:
 - Git token to access the private repository of secrets
 
 ```bash
-kubectl create secret -n external-secrets generic my-pat --from-file=./identity --from-file=./identity.pub --from-file=./known_hosts --dry-run=client -o yaml > my-pat-data.yaml
-kubectl apply -f my-pat-data.yaml
-kubectl create secret generic my-pat-crs-secret --from-file=my-pat-data.yaml --type=addons.cluster.x-k8s.io/resource-set -n external-secrets
-rm my-pat-data.yaml
+kubectl create secret -n external-secrets generic ssh-creds --from-file=./identity --from-file=./identity.pub --from-file=./known_hosts --dry-run=client -o yaml > ssh-creds-data.yaml
+kubectl apply -f ssh-creds-data.yaml
+kubectl create secret generic ssh-creds-crs-secret --from-file=ssh-creds-data.yaml --type=addons.cluster.x-k8s.io/resource-set
+rm ssh-creds-data.yaml
 ```
 
 - Cluster Resource secret to be bootstrapped in the leaf cluster under bootstrap
@@ -41,15 +41,15 @@ rm my-pat-data.yaml
 apiVersion: addons.cluster.x-k8s.io/v1alpha3
 kind: ClusterResourceSet
 metadata:
-  name: my-pat
-  namespace: external-secrets
+  name: ssh-creds
+  namespace: default
 spec:
   clusterSelector:
     matchLabels:
       secretmanager: aws
   resources:
   - kind: Secret
-    name: my-pat-crs-secret
+    name: ssh-creds-crs-secret
 ```
 
 - Edit values file to the secret ref and path
