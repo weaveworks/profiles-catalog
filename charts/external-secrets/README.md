@@ -1,5 +1,11 @@
 # External Secrets Profile Installation Guide
 
+- Create namespace for external secrets
+
+```bash
+kubectl create ns external-secrets
+```
+
 - AWS secret for authenticating the store to be installed on the managment cluster
 
 ```bash
@@ -53,3 +59,10 @@ spec:
 ```
 
 - Edit values file to the secret ref and path
+
+## Notes on the creating the leaf cluster
+
+- It should have flux bootstrapped on it. using cluster bootstrap config and it should have labels matching the cluster template.
+
+- ClusterResourceSet has cluster selector labels to choose which cluster to be installed on and it should have labels matching the cluster template.
+
