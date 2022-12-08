@@ -3269,6 +3269,46 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/prometheus-0.0.8/prometheus-0.0.8.tgz
     version: 0.0.8
+  reloader:
+  - annotations:
+      weave.works/category: Deployment
+      weave.works/layer: layer-2
+      weave.works/links: |
+        - name: Chart Sources
+          url: https://stakater.github.io/stakater-charts
+        - name: Upstream Project
+          url: https://github.com/stakater/Reloader
+      weave.works/operator: "true"
+      weave.works/profile: reloader
+      weave.works/profile-ci: |
+        - "gke"
+        - "kind"
+    apiVersion: v2
+    created: "2022-12-08T09:28:24.669633295Z"
+    dependencies:
+    - name: reloader
+      repository: https://stakater.github.io/stakater-charts
+      version: v0.0.126
+    description: A Weaveworks Helm chart for the Reloader profile
+    digest: f4c15ea1f0c630726c4a90fe9f8d3defb6db1d7e9d3a534a3f6b133087ff0169
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://raw.githubusercontent.com/stakater/Reloader/master/assets/web/reloader-round-100px.png
+    keywords:
+    - reloader
+    - stakater
+    - configmap
+    - secret
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: reloader
+    sources:
+    - https://stakater.github.io/stakater-charts
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/reloader-0.0.1/reloader-0.0.1.tgz
+    version: 0.0.1
   secrets-store-config:
   - annotations:
       weave.works/category: Secrets Management
@@ -4195,4 +4235,4 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/weave-policy-agent-0.2.0/weave-policy-agent-0.2.0.tgz
     version: 0.2.0
-generated: "2022-11-30T17:23:42.370044187Z"
+generated: "2022-12-08T09:28:24.670155402Z"
