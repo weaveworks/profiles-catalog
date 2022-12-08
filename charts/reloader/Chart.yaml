@@ -1,0 +1,38 @@
+apiVersion: v2
+name: reloader
+icon: https://raw.githubusercontent.com/stakater/Reloader/master/assets/web/reloader-round-100px.png
+description: A Weaveworks Helm chart for the Reloader profile
+type: application
+version: 0.0.1
+dependencies:
+  - name: reloader
+    version: "v0.0.126"
+    repository: "https://stakater.github.io/stakater-charts"
+kubeVersion: ">=1.16.0-0"
+home: https://github.com/weaveworks/profiles-catalog
+sources:
+  - https://stakater.github.io/stakater-charts
+
+keywords:
+- reloader
+- stakater
+- configmap
+- secret
+
+maintainers:
+  - name: Weaveworks
+    email: support@weave.works
+
+annotations:
+  "weave.works/profile": reloader
+  "weave.works/category": Deployment
+  "weave.works/layer": layer-2
+  "weave.works/operator": "true"
+  "weave.works/links": |
+    - name: Chart Sources
+      url: https://stakater.github.io/stakater-charts
+    - name: Upstream Project
+      url: https://github.com/stakater/Reloader
+  "weave.works/profile-ci": |
+    - "gke"
+    - "kind"
