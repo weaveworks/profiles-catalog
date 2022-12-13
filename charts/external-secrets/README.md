@@ -1,5 +1,20 @@
 # External Secrets Profile Installation Guide
 
+**Table Of Contents**
+- [External Secrets Profile Installation Guide](#external-secrets-profile-installation-guide)
+  - [Introduction](#introduction)
+  - [Components](#components)
+    - [Controller](#controller)
+    - [Custom Resource Definitions (CRDs)](#custom-resource-definitions-crds)
+      - [SecretStore](#secretstore)
+      - [ExternalSecret](#externalsecret)
+      - [Note](#note)
+    - [CRs](#crs)
+  - [Profile Components](#profile-components)
+  - [How to install with WGE on Kubernetes Cluster](#how-to-install-with-wge-on-kubernetes-cluster)
+  - [Notes on the creating the leaf cluster](#notes-on-the-creating-the-leaf-cluster)
+  - [Create Service Account on AWS](#create-service-account-on-aws)
+
 ## Introduction
 
 External Secrets Operator is a Kubernetes operator that integrates external secret management systems like AWS Secrets Manager, HashiCorp Vault, Google Secrets Manager, Azure Key Vault and many more. The operator reads information from external APIs and automatically injects the values into a Kubernetes Secret.
@@ -122,3 +137,98 @@ spec:
 - ClusterResourceSet has cluster selector labels to choose which cluster to be installed on and it should have labels matching the cluster template.
 
 Full guide to bootstrap leaf cluster with flux with template [here](https://www.notion.so/weaveworks/Guide-How-To-Secrets-Management-with-flux-ad91b52e3ba5415c97e2235ae394bf4f)
+
+
+## Create Service Account on AWS
+
+1- Create IAM Policy on AWS console for secrets managment
+
+  **Example**
+
+  ```json
+  {
+      "Version": "2012-10-17",
+      "Statement": [
+          {
+              "Effect": "Allow",
+              "Action": [
+                  "secretsmanager:GetResourcePolicy",
+                  "secretsmanager:GetSecretValue",
+                  "secretsmanager:DescribeSecret",
+                  "secretsmanager:ListSecretVersionIds"
+              ],
+              "Resource": [
+                  "arn:aws:secretsmanager:<region>:<account-id>:secret:<secret-path>"
+              ]
+          }
+      ]
+  }
+  ```
+
+  **Note**: secret path could be something like `/dev/*`
+
+2- Add Identity Provider on AWS console with the URL of the cluster OIDC
+
+  Get cluster OIDC from:
+
+  ```bash
+  aws eks describe-cluster --name <cluster-name --query "cluster.identity.oidc.issuer" --output text --region <cluster-region>
+  ```
+
+  Also Add audience to `sts.amazonaws.com`
+
+3- Add Role on AWS console with the following Trust Relationship and attach the previous policy
+
+  ```json
+  {
+      "Version": "2012-10-17",
+      "Statement": [
+          {
+              "Effect": "Allow",
+              "Principal": {
+                  "Federated": "arn:aws:iam::<account-id>:oidc-provider/oidc.eks.<region>.amazonaws.com/id/<cluster-oidc-id>" # aws-arn
+              },
+              "Action": "sts:AssumeRoleWithWebIdentity",
+              "Condition": {
+                  "StringEquals": {
+                      "oidc.eks.<region>.amazonaws.com/id/<cluster-oidc-id>:aud": "sts.amazonaws.com",
+                      "oidc.eks.<region>.amazonaws.com/id/<cluster-oidc-id>:sub": "system:serviceaccount:<service-account-namespace>:<service-account-name>"
+                  }
+              }
+          }
+      ]
+  }
+  ```
+
+4- Add Service Account Resource next to the secret store
+
+  **Example Service Account**
+
+  ```yaml
+  apiVersion: v1
+  kind: ServiceAccount
+  metadata:
+    name: <service-account-name>
+    namespace: <service-account-namespace>
+    annotations:
+      eks.amazonaws.com/role-arn: "arn:aws:iam::<account-id>:role/<role-name>"
+  ```
+
+  **Example Secret Store**
+
+  ```yaml
+  apiVersion: external-secrets.io/v1beta1
+  kind: SecretStore
+  metadata:
+    name: <secret-store-name>
+    namespace: <secret-store-namespace>
+  spec:
+    provider:
+      aws:
+        service: SecretsManager
+        region: <aws-region>
+        auth:
+          jwt:
+            serviceAccountRef:
+              name: <service-account-name>
+  ```
