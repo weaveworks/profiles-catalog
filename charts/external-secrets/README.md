@@ -79,6 +79,8 @@ spec:
     name: aws-sm-crs-secret
 ```
 
+**Note**: In AWS provided clusters we can use service account/pod identity instead of key/value creds. [here](https://external-secrets.io/v0.6.1/provider/aws-secrets-manager/)
+
 - Git token to access the private repository of secrets
 
   **Note**: To add the ssh creds to flux to be able to access private repository you will need to create a [ClusterResourceSet](https://docs.gitops.weave.works/docs/cluster-management/getting-started/#automatically-install-a-cni-with-clusterresourcesets) having the SSH Creds and it will be on the leaf cluster through the [bootstrapping process](https://docs.gitops.weave.works/docs/cluster-management/getting-started/#add-a-cluster-bootstrap-config)
@@ -111,6 +113,7 @@ spec:
 ```
 
 - Edit values file to the secret ref and path in values.yaml for your secrets repository
+
 
 ## Notes on the creating the leaf cluster
 
