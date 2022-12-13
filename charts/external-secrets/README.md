@@ -50,9 +50,9 @@ In order to use the operator you will need to define the SecretStore and the Ext
 
 ## Profile Components 
 
-1- [The HelmChart for External Secrets Operator](charts/external-secrets/Chart.yaml)
+1- [The HelmChart for External Secrets Operator](Chart.yaml)
 
-2- [Kustomization Reference to the CRs](charts/external-secrets/templates/secrets.yaml)
+2- [Kustomization Reference to the CRs](templates/secrets.yaml)
 
 
 ## How to install with WGE on Kubernetes Cluster
