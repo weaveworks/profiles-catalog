@@ -12,7 +12,8 @@
     - [CRs](#crs)
   - [Profile Components](#profile-components)
   - [How to install with WGE on Kubernetes Cluster](#how-to-install-with-wge-on-kubernetes-cluster)
-  - [Notes on the creating the leaf cluster](#notes-on-the-creating-the-leaf-cluster)
+    - [Bootstrapping leaf cluster](#bootstrapping-leaf-cluster)
+    - [Notes on the creating the leaf cluster](#notes-on-the-creating-the-leaf-cluster)
   - [Create Service Account on AWS](#create-service-account-on-aws)
 
 ## Introduction
@@ -52,85 +53,84 @@ In order to use the operator you will need to define the SecretStore and the Ext
 
 1- [The HelmChart for External Secrets Operator](Chart.yaml)
 
-2- [Kustomization Reference to the CRs](templates/secrets.yaml)
+2- [Kustomization Reference to secret stores CRs](templates/secret-stores-kustomization.yaml)
 
 
 ## How to install with WGE on Kubernetes Cluster
 
 - Create namespace for external secrets
 
-```bash
-kubectl create ns external-secrets
-```
+  ```bash
+  kubectl create ns external-secrets
+  ```
 
 - Create AWS secret for authenticating the store to be installed on the managment cluster
 
-  **Note**: To authenticate the secret store on a leaf cluster with key/secret creds you will need to create a [ClusterResourceSet](https://docs.gitops.weave.works/docs/cluster-management/getting-started/#automatically-install-a-cni-with-clusterresourcesets) having the AWS secret and it will be on the leaf cluster through the [bootstrapping process](https://docs.gitops.weave.works/docs/cluster-management/getting-started/#add-a-cluster-bootstrap-config)
 
-```bash
-kubectl create secret generic awssm-secret --from-literal access-key=$KEY --from-literal secret-access-key=$SECRET -n flux-system --dry-run=client -o yaml > aws-sm-crs-data.yaml
-
-kubectl apply -f aws-sm-crs-data.yaml
-
-kubectl create secret generic aws-sm-crs-secret --from-file=aws-sm-crs-data.yaml --type=addons.cluster.x-k8s.io/resource-set
-
-rm aws-sm-crs-data.yaml
-```
-
-- Cluster Resource secret to be bootstrapped in the leaf cluster under bootstrap. Make sure to add the cluster selector label `secretmanager: aws` under GitOpsCluster in the cluster template
-
-```yaml
-apiVersion: addons.cluster.x-k8s.io/v1alpha3
-kind: ClusterResourceSet
-metadata:
-  name: awssm-crs
-  namespace: default
-spec:
-  clusterSelector:
-    matchLabels:
-      secretmanager: aws
-  resources:
-  - kind: Secret
-    name: aws-sm-crs-secret
-```
+  ```bash
+  kubectl create secret generic awssm-secret --from-literal access-key=$KEY --from-literal secret-access-key=$SECRET -n flux-system
+  ```
 
 **Note**: In AWS provided clusters we can use service account/pod identity instead of key/value creds. [here](https://external-secrets.io/v0.6.1/provider/aws-secrets-manager/)
 
 - Git token to access the private repository of secrets
 
-  **Note**: To add the ssh creds to flux to be able to access private repository you will need to create a [ClusterResourceSet](https://docs.gitops.weave.works/docs/cluster-management/getting-started/#automatically-install-a-cni-with-clusterresourcesets) having the SSH Creds and it will be on the leaf cluster through the [bootstrapping process](https://docs.gitops.weave.works/docs/cluster-management/getting-started/#add-a-cluster-bootstrap-config)
-
-```bash
-kubectl create secret -n external-secrets generic ssh-creds --from-file=./identity --from-file=./identity.pub --from-file=./known_hosts --dry-run=client -o yaml > ssh-creds-data.yaml
-
-kubectl apply -f ssh-creds-data.yaml
-
-kubectl create secret generic ssh-creds-crs-secret --from-file=ssh-creds-data.yaml --type=addons.cluster.x-k8s.io/resource-set
-
-rm ssh-creds-data.yaml
-```
-
-- Cluster Resource secret to be bootstrapped in the leaf cluster under bootstrap
-
-```yaml
-apiVersion: addons.cluster.x-k8s.io/v1alpha3
-kind: ClusterResourceSet
-metadata:
-  name: ssh-creds
-  namespace: default
-spec:
-  clusterSelector:
-    matchLabels:
-      secretmanager: aws
-  resources:
-  - kind: Secret
-    name: ssh-creds-crs-secret
-```
+  ```bash
+  kubectl create secret -n external-secrets generic ssh-creds --from-file=./identity --from-file=./identity.pub --from-file=./known_hosts
+  ```
 
 - Edit values file to the secret ref and path in values.yaml for your secrets repository
 
+### Bootstrapping leaf cluster
 
-## Notes on the creating the leaf cluster
+- To authenticate the secret store on a leaf cluster with key/secret creds you will need to create a [ClusterResourceSet](https://docs.gitops.weave.works/docs/cluster-management/getting-started/#automatically-install-a-cni-with-clusterresourcesets) having the AWS secret and it will be on the leaf cluster through the [bootstrapping process](https://docs.gitops.weave.works/docs/cluster-management/getting-started/#add-a-cluster-bootstrap-config)
+
+  ```bash
+  kubectl create secret generic aws-sm-crs-secret --from-literal access-key=$KEY --from-literal secret-access-key=$SECRET --type=addons.cluster.x-k8s.io/resource-set
+  ```
+
+- Cluster Resource secret to be bootstrapped in the leaf cluster under bootstrap. Make sure to add the cluster selector label `secretmanager: aws` under GitOpsCluster in the cluster template
+
+  ```yaml
+  apiVersion: addons.cluster.x-k8s.io/v1alpha3
+  kind: ClusterResourceSet
+  metadata:
+    name: awssm-crs
+    namespace: default
+  spec:
+    clusterSelector:
+      matchLabels:
+        secretmanager: aws
+    resources:
+    - kind: Secret
+      name: aws-sm-crs-secret
+  ```
+
+
+- To add the ssh creds to flux to be able to access private repository you will need to create a [ClusterResourceSet](https://docs.gitops.weave.works/docs/cluster-management/getting-started/#automatically-install-a-cni-with-clusterresourcesets) having the SSH Creds and it will be on the leaf cluster through the [bootstrapping process](https://docs.gitops.weave.works/docs/cluster-management/getting-started/#add-a-cluster-bootstrap-config)
+
+  ```bash
+  kubectl create secret generic ssh-creds-crs-secret --from-file=./identity --from-file=./identity.pub --from-file=./known_hosts --type=addons.cluster.x-k8s.io/resource-set
+  ```
+
+- Cluster Resource secret to be bootstrapped in the leaf cluster under bootstrap
+
+  ```yaml
+  apiVersion: addons.cluster.x-k8s.io/v1alpha3
+  kind: ClusterResourceSet
+  metadata:
+    name: ssh-creds
+    namespace: default
+  spec:
+    clusterSelector:
+      matchLabels:
+        secretmanager: aws
+    resources:
+    - kind: Secret
+      name: ssh-creds-crs-secret
+  ```
+
+### Notes on the creating the leaf cluster
 
 - It should have flux bootstrapped on it. using cluster bootstrap config and it should have labels matching the cluster template.
 
