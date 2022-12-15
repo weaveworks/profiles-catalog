@@ -8,7 +8,7 @@ Bootstrapping external secret operator with flux
 
 In Flux, we can't have dependencies between Flux Kustomization and HelmRelease, so we install `external-secrets-operator` through a `HelmRelease` and the `Secrets` CRs (`SecretStore`, `ExternalSecret, ..`) through a Flux Kustomization.
 
-Both controllers manage the resources independently, at different moments, with no possibility to wait each other. This means that we have a wonderful race condition where sometimes the CRs (`SecretStore`,`ClusterSecretStore`...) tries to be deployed before than the CRDs needed to recognize them.
+Both controllers manage the resources independently, at different moments, with no possibility to wait for each other. This means that we have a wonderful race condition where sometimes the CRs (`SecretStore`,`ClusterSecretStore`...) tries to be deployed before than the CRDs needed to recognize them.
 
 Reference: [https://external-secrets.io/v0.6.1/examples/gitops-using-fluxcd/](https://external-secrets.io/v0.6.1/examples/gitops-using-fluxcd/) 
 
