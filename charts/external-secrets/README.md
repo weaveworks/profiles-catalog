@@ -137,7 +137,7 @@ In order to use the operator you will need to define the SecretStore and the Ext
 
 - ClusterResourceSet has cluster selector labels to choose which cluster to be installed on and it should have labels matching the cluster template.
 
-Full guide to bootstrap leaf cluster with flux with template [here](https://www.notion.so/weaveworks/Guide-How-To-Secrets-Management-with-flux-ad91b52e3ba5415c97e2235ae394bf4f)
+Full guide to bootstrap leaf cluster with flux with template [here](Bootstrapping-Guide.md)
 
 
 ### Using Service Account to authenticate AWS SecretStore
