@@ -305,8 +305,6 @@ flux-system        ssh-credentials                          Opaque              
 kube-system        bootstrap-token-abcdef                   bootstrap.kubernetes.io/token          6      45m
 ```
 
-Repository Example [here](https://github.com/waleedhammam/gitops/tree/secrets)
-
 ## 2- Using with WGE
 
 ## Prerequisites
@@ -331,7 +329,6 @@ kubectl create secret generic ssh-credentials --from-file=./identity --from-file
 
 **Goal**: To bootstrap the leaf cluster with flux installed & secret to authenticate ESO
 
-**Example**: [repo](https://github.com/waleedhammam/wge-dev/tree/main/clusters)
 
 **Structure** 
 
@@ -413,7 +410,7 @@ spec:
               "bootstrap",
               "github",
               "--kubeconfig=/etc/gitops/value",
-              "--owner=waleedhammam",
+              "--owner=weaveworks",
               "--repository=wge-dev",
               "--path=./clusters/{{ .ObjectMeta.Namespace }}/{{ .ObjectMeta.Name }}",
             ]
