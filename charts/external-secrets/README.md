@@ -14,7 +14,8 @@
   - [How to install with WGE on Kubernetes Cluster](#how-to-install-with-wge-on-kubernetes-cluster)
     - [Bootstrapping leaf cluster](#bootstrapping-leaf-cluster)
     - [Notes on the creating the leaf cluster](#notes-on-the-creating-the-leaf-cluster)
-  - [Create Service Account on AWS](#create-service-account-on-aws)
+    - [Using Service Account to authenticate AWS SecretStore](#using-service-account-to-authenticate-aws-secretstore)
+      - [How to create Service Account on AWS](#how-to-create-service-account-on-aws)
 
 ## Introduction
 
@@ -139,7 +140,12 @@ In order to use the operator you will need to define the SecretStore and the Ext
 Full guide to bootstrap leaf cluster with flux with template [here](https://www.notion.so/weaveworks/Guide-How-To-Secrets-Management-with-flux-ad91b52e3ba5415c97e2235ae394bf4f)
 
 
-## Create Service Account on AWS
+### Using Service Account to authenticate AWS SecretStore
+
+External Secrets Operator allows to use service account in order to authenticate the SecretStore that's using AWS Secrets Manger.
+This methods doesn't require to provide AWS Creds (Key, Secret) instead only uses the service account created on AWS
+
+#### How to create Service Account on AWS
 
 1- Create IAM Policy on AWS console for secrets managment
 
@@ -164,8 +170,9 @@ Full guide to bootstrap leaf cluster with flux with template [here](https://www.
       ]
   }
   ```
-
-  **Note**: secret path could be something like `/dev/*`
+  region: AWS cluster region -> Example: `eu-north-1`
+  account-id: AWS Account ID -> Example: `123123123412`
+  secret-path: Path of the secret in AWS secret manager that this service account will have access to -> Example `/dev/*`
 
 2- Add Identity Provider on AWS console with the URL of the cluster OIDC
 
