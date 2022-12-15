@@ -24,7 +24,7 @@ For more information refer to the docs [here](https://external-secrets.io/v0.6.1
 
 ## Components
 
-The External Secrets operator consists of 3 main parts as the following
+The External Secrets operator consists of the following 3 main parts
 
 ### Controller
 
@@ -42,7 +42,8 @@ The idea behind the SecretStore resource is to separate concerns of authenticati
 
 An ExternalSecret declares what data to fetch. It has a reference to a SecretStore which knows how to access that data. The controller uses that ExternalSecret as a blueprint to create secrets.
 
-#### Note
+
+**Note**:
 
 The previous CRDs are namespaced, There is also a global, cluster-wide SecretStore that can be referenced from all namespaces. You can use it to provide a central gateway to your secret provider which are (ClusterSecretStore, ClusterExternalSecret)
 
@@ -133,7 +134,7 @@ In order to use the operator you will need to define the SecretStore and the Ext
 
 ### Notes on the creating the leaf cluster
 
-- It should have flux bootstrapped on it. using cluster bootstrap config and it should have labels matching the cluster template.
+- It should have flux bootstrapped on it using cluster bootstrap config and it should have labels matching the cluster template.
 
 - ClusterResourceSet has cluster selector labels to choose which cluster to be installed on and it should have labels matching the cluster template.
 
