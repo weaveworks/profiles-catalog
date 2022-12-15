@@ -3,7 +3,7 @@ external-secrets:
 
 secretStores:
   enabled: true
-  url: ssh://git@github.com/weaveworks/secret-stores    # url for the git repository that contains the SecretStores
+  url: ssh://git@github.com/<owner>/<repo-name>   # url for the git repository that contains the SecretStores
   tag: v1.0.0                                     # if you would like to download your secrets from specific tag
   # branch: main                                  # if you would like to download your secrets from specific branch
   path: .                                         # could be a path to the secrets dir or a kustomization.yaml file for the SecretStore in the GitRepository
