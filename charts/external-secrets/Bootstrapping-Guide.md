@@ -218,7 +218,7 @@ spec:
 
 - ***secrets/aws.yaml***
 
-This CR has describes what data should be fetched, how the data should be transformed and saved as a `Kind=Secret`
+This CR describes which secret should be fetched from the secret store, how the secret should be transformed and saved as a `Kind=Secret`
 
 ```yaml
 apiVersion: external-secrets.io/v1beta1
