@@ -28,6 +28,7 @@ policy-agent:
     admission:
       # Enable admission functionality
       enabled: true
+      # mutate: true # enable mutating violating resources
       sinks:
         # Enable writing violations as K8s events
         k8sEventsSink:
