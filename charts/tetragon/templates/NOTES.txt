@@ -1,0 +1,1 @@
+Please navigate to https://github.com/cilium/tetragon/releases/tag/v0.8.3 for the complementary tetra CLI binary
