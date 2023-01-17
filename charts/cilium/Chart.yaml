@@ -30,4 +30,3 @@ annotations:
       url: https://helm.cilium.io/
   "weave.works/profile-ci": |
     - "kind"
-    - "gke"
