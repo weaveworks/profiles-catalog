@@ -1,0 +1,33 @@
+apiVersion: v2
+name: cilium
+icon: https://camo.githubusercontent.com/c47f41ca20cf96f6363a403b40772282f2808d5a6b1c90e34389ca9a3ad3810c/68747470733a2f2f63646e2e6a7364656c6976722e6e65742f67682f63696c69756d2f63696c69756d406d61737465722f446f63756d656e746174696f6e2f696d616765732f6c6f676f2d6461726b2e706e67
+description: A Weaveworks Helm chart for the cilium Profile
+type: application
+version: 0.0.1
+dependencies:
+  - name: cilium
+    version: "~1.12.5"
+    repository: "https://helm.cilium.io/"
+kubeVersion: ">=1.16.0-0"
+home: https://github.com/weaveworks/profiles-catalog
+sources:
+  - https://helm.cilium.io/
+
+keywords:
+- cilium
+- infrastructure
+- networking
+
+maintainers:
+  - name: Weaveworks
+    email: support@weave.works
+
+annotations:
+  "weave.works/profile": cilium
+  "weave.works/category": Infrastructure
+  "weave.works/links": |
+    - name: Chart Sources
+      url: https://helm.cilium.io/
+  "weave.works/profile-ci": |
+    - "kind"
+    - "gke"

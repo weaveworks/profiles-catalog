@@ -1,0 +1,1 @@
+Congratulations! You have a fully functional Kubernetes cluster with Cilium. 🎉
