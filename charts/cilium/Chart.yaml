@@ -25,6 +25,7 @@ maintainers:
 annotations:
   "weave.works/profile": cilium
   "weave.works/category": Infrastructure
+  "weave.works/layer": layer-0
   "weave.works/links": |
     - name: Chart Sources
       url: https://helm.cilium.io/
