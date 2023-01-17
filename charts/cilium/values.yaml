@@ -1393,7 +1393,7 @@ readinessProbe:
 # -- Configure the kube-proxy replacement in Cilium BPF datapath
 # Valid options are "disabled", "partial", "strict".
 # ref: https://docs.cilium.io/en/stable/gettingstarted/kubeproxy-free/
-#kubeProxyReplacement: "disabled"
+# kubeProxyReplacement: "disabled"
 
 # -- healthz server bind address for the kube-proxy replacement.
 # To enable set the value to '0.0.0.0:10256' for all ipv4
@@ -1630,8 +1630,8 @@ resourceQuotas:
       pods: "15"
 
 # Need to document default
-##################
-#sessionAffinity: false
+# =============== #
+# sessionAffinity: false
 
 # -- Do not run Cilium agent when running with clean mode. Useful to completely
 # uninstall Cilium as it will stop Cilium from starting and create artifacts
@@ -2154,7 +2154,7 @@ enableCriticalPriorityClass: true
 
 # disableEnvoyVersionCheck removes the check for Envoy, which can be useful
 # on AArch64 as the images do not currently ship a version of Envoy.
-#disableEnvoyVersionCheck: false
+# disableEnvoyVersionCheck: false
 
 clustermesh:
   # -- Deploy clustermesh-apiserver for clustermesh
