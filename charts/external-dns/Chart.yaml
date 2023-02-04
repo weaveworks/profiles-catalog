@@ -26,7 +26,7 @@ maintainers:
 
 annotations:
   "weave.works/profile": external-dns
-  "weave.works/category": 
+  "weave.works/category": Infrastructure
   "weave.works/layer": layer-2
   "weave.works/operator": "true"
   "weave.works/links": |
