@@ -1,0 +1,36 @@
+apiVersion: v2
+name: kong
+icon: https://github.com/Kong/docs.konghq.com/blob/main/app/_assets/images/icons/policies/icon-kong-logo.png
+description: A Weaveworks Helm chart for the kong Profile
+type: application
+version: 0.0.1
+dependencies:
+- name: kong
+  version: "v2.16.0"
+  repository: "https://charts.konghq.com"
+kubeVersion: ">=1.16.0-0"
+home: https://github.com/weaveworks/profiles-catalog
+sources:
+  - https://charts.konghq.com
+
+keywords:
+- api
+- gateway
+- kong
+
+maintainers:
+  - name: Weaveworks
+    email: support@weave.works
+
+annotations:
+  "weave.works/profile": kong
+  "weave.works/category": gateway
+  "weave.works/layer": layer-2
+  "weave.works/links": |
+    - name: Chart Sources
+      url:  https://charts.konghq.com
+    - name: Upstream Project
+      url: https://github.com/Kong/kong
+  "weave.works/profile-ci": |
+    - "gke"
+    - "kind"
