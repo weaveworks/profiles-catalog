@@ -1,0 +1,6 @@
+Thank you for installing {{ .Chart.Name }} {{ .Chart.Version }} 😀
+
+Your release is named {{ .Release.Name }}, app version {{ .Chart.AppVersion }}
+
+Once installed, please follow along the getting started guide to start using
+Kong: https://docs.konghq.com/kubernetes-ingress-controller/latest/guides/getting-started/
