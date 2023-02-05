@@ -1,0 +1,6 @@
+dependencies:
+- name: kuma
+  repository: https://kumahq.github.io/charts
+  version: 2.1.0
+digest: sha256:5807f8eea23f1e52f13c6faa3ab4c3cc5f579675cf346155131c3000f15f4406
+generated: "2023-02-05T14:57:39.535064Z"
