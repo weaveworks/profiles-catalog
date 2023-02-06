@@ -2096,6 +2096,44 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/keycloak-0.0.1/keycloak-0.0.1.tgz
     version: 0.0.1
+  kong:
+  - annotations:
+      weave.works/category: gateway
+      weave.works/layer: layer-2
+      weave.works/links: |
+        - name: Chart Sources
+          url:  https://charts.konghq.com
+        - name: Upstream Project
+          url: https://github.com/Kong/kong
+      weave.works/profile: kong
+      weave.works/profile-ci: |
+        - "gke"
+        - "kind"
+    apiVersion: v2
+    created: "2023-02-06T10:07:02.771431184Z"
+    dependencies:
+    - name: kong
+      repository: https://charts.konghq.com
+      version: v2.16.0
+    description: A Weaveworks Helm chart for the kong Profile
+    digest: c1d4e7a8f2e4f20ca6d9b009889b173a8480fd31f786eb0a42ee7efc0c0682e1
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://github.com/Kong/docs.konghq.com/blob/main/app/_assets/images/icons/policies/icon-kong-logo.png
+    keywords:
+    - api
+    - gateway
+    - kong
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: kong
+    sources:
+    - https://charts.konghq.com
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/kong-0.0.1/kong-0.0.1.tgz
+    version: 0.0.1
   kuma:
   - annotations:
       weave.works/category: mesh
@@ -4340,4 +4378,4 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/weave-policy-agent-0.2.0/weave-policy-agent-0.2.0.tgz
     version: 0.2.0
-generated: "2023-02-06T10:00:19.886485596Z"
+generated: "2023-02-06T10:07:02.771795284Z"
