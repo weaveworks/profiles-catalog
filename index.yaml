@@ -2096,6 +2096,45 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/keycloak-0.0.1/keycloak-0.0.1.tgz
     version: 0.0.1
+  kuma:
+  - annotations:
+      weave.works/category: mesh
+      weave.works/layer: layer-2
+      weave.works/links: |
+        - name: Chart Sources
+          url:  https://github.com/kumahq/kuma
+        - name: Upstream Project
+          url: https://github.com/kuma/kuma
+      weave.works/profile: kuma
+      weave.works/profile-ci: |
+        - "gke"
+        - "kind"
+    apiVersion: v2
+    created: "2023-02-06T10:00:19.886155394Z"
+    dependencies:
+    - name: kuma
+      repository: https://kumahq.github.io/charts
+      version: v2.1.0
+    description: A Weaveworks Helm chart for the Kuma Profile
+    digest: aec2ee7795568aa9cdf78937fa903d6bcdb71ac85e4f556b1708608d3967f54f
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://camo.githubusercontent.com/e6cccc2091ae0e7ec3ff9f96b2bcd8899739a0089bca7a836cf0112e0b89abf3/68747470733a2f2f6b756d612d7075626c69632d6173736574732e73332e616d617a6f6e6177732e636f6d2f6b756d612d6c6f676f2d76322e706e67
+    keywords:
+    - mesh
+    - service
+    - servicemesh
+    - kuma
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: kuma
+    sources:
+    - https://github.com/kumahq/kuma
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/kuma-0.0.1/kuma-0.0.1.tgz
+    version: 0.0.1
   kyverno:
   - annotations:
       weave.works/category: Deployment
@@ -4301,4 +4340,4 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/weave-policy-agent-0.2.0/weave-policy-agent-0.2.0.tgz
     version: 0.2.0
-generated: "2022-12-22T12:53:09.15845093Z"
+generated: "2023-02-06T10:00:19.886485596Z"
