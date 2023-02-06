@@ -1,0 +1,37 @@
+apiVersion: v2
+name: kuma
+icon: https://camo.githubusercontent.com/e6cccc2091ae0e7ec3ff9f96b2bcd8899739a0089bca7a836cf0112e0b89abf3/68747470733a2f2f6b756d612d7075626c69632d6173736574732e73332e616d617a6f6e6177732e636f6d2f6b756d612d6c6f676f2d76322e706e67
+description: A Weaveworks Helm chart for the Kuma Profile
+type: application
+version: 0.0.1
+dependencies:
+- name: kuma
+  version: "v2.1.0"
+  repository: "https://kumahq.github.io/charts"
+kubeVersion: ">=1.16.0-0"
+home: https://github.com/weaveworks/profiles-catalog
+sources:
+  - https://github.com/kumahq/kuma
+
+keywords:
+- mesh
+- service
+- servicemesh
+- kuma
+
+maintainers:
+  - name: Weaveworks
+    email: support@weave.works
+
+annotations:
+  "weave.works/profile": kuma
+  "weave.works/category": mesh
+  "weave.works/layer": layer-2
+  "weave.works/links": |
+    - name: Chart Sources
+      url:  https://github.com/kumahq/kuma
+    - name: Upstream Project
+      url: https://github.com/kuma/kuma
+  "weave.works/profile-ci": |
+    - "gke"
+    - "kind"
