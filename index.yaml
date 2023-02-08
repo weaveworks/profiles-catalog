@@ -3675,6 +3675,42 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/sockshop-0.0.1/sockshop-0.0.1.tgz
     version: 0.0.1
+  tetragon:
+  - annotations:
+      weave.works/category: Security
+      weave.works/links: |
+        - name: Chart Sources
+          url: https://github.com/cilium/tetragon
+      weave.works/profile: tetragon
+      weave.works/profile-ci: |
+        - "kind"
+        - "gke"
+    apiVersion: v2
+    created: "2023-02-08T15:13:35.919186718Z"
+    dependencies:
+    - name: tetragon
+      repository: https://helm.cilium.io
+      version: ~0.8.3
+    description: A Weaveworks Helm chart for the tetragon Profile
+    digest: 61d6de63017858091c0b3a3094b0f68cb2ce4e280f2abbf9ad7b2d8c90806b88
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://github.com/cilium/tetragon/releases/download/tetragon-cli/logo-dark.png
+    keywords:
+    - tetragon
+    - security
+    - runtime
+    - ebpf
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: tetragon
+    sources:
+    - https://helm.cilium.io
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/tetragon-0.0.1/tetragon-0.0.1.tgz
+    version: 0.0.1
   tf-controller:
   - annotations:
       weave.works/links: |
@@ -4378,4 +4414,4 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/weave-policy-agent-0.2.0/weave-policy-agent-0.2.0.tgz
     version: 0.2.0
-generated: "2023-02-06T10:07:02.771795284Z"
+generated: "2023-02-08T15:13:35.919438817Z"
