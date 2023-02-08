@@ -3,10 +3,5 @@ backstage:
   ingress:
     enabled: true
     className: nginx
-    #set the hostname
-    #host: backstage.weavegitops.com 
-    #tls: 
-    #  enabled: true
-    #  secretname: backstage-tls-secret
   postrgesql:
     enabled: true
