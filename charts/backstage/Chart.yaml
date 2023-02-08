@@ -1,0 +1,36 @@
+apiVersion: v2
+name: backstage
+description: A Weaveworks Helm chart for Backstage
+type: application
+version: 0.0.1
+dependencies:
+  - name: backstage
+    version: "v0.15.2"
+    repository: "https://backstage.github.io/charts"
+kubeVersion: ">=1.16.0-0"
+home: https://github.com/weaveworks/profiles-catalog
+sources:
+  - https://backstage.github.io/charts
+
+keywords:
+- backstage
+- software
+- catalog
+
+maintainers:
+  - name: Weaveworks
+    email: support@weave.works
+
+annotations:
+  "weave.works/profile": backstage
+  "weave.works/category": Software
+  "weave.works/layer": layer-4
+  "weave.works/operator": "false"
+  "weave.works/links": |
+    - name: Chart Sources
+      url: https://backstage.github.io/charts
+    - name: Upstream Project
+      url: https://github.com/backstage/charts
+  "weave.works/profile-ci": |
+    - "gke"
+    - "kind"
