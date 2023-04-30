@@ -10,9 +10,9 @@ In Flux, we can't have dependencies between Flux Kustomization and HelmRelease, 
 
 Both controllers manage the resources independently, at different moments, with no possibility to wait for each other. This means that we have a wonderful race condition where sometimes the CRs (`SecretStore`,`ClusterSecretStore`...) tries to be deployed before than the CRDs needed to recognize them.
 
-Reference: [https://external-secrets.io/v0.6.1/examples/gitops-using-fluxcd/](https://external-secrets.io/v0.6.1/examples/gitops-using-fluxcd/) 
+Reference: [https://external-secrets.io/v0.6.1/examples/gitops-using-fluxcd/](https://external-secrets.io/v0.6.1/examples/gitops-using-fluxcd/)
 
- 
+
 
 ## The solution
 
@@ -53,7 +53,7 @@ Let's see the conditions to start working on a solution:
 
 - ***cluster-secrets/cluster-secrets.yaml***
 
-This file will contain the main configurations and requirements to install secret management operator and all its dependencies 
+This file will contain the main configurations and requirements to install secret management operator and all its dependencies
 
 **Contents:**
 
@@ -63,7 +63,7 @@ We will getting them from `external-secrets` repository
 
 ```yaml
 # GitRepository
-apiVersion: source.toolkit.fluxcd.io/v1beta1
+apiVersion: source.toolkit.fluxcd.io/v1
 kind: GitRepository
 metadata:
   name: external-secrets
@@ -93,7 +93,7 @@ We will getting them from `external-secrets` repository as well
 ```yaml
 ---
 # external secrets crds
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: external-secrets-crds
@@ -144,14 +144,14 @@ spec:
 ---
 ```
 
-4- External Secrets Secrets (CRs) 
+4- External Secrets Secrets (CRs)
 
 In this guide the secrets are in the same repository you can create as many CRs as you need, this is one secret for elaboration
 
 ```yaml
 ---
 # external secrets secrets
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: external-secrets-secrets
@@ -166,7 +166,6 @@ spec:
     name: flux-system
   path: ./secrets
   prune: true
-  validation: client
 ```
 
 - ***clusters/my-cluster/cluster-secrets***
@@ -176,7 +175,7 @@ This is the Kustomization file, the manifest of external secrets resources
 **Contents:**
 
 ```yaml
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: cluster-secrets
@@ -188,7 +187,6 @@ spec:
     name: flux-system
   path: ../cluster-secrets
   prune: true
-  validation: client
 ```
 
 - ***secrets/aws-secret-store.yaml***
@@ -330,7 +328,7 @@ kubectl create secret generic ssh-credentials --from-file=./identity --from-file
 **Goal**: To bootstrap the leaf cluster with flux installed & secret to authenticate ESO
 
 
-**Structure** 
+**Structure**
 
 ```yaml
 ➜  wge-dev git:(main) tree
@@ -364,7 +362,7 @@ kubectl create secret generic ssh-credentials --from-file=./identity --from-file
         └── prod
 ```
 
-**1- How to create the secret** 
+**1- How to create the secret**
 
 - First when creating the management cluster we will need to create manually a secret for authenticating the SecretStore also we need to create`ClusterResourceSet` for the AWS secret to be able to bootstrap it to leaf cluster. This will be copied for bootstrap location as shown before.
 
@@ -433,7 +431,7 @@ For the cluster template we will need to add 2 labels
 
 i) `weave.works/flux: bootstrap` to match the booting clusters with the `**ClusterBootstrapConfig`** job
 
-ii) `secretmanager: aws` to match the the booting clusters with the `ClusterResourceSet` for the AWS secret 
+ii) `secretmanager: aws` to match the the booting clusters with the `ClusterResourceSet` for the AWS secret
 
 Example for the template
 
