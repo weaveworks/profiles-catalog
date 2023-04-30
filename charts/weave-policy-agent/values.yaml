@@ -36,12 +36,12 @@ policy-agent:
 
 
 policySource:
-  enabled: true
-  url: ssh://git@github.com/weaveworks/policy-library
-  tag: v1.0.0
+  enabled: false
+  # url: ssh://git@github.com/weaveworks/policy-library
+  # tag: v1.0.0
   # branch:
-  path: ./  # Could be a path to the policies dir or a kustomization.yaml file
-  secretRef: policy-library-auth  # (Optional): Name of the K8s secret with private repo auth credentials
+  # path: ./  # Could be a path to the policies dir or a kustomization.yaml file
+  # secretRef: policy-library-auth  # (Optional): Name of the K8s secret with private repo auth credentials
   # sourceRef: # Could specify a name for an existing GitSource reference instead of creating a new one
   #   kind: GitRepository
   #   name: policy-library
