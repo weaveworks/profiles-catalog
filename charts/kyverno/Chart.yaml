@@ -6,7 +6,7 @@ type: application
 version: 0.0.5
 dependencies:
 - name: kyverno
-  version: "v2.5.3"
+  version: "2.7.5"
   repository: "https://kyverno.github.io/kyverno/"
 kubeVersion: ">=1.16.0-0"
 home: https://github.com/weaveworks/profiles-catalog
