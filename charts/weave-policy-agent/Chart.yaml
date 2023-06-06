@@ -19,6 +19,8 @@ maintainers:
 
 annotations:
   "weave.works/profile": weave-policy
+  "weave.works/profile-ci": |
+    - "kind"
   "weave.works/layer": layer-1
   "weave.works/category": Policy
   "weave.works/operator": "true"
