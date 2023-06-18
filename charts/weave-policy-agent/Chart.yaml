@@ -1,7 +1,7 @@
 apiVersion: v2
 description: A Weaveworks Helm chart for Kubernetes to configure the policy agent
 name: weave-policy-agent
-appVersion: "2.4.0"
+appVersion: "2.5.0"
 version: 1.0.0
 kubeVersion: ">=1.16.0-0"
 icon: https://www.magalix.com/hubfs/Imported%20images/logo-02.png%3Fwidth=560%26name=logo-02-Dec-18-2020-11-24-41-75-AM.png
@@ -30,5 +30,5 @@ annotations:
 
 dependencies:
   - name: policy-agent
-    version: "2.4.0"
+    version: "2.5.0"
     repository: "https://weaveworks.github.io/policy-agent"
