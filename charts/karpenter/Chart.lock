@@ -1,0 +1,6 @@
+dependencies:
+- name: karpenter
+  repository: https://charts.karpenter.sh/
+  version: 0.16.1
+digest: sha256:9684aa28832b4f45a6d1b22e9dee41ce932bb6b671d3060d86bf9457b5d35faf
+generated: "2022-09-19T22:03:49.402531-04:00"

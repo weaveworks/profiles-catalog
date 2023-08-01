@@ -1,0 +1,12 @@
+karpenter:
+  enabled: true
+  # Prerequisites
+  # See documentation for more instructions
+  # https://karpenter.sh/v0.16.1/getting-started/getting-started-with-eksctl/#install
+  clusterName: CLUSTER_NAME
+  clusterEndpoint: CLUSTER_ENDPOINT
+  aws:
+    defaultInstanceProfile: KarpenterNodeInstanceProfile-${CLUSTER_NAME}
+  serviceAccount:
+    annotations:
+      # eks.amazonaws.com/role-arn: 'arn:aws:iam::123456789012:role/MyRoleName'

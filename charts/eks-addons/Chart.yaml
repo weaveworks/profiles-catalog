@@ -1,0 +1,53 @@
+apiVersion: v2
+name: eks-addons
+icon: https://raw.githubusercontent.com/aws/eks-charts/master/docs/logo/aws.png
+description: A Weaveworks Helm chart for EKS add-ons
+type: application
+version: 0.0.1
+kubeVersion: ">=1.19.0-0"
+home: https://github.com/weaveworks/profiles-catalog
+sources:
+  - https://aws.github.io/eks-charts/
+  - https://github.com/weaveworks/profiles-catalog
+
+keywords:
+- aws-node-termination-handler
+- aws-load-balancer-controller
+- operator
+- aws-ebs-csi-driver
+- eks
+- alb
+- load balancer
+- ingress
+- nlb
+- aws
+- eks
+- ec2
+- node-termination
+- spot
+
+maintainers:
+  - name: Weaveworks
+    email: support@weave.works
+
+annotations:
+  "weave.works/profile": eks-addons
+  "weave.works/category": Infrastructure
+  "weave.works/layer": layer-1
+  "weave.works/links": |
+    - name: Chart Sources
+      url:  https://aws.github.io/eks-charts/
+
+dependencies:
+- name: aws-load-balancer-controller
+  version: "1.4.4"
+  repository: "https://aws.github.io/eks-charts"
+  condition: aws-load-balancer-controller.enabled
+- name: aws-node-termination-handler
+  version: "0.19.2"
+  repository: "https://aws.github.io/eks-charts"
+  condition: aws-node-termination-handler.enabled
+- name: aws-ebs-csi-driver
+  version: "0.0.1"
+  repository: "file://../aws-ebs-csi-driver/"
+  condition: aws-ebs-csi-driver.enabled

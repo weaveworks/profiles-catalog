@@ -1,0 +1,12 @@
+dependencies:
+- name: aws-load-balancer-controller
+  repository: https://aws.github.io/eks-charts
+  version: 1.4.4
+- name: aws-node-termination-handler
+  repository: https://aws.github.io/eks-charts
+  version: 0.19.2
+- name: aws-ebs-csi-driver
+  repository: file://../aws-ebs-csi-driver/
+  version: 0.0.1
+digest: sha256:a254476f39a04b28fd817e08a375e1c5f426a0b6428a95b9549373c6a4d275dd
+generated: "2022-09-14T17:52:50.960938-04:00"
