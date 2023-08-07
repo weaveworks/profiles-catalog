@@ -1110,6 +1110,40 @@ entries:
       weave.works/operator: "true"
       weave.works/profile: external-secrets
     apiVersion: v2
+    created: "2023-08-07T17:31:09.779052927Z"
+    dependencies:
+    - name: external-secrets
+      repository: https://charts.external-secrets.io
+      version: 0.6.1
+    description: A Weaveworks Helm chart for the External Secrets Operator
+    digest: cc2b58756b2c06341e02b8f3b65bca2cf4fe20e063e7acd76f4a9c9fc656985c
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://raw.githubusercontent.com/external-secrets/external-secrets/main/assets/eso-round-logo.svg
+    keywords:
+    - external-secrets
+    - secrets-manager
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: external-secrets
+    sources:
+    - https://charts.external-secrets.io
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/external-secrets-1.0.0/external-secrets-1.0.0.tgz
+    version: 1.0.0
+  - annotations:
+      weave.works/category: Secrets Management
+      weave.works/layer: layer-0
+      weave.works/links: |
+        - name: Chart Sources
+          url: https://charts.external-secrets.io
+        - name: Upstream Project
+          url: https://github.com/external-secrets/external-secrets
+      weave.works/operator: "true"
+      weave.works/profile: external-secrets
+    apiVersion: v2
     created: "2022-12-15T15:00:46.360392492Z"
     dependencies:
     - name: external-secrets
@@ -4102,6 +4136,40 @@ entries:
         - "kind"
     apiVersion: v2
     appVersion: 2.5.0
+    created: "2023-08-07T17:31:09.953646967Z"
+    dependencies:
+    - name: policy-agent
+      repository: https://weaveworks.github.io/policy-agent
+      version: 2.5.0
+    description: A Weaveworks Helm chart for Kubernetes to configure the policy agent
+    digest: f4fa46832bc62bf0d2d71c7cc72ea4017616719ee69fd0bfbe93d873c5bed5d2
+    home: https://github.com/weaveworks/profiles-catalog
+    icon: https://www.magalix.com/hubfs/Imported%20images/logo-02.png%3Fwidth=560%26name=logo-02-Dec-18-2020-11-24-41-75-AM.png
+    keywords:
+    - policy
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: support@weave.works
+      name: Weaveworks
+    name: weave-policy-agent
+    sources:
+    - https://github.com/weaveworks/policy-agent
+    type: application
+    urls:
+    - https://github.com/weaveworks/profiles-catalog/releases/download/weave-policy-agent-2.0.0/weave-policy-agent-2.0.0.tgz
+    version: 2.0.0
+  - annotations:
+      weave.works/category: Policy
+      weave.works/layer: layer-1
+      weave.works/links: |
+        - name: Upstream Project
+          url: https://github.com/weaveworks/policy-agent
+      weave.works/operator: "true"
+      weave.works/profile: weave-policy
+      weave.works/profile-ci: |
+        - "kind"
+    apiVersion: v2
+    appVersion: 2.5.0
     created: "2023-06-26T11:42:03.69822598Z"
     dependencies:
     - name: policy-agent
@@ -4644,4 +4712,4 @@ entries:
     urls:
     - https://github.com/weaveworks/profiles-catalog/releases/download/weave-policy-agent-0.2.0/weave-policy-agent-0.2.0.tgz
     version: 0.2.0
-generated: "2023-08-02T13:21:24.239463793Z"
+generated: "2023-08-07T17:31:09.95401207Z"
