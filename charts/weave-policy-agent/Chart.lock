@@ -3,4 +3,4 @@ dependencies:
   repository: https://weaveworks.github.io/policy-agent
   version: 2.5.0
 digest: sha256:2c8e91250a08f5d899643aeead53548322fba11b526628a581d95c322e7fb2c7
-generated: "2023-06-26T14:28:27.694292969+03:00"
+generated: "2023-06-26T14:47:54.260827988+03:00"
