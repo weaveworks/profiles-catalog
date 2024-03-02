@@ -1,0 +1,9 @@
+external-dns:
+# Set the domain filter to the domain you want to manage
+#  domainFilters:
+#    - example.com
+  provider: aws
+# set the route53 aws credentials to an existing secret name
+#  aws:
+#    credentials:
+#      secretName: aws-route53
