@@ -1,6 +1,6 @@
 dependencies:
 - name: flagger
   repository: https://flagger.app
-  version: 1.21.0
-digest: sha256:7bb1be0c1f50f9962c413c6403c092d673ae4922d9c0fa7afabd7fc1d480612d
-generated: "2022-05-07T00:02:22.317336792Z"
+  version: 1.36.1
+digest: sha256:d349c144a699981717c8bf3b9a874cf48b0d01c662c5127fde3b837881f3686c
+generated: "2024-03-09T00:02:50.745478864Z"

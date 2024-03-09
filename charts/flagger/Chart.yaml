@@ -6,7 +6,7 @@ type: application
 version: 0.0.2
 dependencies:
 - name: flagger
-  version: "1.21.0"
+  version: "1.36.1"
   repository: "https://flagger.app"
 kubeVersion: ">=1.16.0-0"
 home: https://github.com/weaveworks/profiles-catalog
